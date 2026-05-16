@@ -1,15 +1,15 @@
-
 "use client";
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Globe, ArrowRight, Zap } from "lucide-react";
+import { Globe, ArrowRight } from "lucide-react";
 import { AboutSection } from "@/components/landing/AboutSection";
 import { FeaturedVideoSection } from "@/components/landing/FeaturedVideoSection";
 import { PhilosophySection } from "@/components/landing/PhilosophySection";
 import { ServicesSection } from "@/components/landing/ServicesSection";
 import { PricingSection } from "@/components/landing/PricingSection";
+import { BloomSplash } from "@/components/cinematic/BloomSplash";
 
 export default function BloomLanding() {
   const router = useRouter();
@@ -18,8 +18,8 @@ export default function BloomLanding() {
   const [isBlooming, setIsBlooming] = useState(true);
 
   useEffect(() => {
-    // Bloom splash timer
-    const timer = setTimeout(() => setIsBlooming(false), 1200);
+    // Bloom splash timer - enough time to see the flower and wordmark
+    const timer = setTimeout(() => setIsBlooming(false), 3800);
     
     const video = videoRef.current;
     if (!video) return;
@@ -48,13 +48,13 @@ export default function BloomLanding() {
 
     const handleCanPlay = () => {
       video.play();
-      animateFade(1, 800);
+      animateFade(1, 500);
     };
 
     const handleTimeUpdate = () => {
-      if (!isFadingOut && video.duration - video.currentTime <= 0.8) {
+      if (!isFadingOut && video.duration - video.currentTime <= 0.55) {
         isFadingOut = true;
-        animateFade(0, 700);
+        animateFade(0, 500);
       }
     };
 
@@ -64,8 +64,8 @@ export default function BloomLanding() {
         video.currentTime = 0;
         video.play();
         isFadingOut = false;
-        animateFade(1, 800);
-      }, 50);
+        animateFade(1, 500);
+      }, 100);
     };
 
     video.addEventListener('canplay', handleCanPlay);
@@ -95,25 +95,13 @@ export default function BloomLanding() {
       <AnimatePresence>
         {isBlooming && (
           <motion.div 
+            key="splash"
             initial={{ opacity: 1 }}
-            exit={{ opacity: 0, scale: 1.1, filter: "blur(20px)" }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center"
+            exit={{ opacity: 0, filter: "blur(20px)" }}
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-0 z-[100]"
           >
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              className="relative"
-            >
-              <Zap size={64} className="text-[#DCFF00] drop-shadow-[0_0_30px_rgba(220,255,0,0.5)]" />
-              <motion.div 
-                animate={{ scale: [1, 2], opacity: [0.5, 0] }}
-                transition={{ duration: 1, repeat: Infinity }}
-                className="absolute inset-0 rounded-full border-2 border-[#DCFF00]"
-              />
-            </motion.div>
-            <h2 className="mt-8 text-[10px] font-bold uppercase tracking-[1em] text-white/40">Bloom Intelligence</h2>
+            <BloomSplash />
           </motion.div>
         )}
       </AnimatePresence>
@@ -165,10 +153,10 @@ export default function BloomLanding() {
             <div className="liquid-glass rounded-full pl-6 pr-2 py-2 flex items-center gap-3">
               <input 
                 type="email"
-                placeholder="Enter your email to materialize"
+                placeholder="Enter your email"
                 className="flex-1 bg-transparent border-none text-white placeholder:text-white/40 focus:ring-0 focus:outline-none text-sm"
               />
-              <button onClick={handleStart} className="bg-[#DCFF00] rounded-full p-3 text-black hover:bg-[#DCFF00]/90 transition-all hover:scale-105 active:scale-95 shadow-[0_0_15px_rgba(220,255,0,0.4)]">
+              <button onClick={handleStart} className="bg-white rounded-full p-3 text-black hover:bg-[#DCFF00] transition-all hover:scale-105 active:scale-95 shadow-[0_0_15px_rgba(220,255,0,0.4)]">
                 <ArrowRight size={20} strokeWidth={2.5} />
               </button>
             </div>
@@ -176,11 +164,11 @@ export default function BloomLanding() {
 
           <motion.p 
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            animate={{ opacity: 0.6 }}
             transition={{ delay: 1.7, duration: 1 }}
-            className="text-white text-xs uppercase tracking-[0.4em] px-4 max-w-lg mb-10 opacity-30 font-bold"
+            className="text-white text-sm max-w-lg mb-10 font-light px-4 leading-relaxed"
           >
-            Neural Materialization for Visionary Creators
+            Stay updated with the latest news and insights. Subscribe to our newsletter today and never miss out on exciting updates.
           </motion.p>
 
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.9 }}>
@@ -188,7 +176,7 @@ export default function BloomLanding() {
               onClick={handleStart}
               className="liquid-glass rounded-full px-12 py-4 text-white text-[10px] font-bold uppercase tracking-[0.5em] hover:bg-white/5 transition-colors border-none"
             >
-              Enter Bloom Studio
+              Enter Bloom
             </button>
           </motion.div>
         </div>
