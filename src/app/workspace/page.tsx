@@ -398,6 +398,7 @@ export default function WorkspacePage() {
                          {selectedSystem === sys.id && <motion.div layoutId="sys-check" className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-2xl"><CheckCircle2 size={22} className="text-black" /></motion.div>}
                        </div>
                        <h4 className="text-3xl font-bold mb-4 tracking-tight">{sys.name}</h4>
+                       <h4 className="text-3xl font-bold mb-4 tracking-tight">{sys.name}</h4>
                        <p className="text-sm text-white/30 leading-relaxed italic mb-10">{sys.description}</p>
                        <div className="flex flex-wrap gap-2">
                           {sys.principles.map((p, i) => <Badge key={i} className="bg-white/5 text-[10px] border-none text-white/30 uppercase px-4 py-1.5 font-bold">{p}</Badge>)}
