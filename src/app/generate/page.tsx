@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "navigation";
 import { BackgroundEffects } from "@/components/cinematic/BackgroundEffects";
 import { motion, AnimatePresence } from "framer-motion";
 import { InteractiveRobotSpline } from "@/components/ui/interactive-3d-robot";
@@ -77,11 +77,11 @@ export default function GeneratePage() {
              repeat: Infinity,
              ease: "easeInOut"
            }}
-           className="w-[1000px] h-[1000px] opacity-80 scale-100 relative overflow-hidden"
+           className="w-[1000px] h-[800px] opacity-80 scale-100 relative overflow-hidden"
          >
             <InteractiveRobotSpline 
               scene={SCISSOR_SCENE} 
-              className="w-full h-full scale-[1.1] translate-y-18" 
+              className="w-full h-full scale-[1.1] translate-y-32" 
             />
          </motion.div>
       </div>

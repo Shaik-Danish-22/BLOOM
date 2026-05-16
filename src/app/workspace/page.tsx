@@ -155,20 +155,20 @@ export default function WorkspacePage() {
                         initial={{ opacity: 0, y: 15, x: 20 }}
                         animate={{ opacity: 1, y: 0, x: 0 }}
                         exit={{ opacity: 0, y: -15, x: 20 }}
-                        className="bg-white/10 backdrop-blur-3xl border border-white/10 px-5 py-3 rounded-2xl mb-4 flex items-center gap-3 pointer-events-auto shadow-2xl relative min-w-[200px] translate-y-[-10px] translate-x-[40px]"
+                        className="bg-white/10 backdrop-blur-3xl border border-white/10 px-5 py-3 rounded-2xl mb-4 flex items-center gap-3 pointer-events-auto shadow-2xl relative min-w-[200px] max-w-[280px]"
                       >
                         <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shrink-0" />
-                        <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-white/90 leading-relaxed whitespace-nowrap">
+                        <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-white/90 leading-relaxed">
                           {SCISSOR_TALKS[currentTalk]}
                         </span>
                         <div className="absolute -bottom-1 right-12 w-3 h-3 bg-white/10 border-r border-b border-white/10 rotate-45" />
                       </motion.div>
                     </AnimatePresence>
                     
-                    <div className="w-72 h-80 pointer-events-auto overflow-hidden relative">
+                    <div className="w-72 h-64 pointer-events-auto overflow-hidden relative">
                       <InteractiveRobotSpline 
                         scene={SCISSOR_SCENE} 
-                        className="w-full h-full scale-[0.9] translate-y-8" 
+                        className="w-full h-full scale-[0.9] translate-y-12" 
                       />
                     </div>
                   </div>
@@ -195,10 +195,10 @@ export default function WorkspacePage() {
               exit={{ opacity: 0 }}
               className="flex flex-col items-center justify-center h-full min-h-[60vh] text-center"
             >
-              <div className="w-96 h-96 mb-12 pointer-events-none relative overflow-hidden rounded-full border border-white/5 bg-white/[0.02]">
+              <div className="w-96 h-80 mb-12 pointer-events-none relative overflow-hidden">
                  <InteractiveRobotSpline 
                    scene={SCISSOR_SCENE} 
-                   className="w-full h-full scale-[1.1] translate-y-12" 
+                   className="w-full h-full scale-[1.1] translate-y-16" 
                  />
               </div>
               <h3 className="text-6xl font-headline italic text-white mb-6">Deriving Design DNA...</h3>
