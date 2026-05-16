@@ -1,9 +1,10 @@
+
 "use client";
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import { Globe, ArrowRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Globe, ArrowRight, Zap } from "lucide-react";
 import { AboutSection } from "@/components/landing/AboutSection";
 import { FeaturedVideoSection } from "@/components/landing/FeaturedVideoSection";
 import { PhilosophySection } from "@/components/landing/PhilosophySection";
@@ -14,8 +15,12 @@ export default function BloomLanding() {
   const router = useRouter();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [videoOpacity, setVideoOpacity] = useState(0);
+  const [isBlooming, setIsBlooming] = useState(true);
 
   useEffect(() => {
+    // Bloom splash timer
+    const timer = setTimeout(() => setIsBlooming(false), 1200);
+    
     const video = videoRef.current;
     if (!video) return;
 
@@ -47,7 +52,6 @@ export default function BloomLanding() {
     };
 
     const handleTimeUpdate = () => {
-      // Begin fade out slightly before the end to ensure no blanking
       if (!isFadingOut && video.duration - video.currentTime <= 0.8) {
         isFadingOut = true;
         animateFade(0, 700);
@@ -68,21 +72,18 @@ export default function BloomLanding() {
     video.addEventListener('timeupdate', handleTimeUpdate);
     video.addEventListener('ended', handleEnded);
 
-    if (video.readyState >= 3) {
-      handleCanPlay();
-    }
+    if (video.readyState >= 3) handleCanPlay();
 
     return () => {
       video.removeEventListener('canplay', handleCanPlay);
       video.removeEventListener('timeupdate', handleTimeUpdate);
       video.removeEventListener('ended', handleEnded);
       cancelAnimationFrame(animationFrame);
+      clearTimeout(timer);
     };
   }, []);
 
-  const handleStart = () => {
-    router.push('/workspace');
-  };
+  const handleStart = () => router.push('/workspace');
 
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
@@ -91,6 +92,32 @@ export default function BloomLanding() {
 
   return (
     <div className="bg-black min-h-screen selection:bg-white/20 scroll-smooth">
+      <AnimatePresence>
+        {isBlooming && (
+          <motion.div 
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0, scale: 1.1, filter: "blur(20px)" }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center"
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              className="relative"
+            >
+              <Zap size={64} className="text-[#DCFF00] drop-shadow-[0_0_30px_rgba(220,255,0,0.5)]" />
+              <motion.div 
+                animate={{ scale: [1, 2], opacity: [0.5, 0] }}
+                transition={{ duration: 1, repeat: Infinity }}
+                className="absolute inset-0 rounded-full border-2 border-[#DCFF00]"
+              />
+            </motion.div>
+            <h2 className="mt-8 text-[10px] font-bold uppercase tracking-[1em] text-white/40">Bloom Intelligence</h2>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <section className="min-h-screen relative flex flex-col overflow-hidden bg-black">
         <video
           ref={videoRef}
@@ -107,24 +134,14 @@ export default function BloomLanding() {
               <Globe size={24} className="text-white" />
               <span className="text-white font-semibold text-lg tracking-tight">Bloom</span>
               <div className="hidden md:flex items-center gap-8 ml-8">
-                <button onClick={() => scrollTo('features')} className="text-white/80 hover:text-white text-sm font-medium transition-colors">
-                  Features
-                </button>
-                <button onClick={() => scrollTo('pricing')} className="text-white/80 hover:text-white text-sm font-medium transition-colors">
-                  Pricing
-                </button>
-                <button onClick={() => scrollTo('about')} className="text-white/80 hover:text-white text-sm font-medium transition-colors">
-                  About
-                </button>
+                <button onClick={() => scrollTo('features')} className="text-white/80 hover:text-white text-sm font-medium transition-colors">Features</button>
+                <button onClick={() => scrollTo('pricing')} className="text-white/80 hover:text-white text-sm font-medium transition-colors">Pricing</button>
+                <button onClick={() => scrollTo('about')} className="text-white/80 hover:text-white text-sm font-medium transition-colors">About</button>
               </div>
             </div>
             <div className="flex items-center gap-4">
-              <button onClick={() => router.push('/signup')} className="text-white text-sm font-medium hover:text-white/80 transition-colors">
-                Sign Up
-              </button>
-              <button onClick={() => router.push('/login')} className="liquid-glass rounded-full px-6 py-2 text-white text-sm font-medium hover:bg-white/5 transition-all">
-                Login
-              </button>
+              <button onClick={() => router.push('/signup')} className="text-white text-sm font-medium hover:text-white/80 transition-colors">Sign Up</button>
+              <button onClick={() => router.push('/login')} className="liquid-glass rounded-full px-6 py-2 text-white text-sm font-medium hover:bg-white/5 transition-all">Login</button>
             </div>
           </div>
         </nav>
@@ -133,7 +150,7 @@ export default function BloomLanding() {
           <motion.h1 
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 1.3 }}
             className="text-6xl md:text-7xl lg:text-9xl text-white tracking-tight font-headline mb-10 leading-[0.9] text-glow"
           >
             Materialize the <br /><em className="italic text-white/60">unseen</em> vision.
@@ -142,7 +159,7 @@ export default function BloomLanding() {
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
+            transition={{ delay: 1.5, duration: 0.8 }}
             className="max-w-xl w-full mb-8"
           >
             <div className="liquid-glass rounded-full pl-6 pr-2 py-2 flex items-center gap-3">
@@ -160,13 +177,13 @@ export default function BloomLanding() {
           <motion.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.6, duration: 1 }}
+            transition={{ delay: 1.7, duration: 1 }}
             className="text-white text-xs uppercase tracking-[0.4em] px-4 max-w-lg mb-10 opacity-30 font-bold"
           >
             Neural Materialization for Visionary Creators
           </motion.p>
 
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.9 }}>
             <button 
               onClick={handleStart}
               className="liquid-glass rounded-full px-12 py-4 text-white text-[10px] font-bold uppercase tracking-[0.5em] hover:bg-white/5 transition-colors border-none"

@@ -1,11 +1,11 @@
+
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { ArrowRight, CheckCircle2, Menu, Sparkles, Zap, Shield } from "lucide-react";
+import { ArrowRight, Menu, Sparkles, Zap, Shield, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { StartupIdeaOutput } from "@/ai/flows/generate-startup-idea";
-import Image from "next/image";
 
 export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
   const [stage, setStage] = useState<"wireframe" | "layout" | "content" | "final">("wireframe");
@@ -23,9 +23,9 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
 
     if (!isVisible) return;
     const timers = [
-      setTimeout(() => setStage("layout"), 600),
-      setTimeout(() => setStage("content"), 1400),
-      setTimeout(() => setStage("final"), 2200),
+      setTimeout(() => setStage("layout"), 400),
+      setTimeout(() => setStage("content"), 1000),
+      setTimeout(() => setStage("final"), 1600),
     ];
     return () => timers.forEach(clearTimeout);
   }, [isVisible]);
@@ -36,13 +36,18 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
   const heroSection = sections.find(s => s.type === 'hero');
   const problemSection = sections.find(s => s.type === 'problem');
   const featuresSection = sections.find(s => s.type === 'features');
-  const palette = startupData.websiteContent?.colorPalette || ["#DCFF00", "#FFFFFF"];
+  const palette = startupData.websiteContent?.colorPalette || ["#DCFF00", "#FFFFFF", "#000000"];
+
+  // Determine accent color (usually the first generated color)
+  const accentColor = palette[0];
+  const secondaryColor = palette[1] || palette[0];
 
   return (
     <div className={`bg-black min-h-full transition-all duration-[1500ms] relative overflow-hidden font-body text-white ${
       stage === 'wireframe' ? 'grayscale opacity-10 blur-xl' : 
       stage === 'layout' ? 'grayscale opacity-40 blur-sm' : ''
-    }`}>
+    }`} style={{ backgroundColor: palette[2] || '#000000' }}>
+      
       {/* HUD INDICATORS */}
       <div className="absolute top-8 left-1/2 -translate-x-1/2 z-[200] flex gap-2 pointer-events-none">
          {["SCAFFOLD", "NODE", "INJECT", "RENDER"].map((s, i) => (
@@ -51,9 +56,11 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
              (stage === 'layout' && i <= 1) || 
              (stage === 'content' && i <= 2) || 
              (stage === 'final' && i <= 3)
-             ? 'bg-[#DCFF00] text-black border-[#DCFF00] shadow-[0_0_20px_rgba(220,255,0,0.5)]'
+             ? 'text-black border-transparent shadow-[0_0_20px_rgba(220,255,0,0.5)]'
              : 'bg-black/60 text-white/10 border-white/5'
-           }`}>
+           }`} style={{ 
+             backgroundColor: ((stage === 'wireframe' && i === 0) || (stage === 'layout' && i <= 1) || (stage === 'content' && i <= 2) || (stage === 'final' && i <= 3)) ? accentColor : 'transparent' 
+           }}>
              {s}
            </div>
          ))}
@@ -66,15 +73,15 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
         className="p-8 lg:p-10 flex justify-between items-center bg-black/40 backdrop-blur-3xl border-b border-white/5"
       >
          <div className="text-2xl font-headline italic tracking-tighter flex items-center gap-4">
-            <div className="w-8 h-8 rounded-lg bg-[#DCFF00] flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: accentColor }}>
                <Zap size={14} className="text-black" />
             </div>
             {startupData.forgeBrandArchitect?.companyName || "STARTUP"}
          </div>
          <div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-widest text-white/40">
-            <span>Features</span>
-            <span>Platform</span>
-            <span>Intelligence</span>
+            <button className="hover:text-white transition-colors">Vision</button>
+            <button className="hover:text-white transition-colors">Method</button>
+            <button className="hover:text-white transition-colors">Manifesto</button>
          </div>
          <Button variant="ghost" className="rounded-full w-10 h-10 p-0 text-white/40 hover:text-white hover:bg-white/5">
             <Menu size={18} />
@@ -89,8 +96,8 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
            transition={{ duration: 3 }}
            className="absolute inset-0 z-0 pointer-events-none"
          >
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[600px] bg-[#DCFF00]/[0.05] blur-[200px] rounded-full" />
-            <video autoPlay loop muted playsInline className="w-full h-full object-cover opacity-20 grayscale scale-110">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[600px] blur-[200px] rounded-full opacity-20" style={{ backgroundColor: accentColor }} />
+            <video autoPlay loop muted playsInline className="w-full h-full object-cover opacity-10 grayscale scale-110">
                <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260419_065931_e3ca7b53-d32e-4ad5-81de-dc9d6fcfda6d.mp4" type="video/mp4" />
             </video>
          </motion.div>
@@ -99,9 +106,10 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="inline-flex items-center gap-3 px-6 py-2 rounded-full border border-[#DCFF00]/20 bg-[#DCFF00]/[0.02] text-[9px] uppercase tracking-widest font-bold text-[#DCFF00]/60"
+              className="inline-flex items-center gap-3 px-6 py-2 rounded-full border border-white/10 bg-white/[0.02] text-[9px] uppercase tracking-widest font-bold"
+              style={{ color: secondaryColor }}
             >
-              <Sparkles size={12} /> Neural Protocol v2.5
+              <Sparkles size={12} /> {startupData.forgeBrandArchitect?.neuralTone || "Neural Protocol"}
             </motion.div>
 
             <motion.h2 
@@ -128,7 +136,7 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
               transition={{ delay: 1.2 }}
               className="pt-8"
             >
-              <Button className="bg-[#DCFF00] text-black px-12 h-16 rounded-full font-bold text-lg shadow-[0_0_50px_rgba(220,255,0,0.2)] hover:bg-[#DCFF00]/90 transition-all active:scale-95">
+              <Button className="px-12 h-16 rounded-full font-bold text-lg shadow-[0_0_50px_rgba(255,255,255,0.1)] hover:scale-105 transition-all text-black" style={{ backgroundColor: accentColor }}>
                 {heroSection?.ctaLabel || "Initialize Vision"} <ArrowRight className="ml-3" />
               </Button>
             </motion.div>
@@ -137,10 +145,10 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
 
       {/* PROBLEM / SOLUTION */}
       {problemSection && (
-        <section className="px-10 py-32 border-t border-white/5 bg-[#050505]">
+        <section className="px-10 py-32 border-t border-white/5" style={{ backgroundColor: 'rgba(0,0,0,0.4)' }}>
            <div className="max-w-4xl mx-auto space-y-12">
-              <div className="inline-flex items-center gap-2 text-[#DCFF00] opacity-40 uppercase tracking-[0.3em] text-[10px] font-bold">
-                 <Shield size={14} /> Critical Logic Validation
+              <div className="inline-flex items-center gap-2 opacity-40 uppercase tracking-[0.3em] text-[10px] font-bold" style={{ color: accentColor }}>
+                 <Shield size={14} /> Logic Validation
               </div>
               <h3 className="text-4xl lg:text-6xl font-headline italic tracking-tighter leading-tight">
                  {problemSection.title}
@@ -168,9 +176,9 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
                      whileInView={{ opacity: 1, x: 0 }}
                      viewport={{ once: true }}
                      transition={{ delay: i * 0.1 }}
-                     className="p-8 rounded-[2rem] border border-white/5 bg-white/[0.01] flex items-start gap-6 group hover:bg-[#DCFF00]/[0.02] transition-all cursor-pointer"
+                     className="p-8 rounded-[2rem] border border-white/5 bg-white/[0.01] flex items-start gap-6 group hover:bg-white/[0.03] transition-all cursor-pointer"
                    >
-                      <div className="w-10 h-10 rounded-lg bg-[#DCFF00] text-black flex items-center justify-center shrink-0 font-bold text-xs shadow-[0_0_15px_rgba(220,255,0,0.2)]">
+                      <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 font-bold text-xs text-black shadow-[0_0_15px_rgba(255,255,255,0.1)]" style={{ backgroundColor: accentColor }}>
                          {i + 1}
                       </div>
                       <div>
@@ -184,9 +192,9 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
       )}
 
       {/* FOOTER */}
-      <footer className="p-32 border-t border-white/5 text-center bg-[#080808]">
+      <footer className="p-32 border-t border-white/5 text-center bg-black">
          <div className="text-[10px] font-bold uppercase tracking-[1em] text-white/5 mb-8">Bloom Neural Ecosystem</div>
-         <p className="text-[9px] text-white/10 uppercase tracking-widest italic">Microsoft x Bloom Architecture v2.5 Stable Build</p>
+         <p className="text-[9px] text-white/10 uppercase tracking-widest italic">Bloom Architecture v2.5 Stable Build</p>
       </footer>
     </div>
   );

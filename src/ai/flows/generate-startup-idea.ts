@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview Materialization Engine: Generates high-fidelity startup artifacts
@@ -26,7 +27,7 @@ const StartupIdeaOutputSchema = z.object({
   }),
   websiteContent: z.object({
     sections: z.array(WebsiteSectionSchema),
-    colorPalette: z.array(z.string().describe('HEX or HSL codes strictly derived from Design DNA color logic.')),
+    colorPalette: z.array(z.string().describe('HEX codes strictly derived from Design DNA color logic (e.g., deep coffee browns if prompt is coffee).')),
     typographyStrategy: z.string(),
   }),
   sentinelAtlasMarketIntelligence: z.object({
@@ -88,9 +89,9 @@ const generateStartupIdeaPrompt = ai.definePrompt({
   DESIGN DNA: {{#if designDNA}}{{{json designDNA}}}{{else}}Standard High-Tech Startup{{/if}}
   
   CRITICAL CONSTRAINTS:
-  1. NO HALLUCINATIONS. Every generated section must be a direct materialization of the core vision.
-  2. DESIGN ADHERENCE. Use the colorLogic and mood from the Design DNA to define the colorPalette.
-  3. COPYWRITING. The websiteContent copy must be editorial-grade, concise, and reflect the sophisticationLevel.
+  1. NO HALLUCINATIONS. Every generated section must be a direct materialization of the core vision. If it's a coffee startup, the copy must talk about beans, roasting, and sensory luxury.
+  2. DESIGN ADHERENCE. Use the colorLogic and mood from the Design DNA to define the colorPalette. If the theme is coffee, use deep rich browns (#3C2A21), creams (#D5CEA3), and whites (#E5E5CB).
+  3. COPYWRITING. The websiteContent copy must be editorial-grade, evocative, and reflect the sophisticationLevel.
   4. LOGIC. Ensure the TAM/SAM/SOM and GTM strategy are grounded in the specific market category of the vision.
   
   The "websiteContent" must include a "hero", "problem", "solution", and "features" section as a minimum.`,
