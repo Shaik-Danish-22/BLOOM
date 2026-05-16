@@ -16,29 +16,29 @@ const ShaderBackground = () => {
     uniform vec2 iResolution;
     uniform float iTime;
 
-    const float overallSpeed = 0.2;
+    const float overallSpeed = 0.1;
     const float gridSmoothWidth = 0.015;
     const float axisWidth = 0.05;
     const float majorLineWidth = 0.025;
     const float minorLineWidth = 0.0125;
     const float majorLineFrequency = 5.0;
     const float minorLineFrequency = 1.0;
-    const vec4 gridColor = vec4(0.5);
-    const float scale = 5.0;
-    const vec4 lineColor = vec4(0.4, 0.2, 0.8, 1.0);
-    const float minLineWidth = 0.01;
-    const float maxLineWidth = 0.2;
-    const float lineSpeed = 1.0 * overallSpeed;
-    const float lineAmplitude = 1.0;
-    const float lineFrequency = 0.2;
-    const float warpSpeed = 0.2 * overallSpeed;
-    const float warpFrequency = 0.5;
-    const float warpAmplitude = 1.0;
-    const float offsetFrequency = 0.5;
-    const float offsetSpeed = 1.33 * overallSpeed;
-    const float minOffsetSpread = 0.6;
-    const float maxOffsetSpread = 2.0;
-    const int linesPerGroup = 8;
+    const vec4 gridColor = vec4(0.1);
+    const float scale = 4.0;
+    const vec4 lineColor = vec4(0.3, 0.3, 0.5, 0.2); 
+    const float minLineWidth = 0.005;
+    const float maxLineWidth = 0.1;
+    const float lineSpeed = 0.5 * overallSpeed;
+    const float lineAmplitude = 0.8;
+    const float lineFrequency = 0.15;
+    const float warpSpeed = 0.1 * overallSpeed;
+    const float warpFrequency = 0.4;
+    const float warpAmplitude = 0.8;
+    const float offsetFrequency = 0.4;
+    const float offsetSpeed = 1.0 * overallSpeed;
+    const float minOffsetSpread = 0.5;
+    const float maxOffsetSpread = 1.5;
+    const int linesPerGroup = 8; 
 
     #define drawCircle(pos, radius, coord) smoothstep(radius + gridSmoothWidth, radius, length(coord - (pos)))
     #define drawSmoothLine(pos, halfWidth, t) smoothstep(halfWidth, 0.0, abs(pos - (t)))
@@ -57,13 +57,17 @@ const ShaderBackground = () => {
       vec2 fragCoord = gl_FragCoord.xy;
       vec2 uv = fragCoord.xy / iResolution.xy;
       vec2 space = (fragCoord - iResolution.xy / 2.0) / iResolution.x * 2.0 * scale;
+
       float horizontalFade = 1.0 - (cos(uv.x * 6.28) * 0.5 + 0.5);
       float verticalFade = 1.0 - (cos(uv.y * 6.28) * 0.5 + 0.5);
+
       space.y += random(space.x * warpFrequency + iTime * warpSpeed) * warpAmplitude * (0.5 + horizontalFade);
       space.x += random(space.y * warpFrequency + iTime * warpSpeed + 2.0) * warpAmplitude * horizontalFade;
+
       vec4 lines = vec4(0.0);
-      vec4 bgColor1 = vec4(0.0, 0.0, 0.05, 1.0);
-      vec4 bgColor2 = vec4(0.05, 0.0, 0.1, 1.0);
+      vec4 bgColor1 = vec4(0.0, 0.0, 0.0, 1.0);
+      vec4 bgColor2 = vec4(0.01, 0.01, 0.03, 1.0);
+
       for(int l = 0; l < linesPerGroup; l++) {
         float normalizedLineIndex = float(l) / float(linesPerGroup);
         float offsetTime = iTime * offsetSpeed;
@@ -73,58 +77,92 @@ const ShaderBackground = () => {
         float offset = random(offsetPosition + offsetTime * (1.0 + normalizedLineIndex)) * mix(minOffsetSpread, maxOffsetSpread, horizontalFade);
         float linePosition = getPlasmaY(space.x, horizontalFade, offset);
         float line = drawSmoothLine(linePosition, halfWidth, space.y) / 2.0 + drawCrispLine(linePosition, halfWidth * 0.15, space.y);
-        lines += line * vec4(1.0, 1.0, 1.0, 1.0) * rand * 0.2;
+        lines += line * lineColor * rand * 0.2; 
       }
-      vec4 fragColor = mix(bgColor1, bgColor2, uv.x);
+
+      vec4 fragColor = mix(bgColor1, bgColor2, uv.y);
       fragColor *= verticalFade;
       fragColor += lines;
       gl_FragColor = fragColor;
     }
   `;
 
+  const loadShader = (gl: WebGLRenderingContext, type: number, source: string) => {
+    const shader = gl.createShader(type)!;
+    gl.shaderSource(shader, source);
+    gl.compileShader(shader);
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+      console.error('Shader compile error: ', gl.getShaderInfoLog(shader));
+      gl.deleteShader(shader);
+      return null;
+    }
+    return shader;
+  };
+
+  const initShaderProgram = (gl: WebGLRenderingContext, vsSource: string, fsSource: string) => {
+    const vertexShader = loadShader(gl, gl.VERTEX_SHADER, vsSource);
+    const fragmentShader = loadShader(gl, gl.FRAGMENT_SHADER, fsSource);
+    if (!vertexShader || !fragmentShader) return null;
+    const shaderProgram = gl.createProgram()!;
+    gl.attachShader(shaderProgram, vertexShader);
+    gl.attachShader(shaderProgram, fragmentShader);
+    gl.linkProgram(shaderProgram);
+    if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
+      console.error('Shader program link error: ', gl.getProgramInfoLog(shaderProgram));
+      return null;
+    }
+    return shaderProgram;
+  };
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const gl = canvas.getContext('webgl');
     if (!gl) return;
-    const shaderProgram = gl.createProgram()!;
-    const vs = gl.createShader(gl.VERTEX_SHADER)!;
-    gl.shaderSource(vs, vsSource);
-    gl.compileShader(vs);
-    const fs = gl.createShader(gl.FRAGMENT_SHADER)!;
-    gl.shaderSource(fs, fsSource);
-    gl.compileShader(fs);
-    gl.attachShader(shaderProgram, vs);
-    gl.attachShader(shaderProgram, fs);
-    gl.linkProgram(shaderProgram);
-    gl.useProgram(shaderProgram);
+
+    const shaderProgram = initShaderProgram(gl, vsSource, fsSource);
+    if (!shaderProgram) return;
+
     const positionBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+    const positions = [-1.0, -1.0, 1.0, -1.0, -1.0, 1.0, 1.0, 1.0];
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+
     const vertexPosition = gl.getAttribLocation(shaderProgram, 'aVertexPosition');
-    gl.enableVertexAttribArray(vertexPosition);
-    gl.vertexAttribPointer(vertexPosition, 2, gl.FLOAT, false, 0, 0);
     const resolution = gl.getUniformLocation(shaderProgram, 'iResolution');
     const time = gl.getUniformLocation(shaderProgram, 'iTime');
+
     const resize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       gl.viewport(0, 0, canvas.width, canvas.height);
     };
+
     window.addEventListener('resize', resize);
     resize();
-    const startTime = Date.now();
+
+    let startTime = Date.now();
     const render = () => {
+      const currentTime = (Date.now() - startTime) / 1000;
+      gl.clearColor(0.0, 0.0, 0.0, 1.0);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.useProgram(shaderProgram);
       gl.uniform2f(resolution, canvas.width, canvas.height);
-      gl.uniform1f(time, (Date.now() - startTime) / 1000);
+      gl.uniform1f(time, currentTime);
+      gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+      gl.vertexAttribPointer(vertexPosition, 2, gl.FLOAT, false, 0, 0);
+      gl.enableVertexAttribArray(vertexPosition);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       requestAnimationFrame(render);
     };
+
     render();
     return () => window.removeEventListener('resize', resize);
   }, []);
 
-  return <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full -z-20 opacity-20 pointer-events-none" />;
+  return (
+    <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full -z-20 opacity-40 pointer-events-none" />
+  );
 };
 
 export default ShaderBackground;

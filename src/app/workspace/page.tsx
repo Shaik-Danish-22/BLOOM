@@ -34,20 +34,20 @@ import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { InteractiveRobotSpline } from "@/components/ui/interactive-3d-robot";
-import SilkShader from "@/components/ui/silk-shader";
+import ShaderBackground from "@/components/ui/shader-background";
 
 type Step = 'prompt' | 'enhancing' | 'refine' | 'mode-selection' | 'research' | 'design-systems' | 'materializing';
 
 const SCISSOR_SCENE = "https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode";
 
 const SCISSOR_TALKS = [
-  "Hi, I'm Scissor. Ready to materialize?",
-  "Scanning for high-density layout nodes.",
+  "FounderOS intelligence link active.",
   "AI Agents are the new SaaS kernel.",
-  "Design DNA link established.",
+  "Neural positioning sequence: online.",
   "Bento grids are mathematically superior.",
-  "Contrast creates authority.",
-  "Luxury requires cinematic pacing."
+  "Luxury requires cinematic pacing.",
+  "Scanning for high-density layout nodes.",
+  "Design DNA derivation sequence ready."
 ];
 
 export default function WorkspacePage() {
@@ -62,7 +62,7 @@ export default function WorkspacePage() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTalk(prev => (prev + 1) % SCISSOR_TALKS.length);
-    }, 8000);
+    }, 9000);
     return () => clearInterval(timer);
   }, []);
 
@@ -97,7 +97,7 @@ export default function WorkspacePage() {
   return (
     <div className="relative min-h-screen bg-black text-white selection:bg-white/20 overflow-hidden font-body">
       <BackgroundEffects />
-      <SilkShader />
+      <ShaderBackground />
 
       {/* HEADER */}
       <nav className="fixed top-0 left-0 right-0 z-50 p-6 flex justify-between items-center backdrop-blur-md border-b border-white/5 bg-black/40">
@@ -118,7 +118,7 @@ export default function WorkspacePage() {
         </div>
       </nav>
 
-      <main className="pt-32 px-6 max-w-7xl mx-auto h-[calc(100vh-80px)] overflow-y-auto scrollbar-hide pb-20">
+      <main className="pt-20 px-6 max-w-7xl mx-auto h-[calc(100vh-80px)] overflow-y-auto scrollbar-hide pb-20">
         <AnimatePresence mode="wait">
           {step === 'prompt' && (
             <motion.div 
@@ -128,10 +128,10 @@ export default function WorkspacePage() {
               exit={{ opacity: 0, scale: 0.98 }}
               className="flex flex-col min-h-[70vh] relative"
             >
-              <div className="mb-20">
-                <h2 className="text-7xl md:text-9xl font-headline italic tracking-tighter leading-[0.8] mb-4">
+              <div className="mb-12">
+                <h2 className="text-5xl md:text-7xl font-headline italic tracking-tighter leading-[0.8] mb-4 text-white/90">
                   What are we <br />
-                  <em className="not-italic text-white/5">materializing?</em>
+                  <em className="not-italic text-white/5 italic">materializing?</em>
                 </h2>
                 <p className="text-white/20 uppercase tracking-[0.6em] text-[11px] font-bold">Neural Link v2.5 Online</p>
               </div>
@@ -139,12 +139,12 @@ export default function WorkspacePage() {
               <div className="w-full relative max-w-5xl">
                 <div className="absolute -inset-1 bg-white/5 blur-2xl rounded-[48px]" />
                 
-                <div className="relative">
+                <div className="relative overflow-hidden rounded-[48px] bg-black/40 border border-white/10 backdrop-blur-3xl">
                   <Textarea 
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
                     placeholder="Describe your vision (e.g., Luxury AI coffee for developers)..."
-                    className="w-full min-h-[350px] bg-black/40 border-white/10 rounded-[48px] p-12 text-2xl focus:ring-1 focus:ring-white/20 transition-all backdrop-blur-3xl pr-72 scrollbar-hide"
+                    className="w-full min-h-[350px] bg-transparent border-none p-12 text-2xl focus:ring-0 focus-visible:ring-0 transition-all pr-72 scrollbar-hide"
                   />
                   
                   {/* SCISSOR ASSISTANT */}
@@ -152,23 +152,23 @@ export default function WorkspacePage() {
                     <AnimatePresence mode="wait">
                       <motion.div 
                         key={currentTalk}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        className="bg-white/10 backdrop-blur-3xl border border-white/10 px-6 py-3 rounded-2xl mb-6 flex items-center gap-3 pointer-events-auto shadow-2xl relative min-w-[200px]"
+                        initial={{ opacity: 0, y: 15, x: 20 }}
+                        animate={{ opacity: 1, y: 0, x: 0 }}
+                        exit={{ opacity: 0, y: -15, x: 20 }}
+                        className="bg-white/10 backdrop-blur-3xl border border-white/10 px-6 py-3 rounded-2xl mb-8 flex items-center gap-3 pointer-events-auto shadow-2xl relative min-w-[220px]"
                       >
                         <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shrink-0" />
-                        <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-white/90">
+                        <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-white/90 leading-relaxed">
                           {SCISSOR_TALKS[currentTalk]}
                         </span>
                         <div className="absolute -bottom-1 right-12 w-3 h-3 bg-white/10 border-r border-b border-white/10 rotate-45" />
                       </motion.div>
                     </AnimatePresence>
                     
-                    <div className="w-64 h-80 pointer-events-auto cursor-grab active:cursor-grabbing relative overflow-hidden">
+                    <div className="w-64 h-80 pointer-events-auto overflow-hidden relative">
                       <InteractiveRobotSpline 
                         scene={SCISSOR_SCENE} 
-                        className="w-full h-full scale-[1.5] translate-y-8" 
+                        className="w-full h-full scale-[1.3] translate-y-3" 
                       />
                     </div>
                   </div>
