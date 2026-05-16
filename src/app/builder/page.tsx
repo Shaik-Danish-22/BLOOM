@@ -85,10 +85,10 @@ export default function BuilderPage() {
              <h3 className="text-[12px] font-bold uppercase tracking-[0.6em] text-white/60">SISSOR CORE</h3>
              <p className="text-[9px] text-white/10 uppercase tracking-[0.4em] font-bold mt-2">Active Construction</p>
            </div>
-           <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden scale-110 shadow-inner">
+           <div className="w-16 h-16 flex items-center justify-center overflow-hidden scale-110 relative">
               <InteractiveRobotSpline 
                 scene={SISSOR_SCENE} 
-                className="w-full h-full scale-[1.6] translate-y-4" 
+                className="w-full h-full scale-[1.3] translate-y-3" 
               />
            </div>
         </header>

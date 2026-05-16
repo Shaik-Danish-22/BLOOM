@@ -137,7 +137,7 @@ export default function WorkspacePage() {
               <motion.div 
                 initial={{ x: -20, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
-                className="mb-16 space-y-2 -translate-y-12"
+                className="mb-16 space-y-2 -translate-y-24"
               >
                 <h2 className="text-6xl md:text-8xl font-headline italic tracking-tighter text-left w-full leading-[0.9]">
                   What are we <br />
@@ -156,7 +156,7 @@ export default function WorkspacePage() {
                     className="relative w-full min-h-[320px] bg-black/40 border-white/10 rounded-[40px] p-12 text-xl focus:ring-1 focus:ring-white/20 transition-all backdrop-blur-3xl pr-64 scrollbar-hide"
                   />
                   
-                  {/* SISSOR ASSISTANT - PERFECT FIT */}
+                  {/* SISSOR ASSISTANT - NO BOX, ENTIRE CHARACTER FIT */}
                   <div className="absolute bottom-8 right-8 flex flex-col items-end pointer-events-none z-20 overflow-visible">
                     <AnimatePresence mode="wait">
                       <motion.div 
@@ -164,7 +164,7 @@ export default function WorkspacePage() {
                         initial={{ opacity: 0, y: 10, scale: 0.9 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: -10, scale: 0.9 }}
-                        className="bg-white/10 backdrop-blur-3xl border border-white/10 px-5 py-2.5 rounded-2xl mb-4 flex items-center gap-3 pointer-events-auto shadow-2xl relative min-w-[160px] -translate-x-4"
+                        className="bg-white/10 backdrop-blur-3xl border border-white/10 px-5 py-2.5 rounded-2xl mb-4 flex items-center gap-3 pointer-events-auto shadow-2xl relative min-w-[160px] -translate-x-12"
                       >
                         <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shrink-0" />
                         <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-white/90 leading-tight">
@@ -174,11 +174,11 @@ export default function WorkspacePage() {
                       </motion.div>
                     </AnimatePresence>
                     
-                    {/* CROPPED CONTAINER TO HIDE WATERMARK AND ENSURE FIT */}
-                    <div className="w-52 h-52 pointer-events-auto cursor-grab active:cursor-grabbing relative overflow-hidden rounded-3xl bg-white/[0.02] border border-white/10 shadow-inner">
+                    {/* ENTIRE CHARACTER FIT, NO BACKGROUND BOX */}
+                    <div className="w-56 h-56 pointer-events-auto cursor-grab active:cursor-grabbing relative overflow-hidden">
                       <InteractiveRobotSpline 
                         scene={SISSOR_SCENE} 
-                        className="w-full h-full scale-[1.6] translate-y-8" 
+                        className="w-full h-full scale-[1.1] translate-y-2" 
                       />
                     </div>
                   </div>
@@ -221,7 +221,7 @@ export default function WorkspacePage() {
               <div className="w-80 h-80 mb-12 pointer-events-none relative overflow-hidden rounded-full border border-white/5 shadow-2xl">
                  <InteractiveRobotSpline 
                    scene={SISSOR_SCENE} 
-                   className="w-full h-full scale-[1.7] translate-y-10" 
+                   className="w-full h-full scale-[1.2] translate-y-4" 
                  />
               </div>
               <h3 className="text-5xl font-headline italic text-white mb-6">Enhancing Neural Link...</h3>
