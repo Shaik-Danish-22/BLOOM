@@ -11,7 +11,7 @@ import { PhilosophySection } from "@/components/landing/PhilosophySection";
 import { ServicesSection } from "@/components/landing/ServicesSection";
 import { PricingSection } from "@/components/landing/PricingSection";
 
-export default function AsmeLanding() {
+export default function BloomLanding() {
   const router = useRouter();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [videoOpacity, setVideoOpacity] = useState(0);
@@ -24,8 +24,8 @@ export default function AsmeLanding() {
     let isFadingOut = false;
 
     const animateFade = (target: number, duration: number, callback?: () => void) => {
-      const startOpacity = videoOpacity;
       const startTime = performance.now();
+      const startOpacity = videoOpacity;
 
       const step = (now: number) => {
         const elapsed = now - startTime;
@@ -68,6 +68,11 @@ export default function AsmeLanding() {
     video.addEventListener('timeupdate', handleTimeUpdate);
     video.addEventListener('ended', handleEnded);
 
+    // Initial check if video is already ready
+    if (video.readyState >= 3) {
+      handleCanPlay();
+    }
+
     return () => {
       video.removeEventListener('canplay', handleCanPlay);
       video.removeEventListener('timeupdate', handleTimeUpdate);
@@ -95,7 +100,7 @@ export default function AsmeLanding() {
           muted
           playsInline
           style={{ opacity: videoOpacity }}
-          className="absolute inset-0 w-full h-full object-cover object-bottom z-0 transition-opacity duration-0"
+          className="absolute inset-0 w-full h-full object-cover object-bottom z-0"
         />
 
         {/* Navbar */}
@@ -128,12 +133,12 @@ export default function AsmeLanding() {
         </nav>
 
         {/* Hero Content */}
-        <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 text-center -translate-y-[12%]">
+        <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 text-center -translate-y-[15%]">
           <motion.h1 
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="text-6xl md:text-7xl lg:text-8xl text-white tracking-tight font-serif mb-10 leading-[0.95]"
+            className="text-6xl md:text-7xl lg:text-8xl text-white tracking-tight font-headline mb-10 leading-[0.95]"
           >
             Materialize the <br /><em className="italic">unseen</em> vision.
           </motion.h1>
@@ -186,7 +191,7 @@ export default function AsmeLanding() {
       {/* FINAL FOOTER */}
       <footer className="bg-black py-20 border-t border-white/5 text-center">
          <div className="max-w-5xl mx-auto px-6">
-            <div className="font-serif text-4xl italic text-white/20 mb-4">Bloom</div>
+            <div className="font-headline text-4xl italic text-white/20 mb-4">Bloom</div>
             <p className="text-xs text-white/10 uppercase tracking-widest">Neural Materialization © 2026</p>
          </div>
       </footer>
