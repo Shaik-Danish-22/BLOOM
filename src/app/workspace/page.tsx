@@ -152,7 +152,7 @@ export default function WorkspacePage() {
                     className="relative w-full min-h-[320px] bg-black/40 border-white/10 rounded-[40px] p-12 text-xl focus:ring-1 focus:ring-white/20 transition-all backdrop-blur-3xl pr-64 scrollbar-hide"
                   />
                   
-                  {/* SISSOR ASSISTANT - REFINED FIT */}
+                  {/* SISSOR ASSISTANT - PERFECT FIT */}
                   <div className="absolute bottom-8 right-8 flex flex-col items-end pointer-events-none z-20 overflow-visible">
                     <AnimatePresence mode="wait">
                       <motion.div 
@@ -174,7 +174,7 @@ export default function WorkspacePage() {
                     <div className="w-48 h-48 pointer-events-auto cursor-grab active:cursor-grabbing relative overflow-hidden rounded-3xl bg-white/[0.02] border border-white/10 shadow-inner">
                       <InteractiveRobotSpline 
                         scene={SISSOR_SCENE} 
-                        className="w-full h-full scale-[1.8] translate-y-6" 
+                        className="w-full h-full scale-[1.3] translate-y-3" 
                       />
                     </div>
                   </div>
