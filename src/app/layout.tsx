@@ -1,10 +1,11 @@
+
 import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: 'FounderOS AI | Type Your Startup Idea',
-  description: 'The futuristic AI startup OS. Watch a company materialize from a single idea.',
+  title: 'Siteforge AI | Neural Startup Materialization',
+  description: 'Describe your vision. Watch a live startup identity and website materialize in seconds. Powered by FounderOS Intelligence.',
 };
 
 export default function RootLayout({
