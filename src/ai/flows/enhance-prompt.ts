@@ -34,12 +34,16 @@ const enhancePromptPrompt = ai.definePrompt({
   input: { schema: EnhancePromptInputSchema },
   output: { schema: EnhancePromptOutputSchema },
   prompt: `You are an elite Silicon Valley Creative Strategist and YC Partner. 
-  Take this vague idea and derive its structured "Design DNA".
+  Your task is to take a vague, potentially chaotic startup idea and materialise it into a world-class strategic brief.
   
   Raw Idea: {{{rawPrompt}}}
   
-  Infer the audience psychology and visual tier. If it's luxury, use 'luxury'. If it's a dev tool, use 'enterprise' or 'startup'. 
-  Structure your output as a professional brief that defines the 'vibe', the 'moat', and the 'user experience'.`
+  DO NOT simply expand the text. Infer the underlying "Neural Identity":
+  1. AUDIENCE PSYCHOLOGY: Who are they? What is their secret desire?
+  2. DESIGN DNA: If this startup was a physical object, how would it feel?
+  3. SOPHISTICATION: Is this a nimble 'indie' project or a 'luxury' enterprise disruptor?
+  
+  Structure your output as a high-density professional brief. The 'professionalBrief' should read like a visionary founder's manifesto.`
 });
 
 export async function enhancePrompt(input: z.infer<typeof EnhancePromptInputSchema>) {

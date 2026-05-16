@@ -88,7 +88,7 @@ export default function GeneratePage() {
       <BackgroundEffects />
       
       {/* SCISSOR NEURAL TRANSIT */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
          <motion.div 
            animate={{
              y: [0, -10, 0],
@@ -100,10 +100,10 @@ export default function GeneratePage() {
            }}
            className="w-[800px] h-[600px] opacity-80 scale-100 relative overflow-hidden flex items-center justify-center"
          >
-            <div className="absolute inset-0 h-[120%] w-full">
+            <div className="absolute inset-0 h-[115%] w-full">
               <InteractiveRobotSpline 
                 scene={SCISSOR_SCENE} 
-                className="w-full h-full scale-[1.0] translate-y-4" 
+                className="w-full h-full scale-[1.6] translate-y-12" 
               />
             </div>
          </motion.div>

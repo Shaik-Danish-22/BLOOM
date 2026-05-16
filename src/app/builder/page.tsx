@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -45,7 +44,7 @@ export default function BuilderPage() {
   const scrollRef = useRef<HTMLDivElement>(null);
   
   const [chat, setChat] = useState<{role: 'user' | 'assistant' | 'agent', text: string, agent?: string}[]>([
-    { role: 'agent', agent: 'SCISSOR', text: "FounderOS intelligence materialized. Let's refine the materialization." },
+    { role: 'agent', agent: 'SCISSOR', text: "FounderOS intelligence materialized. Neural core is stable." },
     { role: 'assistant', text: "The first layer of materialization is complete. I've focused on the editorial serif hierarchy. What section should we optimize next?" }
   ]);
 
@@ -84,11 +83,11 @@ export default function BuilderPage() {
            <div className="text-center">
              <h3 className="text-[11px] font-bold uppercase tracking-[0.7em] text-white/60">NEURAL STUDIO</h3>
            </div>
-           <div className="w-24 h-24 pointer-events-auto overflow-hidden relative flex items-center justify-center rounded-2xl bg-white/5">
+           <div className="w-24 h-24 overflow-hidden relative flex items-center justify-center rounded-2xl bg-white/5 pointer-events-none">
               <div className="absolute inset-0 h-[115%] w-full">
                 <InteractiveRobotSpline 
                   scene={SCISSOR_SCENE} 
-                  className="w-full h-full scale-[1.0] translate-y-2" 
+                  className="w-full h-full scale-[1.6] translate-y-2" 
                 />
               </div>
            </div>
