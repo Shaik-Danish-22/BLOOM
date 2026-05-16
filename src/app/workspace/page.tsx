@@ -147,28 +147,28 @@ export default function WorkspacePage() {
                     className="relative w-full min-h-[240px] bg-black/40 border-white/10 rounded-[40px] p-10 text-xl focus:ring-1 focus:ring-white/20 transition-all backdrop-blur-3xl pr-20 scrollbar-hide"
                   />
                   
-                  {/* SISSOR ASSISTANT - REPOSITIONED AND DYNAMIC */}
+                  {/* SISSOR ASSISTANT - REPOSITIONED AND REFINED */}
                   <div className="absolute -bottom-10 -right-20 flex flex-col items-end pointer-events-none z-20">
                     <AnimatePresence mode="wait">
                       <motion.div 
                         key={currentTalk}
-                        initial={{ opacity: 0, y: 10, scale: 0.9 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: -10, scale: 0.9 }}
-                        className="bg-white/10 backdrop-blur-3xl border border-white/10 px-6 py-4 rounded-[24px] mb-8 flex items-center gap-3 pointer-events-auto shadow-2xl relative min-w-[200px]"
+                        initial={{ opacity: 0, x: 20, y: 10, scale: 0.9 }}
+                        animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, x: 20, y: -10, scale: 0.9 }}
+                        className="bg-white/10 backdrop-blur-3xl border border-white/10 px-8 py-5 rounded-[32px] mb-16 flex items-center gap-4 pointer-events-auto shadow-2xl relative min-w-[240px] translate-x-24"
                       >
-                        <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shrink-0" />
-                        <span className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/90 leading-relaxed whitespace-nowrap">
+                        <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse shrink-0" />
+                        <span className="text-[11px] uppercase tracking-[0.2em] font-bold text-white/90 leading-relaxed whitespace-nowrap">
                           {SISSOR_TALKS[currentTalk]}
                         </span>
-                        <div className="absolute -bottom-2 right-12 w-4 h-4 bg-white/10 border-r border-b border-white/10 rotate-45" />
+                        <div className="absolute -bottom-2 left-10 w-5 h-5 bg-white/10 border-r border-b border-white/10 rotate-45" />
                       </motion.div>
                     </AnimatePresence>
                     
-                    <div className="w-64 h-64 pointer-events-auto cursor-grab active:cursor-grabbing scale-110">
+                    <div className="w-80 h-80 pointer-events-auto cursor-grab active:cursor-grabbing relative overflow-hidden rounded-[80px]">
                       <InteractiveRobotSpline 
                         scene={SISSOR_SCENE} 
-                        className="w-full h-full" 
+                        className="w-full h-full scale-[1.3] translate-y-4" 
                       />
                     </div>
                   </div>
@@ -208,10 +208,10 @@ export default function WorkspacePage() {
               exit={{ opacity: 0 }}
               className="flex flex-col items-center justify-center h-full text-center"
             >
-              <div className="w-80 h-80 mb-12 pointer-events-none">
+              <div className="w-80 h-80 mb-12 pointer-events-none relative overflow-hidden rounded-full">
                  <InteractiveRobotSpline 
                    scene={SISSOR_SCENE} 
-                   className="w-full h-full" 
+                   className="w-full h-full scale-[1.3] translate-y-4" 
                  />
               </div>
               <h3 className="text-5xl font-headline italic text-white mb-6">Enhancing Neural Link...</h3>
@@ -331,8 +331,6 @@ export default function WorkspacePage() {
             </motion.div>
           )}
 
-          {/* ... Research, Design Systems steps remain same but with polished margins ... */}
-          {/* ... keeping logic consistent but updated SISSOR positioning as core task ... */}
           {step === 'research' && (
             <motion.div key="oracle-view" className="py-12 pb-32">
                <Button variant="ghost" onClick={() => setStep('mode-selection')} className="mb-14 text-white/20 hover:text-white transition-colors h-14 px-8">
@@ -448,4 +446,3 @@ export default function WorkspacePage() {
     </div>
   );
 }
-
