@@ -41,14 +41,14 @@ type Step = 'prompt' | 'enhancing' | 'refine' | 'mode-selection' | 'research' | 
 const SISSOR_SCENE = "https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode";
 
 const SISSOR_TALKS = [
-  "Hi, I'm SISSOR. Let's materialize.",
-  "Trends: AI Agents are the new 'SaaS'.",
-  "Insight: Minimalism + High Motion = Digital Luxury.",
-  "Neural interfaces are disrupting the web as we know it.",
-  "Bento grids are evolving into fluid, organic nodes.",
-  "Cinematic storytelling is the next conversion goldmine.",
-  "Tip: High-contrast obsidian builds instant authority.",
-  "Fact: Remote devs prioritize 'High-Density' info layouts."
+  "Hi, I'm SISSOR. Let's build.",
+  "Trend: AI Agents = New SaaS.",
+  "Design: High Motion = Luxury.",
+  "Grid nodes are stabilizing.",
+  "Bento grids are evolving.",
+  "Storytelling is key.",
+  "Contrast builds authority.",
+  "High-Density layouts win."
 ];
 
 export default function WorkspacePage() {
@@ -68,7 +68,7 @@ export default function WorkspacePage() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTalk(prev => (prev + 1) % SISSOR_TALKS.length);
-    }, 8000);
+    }, 6000);
     return () => clearInterval(timer);
   }, []);
 
@@ -132,9 +132,12 @@ export default function WorkspacePage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="flex flex-col items-center justify-center min-h-[70vh] text-center max-w-3xl mx-auto relative"
+              className="flex flex-col items-start justify-center min-h-[70vh] max-w-4xl mx-auto relative"
             >
-              <h2 className="text-6xl md:text-8xl font-headline italic mb-12 tracking-tighter">What are we <br /><em className="not-italic text-white/10">building</em> today?</h2>
+              <h2 className="text-5xl md:text-7xl font-headline italic mb-8 tracking-tighter text-left w-full">
+                What are we <br />
+                <em className="not-italic text-white/10">building</em> today?
+              </h2>
               
               <div className="w-full relative group">
                 <div className="absolute -inset-1 bg-white/5 blur-2xl group-hover:bg-white/10 transition-all rounded-[40px]" />
@@ -143,32 +146,32 @@ export default function WorkspacePage() {
                   <Textarea 
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
-                    placeholder="Describe your vision in vague or specific terms..."
-                    className="relative w-full min-h-[240px] bg-black/40 border-white/10 rounded-[40px] p-10 text-xl focus:ring-1 focus:ring-white/20 transition-all backdrop-blur-3xl pr-20 scrollbar-hide"
+                    placeholder="Describe your vision..."
+                    className="relative w-full min-h-[280px] bg-black/40 border-white/10 rounded-[40px] p-12 text-xl focus:ring-1 focus:ring-white/20 transition-all backdrop-blur-3xl pr-64 scrollbar-hide"
                   />
                   
-                  {/* SISSOR ASSISTANT - REPOSITIONED AND REFINED */}
-                  <div className="absolute -bottom-10 -right-20 flex flex-col items-end pointer-events-none z-20">
+                  {/* SISSOR ASSISTANT - COMPLETELY CONTAINED */}
+                  <div className="absolute bottom-6 right-6 flex flex-col items-end pointer-events-none z-20 overflow-visible">
                     <AnimatePresence mode="wait">
                       <motion.div 
                         key={currentTalk}
-                        initial={{ opacity: 0, x: 20, y: 10, scale: 0.9 }}
-                        animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, x: 20, y: -10, scale: 0.9 }}
-                        className="bg-white/10 backdrop-blur-3xl border border-white/10 px-8 py-5 rounded-[32px] mb-16 flex items-center gap-4 pointer-events-auto shadow-2xl relative min-w-[240px] translate-x-24"
+                        initial={{ opacity: 0, y: 10, scale: 0.9 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -10, scale: 0.9 }}
+                        className="bg-white/10 backdrop-blur-3xl border border-white/10 px-6 py-3 rounded-2xl mb-4 flex items-center gap-3 pointer-events-auto shadow-2xl relative min-w-[180px] -translate-x-8"
                       >
-                        <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse shrink-0" />
-                        <span className="text-[11px] uppercase tracking-[0.2em] font-bold text-white/90 leading-relaxed whitespace-nowrap">
+                        <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shrink-0" />
+                        <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-white/90 leading-tight">
                           {SISSOR_TALKS[currentTalk]}
                         </span>
-                        <div className="absolute -bottom-2 left-10 w-5 h-5 bg-white/10 border-r border-b border-white/10 rotate-45" />
+                        <div className="absolute -bottom-1 right-10 w-3 h-3 bg-white/10 border-r border-b border-white/10 rotate-45" />
                       </motion.div>
                     </AnimatePresence>
                     
-                    <div className="w-80 h-80 pointer-events-auto cursor-grab active:cursor-grabbing relative overflow-hidden rounded-[80px]">
+                    <div className="w-56 h-56 pointer-events-auto cursor-grab active:cursor-grabbing relative overflow-hidden rounded-3xl bg-white/[0.02] border border-white/5 shadow-inner">
                       <InteractiveRobotSpline 
                         scene={SISSOR_SCENE} 
-                        className="w-full h-full scale-[1.3] translate-y-4" 
+                        className="w-full h-full scale-[1.0] translate-y-0" 
                       />
                     </div>
                   </div>
@@ -211,7 +214,7 @@ export default function WorkspacePage() {
               <div className="w-80 h-80 mb-12 pointer-events-none relative overflow-hidden rounded-full">
                  <InteractiveRobotSpline 
                    scene={SISSOR_SCENE} 
-                   className="w-full h-full scale-[1.3] translate-y-4" 
+                   className="w-full h-full scale-[1.2] translate-y-2" 
                  />
               </div>
               <h3 className="text-5xl font-headline italic text-white mb-6">Enhancing Neural Link...</h3>
