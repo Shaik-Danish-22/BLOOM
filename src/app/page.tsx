@@ -126,7 +126,7 @@ export default function AsmeLanding() {
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
             className="text-7xl md:text-8xl lg:text-9xl text-white tracking-tight font-serif mb-12"
           >
-            Know it then <em className="italic">all</em>.
+            Materialize the <br /><em className="italic">unseen</em> vision.
           </motion.h1>
 
           <motion.div 
@@ -138,7 +138,7 @@ export default function AsmeLanding() {
             <div className="liquid-glass rounded-full pl-6 pr-2 py-2 flex items-center gap-3">
               <input 
                 type="email"
-                placeholder="Enter your email"
+                placeholder="Enter your email to start"
                 className="flex-1 bg-transparent border-none text-white placeholder:text-white/40 focus:ring-0 focus:outline-none text-sm"
               />
               <button className="bg-white rounded-full p-3 text-black hover:bg-white/90 transition-all hover:scale-105 active:scale-95">
@@ -153,15 +153,15 @@ export default function AsmeLanding() {
             transition={{ delay: 0.6, duration: 1 }}
             className="text-white text-sm leading-relaxed px-4 max-w-lg mb-8 opacity-60"
           >
-            Stay updated with the latest news and insights. Subscribe to our newsletter today and never miss out on exciting updates.
+            Harness the power of neural intelligence to architect, validate, and materialize your next venture with world-class precision and creative strategy.
           </motion.p>
 
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}>
             <button 
               onClick={handleStart}
-              className="liquid-glass rounded-full px-8 py-3 text-white text-sm font-medium hover:bg-white/5 transition-colors border-none"
+              className="liquid-glass rounded-full px-12 py-4 text-white text-sm font-bold uppercase tracking-widest hover:bg-white/5 transition-colors border-none"
             >
-              Enter Manifesto
+              Enter Neural Studio
             </button>
           </motion.div>
         </div>
@@ -192,4 +192,3 @@ export default function AsmeLanding() {
     </div>
   );
 }
-
