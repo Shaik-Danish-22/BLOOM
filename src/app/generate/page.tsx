@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -77,11 +78,11 @@ export default function GeneratePage() {
              repeat: Infinity,
              ease: "easeInOut"
            }}
-           className="w-[1000px] h-[800px] opacity-80 scale-100 relative overflow-hidden"
+           className="w-[1000px] h-[700px] opacity-80 scale-100 relative overflow-hidden"
          >
             <InteractiveRobotSpline 
               scene={SCISSOR_SCENE} 
-              className="w-full h-full scale-[1.3] translate-y-32" 
+              className="w-full h-full scale-[1.2] translate-y-16" 
             />
          </motion.div>
       </div>

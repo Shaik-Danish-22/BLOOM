@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -128,8 +129,8 @@ export default function WorkspacePage() {
               exit={{ opacity: 0, scale: 0.98 }}
               className="flex flex-col min-h-[70vh] relative"
             >
-              <div className="mb-12 text-left">
-                <h2 className="text-5xl md:text-8xl font-headline italic tracking-tighter leading-[0.8] mb-6 text-white/95">
+              <div className="mb-8 text-left max-w-4xl">
+                <h2 className="text-5xl md:text-7xl font-headline italic tracking-tighter leading-tight mb-4 text-white/95">
                   What are we <br />
                   <em className="not-italic text-white/5 italic">materializing?</em>
                 </h2>
@@ -144,7 +145,7 @@ export default function WorkspacePage() {
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
                     placeholder="Describe your vision (e.g., Luxury AI coffee for developers)..."
-                    className="w-full min-h-[380px] bg-transparent border-none p-12 text-2xl focus:ring-0 focus-visible:ring-0 transition-all pr-80 scrollbar-hide"
+                    className="w-full min-h-[380px] bg-transparent border-none p-12 text-2xl focus:ring-0 focus-visible:ring-0 transition-all pr-72 scrollbar-hide"
                   />
                   
                   {/* SCISSOR ASSISTANT */}
@@ -152,23 +153,23 @@ export default function WorkspacePage() {
                     <AnimatePresence mode="wait">
                       <motion.div 
                         key={currentTalk}
-                        initial={{ opacity: 0, y: 15 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -15 }}
-                        className="bg-white/10 backdrop-blur-3xl border border-white/10 px-5 py-3 rounded-2xl mb-4 flex items-center gap-3 pointer-events-auto shadow-2xl relative min-w-[200px] max-w-[280px]"
+                        initial={{ opacity: 0, y: 10, x: 20 }}
+                        animate={{ opacity: 1, y: 0, x: 0 }}
+                        exit={{ opacity: 0, y: -10, x: 20 }}
+                        className="bg-white/10 backdrop-blur-3xl border border-white/10 px-5 py-3 rounded-2xl mb-2 flex items-center gap-3 pointer-events-auto shadow-2xl relative max-w-[240px]"
                       >
                         <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shrink-0" />
-                        <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-white/90 leading-relaxed">
+                        <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-white/90 leading-tight">
                           {SCISSOR_TALKS[currentTalk]}
                         </span>
                         <div className="absolute -bottom-1 right-12 w-3 h-3 bg-white/10 border-r border-b border-white/10 rotate-45" />
                       </motion.div>
                     </AnimatePresence>
                     
-                    <div className="w-48 h-40 pointer-events-auto overflow-hidden relative">
+                    <div className="w-44 h-36 pointer-events-auto overflow-hidden relative">
                       <InteractiveRobotSpline 
                         scene={SCISSOR_SCENE} 
-                        className="w-full h-full scale-[1.3] translate-y-3" 
+                        className="w-full h-full scale-[1.2] translate-y-3" 
                       />
                     </div>
                   </div>
@@ -195,10 +196,10 @@ export default function WorkspacePage() {
               exit={{ opacity: 0 }}
               className="flex flex-col items-center justify-center h-full min-h-[60vh] text-center"
             >
-              <div className="w-96 h-80 mb-12 pointer-events-none relative overflow-hidden">
+              <div className="w-80 h-64 mb-12 pointer-events-none relative overflow-hidden">
                  <InteractiveRobotSpline 
                    scene={SCISSOR_SCENE} 
-                   className="w-full h-full scale-[1.1] translate-y-16" 
+                   className="w-full h-full scale-[1.1] translate-y-8" 
                  />
               </div>
               <h3 className="text-6xl font-headline italic text-white mb-6">Deriving Design DNA...</h3>
