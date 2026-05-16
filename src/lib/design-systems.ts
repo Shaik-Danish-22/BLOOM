@@ -1,135 +1,128 @@
 /**
- * @fileOverview Design System Fragments and Tokens for Siteforge AI.
+ * @fileOverview Registry-driven Design Systems and Tokens.
  */
 
-export type DesignSystemId = 'slack' | 'posthog' | 'spotify' | 'coinbase' | 'minimal' | 'cyberpunk';
+export type DesignSystemId = 'agentic' | 'posthog' | 'spotify' | 'apple' | 'minimal' | 'cyberpunk';
 
 export interface DesignSystemTokens {
   id: DesignSystemId;
   name: string;
   description: string;
-  colors: {
+  inspiration: string;
+  tokens: {
     primary: string;
     background: string;
     accent: string;
     surface: string;
-    text: string;
-  };
-  typography: {
-    display: string;
-    body: string;
-    weight: string;
+    radius: string;
+    fontDisplay: string;
+    fontBody: string;
+    motionIntensity: 'subtle' | 'standard' | 'high';
   };
   principles: string[];
 }
 
 export const DESIGN_SYSTEMS: Record<DesignSystemId, DesignSystemTokens> = {
-  slack: {
-    id: 'slack',
-    name: 'Aubergine Cloud',
-    description: 'The iconic high-density layout with clear, instructional typography.',
-    colors: {
-      primary: '#4A154B',
+  apple: {
+    id: 'apple',
+    name: 'Cupertino Classic',
+    description: 'Pristine whitespace, large typography, and rhythmic layout patterns.',
+    inspiration: 'Apple, Vercel',
+    tokens: {
+      primary: '#000000',
       background: '#FFFFFF',
-      accent: '#36C5F0',
-      surface: '#F8F8F8',
-      text: '#1D1C1D'
+      accent: '#007AFF',
+      surface: '#F5F5F7',
+      radius: '20px',
+      fontDisplay: 'Inter, sans-serif',
+      fontBody: 'Inter, sans-serif',
+      motionIntensity: 'subtle'
     },
-    typography: {
-      display: 'Inter, sans-serif',
-      body: 'Inter, sans-serif',
-      weight: '700'
-    },
-    principles: ['Sidebar-first', 'High density', 'Instructional']
+    principles: ['Whitespace first', 'High hierarchy', 'Trust']
   },
   posthog: {
     id: 'posthog',
     name: 'Neural Parchment',
-    description: 'Warm, approachable surfaces with bold IBM Plex Sans and playful olive tones.',
-    colors: {
+    description: 'Warm surfaces with bold, playful highlights and editorial flair.',
+    inspiration: 'PostHog, Notion',
+    tokens: {
       primary: '#4D4F46',
       background: '#FDFDF8',
       accent: '#F54E00',
       surface: '#EEEFE9',
-      text: '#4D4F46'
+      radius: '12px',
+      fontDisplay: 'Inter, sans-serif',
+      fontBody: 'Inter, sans-serif',
+      motionIntensity: 'standard'
     },
-    typography: {
-      display: 'Inter, sans-serif',
-      body: 'Inter, sans-serif',
-      weight: '800'
-    },
-    principles: ['Warm tones', 'Bold headings', 'Friendly analytics']
+    principles: ['Warm tones', 'Friendly intelligence', 'High density']
   },
   spotify: {
     id: 'spotify',
     name: 'Obsidian Pulse',
     description: 'Ultra-dark immersive surfaces with vibrant neon green highlights.',
-    colors: {
+    inspiration: 'Spotify, Arc',
+    tokens: {
       primary: '#1ED760',
       background: '#121212',
       accent: '#1ED760',
       surface: '#181818',
-      text: '#FFFFFF'
+      radius: '8px',
+      fontDisplay: 'Inter, sans-serif',
+      fontBody: 'Inter, sans-serif',
+      motionIntensity: 'high'
     },
-    typography: {
-      display: 'Inter, sans-serif',
-      body: 'Inter, sans-serif',
-      weight: '700'
-    },
-    principles: ['High contrast', 'Vibrant green', 'Deep immersion']
+    principles: ['Deep immersion', 'High contrast', 'Modern']
   },
-  coinbase: {
-    id: 'coinbase',
-    name: 'Trust Blue',
-    description: 'Clean, spacious, and authoritative fintech aesthetic with modern spacing.',
-    colors: {
-      primary: '#0052FF',
-      background: '#FFFFFF',
-      accent: '#0052FF',
-      surface: '#F5F8FF',
-      text: '#050F19'
+  agentic: {
+    id: 'agentic',
+    name: 'Linear AI',
+    description: 'Precision engineering aesthetic with monochromatic depth and glassmorphism.',
+    inspiration: 'Linear, Cursor',
+    tokens: {
+      primary: '#FFFFFF',
+      background: '#000000',
+      accent: '#5E6AD2',
+      surface: '#0A0A0A',
+      radius: '14px',
+      fontDisplay: 'Inter, sans-serif',
+      fontBody: 'Inter, sans-serif',
+      motionIntensity: 'standard'
     },
-    typography: {
-      display: 'Inter, sans-serif',
-      body: 'Inter, sans-serif',
-      weight: '600'
-    },
-    principles: ['Financial trust', 'Wide margins', 'Clean grids']
+    principles: ['Precision', 'Density', 'Glassmorphism']
   },
   minimal: {
     id: 'minimal',
     name: 'Studio Serif',
-    description: 'Monochrome perfection for luxury editorial and high-end fashion brands.',
-    colors: {
+    description: 'Monochrome perfection for luxury editorial and high-end brands.',
+    inspiration: 'Kinfolk, Vogue',
+    tokens: {
       primary: '#000000',
       background: '#FFFFFF',
       accent: '#888888',
       surface: '#F5F5F5',
-      text: '#000000'
+      radius: '0px',
+      fontDisplay: 'Instrument Serif, serif',
+      fontBody: 'Inter, sans-serif',
+      motionIntensity: 'subtle'
     },
-    typography: {
-      display: 'Instrument Serif, serif',
-      body: 'Inter, sans-serif',
-      weight: '400'
-    },
-    principles: ['Serif display', 'Whitespace', 'Luxury minimal']
+    principles: ['Editorial', 'Luxury', 'Serif']
   },
   cyberpunk: {
     id: 'cyberpunk',
     name: 'Terminal Glow',
-    description: 'Future-forward high-density interface with scanning lines and neon glows.',
-    colors: {
+    description: 'Future-forward high-density interface with scanning lines and neon.',
+    inspiration: 'Cyberpunk 2077, Ghost in the Shell',
+    tokens: {
       primary: '#00F0FF',
       background: '#000000',
       accent: '#FF00FF',
       surface: '#0A0A0A',
-      text: '#00F0FF'
+      radius: '4px',
+      fontDisplay: 'monospace',
+      fontBody: 'Inter, sans-serif',
+      motionIntensity: 'high'
     },
-    typography: {
-      display: 'monospace',
-      body: 'Inter, sans-serif',
-      weight: '700'
-    },
-    principles: ['Holographic', 'Grid lines', 'High intensity']
+    principles: ['Holographic', 'Industrial', 'Glowing']
   }
 };

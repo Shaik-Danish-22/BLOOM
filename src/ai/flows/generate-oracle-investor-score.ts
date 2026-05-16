@@ -1,6 +1,6 @@
 'use server';
 /**
- * @fileOverview This flow analyzes a startup and issues a strategic "Oracle Verdict".
+ * @fileOverview Strategic Oracle Flow: Analyzes viability and market risks.
  */
 
 import {ai} from '@/ai/genkit';
@@ -16,14 +16,15 @@ const GenerateOracleInvestorScoreInputSchema = z.object({
 const GenerateOracleInvestorScoreOutputSchema = z.object({
   score: z.number().min(0).max(100),
   verdict: z.string(),
-  marketRisks: z.array(z.string()).describe('Honest assessments of saturation or competition.'),
+  marketRisks: z.array(z.string()).describe('Honest assessments: "Market is saturated", "High execution risk", etc.'),
   strategicMoats: z.array(z.string()).describe('Identified unique advantages.'),
+  designOpportunityInsights: z.array(z.string()).describe('Strategic creative recommendations (e.g., "A warmer editorial direction could differentiate this").'),
   competitorMapping: z.array(z.object({
     name: z.string(),
-    visualStyle: z.string(),
     threatLevel: z.enum(['Low', 'Medium', 'High']),
+    differentiationStrategy: z.string(),
   })),
-  subScores: z.array(z.object({
+  viabilityMetrics: z.array(z.object({
     category: z.string(),
     score: z.number(),
   })),
@@ -41,8 +42,8 @@ export async function generateOracleInvestorScore(input: z.infer<typeof Generate
     Tagline: {{{tagline}}}
     Brief: {{{valueProposition}}}
     
-    BE CRITICAL. If the market is saturated (like "AI Writing Tools"), say it. This builds trust.
-    Analyze the TAM/SAM/SOM sizing and identify "Strategic Moats".`
+    BE HONEST. If the market is saturated, say it. This creates trust. 
+    Identify real strategic moats and provide creative insights on how they can differentiate visually.`
   });
 
   const { output } = await prompt(input);

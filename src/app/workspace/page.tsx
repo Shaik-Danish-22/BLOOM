@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -21,7 +20,8 @@ import {
   Brain,
   Network,
   BarChart3,
-  Bot
+  Bot,
+  MousePointer2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -38,17 +38,16 @@ import SilkShader from "@/components/ui/silk-shader";
 
 type Step = 'prompt' | 'enhancing' | 'refine' | 'mode-selection' | 'research' | 'design-systems' | 'materializing';
 
-const SISSOR_SCENE = "https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode";
+const SCISSOR_SCENE = "https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode";
 
-const SISSOR_TALKS = [
-  "Hi, I'm SISSOR. Let's build.",
-  "Trend: AI Agents = New SaaS.",
-  "Design: High Motion = Luxury.",
-  "Grid nodes are stabilizing.",
-  "Bento grids are evolving.",
-  "Storytelling is key.",
-  "Contrast builds authority.",
-  "High-Density layouts win."
+const SCISSOR_TALKS = [
+  "Hi, I'm Scissor. Ready to materialize?",
+  "Scanning for high-density layout nodes.",
+  "AI Agents are the new SaaS kernel.",
+  "Design DNA link established.",
+  "Bento grids are mathematically superior.",
+  "Contrast creates authority.",
+  "Luxury requires cinematic pacing."
 ];
 
 export default function WorkspacePage() {
@@ -57,18 +56,13 @@ export default function WorkspacePage() {
   const [prompt, setPrompt] = useState("");
   const [enhancedData, setEnhancedData] = useState<any>(null);
   const [oracleData, setOracleData] = useState<any>(null);
-  const [selectedSystem, setSelectedSystem] = useState<DesignSystemId>('minimal');
+  const [selectedSystem, setSelectedSystem] = useState<DesignSystemId>('agentic');
   const [currentTalk, setCurrentTalk] = useState(0);
 
   useEffect(() => {
-    const isMockAuth = localStorage.getItem("siteforge_dummy_user");
-    if (!isMockAuth) router.push('/');
-  }, [router]);
-
-  useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentTalk(prev => (prev + 1) % SISSOR_TALKS.length);
-    }, 6000);
+      setCurrentTalk(prev => (prev + 1) % SCISSOR_TALKS.length);
+    }, 8000);
     return () => clearInterval(timer);
   }, []);
 
@@ -91,7 +85,7 @@ export default function WorkspacePage() {
         companyName: enhancedData?.suggestedName || "Startup",
         tagline: enhancedData?.coreConcept || "Neural Project",
         valueProposition: enhancedData?.professionalBrief || "",
-        marketCategory: enhancedData?.suggestedVibe
+        marketCategory: enhancedData?.designDNA?.mood
       });
       setOracleData(data);
       setStep('research');
@@ -109,14 +103,14 @@ export default function WorkspacePage() {
       <nav className="fixed top-0 left-0 right-0 z-50 p-6 flex justify-between items-center backdrop-blur-md border-b border-white/5 bg-black/40">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center">
-            <span className="text-black font-bold">S</span>
+            <span className="text-black font-bold text-sm">F</span>
           </div>
           <span className="text-lg font-headline italic tracking-tight">FounderOS Workspace</span>
         </div>
-        <div className="flex items-center gap-4">
-           <Button variant="ghost" onClick={() => { localStorage.removeItem("siteforge_dummy_user"); router.push('/'); }} className="text-white/40 hover:text-white text-xs font-bold uppercase tracking-widest transition-colors">
+        <div className="flex items-center gap-6">
+           <button onClick={() => router.push('/')} className="text-white/40 hover:text-white text-[10px] font-bold uppercase tracking-[0.3em] transition-colors">
              End Session
-           </Button>
+           </button>
            <div className="w-10 h-10 rounded-full border border-white/10 bg-white/5 flex items-center justify-center relative">
               <div className="absolute inset-0 bg-white/20 blur-xl animate-pulse" />
               <Zap size={18} className="text-white relative z-10" />
@@ -131,81 +125,64 @@ export default function WorkspacePage() {
               key="prompt"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="flex flex-col items-start justify-center min-h-[70vh] max-w-4xl mx-auto relative"
+              exit={{ opacity: 0, scale: 0.98 }}
+              className="flex flex-col min-h-[70vh] relative"
             >
-              <motion.div 
-                initial={{ x: -20, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                className="mb-16 space-y-2 -translate-y-24"
-              >
-                <h2 className="text-6xl md:text-8xl font-headline italic tracking-tighter text-left w-full leading-[0.9]">
+              <div className="mb-20">
+                <h2 className="text-7xl md:text-9xl font-headline italic tracking-tighter leading-[0.8] mb-4">
                   What are we <br />
-                  <em className="not-italic text-white/10">building</em> today?
+                  <em className="not-italic text-white/5">materializing?</em>
                 </h2>
-              </motion.div>
+                <p className="text-white/20 uppercase tracking-[0.6em] text-[11px] font-bold">Neural Link v2.5 Online</p>
+              </div>
               
-              <div className="w-full relative group">
-                <div className="absolute -inset-1 bg-white/5 blur-2xl group-hover:bg-white/10 transition-all rounded-[40px]" />
+              <div className="w-full relative max-w-5xl">
+                <div className="absolute -inset-1 bg-white/5 blur-2xl rounded-[48px]" />
                 
                 <div className="relative">
                   <Textarea 
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
-                    placeholder="Describe your vision..."
-                    className="relative w-full min-h-[320px] bg-black/40 border-white/10 rounded-[40px] p-12 text-xl focus:ring-1 focus:ring-white/20 transition-all backdrop-blur-3xl pr-64 scrollbar-hide"
+                    placeholder="Describe your vision (e.g., Luxury AI coffee for developers)..."
+                    className="w-full min-h-[350px] bg-black/40 border-white/10 rounded-[48px] p-12 text-2xl focus:ring-1 focus:ring-white/20 transition-all backdrop-blur-3xl pr-72 scrollbar-hide"
                   />
                   
-                  {/* SISSOR ASSISTANT - NO BOX, ENTIRE CHARACTER FIT */}
-                  <div className="absolute bottom-8 right-8 flex flex-col items-end pointer-events-none z-20 overflow-visible">
+                  {/* SCISSOR ASSISTANT */}
+                  <div className="absolute bottom-10 right-10 flex flex-col items-end pointer-events-none z-20">
                     <AnimatePresence mode="wait">
                       <motion.div 
                         key={currentTalk}
-                        initial={{ opacity: 0, y: 10, scale: 0.9 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: -10, scale: 0.9 }}
-                        className="bg-white/10 backdrop-blur-3xl border border-white/10 px-5 py-2.5 rounded-2xl mb-4 flex items-center gap-3 pointer-events-auto shadow-2xl relative min-w-[160px] -translate-x-12"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="bg-white/10 backdrop-blur-3xl border border-white/10 px-6 py-3 rounded-2xl mb-6 flex items-center gap-3 pointer-events-auto shadow-2xl relative min-w-[200px]"
                       >
                         <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shrink-0" />
-                        <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-white/90 leading-tight">
-                          {SISSOR_TALKS[currentTalk]}
+                        <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-white/90">
+                          {SCISSOR_TALKS[currentTalk]}
                         </span>
-                        <div className="absolute -bottom-1 right-10 w-2.5 h-2.5 bg-white/10 border-r border-b border-white/10 rotate-45" />
+                        <div className="absolute -bottom-1 right-12 w-3 h-3 bg-white/10 border-r border-b border-white/10 rotate-45" />
                       </motion.div>
                     </AnimatePresence>
                     
-                    {/* ENTIRE CHARACTER FIT, NO BACKGROUND BOX */}
-                    <div className="w-56 h-56 pointer-events-auto cursor-grab active:cursor-grabbing relative overflow-hidden">
+                    <div className="w-64 h-64 pointer-events-auto cursor-grab active:cursor-grabbing relative overflow-hidden">
                       <InteractiveRobotSpline 
-                        scene={SISSOR_SCENE} 
-                        className="w-full h-full scale-[1.1] translate-y-2" 
+                        scene={SCISSOR_SCENE} 
+                        className="w-full h-full scale-[1.3] translate-y-3" 
                       />
                     </div>
                   </div>
                 </div>
 
-                <div className="flex justify-start mt-8 pl-4">
+                <div className="mt-10 flex justify-start pl-6">
                   <Button 
                     onClick={handleEnhance}
                     disabled={!prompt.trim()}
-                    className="bg-white text-black hover:bg-white/90 rounded-full px-14 h-16 flex items-center gap-4 font-bold uppercase tracking-widest shadow-[0_0_60px_rgba(255,255,255,0.25)] transition-all active:scale-95 hover:scale-105"
+                    className="bg-white text-black hover:bg-white/90 rounded-full px-16 h-20 flex items-center gap-4 font-bold uppercase tracking-[0.2em] shadow-[0_0_80px_rgba(255,255,255,0.2)] transition-all active:scale-95 hover:scale-105"
                   >
-                    <Wand2 size={20} /> Neural Enhance
+                    <Wand2 size={24} /> Neural Enhance
                   </Button>
                 </div>
-              </div>
-              
-              <div className="mt-20 flex gap-12">
-                 {[
-                   { icon: Brain, label: "Intelligence" },
-                   { icon: Cpu, label: "Orchestration" },
-                   { icon: Network, label: "Neural Net" }
-                 ].map((item, i) => (
-                   <div key={i} className="flex items-center gap-3 opacity-20 hover:opacity-100 transition-all cursor-default scale-110">
-                     <item.icon size={16} />
-                     <span className="text-[10px] uppercase tracking-[0.4em] font-bold">{item.label}</span>
-                   </div>
-                 ))}
               </div>
             </motion.div>
           )}
@@ -216,16 +193,16 @@ export default function WorkspacePage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="flex flex-col items-center justify-center h-full text-center"
+              className="flex flex-col items-center justify-center h-full min-h-[60vh] text-center"
             >
-              <div className="w-80 h-80 mb-12 pointer-events-none relative overflow-hidden rounded-full border border-white/5 shadow-2xl">
+              <div className="w-96 h-96 mb-12 pointer-events-none relative overflow-hidden rounded-full border border-white/5 bg-white/[0.02]">
                  <InteractiveRobotSpline 
-                   scene={SISSOR_SCENE} 
+                   scene={SCISSOR_SCENE} 
                    className="w-full h-full scale-[1.2] translate-y-4" 
                  />
               </div>
-              <h3 className="text-5xl font-headline italic text-white mb-6">Enhancing Neural Link...</h3>
-              <p className="text-white/20 uppercase tracking-[0.6em] text-[11px] font-bold animate-pulse">Deriving Strategic DNA and Visual Scaffolding</p>
+              <h3 className="text-6xl font-headline italic text-white mb-6">Deriving Design DNA...</h3>
+              <p className="text-white/20 uppercase tracking-[0.8em] text-[12px] font-bold animate-pulse">Positioning Neural Nodes & Visual Scaffolding</p>
             </motion.div>
           )}
 
@@ -234,62 +211,62 @@ export default function WorkspacePage() {
               key="refine"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="max-w-5xl mx-auto py-12"
+              className="max-w-6xl mx-auto py-12"
             >
-              <header className="mb-20 flex justify-between items-end">
-                <div className="space-y-4">
-                  <Badge className="bg-white/10 text-white/60 border-none px-5 py-2 rounded-full text-[10px] tracking-widest uppercase">ENHANCED BRIEF</Badge>
-                  <h2 className="text-6xl font-headline italic leading-none">Neural Brief V1.0</h2>
-                  <p className="text-white/40 italic text-lg">Review and refine the AI's derivation of your vision.</p>
+              <header className="mb-24 flex justify-between items-end">
+                <div className="space-y-6">
+                  <Badge className="bg-white/10 text-white/60 border-none px-6 py-2.5 rounded-full text-[11px] tracking-[0.4em] uppercase">Neural Identity v1.0</Badge>
+                  <h2 className="text-7xl font-headline italic leading-none">The Strategy Core.</h2>
+                  <p className="text-white/40 italic text-xl">Review the derived DNA before materialization.</p>
                 </div>
-                <div className="flex gap-4">
-                  <Button variant="ghost" onClick={() => setStep('prompt')} className="text-white/20 hover:text-white transition-colors h-14 px-8">Retry</Button>
-                  <Button onClick={() => setStep('mode-selection')} className="bg-white text-black rounded-full px-12 h-14 font-bold uppercase tracking-widest shadow-2xl transition-all active:scale-95 hover:scale-105">
-                    Materialize <ArrowRight size={18} className="ml-3" />
+                <div className="flex gap-6">
+                  <Button variant="ghost" onClick={() => setStep('prompt')} className="text-white/20 hover:text-white transition-colors h-16 px-10 border border-white/5 rounded-2xl">Retry Link</Button>
+                  <Button onClick={() => setStep('mode-selection')} className="bg-white text-black rounded-full px-16 h-16 font-bold uppercase tracking-widest shadow-2xl transition-all active:scale-95 hover:scale-105">
+                    Materialize <ArrowRight size={20} className="ml-4" />
                   </Button>
                 </div>
               </header>
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-                <Card className="lg:col-span-2 bg-white/5 border-white/10 p-12 rounded-[56px] relative overflow-hidden shadow-2xl">
-                   <div className="absolute top-0 right-0 w-80 h-80 bg-white/[0.03] blur-[120px] rounded-full" />
-                   <h4 className="text-[10px] uppercase tracking-widest font-bold text-white/20 mb-10 flex items-center gap-2">
-                      <Target size={14} /> Positioning Strategy
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                <Card className="lg:col-span-2 bg-white/5 border-white/10 p-16 rounded-[64px] relative overflow-hidden shadow-2xl group">
+                   <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/[0.03] blur-[150px] rounded-full group-hover:bg-white/[0.05] transition-all" />
+                   <h4 className="text-[11px] uppercase tracking-[0.5em] font-bold text-white/20 mb-12 flex items-center gap-3">
+                      <Target size={18} /> Strategic Brief
                    </h4>
                    <Textarea 
                      value={enhancedData?.professionalBrief}
                      onChange={(e) => setEnhancedData({...enhancedData, professionalBrief: e.target.value})}
-                     className="bg-transparent border-none p-0 text-3xl leading-relaxed italic text-white/80 resize-none min-h-[450px] focus-visible:ring-0 scrollbar-hide"
+                     className="bg-transparent border-none p-0 text-4xl leading-[1.3] italic text-white/80 resize-none min-h-[500px] focus-visible:ring-0 scrollbar-hide"
                    />
                 </Card>
 
-                <div className="space-y-8">
-                   <Card className="bg-white/5 border-white/10 p-10 rounded-[48px] shadow-xl">
-                      <h4 className="text-[10px] uppercase tracking-widest font-bold text-white/20 mb-8 flex items-center gap-2">
-                        <Palette size={14} /> Derived DNA
+                <div className="space-y-10">
+                   <Card className="bg-white/5 border-white/10 p-12 rounded-[56px] shadow-xl">
+                      <h4 className="text-[11px] uppercase tracking-[0.5em] font-bold text-white/20 mb-10 flex items-center gap-3">
+                        <Palette size={18} /> Design DNA
                       </h4>
-                      <div className="space-y-10">
+                      <div className="space-y-12">
                          <div>
-                            <p className="text-[9px] uppercase tracking-widest text-white/10 mb-3">Aesthetic</p>
-                            <p className="text-2xl font-headline italic text-white/80">{enhancedData?.designDNA?.mood}</p>
+                            <p className="text-[10px] uppercase tracking-[0.3em] text-white/10 mb-4">Mood</p>
+                            <p className="text-3xl font-headline italic text-white/90">{enhancedData?.designDNA?.mood}</p>
                          </div>
                          <div>
-                            <p className="text-[9px] uppercase tracking-widest text-white/10 mb-3">Typography</p>
-                            <p className="text-2xl font-headline italic text-white/80">{enhancedData?.designDNA?.typographyIdentity}</p>
+                            <p className="text-[10px] uppercase tracking-[0.3em] text-white/10 mb-4">Motion</p>
+                            <p className="text-3xl font-headline italic text-white/90">{enhancedData?.designDNA?.motionPhilosophy}</p>
                          </div>
                          <div>
-                            <p className="text-[9px] uppercase tracking-widest text-white/10 mb-3">Motion</p>
-                            <p className="text-2xl font-headline italic text-white/80">{enhancedData?.designDNA?.motionPhilosophy}</p>
+                            <p className="text-[10px] uppercase tracking-[0.3em] text-white/10 mb-4">Interaction</p>
+                            <p className="text-3xl font-headline italic text-white/90">{enhancedData?.designDNA?.interactionStyle}</p>
                          </div>
                       </div>
                    </Card>
                    
-                   <Card className="bg-white/5 border-white/10 p-10 rounded-[48px] shadow-xl">
-                      <h4 className="text-[10px] uppercase tracking-widest font-bold text-white/20 mb-8">Clarification Nodes</h4>
-                      <ul className="space-y-5">
+                   <Card className="bg-white/5 border-white/10 p-12 rounded-[56px] shadow-xl">
+                      <h4 className="text-[11px] uppercase tracking-[0.5em] font-bold text-white/20 mb-10">Refinement Nodes</h4>
+                      <ul className="space-y-6">
                          {enhancedData?.followUpQuestions.slice(0, 3).map((q: string, i: number) => (
-                           <li key={i} className="text-sm text-white/30 italic flex gap-4 leading-relaxed">
-                             <div className="w-1.5 h-1.5 rounded-full bg-white/10 mt-2 shrink-0" />
+                           <li key={i} className="text-[15px] text-white/30 italic flex gap-6 leading-relaxed group cursor-default">
+                             <div className="w-2 h-2 rounded-full bg-white/10 mt-2 shrink-0 group-hover:bg-white transition-colors" />
                              {q}
                            </li>
                          ))}
@@ -307,81 +284,81 @@ export default function WorkspacePage() {
               animate={{ opacity: 1, scale: 1 }}
               className="min-h-[70vh] flex flex-col justify-center max-w-6xl mx-auto"
             >
-              <h2 className="text-7xl md:text-9xl font-headline italic text-center mb-24 leading-none tracking-tighter">Choose your <br /> <em className="not-italic text-white/10">Trajectory.</em></h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+              <h2 className="text-8xl md:text-[12rem] font-headline italic text-center mb-32 leading-none tracking-tighter">Choose your <br /> <em className="not-italic text-white/10">Trajectory.</em></h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
                  <div 
                    onClick={handleStartResearch}
-                   className="relative group p-16 rounded-[72px] border border-white/5 bg-white/[0.02] flex flex-col items-center text-center cursor-pointer hover:border-white/20 transition-all hover:scale-[1.03] shadow-2xl"
+                   className="relative group p-20 rounded-[80px] border border-white/5 bg-white/[0.02] flex flex-col items-center text-center cursor-pointer hover:border-white/20 transition-all hover:scale-[1.03] shadow-2xl"
                  >
                     <div className="absolute inset-0 bg-white/[0.01] blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <div className="w-28 h-28 rounded-[40px] bg-white/5 border border-white/10 flex items-center justify-center mb-12 group-hover:bg-white group-hover:text-black transition-all duration-700">
-                       <BarChart3 size={48} />
+                    <div className="w-32 h-32 rounded-[48px] bg-white/5 border border-white/10 flex items-center justify-center mb-16 group-hover:bg-white group-hover:text-black transition-all duration-700">
+                       <BarChart3 size={56} />
                     </div>
-                    <h4 className="text-6xl font-bold mb-8 tracking-tight">RESEARCH</h4>
-                    <p className="text-white/30 leading-relaxed max-w-sm italic text-xl">
-                      Strategic moats, market analytics, and investment readiness scores.
+                    <h4 className="text-7xl font-bold mb-10 tracking-tight">THE ORACLE</h4>
+                    <p className="text-white/30 leading-relaxed max-w-md italic text-2xl">
+                      Market risks, strategic moats, and investor viability analysis.
                     </p>
-                    <Badge variant="outline" className="mt-14 border-white/10 text-[11px] tracking-[0.5em] py-3 px-10">FOUNDEROS ORACLE</Badge>
+                    <Badge variant="outline" className="mt-20 border-white/10 text-[12px] tracking-[0.6em] py-4 px-12">FOUNDEROS REPORT</Badge>
                  </div>
 
                  <div 
                    onClick={() => setStep('design-systems')}
-                   className="relative group p-16 rounded-[72px] border border-white/5 bg-white flex flex-col items-center text-center cursor-pointer hover:scale-[1.03] transition-all text-black shadow-[0_0_100px_rgba(255,255,255,0.1)]"
+                   className="relative group p-20 rounded-[80px] border border-white/5 bg-white flex flex-col items-center text-center cursor-pointer hover:scale-[1.03] transition-all text-black shadow-[0_0_120px_rgba(255,255,255,0.15)]"
                  >
-                    <div className="w-28 h-28 rounded-[40px] bg-black/5 border border-black/10 flex items-center justify-center mb-12 group-hover:bg-black group-hover:text-white transition-all duration-700">
-                       <Layers size={48} />
+                    <div className="w-32 h-32 rounded-[48px] bg-black/5 border border-black/10 flex items-center justify-center mb-16 group-hover:bg-black group-hover:text-white transition-all duration-700">
+                       <Layers size={56} />
                     </div>
-                    <h4 className="text-6xl font-bold mb-8 tracking-tight">EXECUTION</h4>
-                    <p className="text-black/50 leading-relaxed max-w-sm italic text-xl">
-                      Materialize the design DNA into a high-fidelity startup experience.
+                    <h4 className="text-7xl font-bold mb-10 tracking-tight">THE FORGE</h4>
+                    <p className="text-black/50 leading-relaxed max-w-md italic text-2xl">
+                      Materialize high-fidelity UI systems from your Design DNA.
                     </p>
-                    <Badge variant="outline" className="mt-14 border-black/10 text-[11px] tracking-[0.5em] text-black/40 py-3 px-10">THE FORGE STUDIO</Badge>
+                    <Badge variant="outline" className="mt-20 border-black/10 text-[12px] tracking-[0.6em] text-black/40 py-4 px-12">FOUNDEROS STUDIO</Badge>
                  </div>
               </div>
             </motion.div>
           )}
 
           {step === 'research' && (
-            <motion.div key="oracle-view" className="py-12 pb-32">
-               <Button variant="ghost" onClick={() => setStep('mode-selection')} className="mb-14 text-white/20 hover:text-white transition-colors h-14 px-8">
-                 <ChevronLeft className="mr-3" /> Return to Trajectory
+            <motion.div key="oracle-view" className="py-12 pb-40">
+               <Button variant="ghost" onClick={() => setStep('mode-selection')} className="mb-20 text-white/20 hover:text-white transition-colors h-16 px-10 border border-white/5 rounded-2xl">
+                 <ChevronLeft className="mr-4" /> Return to Trajectory
                </Button>
                
-               <div className="grid grid-cols-1 lg:grid-cols-3 gap-20">
-                  <div className="lg:col-span-2 space-y-32">
-                    <section className="space-y-12">
-                      <div className="flex items-center gap-6">
-                        <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center relative">
-                          <Target size={28} className="text-white relative z-10" />
-                          <div className="absolute inset-0 bg-white/10 blur-xl animate-pulse rounded-full" />
+               <div className="grid grid-cols-1 lg:grid-cols-3 gap-24">
+                  <div className="lg:col-span-2 space-y-40">
+                    <section className="space-y-16">
+                      <div className="flex items-center gap-8">
+                        <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center relative">
+                          <Target size={32} className="text-white relative z-10" />
+                          <div className="absolute inset-0 bg-white/10 blur-2xl animate-pulse rounded-full" />
                         </div>
-                        <h3 className="text-5xl font-headline italic">Strategic Intelligence Report</h3>
+                        <h3 className="text-6xl font-headline italic">Intelligence Verdict</h3>
                       </div>
                       
-                      <Card className="bg-white/5 border-white/10 p-16 rounded-[64px] relative overflow-hidden shadow-2xl">
-                        <div className="absolute -top-20 -right-20 w-[500px] h-[500px] bg-white/[0.02] blur-[150px] rounded-full" />
-                        <p className="text-5xl font-light italic text-white/80 leading-[1.3] mb-20 border-b border-white/5 pb-20">
+                      <Card className="bg-white/5 border-white/10 p-20 rounded-[80px] relative overflow-hidden shadow-2xl">
+                        <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-white/[0.02] blur-[150px] rounded-full" />
+                        <p className="text-6xl font-light italic text-white/80 leading-[1.2] mb-24 border-b border-white/5 pb-24">
                           "{oracleData?.verdict}"
                         </p>
                         
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
-                           <div className="space-y-10">
-                             <h5 className="text-[12px] uppercase tracking-[0.5em] font-bold text-white/20">Critical Market Risks</h5>
-                             <div className="space-y-8">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-24">
+                           <div className="space-y-12">
+                             <h5 className="text-[13px] uppercase tracking-[0.6em] font-bold text-white/20">Critical Risks</h5>
+                             <div className="space-y-10">
                                 {oracleData?.marketRisks.map((risk: string, i: number) => (
-                                  <div key={i} className="flex gap-8 items-start text-lg text-white/40 italic leading-relaxed">
-                                     <AlertTriangle size={22} className="text-white/20 shrink-0 mt-1" />
+                                  <div key={i} className="flex gap-10 items-start text-xl text-white/40 italic leading-relaxed">
+                                     <AlertTriangle size={24} className="text-white/20 shrink-0 mt-1" />
                                      {risk}
                                   </div>
                                 ))}
                              </div>
                            </div>
-                           <div className="space-y-10">
-                             <h5 className="text-[12px] uppercase tracking-[0.5em] font-bold text-white/20">Identified Moats</h5>
-                             <div className="space-y-8">
+                           <div className="space-y-12">
+                             <h5 className="text-[13px] uppercase tracking-[0.6em] font-bold text-white/20">Strategic Moats</h5>
+                             <div className="space-y-10">
                                 {oracleData?.strategicMoats.map((moat: string, i: number) => (
-                                  <div key={i} className="flex gap-8 items-start text-lg text-white/80 italic leading-relaxed">
-                                     <CheckCircle2 size={22} className="text-white/40 shrink-0 mt-1" />
+                                  <div key={i} className="flex gap-10 items-start text-xl text-white/80 italic leading-relaxed">
+                                     <CheckCircle2 size={24} className="text-white/40 shrink-0 mt-1" />
                                      {moat}
                                   </div>
                                 ))}
@@ -391,26 +368,26 @@ export default function WorkspacePage() {
                       </Card>
                     </section>
 
-                    <section className="space-y-14">
-                       <h5 className="text-[12px] uppercase tracking-[0.5em] font-bold text-white/20">Neural Scoring Metrics</h5>
-                       <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-                          {oracleData?.subScores.map((s: any, i: number) => (
-                            <div key={i} className="p-14 rounded-[56px] border border-white/5 bg-white/[0.02] flex flex-col justify-between h-64 group hover:border-white/20 transition-all hover:bg-white/[0.04] shadow-xl">
-                               <h5 className="text-[11px] uppercase tracking-[0.4em] font-bold text-white/20">{s.category}</h5>
-                               <span className="text-8xl font-headline text-white/40 group-hover:text-white transition-colors">{s.score}</span>
+                    <section className="space-y-20">
+                       <h5 className="text-[13px] uppercase tracking-[0.6em] font-bold text-white/20">Neural Scoring Metrics</h5>
+                       <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                          {oracleData?.viabilityMetrics.map((s: any, i: number) => (
+                            <div key={i} className="p-16 rounded-[64px] border border-white/5 bg-white/[0.02] flex flex-col justify-between h-72 group hover:border-white/20 transition-all hover:bg-white/[0.04] shadow-xl">
+                               <h5 className="text-[12px] uppercase tracking-[0.5em] font-bold text-white/20">{s.category}</h5>
+                               <span className="text-9xl font-headline text-white/40 group-hover:text-white transition-colors">{s.score}</span>
                             </div>
                           ))}
                        </div>
                     </section>
                   </div>
 
-                  <div className="flex flex-col items-center justify-center p-16 rounded-[72px] border border-white/10 bg-white/[0.02] backdrop-blur-3xl sticky top-32 h-fit shadow-2xl">
+                  <div className="flex flex-col items-center justify-center p-20 rounded-[80px] border border-white/10 bg-white/[0.02] backdrop-blur-3xl sticky top-40 h-fit shadow-2xl">
                      <OracleGauge targetScore={oracleData?.score || 85} />
-                     <div className="mt-24 text-center space-y-10 w-full">
-                        <p className="text-[11px] uppercase tracking-[0.7em] font-bold text-white/20">Readiness Score</p>
-                        <Badge className="bg-white/10 text-white px-12 py-5 border-none text-[13px] tracking-[0.4em] font-bold rounded-full">FOUNDEROS VERIFIED</Badge>
-                        <Button onClick={() => setStep('design-systems')} className="w-full bg-white text-black rounded-full h-28 text-2xl font-bold uppercase tracking-widest shadow-[0_0_100px_rgba(255,255,255,0.15)] hover:scale-[1.02] transition-all">
-                          Proceed to Forge
+                     <div className="mt-32 text-center space-y-12 w-full">
+                        <p className="text-[12px] uppercase tracking-[0.8em] font-bold text-white/20">Startup Readiness</p>
+                        <Badge className="bg-white/10 text-white px-16 py-6 border-none text-[14px] tracking-[0.5em] font-bold rounded-full">FOUNDEROS VERIFIED</Badge>
+                        <Button onClick={() => setStep('design-systems')} className="w-full bg-white text-black rounded-full h-28 text-2xl font-bold uppercase tracking-[0.2em] shadow-[0_0_120px_rgba(255,255,255,0.2)] hover:scale-[1.02] transition-all active:scale-95">
+                          Forge Studio
                         </Button>
                      </div>
                   </div>
@@ -419,33 +396,44 @@ export default function WorkspacePage() {
           )}
 
           {step === 'design-systems' && (
-            <motion.div key="design-select" className="py-12 max-w-6xl mx-auto pb-32">
-               <h2 className="text-8xl font-headline italic text-center mb-24 leading-none tracking-tighter">Select your <br /> <em className="not-italic text-white/10">Design DNA.</em></h2>
-               <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-28">
+            <motion.div key="design-select" className="py-12 max-w-7xl mx-auto pb-40">
+               <h2 className="text-9xl md:text-[14rem] font-headline italic text-center mb-32 leading-none tracking-tighter">Direct the <br /> <em className="not-italic text-white/10">Neural Forge.</em></h2>
+               <div className="grid grid-cols-1 md:grid-cols-3 gap-16 mb-40">
                   {Object.values(DESIGN_SYSTEMS).map((sys) => (
                     <div 
                       key={sys.id}
                       onClick={() => setSelectedSystem(sys.id)}
-                      className={`relative overflow-hidden rounded-[72px] border transition-all cursor-pointer p-16 group ${
+                      className={`relative overflow-hidden rounded-[80px] border transition-all cursor-pointer p-20 group ${
                         selectedSystem === sys.id ? 'border-white scale-105 bg-white/5 shadow-2xl' : 'border-white/5 opacity-40 hover:opacity-100 hover:bg-white/[0.02]'
                       }`}
                     >
-                       <div className="flex justify-between items-start mb-14">
-                         <div className="w-20 h-20 rounded-[32px] border border-white/10 flex items-center justify-center bg-white/5">
-                            <Layers size={32} className={selectedSystem === sys.id ? 'text-white' : 'text-white/20'} />
+                       <div className="flex justify-between items-start mb-20">
+                         <div className="w-24 h-24 rounded-[40px] border border-white/10 flex items-center justify-center bg-white/5">
+                            <Layers size={40} className={selectedSystem === sys.id ? 'text-white' : 'text-white/20'} />
                          </div>
-                         {selectedSystem === sys.id && <motion.div layoutId="sys-check" className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-2xl"><CheckCircle2 size={26} className="text-black" /></motion.div>}
+                         {selectedSystem === sys.id && (
+                           <motion.div 
+                             layoutId="sys-check" 
+                             className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-2xl"
+                           >
+                             <CheckCircle2 size={32} className="text-black" />
+                           </motion.div>
+                         )}
                        </div>
-                       <h4 className="text-4xl font-bold mb-6 tracking-tight">{sys.name}</h4>
-                       <p className="text-base text-white/30 leading-relaxed italic mb-12">{sys.description}</p>
-                       <div className="flex flex-wrap gap-3">
-                          {sys.principles.map((p, i) => <Badge key={i} className="bg-white/5 text-[11px] border-none text-white/30 uppercase px-5 py-2 font-bold tracking-widest">{p}</Badge>)}
+                       <h4 className="text-5xl font-bold mb-8 tracking-tight">{sys.name}</h4>
+                       <p className="text-xl text-white/30 leading-relaxed italic mb-16">{sys.description}</p>
+                       <div className="flex flex-wrap gap-4">
+                          {sys.principles.map((p, i) => (
+                            <Badge key={i} className="bg-white/5 text-[12px] border-none text-white/30 uppercase px-6 py-3 font-bold tracking-[0.2em]">
+                              {p}
+                            </Badge>
+                          ))}
                        </div>
                     </div>
                   ))}
                </div>
                <div className="flex justify-center">
-                  <Button onClick={() => router.push('/generate')} className="bg-white text-black rounded-full px-40 h-28 text-3xl font-bold uppercase tracking-[0.3em] shadow-[0_0_120px_rgba(255,255,255,0.25)] hover:scale-105 transition-all">
+                  <Button onClick={() => router.push('/generate')} className="bg-white text-black rounded-full px-48 h-32 text-4xl font-bold uppercase tracking-[0.4em] shadow-[0_0_150px_rgba(255,255,255,0.3)] hover:scale-105 transition-all active:scale-95">
                     Materialize Vision
                   </Button>
                </div>
