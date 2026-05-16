@@ -1,27 +1,20 @@
 'use server';
 /**
- * @fileOverview This file implements a Genkit flow that takes a startup idea
- * and generates comprehensive startup artifacts, simulating a multi-agent AI team.
+ * @fileOverview Materialization Engine: Generates high-fidelity startup artifacts
+ * strictly derived from the user's prompt and enhanced Design DNA.
  */
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 
-// Input Schema
-const StartupIdeaInputSchema = z.object({
-  startupIdea: z.string().describe('A detailed description of the startup idea.'),
-  designDNA: z.any().optional().describe('The derived design DNA from the enhance prompt stage.'),
-});
-export type StartupIdeaInput = z.infer<typeof StartupIdeaInputSchema>;
-
-// Output Schemas
 const WebsiteSectionSchema = z.object({
   id: z.string(),
-  type: z.enum(['hero', 'features', 'problem', 'solution', 'pricing', 'footer']),
+  type: z.enum(['hero', 'features', 'problem', 'solution', 'pricing', 'footer', 'social']),
   title: z.string(),
   subtitle: z.string().optional(),
   content: z.string().optional(),
   items: z.array(z.string()).optional(),
+  ctaLabel: z.string().optional(),
 });
 
 const StartupIdeaOutputSchema = z.object({
@@ -29,10 +22,12 @@ const StartupIdeaOutputSchema = z.object({
     companyName: z.string(),
     tagline: z.string(),
     brandRationale: z.string(),
+    neuralTone: z.string(),
   }),
   websiteContent: z.object({
     sections: z.array(WebsiteSectionSchema),
-    colorPalette: z.array(z.string()),
+    colorPalette: z.array(z.string().describe('HEX or HSL codes strictly derived from Design DNA color logic.')),
+    typographyStrategy: z.string(),
   }),
   sentinelAtlasMarketIntelligence: z.object({
     marketOpportunityAnalysis: z.string(),
@@ -49,14 +44,19 @@ const StartupIdeaOutputSchema = z.object({
     })),
   }),
   compassLaunchGTM: z.object({
-    gtmStrategy: {
+    gtmStrategy: z.object({
       overview: z.string(),
       keyChannels: z.array(z.string()),
       initialLaunchPlan: z.string(),
-    },
+    }),
     pricingModel: z.object({
       type: z.string(),
       justification: z.string(),
+      tiers: z.array(z.object({
+        name: z.string(),
+        price: z.string(),
+        features: z.array(z.string()),
+      })),
     }),
     startupRoadmap: z.array(z.object({
       quarter: z.string(),
@@ -74,27 +74,30 @@ const StartupIdeaOutputSchema = z.object({
     })),
   }),
 });
+
 export type StartupIdeaOutput = z.infer<typeof StartupIdeaOutputSchema>;
 
 const generateStartupIdeaPrompt = ai.definePrompt({
   name: 'generateStartupIdeaPrompt',
-  input: { schema: StartupIdeaInputSchema },
+  input: { schema: z.object({ startupIdea: z.string(), designDNA: z.any().optional() }) },
   output: { schema: StartupIdeaOutputSchema },
-  prompt: `You are an elite Silicon Valley product architect.
-  Analyze this idea and design DNA:
+  prompt: `You are an elite Silicon Valley product architect. 
+  Your task is to materialize the following startup vision into a comprehensive strategic and visual package.
   
-  Idea: {{{startupIdea}}}
-  Design DNA: {{#if designDNA}}{{{json designDNA}}}{{else}}Standard Startup{{/if}}
+  CORE VISION: {{{startupIdea}}}
+  DESIGN DNA: {{#if designDNA}}{{{json designDNA}}}{{else}}Standard High-Tech Startup{{/if}}
   
-  Generate a complete startup package. 
-  Crucially, define the "websiteContent" sections with compelling copy that reflects the design DNA. 
-  The "hero" should have a world-class headline. 
-  The "features" should list 3-4 unique selling points.
-  The "colorPalette" should be 3 HSL or HEX codes that match the brand personality.`,
+  CRITICAL CONSTRAINTS:
+  1. NO HALLUCINATIONS. Every generated section must be a direct materialization of the core vision.
+  2. DESIGN ADHERENCE. Use the colorLogic and mood from the Design DNA to define the colorPalette.
+  3. COPYWRITING. The websiteContent copy must be editorial-grade, concise, and reflect the sophisticationLevel.
+  4. LOGIC. Ensure the TAM/SAM/SOM and GTM strategy are grounded in the specific market category of the vision.
+  
+  The "websiteContent" must include a "hero", "problem", "solution", and "features" section as a minimum.`,
 });
 
-export async function generateStartupIdea(input: StartupIdeaInput): Promise<StartupIdeaOutput> {
+export async function generateStartupIdea(input: { startupIdea: string, designDNA: any }): Promise<StartupIdeaOutput> {
   const { output } = await generateStartupIdeaPrompt(input);
-  if (!output) throw new Error('Generation failed');
+  if (!output) throw new Error('Materialization generation failed');
   return output;
 }

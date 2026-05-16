@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -44,13 +43,14 @@ export default function BloomLanding() {
 
     const handleCanPlay = () => {
       video.play();
-      animateFade(1, 500);
+      animateFade(1, 800);
     };
 
     const handleTimeUpdate = () => {
-      if (!isFadingOut && video.duration - video.currentTime <= 0.55) {
+      // Begin fade out slightly before the end to ensure no blanking
+      if (!isFadingOut && video.duration - video.currentTime <= 0.8) {
         isFadingOut = true;
-        animateFade(0, 500);
+        animateFade(0, 700);
       }
     };
 
@@ -60,8 +60,8 @@ export default function BloomLanding() {
         video.currentTime = 0;
         video.play();
         isFadingOut = false;
-        animateFade(1, 500);
-      }, 100);
+        animateFade(1, 800);
+      }, 50);
     };
 
     video.addEventListener('canplay', handleCanPlay);
@@ -91,7 +91,7 @@ export default function BloomLanding() {
 
   return (
     <div className="bg-black min-h-screen selection:bg-white/20 scroll-smooth">
-      <section className="min-h-screen relative flex flex-col overflow-hidden">
+      <section className="min-h-screen relative flex flex-col overflow-hidden bg-black">
         <video
           ref={videoRef}
           src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_074625_a81f018a-956b-43fb-9aee-4d1508e30e6a.mp4"
@@ -133,10 +133,10 @@ export default function BloomLanding() {
           <motion.h1 
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="text-6xl md:text-7xl lg:text-8xl text-white tracking-tight font-headline mb-10 leading-[0.95]"
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            className="text-6xl md:text-7xl lg:text-9xl text-white tracking-tight font-headline mb-10 leading-[0.9] text-glow"
           >
-            Materialize the <br /><em className="italic">unseen</em> vision.
+            Materialize the <br /><em className="italic text-white/60">unseen</em> vision.
           </motion.h1>
 
           <motion.div 
@@ -148,10 +148,10 @@ export default function BloomLanding() {
             <div className="liquid-glass rounded-full pl-6 pr-2 py-2 flex items-center gap-3">
               <input 
                 type="email"
-                placeholder="Enter your email to start"
+                placeholder="Enter your email to materialize"
                 className="flex-1 bg-transparent border-none text-white placeholder:text-white/40 focus:ring-0 focus:outline-none text-sm"
               />
-              <button className="bg-white rounded-full p-3 text-black hover:bg-white/90 transition-all hover:scale-105 active:scale-95">
+              <button onClick={handleStart} className="bg-[#DCFF00] rounded-full p-3 text-black hover:bg-[#DCFF00]/90 transition-all hover:scale-105 active:scale-95 shadow-[0_0_15px_rgba(220,255,0,0.4)]">
                 <ArrowRight size={20} strokeWidth={2.5} />
               </button>
             </div>
@@ -161,17 +161,17 @@ export default function BloomLanding() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 1 }}
-            className="text-white text-sm leading-relaxed px-4 max-w-lg mb-10 opacity-60"
+            className="text-white text-xs uppercase tracking-[0.4em] px-4 max-w-lg mb-10 opacity-30 font-bold"
           >
-            Harness the power of neural intelligence to architect, validate, and materialize your next venture with world-class precision and creative strategy.
+            Neural Materialization for Visionary Creators
           </motion.p>
 
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}>
             <button 
               onClick={handleStart}
-              className="liquid-glass rounded-full px-12 py-4 text-white text-sm font-bold uppercase tracking-widest hover:bg-white/5 transition-colors border-none"
+              className="liquid-glass rounded-full px-12 py-4 text-white text-[10px] font-bold uppercase tracking-[0.5em] hover:bg-white/5 transition-colors border-none"
             >
-              Enter Bloom
+              Enter Bloom Studio
             </button>
           </motion.div>
         </div>
@@ -185,8 +185,8 @@ export default function BloomLanding() {
       
       <footer className="bg-black py-20 border-t border-white/5 text-center">
          <div className="max-w-5xl mx-auto px-6">
-            <div className="font-headline text-4xl italic text-white/20 mb-4">Bloom</div>
-            <p className="text-xs text-white/10 uppercase tracking-widest">Neural Materialization © 2026</p>
+            <div className="font-headline text-4xl italic text-white/10 mb-4">Bloom</div>
+            <p className="text-[10px] text-white/10 uppercase tracking-[0.5em] italic">Neural Materialization © 2026</p>
          </div>
       </footer>
     </div>
