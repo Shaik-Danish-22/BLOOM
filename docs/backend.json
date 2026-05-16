@@ -1,0 +1,29 @@
+
+{
+  "entities": {
+    "StartupWorkspace": {
+      "title": "Startup Workspace",
+      "description": "The central repository for a user's startup materialization session.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "rawPrompt": { "type": "string" },
+        "enhancedPrompt": { "type": "string" },
+        "status": { "type": "string", "enum": ["prompting", "enhanced", "researched", "designing", "completed"] },
+        "selectedPath": { "type": "string", "enum": ["research", "design"] },
+        "theme": { "type": "string", "enum": ["dark", "light"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "rawPrompt", "status"]
+    }
+  },
+  "auth": {
+    "providers": ["google.com"]
+  },
+  "firestore": {
+    "/workspaces/{workspaceId}": {
+      "schema": "#/entities/StartupWorkspace",
+      "description": "User startup materialization sessions."
+    }
+  }
+}
