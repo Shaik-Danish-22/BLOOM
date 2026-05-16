@@ -52,9 +52,20 @@ export default function GeneratePage() {
       
       {/* SISSOR CLIMBING SIMULATION */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-         <div className="w-[800px] h-[600px] opacity-80">
+         <motion.div 
+           animate={{
+             y: [0, -10, 0],
+             rotate: [-1, 1, -1]
+           }}
+           transition={{
+             duration: 2,
+             repeat: Infinity,
+             ease: "easeInOut"
+           }}
+           className="w-[800px] h-[800px] opacity-80 scale-110"
+         >
             <InteractiveRobotSpline scene={SISSOR_SCENE} className="w-full h-full" />
-         </div>
+         </motion.div>
       </div>
 
       <div className="absolute bottom-32 w-full max-w-2xl px-12 z-50">

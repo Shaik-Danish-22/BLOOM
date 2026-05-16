@@ -22,7 +22,8 @@ import {
   Search,
   Code,
   Globe,
-  Maximize2
+  Maximize2,
+  Palette
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BackgroundEffects } from "@/components/cinematic/BackgroundEffects";
@@ -74,7 +75,7 @@ export default function BuilderPage() {
       <ShaderBackground />
       
       {/* SIDEBAR: NEURAL ORCHESTRATOR */}
-      <aside className="w-[520px] border-r border-white/5 bg-black/40 backdrop-blur-3xl flex flex-col z-10">
+      <aside className="w-[480px] border-r border-white/5 bg-black/40 backdrop-blur-3xl flex flex-col z-10">
         <header className="p-8 border-b border-white/5 flex items-center justify-between">
            <button onClick={() => router.push('/workspace')} className="p-3 rounded-2xl hover:bg-white/5 transition-all group border border-white/5">
               <ArrowLeft className="w-5 h-5 text-white/40 group-hover:text-white" />
@@ -83,8 +84,8 @@ export default function BuilderPage() {
              <h3 className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/60">SISSOR CORE</h3>
              <p className="text-[8px] text-white/10 uppercase tracking-[0.3em] font-bold mt-1">Active Construction</p>
            </div>
-           <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden">
-              <InteractiveRobotSpline scene={SISSOR_SCENE} className="w-full h-full scale-150" />
+           <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden scale-110">
+              <InteractiveRobotSpline scene={SISSOR_SCENE} className="w-full h-full scale-[1.8]" />
            </div>
         </header>
 
@@ -158,7 +159,7 @@ export default function BuilderPage() {
 
       {/* MAIN VIEW: MATERIALIZATION PREVIEW */}
       <main className="flex-1 flex flex-col z-10 p-12 overflow-hidden bg-background/20 relative">
-         <div className="absolute top-0 right-0 w-full h-full opacity-5 pointer-events-none">
+         <div className="absolute top-0 right-0 w-full h-full opacity-[0.03] pointer-events-none">
             <InteractiveRobotSpline scene={SISSOR_SCENE} className="w-full h-full" />
          </div>
 

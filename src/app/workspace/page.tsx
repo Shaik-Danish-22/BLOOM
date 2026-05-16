@@ -37,6 +37,8 @@ import SilkShader from "@/components/ui/silk-shader";
 
 type Step = 'prompt' | 'enhancing' | 'refine' | 'mode-selection' | 'research' | 'design-systems' | 'materializing';
 
+const SISSOR_SCENE = "https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode";
+
 export default function WorkspacePage() {
   const router = useRouter();
   const [step, setStep] = useState<Step>('prompt');
@@ -92,7 +94,7 @@ export default function WorkspacePage() {
           <span className="text-lg font-headline italic tracking-tight">FounderOS Workspace</span>
         </div>
         <div className="flex items-center gap-4">
-           <Button variant="ghost" onClick={() => { localStorage.removeItem("siteforge_dummy_user"); router.push('/'); }} className="text-white/40 hover:text-white text-xs font-bold uppercase tracking-widest">
+           <Button variant="ghost" onClick={() => { localStorage.removeItem("siteforge_dummy_user"); router.push('/'); }} className="text-white/40 hover:text-white text-xs font-bold uppercase tracking-widest transition-colors">
              End Session
            </Button>
            <div className="w-10 h-10 rounded-full border border-white/10 bg-white/5 flex items-center justify-center relative">
@@ -122,24 +124,26 @@ export default function WorkspacePage() {
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
                     placeholder="Describe your vision in vague or specific terms..."
-                    className="relative w-full min-h-[220px] bg-black/40 border-white/10 rounded-[40px] p-10 text-xl focus:ring-1 focus:ring-white/20 transition-all backdrop-blur-3xl pr-40"
+                    className="relative w-full min-h-[220px] bg-black/40 border-white/10 rounded-[40px] p-10 text-xl focus:ring-1 focus:ring-white/20 transition-all backdrop-blur-3xl pr-40 scrollbar-hide"
                   />
                   
-                  {/* SISSOR ASSISTANT - POSITIONED BOTTOM RIGHT NEAR TEXTAREA */}
+                  {/* SISSOR ASSISTANT - INTEGRATED NEAR TEXTAREA */}
                   <div className="absolute bottom-6 right-6 flex flex-col items-end pointer-events-none z-20">
                     <motion.div 
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      className="bg-white/10 backdrop-blur-xl border border-white/10 px-4 py-2 rounded-2xl mb-2 flex items-center gap-2 pointer-events-auto shadow-2xl"
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 1 }}
+                      className="bg-white/10 backdrop-blur-3xl border border-white/10 px-5 py-3 rounded-2xl mb-4 flex items-center gap-3 pointer-events-auto shadow-2xl relative"
                     >
                       <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                      <span className="text-[10px] uppercase tracking-widest font-bold text-white/80">Hi, I'm SISSOR</span>
+                      <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-white/90">Hi, I'm SISSOR. Let's materialize.</span>
+                      <div className="absolute -bottom-2 right-8 w-4 h-4 bg-white/10 border-r border-b border-white/10 rotate-45" />
                     </motion.div>
                     
-                    <div className="w-32 h-32 overflow-hidden rounded-3xl pointer-events-auto cursor-grab active:cursor-grabbing">
+                    <div className="w-56 h-56 pointer-events-auto cursor-grab active:cursor-grabbing scale-110">
                       <InteractiveRobotSpline 
-                        scene="https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode" 
-                        className="w-full h-full scale-[2.2] translate-y-2" 
+                        scene={SISSOR_SCENE} 
+                        className="w-full h-full" 
                       />
                     </div>
                   </div>
@@ -149,20 +153,20 @@ export default function WorkspacePage() {
                   <Button 
                     onClick={handleEnhance}
                     disabled={!prompt.trim()}
-                    className="bg-white text-black hover:bg-white/90 rounded-full px-10 h-16 flex items-center gap-3 font-bold uppercase tracking-widest shadow-2xl transition-transform active:scale-95"
+                    className="bg-white text-black hover:bg-white/90 rounded-full px-12 h-16 flex items-center gap-4 font-bold uppercase tracking-widest shadow-[0_0_50px_rgba(255,255,255,0.2)] transition-transform active:scale-95"
                   >
                     <Wand2 size={20} /> Neural Enhance
                   </Button>
                 </div>
               </div>
               
-              <div className="mt-12 flex gap-8">
+              <div className="mt-16 flex gap-12">
                  {[
                    { icon: Brain, label: "Intelligence" },
                    { icon: Cpu, label: "Orchestration" },
                    { icon: Network, label: "Neural Net" }
                  ].map((item, i) => (
-                   <div key={i} className="flex items-center gap-3 opacity-20">
+                   <div key={i} className="flex items-center gap-3 opacity-20 hover:opacity-100 transition-opacity cursor-default">
                      <item.icon size={14} />
                      <span className="text-[10px] uppercase tracking-[0.3em] font-bold">{item.label}</span>
                    </div>
@@ -179,10 +183,10 @@ export default function WorkspacePage() {
               exit={{ opacity: 0 }}
               className="flex flex-col items-center justify-center h-full text-center"
             >
-              <div className="w-48 h-48 mb-12 overflow-hidden rounded-full border border-white/10 bg-white/5">
+              <div className="w-64 h-64 mb-12 pointer-events-none">
                  <InteractiveRobotSpline 
-                   scene="https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode" 
-                   className="w-full h-full scale-[1.5] translate-y-6" 
+                   scene={SISSOR_SCENE} 
+                   className="w-full h-full" 
                  />
               </div>
               <h3 className="text-4xl font-headline italic text-white mb-4">Enhancing Neural Link...</h3>
@@ -204,8 +208,8 @@ export default function WorkspacePage() {
                   <p className="text-white/40 italic">Review and refine the AI's derivation of your vision.</p>
                 </div>
                 <div className="flex gap-4">
-                  <Button variant="ghost" onClick={() => setStep('prompt')} className="text-white/20 hover:text-white">Retry</Button>
-                  <Button onClick={() => setStep('mode-selection')} className="bg-white text-black rounded-full px-10 h-14 font-bold uppercase tracking-widest shadow-xl">
+                  <Button variant="ghost" onClick={() => setStep('prompt')} className="text-white/20 hover:text-white transition-colors">Retry</Button>
+                  <Button onClick={() => setStep('mode-selection')} className="bg-white text-black rounded-full px-10 h-14 font-bold uppercase tracking-widest shadow-xl transition-transform active:scale-95">
                     Materialize <ArrowRight size={18} className="ml-2" />
                   </Button>
                 </div>
@@ -397,7 +401,6 @@ export default function WorkspacePage() {
                          </div>
                          {selectedSystem === sys.id && <motion.div layoutId="sys-check" className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-2xl"><CheckCircle2 size={22} className="text-black" /></motion.div>}
                        </div>
-                       <h4 className="text-3xl font-bold mb-4 tracking-tight">{sys.name}</h4>
                        <h4 className="text-3xl font-bold mb-4 tracking-tight">{sys.name}</h4>
                        <p className="text-sm text-white/30 leading-relaxed italic mb-10">{sys.description}</p>
                        <div className="flex flex-wrap gap-2">
