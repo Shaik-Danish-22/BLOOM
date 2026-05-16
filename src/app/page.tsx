@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -20,7 +21,6 @@ export default function AsmeLanding() {
     if (!video) return;
 
     let animationFrame: number;
-    let fadeStartTime: number | null = null;
     let isFadingOut = false;
 
     const animateFade = (target: number, duration: number, callback?: () => void) => {
@@ -98,7 +98,7 @@ export default function AsmeLanding() {
           <div className="liquid-glass rounded-full max-w-5xl mx-auto px-6 py-3 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Globe size={24} className="text-white" />
-              <span className="text-white font-semibold text-lg tracking-tight">Asme</span>
+              <span className="text-white font-semibold text-lg tracking-tight">Bloom</span>
               <div className="hidden md:flex items-center gap-8 ml-8">
                 {["Features", "Pricing", "About"].map(link => (
                   <a key={link} href="#" className="text-white/80 hover:text-white text-sm font-medium transition-colors">
@@ -185,10 +185,11 @@ export default function AsmeLanding() {
       {/* FINAL FOOTER */}
       <footer className="bg-black py-20 border-t border-white/5 text-center">
          <div className="max-w-5xl mx-auto px-6">
-            <div className="font-serif text-4xl italic text-white/20 mb-4">Asme</div>
+            <div className="font-serif text-4xl italic text-white/20 mb-4">Bloom</div>
             <p className="text-xs text-white/10 uppercase tracking-widest">Neural Materialization © 2026</p>
          </div>
       </footer>
     </div>
   );
 }
+
