@@ -2,13 +2,18 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { StartupIdeaOutput } from "@/ai/flows/generate-startup-idea";
 
 export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
   const [stage, setStage] = useState<"wireframe" | "layout" | "content" | "final">("wireframe");
+  const [startupData, setStartupData] = useState<StartupIdeaOutput | null>(null);
 
   useEffect(() => {
+    const stored = localStorage.getItem("latest_startup");
+    if (stored) setStartupData(JSON.parse(stored));
+
     if (!isVisible) return;
     const timers = [
       setTimeout(() => setStage("layout"), 1000),
@@ -18,7 +23,10 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
     return () => timers.forEach(clearTimeout);
   }, [isVisible]);
 
-  if (!isVisible) return null;
+  if (!isVisible || !startupData) return null;
+
+  const heroSection = startupData.websiteContent.sections.find(s => s.type === 'hero');
+  const featuresSection = startupData.websiteContent.sections.find(s => s.type === 'features');
 
   return (
     <div className={`bg-black min-h-full transition-all duration-[3000ms] relative overflow-hidden ${
@@ -52,7 +60,7 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
             <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center">
                <div className="w-2.5 h-2.5 rounded-full bg-white animate-pulse" />
             </div>
-            NEURAL STARTUP
+            {startupData.forgeBrandArchitect.companyName.toUpperCase()}
          </div>
          <div className="flex gap-16 text-[10px] uppercase tracking-[0.8em] font-bold text-white/20">
             {['VISION', 'TECH', 'LINK'].map(item => (
@@ -85,18 +93,18 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
               initial={{ opacity: 0, y: 100 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1, duration: 2.5 }}
-              className="text-[14rem] font-headline italic leading-[0.7] tracking-tighter text-white"
+              className="text-[12rem] font-headline italic leading-[0.8] tracking-tighter text-white"
             >
-              Neural <br /> <em className="not-italic text-white/5 italic">Materialized.</em>
+              {heroSection?.title || "Neural Materialized"}
             </motion.h2>
 
             <motion.p 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 2, duration: 3 }}
-              className="text-5xl text-white/20 max-w-6xl mx-auto font-light leading-relaxed italic"
+              className="text-4xl text-white/20 max-w-6xl mx-auto font-light leading-relaxed italic"
             >
-              Constructing industrial intelligence through predictive logistics and neural node orchestration.
+              {heroSection?.subtitle || startupData.forgeBrandArchitect.tagline}
             </motion.p>
          </div>
 
@@ -107,15 +115,37 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
            className="flex justify-center pt-20"
          >
            <Button className="bg-white text-black px-32 h-28 rounded-full font-bold text-3xl hover:scale-105 transition-all shadow-[0_0_120px_white]">
-              Initialize <ArrowRight className="ml-8 w-12 h-12" />
+              Launch Prototype <ArrowRight className="ml-8 w-12 h-12" />
            </Button>
          </motion.div>
       </section>
 
+      {/* FEATURES SECTION */}
+      {featuresSection && (
+        <section className="px-24 py-40 border-t border-white/5 bg-black/40">
+           <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-24">
+              <div className="space-y-12">
+                 <h3 className="text-7xl font-headline italic tracking-tighter">{featuresSection.title}</h3>
+                 <p className="text-2xl text-white/40 font-light italic">{featuresSection.subtitle}</p>
+              </div>
+              <div className="grid grid-cols-1 gap-12">
+                 {featuresSection.items?.map((item, i) => (
+                   <div key={i} className="p-12 rounded-[40px] border border-white/5 bg-white/[0.02] flex items-start gap-8 group hover:border-white/20 transition-all">
+                      <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center shrink-0">
+                         <CheckCircle2 className="text-white/20 group-hover:text-white transition-colors" />
+                      </div>
+                      <p className="text-2xl font-light italic text-white/60 group-hover:text-white transition-colors">{item}</p>
+                   </div>
+                 ))}
+              </div>
+           </div>
+        </section>
+      )}
+
       {/* FOOTER */}
       <footer className="p-40 border-t border-white/5 text-center bg-white/[0.01]">
          <div className="text-[12px] font-bold uppercase tracking-[2em] text-white/5 mb-8">FounderOS Intelligence v2.5 Stable</div>
-         <p className="text-[10px] text-white/10 uppercase tracking-[1em] italic">Neural Construct - Materialized with SISSOR</p>
+         <p className="text-[10px] text-white/10 uppercase tracking-[1em] italic">Neural Construct - Materialized with SCISSOR</p>
       </footer>
     </div>
   );

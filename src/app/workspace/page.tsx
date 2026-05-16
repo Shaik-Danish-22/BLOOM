@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -75,6 +74,7 @@ export default function WorkspacePage() {
       setEnhancedData(data);
       setStep('refine');
     } catch (e) {
+      console.error("Enhance failed", e);
       setStep('prompt');
     }
   };
@@ -95,12 +95,23 @@ export default function WorkspacePage() {
     }
   };
 
+  const handleMaterializeClick = () => {
+    // Save current session context
+    const sessionContext = {
+      prompt,
+      enhancedData,
+      oracleData,
+      selectedSystem
+    };
+    localStorage.setItem("materialization_context", JSON.stringify(sessionContext));
+    router.push('/generate');
+  };
+
   return (
     <div className="relative min-h-screen bg-black text-white selection:bg-white/20 overflow-hidden font-body">
       <BackgroundEffects />
       <ShaderBackground />
 
-      {/* HEADER */}
       <nav className="fixed top-0 left-0 right-0 z-50 p-6 flex justify-between items-center backdrop-blur-md border-b border-white/5 bg-black/40">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center">
@@ -119,7 +130,7 @@ export default function WorkspacePage() {
         </div>
       </nav>
 
-      <main className="pt-24 px-6 max-w-7xl mx-auto h-[calc(100vh-80px)] overflow-y-auto scrollbar-hide pb-20">
+      <main className="pt-24 px-6 max-w-7xl mx-auto h-[calc(100vh-80px)] overflow-y-auto no-scrollbar pb-20">
         <AnimatePresence mode="wait">
           {step === 'prompt' && (
             <motion.div 
@@ -127,9 +138,9 @@ export default function WorkspacePage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.98 }}
-              className="flex flex-col min-h-[70vh] relative"
+              className="flex flex-col min-h-[70vh] relative pt-12"
             >
-              <div className="mb-12 text-left max-w-4xl relative z-30">
+              <div className="mb-8 text-left max-w-4xl relative z-30">
                 <h2 className="text-6xl md:text-8xl font-headline italic tracking-tighter leading-tight mb-4 text-white/95">
                   What are we <br />
                   <em className="not-italic text-white/5 italic">materializing?</em>
@@ -140,34 +151,34 @@ export default function WorkspacePage() {
               <div className="w-full relative max-w-5xl">
                 <div className="absolute -inset-1 bg-white/5 blur-2xl rounded-[48px]" />
                 
-                <div className="relative overflow-hidden rounded-[48px] bg-black/40 border border-white/10 backdrop-blur-3xl">
+                <div className="relative overflow-hidden rounded-[48px] bg-black/40 border border-white/10 backdrop-blur-3xl min-h-[420px]">
                   <Textarea 
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
                     placeholder="Describe your vision (e.g., Luxury AI coffee for developers)..."
-                    className="w-full min-h-[420px] bg-transparent border-none p-12 text-2xl focus:ring-0 focus-visible:ring-0 transition-all pr-80 scrollbar-hide"
+                    className="w-full min-h-[420px] bg-transparent border-none p-12 text-2xl focus:ring-0 focus-visible:ring-0 transition-all pr-80 no-scrollbar"
                   />
                   
-                  {/* SCISSOR ASSISTANT: REFINED CONTAINMENT */}
-                  <div className="absolute bottom-4 right-4 flex flex-col items-end pointer-events-none z-20">
+                  {/* SISSOR ASSISTANT: PERFECTLY FITTED */}
+                  <div className="absolute bottom-6 right-6 flex flex-col items-end pointer-events-none z-20">
                     <AnimatePresence mode="wait">
                       <motion.div 
                         key={currentTalk}
-                        initial={{ opacity: 0, scale: 0.8, x: 20 }}
-                        animate={{ opacity: 1, scale: 1, x: 0 }}
-                        exit={{ opacity: 0, scale: 0.8, x: 20 }}
-                        className="bg-white/10 backdrop-blur-3xl border border-white/10 px-6 py-3 rounded-2xl mb-2 flex items-center gap-3 pointer-events-auto shadow-2xl relative max-w-[280px]"
+                        initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.8, y: 20 }}
+                        className="bg-white/10 backdrop-blur-3xl border border-white/10 px-6 py-3 rounded-2xl mb-4 flex items-center gap-3 pointer-events-auto shadow-2xl relative max-w-[280px]"
                       >
                         <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shrink-0" />
                         <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-white/90 leading-tight">
                           {SCISSOR_TALKS[currentTalk]}
                         </span>
-                        <div className="absolute -bottom-1 right-16 w-3 h-3 bg-white/10 border-r border-b border-white/10 rotate-45" />
+                        <div className="absolute -bottom-1 right-8 w-3 h-3 bg-white/10 border-r border-b border-white/10 rotate-45" />
                       </motion.div>
                     </AnimatePresence>
                     
-                    <div className="w-64 h-64 pointer-events-auto overflow-hidden relative flex items-center justify-center rounded-3xl">
-                      <div className="absolute inset-0 h-[115%] w-full">
+                    <div className="w-48 h-64 overflow-hidden relative flex items-center justify-center pointer-events-auto">
+                      <div className="absolute inset-0 h-[120%] w-full">
                         <InteractiveRobotSpline 
                           scene={SCISSOR_SCENE} 
                           className="w-full h-full scale-[1.0] translate-y-2" 
@@ -227,7 +238,7 @@ export default function WorkspacePage() {
                 <div className="flex gap-6">
                   <Button variant="ghost" onClick={() => setStep('prompt')} className="text-white/20 hover:text-white transition-colors h-16 px-10 border border-white/5 rounded-2xl">Retry Link</Button>
                   <Button onClick={() => setStep('mode-selection')} className="bg-white text-black rounded-full px-16 h-16 font-bold uppercase tracking-widest shadow-2xl transition-all active:scale-95 hover:scale-105">
-                    Materialize <ArrowRight size={20} className="ml-4" />
+                    Continue <ArrowRight size={20} className="ml-4" />
                   </Button>
                 </div>
               </header>
@@ -241,7 +252,7 @@ export default function WorkspacePage() {
                    <Textarea 
                      value={enhancedData?.professionalBrief}
                      onChange={(e) => setEnhancedData({...enhancedData, professionalBrief: e.target.value})}
-                     className="bg-transparent border-none p-0 text-4xl leading-[1.3] italic text-white/80 resize-none min-h-[500px] focus-visible:ring-0 scrollbar-hide"
+                     className="bg-transparent border-none p-0 text-4xl leading-[1.3] italic text-white/80 resize-none min-h-[500px] focus-visible:ring-0 no-scrollbar"
                    />
                 </Card>
 
@@ -438,7 +449,7 @@ export default function WorkspacePage() {
                   ))}
                </div>
                <div className="flex justify-center">
-                  <Button onClick={() => router.push('/generate')} className="bg-white text-black rounded-full px-48 h-32 text-4xl font-bold uppercase tracking-[0.4em] shadow-[0_0_150px_rgba(255,255,255,0.3)] hover:scale-105 transition-all active:scale-95">
+                  <Button onClick={handleMaterializeClick} className="bg-white text-black rounded-full px-48 h-32 text-4xl font-bold uppercase tracking-[0.4em] shadow-[0_0_150px_rgba(255,255,255,0.3)] hover:scale-105 transition-all active:scale-95">
                     Materialize Vision
                   </Button>
                </div>

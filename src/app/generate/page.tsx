@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -6,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { BackgroundEffects } from "@/components/cinematic/BackgroundEffects";
 import { motion, AnimatePresence } from "framer-motion";
 import { InteractiveRobotSpline } from "@/components/ui/interactive-3d-robot";
-import { Entropy } from "@/components/ui/entropy";
 import { Brain, Cpu, Database, Network, Search, Zap, Code, Shield, Layers } from "lucide-react";
+import { generateStartupIdea } from "@/ai/flows/generate-startup-idea";
 
 const SCISSOR_SCENE = "https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode";
 
@@ -37,6 +36,28 @@ export default function GeneratePage() {
   ];
 
   useEffect(() => {
+    // Neural materialization flow
+    const materialize = async () => {
+      const stored = localStorage.getItem("materialization_context");
+      if (!stored) {
+        router.push("/workspace");
+        return;
+      }
+      const context = JSON.parse(stored);
+      
+      try {
+        const result = await generateStartupIdea({
+          startupIdea: context.prompt,
+          designDNA: context.enhancedData?.designDNA
+        });
+        localStorage.setItem("latest_startup", JSON.stringify(result));
+      } catch (e) {
+        console.error("Materialization failed", e);
+      }
+    };
+
+    materialize();
+
     const timer = setInterval(() => {
       setProgress(prev => {
         if (prev >= 100) {
@@ -44,7 +65,7 @@ export default function GeneratePage() {
           setTimeout(() => router.push("/builder"), 1000);
           return 100;
         }
-        return prev + 0.4;
+        return prev + 0.3;
       });
     }, 40);
 
@@ -108,7 +129,7 @@ export default function GeneratePage() {
          <div className="flex justify-between items-end mb-8">
             <div className="space-y-3">
                <h3 className="text-[12px] uppercase tracking-[0.5em] font-bold text-white/30">Neural Sequence Active</h3>
-               <p className="text-2xl font-headline italic text-white/90">SISSOR is assembling your network...</p>
+               <p className="text-2xl font-headline italic text-white/90">SCISSOR is assembling your network...</p>
             </div>
             <span className="text-6xl font-headline italic">{Math.floor(progress)}%</span>
          </div>
