@@ -22,7 +22,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useUser, useFirestore } from "@/firebase";
-import { collection, addDoc, query, where, getDocs, orderBy, limit } from "firebase/firestore";
 import { enhancePrompt } from "@/ai/flows/enhance-prompt";
 import { generateStartupIdea } from "@/ai/flows/generate-startup-idea";
 import { BackgroundEffects } from "@/components/cinematic/BackgroundEffects";
@@ -35,18 +34,17 @@ type Step = 'prompt' | 'enhancing' | 'path-selection' | 'research' | 'design-sel
 
 export default function WorkspacePage() {
   const { user } = useUser();
-  const db = useFirestore();
   const router = useRouter();
   const [step, setStep] = useState<Step>('prompt');
   const [prompt, setPrompt] = useState("");
   const [enhancedData, setEnhancedData] = useState<any>(null);
-  const [startupData, setStartupData] = useState<any>(null);
   const [selectedTheme, setSelectedTheme] = useState<'dark' | 'light'>('dark');
   const [viewMode, setViewMode] = useState<'preview' | 'code'>('preview');
 
-  // Guard: Redirect if not logged in
+  // Dummy Auth Check
   useEffect(() => {
-    if (!user) router.push('/');
+    const isMockAuth = localStorage.getItem("siteforge_dummy_user");
+    if (!isMockAuth && !user) router.push('/');
   }, [user, router]);
 
   const handleEnhance = async () => {
@@ -62,20 +60,15 @@ export default function WorkspacePage() {
     }
   };
 
-  const handleStartDesign = async () => {
+  const handleStartDesign = () => {
     setStep('design-selection');
   };
 
-  const handleExecution = async () => {
-    setStep('enhancing'); // Reuse loading state
-    try {
-      const data = await generateStartupIdea({ startupIdea: enhancedData.professionalBrief });
-      setStartupData(data);
+  const handleExecution = () => {
+    setStep('enhancing'); // Loading feel
+    setTimeout(() => {
       setStep('execution');
-    } catch (e) {
-      console.error(e);
-      setStep('design-selection');
-    }
+    }, 2000);
   };
 
   return (
@@ -91,19 +84,17 @@ export default function WorkspacePage() {
           <span className="text-lg font-headline italic tracking-tight">Siteforge Workspace</span>
         </div>
         <div className="flex items-center gap-4">
-          <div className="text-right hidden sm:block">
-            <p className="text-[10px] text-white/40 uppercase font-bold">Session Active</p>
-            <p className="text-xs">{user?.displayName}</p>
-          </div>
-          <div className="w-10 h-10 rounded-full border border-white/10 bg-white/5 overflow-hidden">
-            <img src={user?.photoURL || ""} alt="Avatar" className="w-full h-full object-cover" />
-          </div>
+           <Button variant="ghost" onClick={() => { localStorage.removeItem("siteforge_dummy_user"); router.push('/'); }} className="text-white/40 hover:text-white text-xs font-bold uppercase tracking-widest">
+             Logout
+           </Button>
+           <div className="w-10 h-10 rounded-full border border-white/10 bg-white/5 flex items-center justify-center">
+              <Zap size={18} className="text-white/40" />
+           </div>
         </div>
       </nav>
 
       <main className="pt-32 px-6 max-w-7xl mx-auto h-[calc(100vh-80px)]">
         <AnimatePresence mode="wait">
-          {/* STEP 1: PROMPT */}
           {step === 'prompt' && (
             <motion.div 
               key="prompt"
@@ -131,7 +122,6 @@ export default function WorkspacePage() {
             </motion.div>
           )}
 
-          {/* STEP 2: LOADING / ENHANCING */}
           {step === 'enhancing' && (
             <motion.div 
               key="enhancing"
@@ -156,7 +146,6 @@ export default function WorkspacePage() {
             </motion.div>
           )}
 
-          {/* STEP 3: PATH SELECTION */}
           {step === 'path-selection' && (
             <motion.div 
               key="path"
@@ -171,7 +160,7 @@ export default function WorkspacePage() {
                 <div className="flex justify-between items-end">
                   <div>
                     <h2 className="text-4xl font-headline italic leading-none">{enhancedData?.suggestedName}</h2>
-                    <p className="text-white/40 mt-2">Enhanced Prompt: <span className="text-white/80">{enhancedData?.coreConcept}</span></p>
+                    <p className="text-white/40 mt-2">Core Concept: <span className="text-white/80">{enhancedData?.coreConcept}</span></p>
                   </div>
                 </div>
               </header>
@@ -212,7 +201,6 @@ export default function WorkspacePage() {
             </motion.div>
           )}
 
-          {/* STEP 4: RESEARCH (ORACLE) */}
           {step === 'research' && (
             <motion.div key="oracle" className="h-full">
               <Button variant="ghost" onClick={() => setStep('path-selection')} className="mb-12 text-white/40 hover:text-white">
@@ -229,11 +217,11 @@ export default function WorkspacePage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="p-8 rounded-[32px] border border-white/5 bg-white/[0.02]">
                       <h4 className="font-bold mb-4">Market Potential</h4>
-                      <p className="text-sm text-white/40 leading-relaxed">The AI has identified a significant TAM in the specialized niche. Growth trajectory is estimated at 24% CAGR over next 5 years.</p>
+                      <p className="text-sm text-white/40 leading-relaxed">The AI has identified a significant TAM. Growth trajectory is estimated at 24% CAGR over next 5 years.</p>
                     </div>
                     <div className="p-8 rounded-[32px] border border-white/5 bg-white/[0.02]">
                       <h4 className="font-bold mb-4">Investor Verdict</h4>
-                      <p className="text-sm text-white/40 leading-relaxed">Highly Investable. Moat is strong due to the specific technical synergy and unique brand positioning.</p>
+                      <p className="text-sm text-white/40 leading-relaxed">Highly Investable. Moat is strong due to unique technical synergy.</p>
                     </div>
                   </div>
                 </div>
@@ -247,7 +235,6 @@ export default function WorkspacePage() {
             </motion.div>
           )}
 
-          {/* STEP 5: DESIGN SELECTION */}
           {step === 'design-selection' && (
             <motion.div key="design" className="flex flex-col items-center justify-center h-full max-w-4xl mx-auto">
               <h2 className="text-5xl font-headline italic mb-16">Choose your <em className="not-italic text-white/20">aesthetic</em></h2>
@@ -277,7 +264,6 @@ export default function WorkspacePage() {
             </motion.div>
           )}
 
-          {/* STEP 6: EXECUTION (THE BUILDER) */}
           {step === 'execution' && (
             <motion.div key="execution" className="flex flex-col h-full -mx-6">
               <header className="px-12 py-4 border-b border-white/5 flex justify-between items-center bg-black/40 backdrop-blur-3xl">
@@ -288,7 +274,7 @@ export default function WorkspacePage() {
                   <div className="flex items-center gap-2">
                     <div className={`w-2 h-2 rounded-full animate-pulse ${viewMode === 'preview' ? 'bg-green-500' : 'bg-blue-500'}`} />
                     <span className="text-[10px] uppercase tracking-widest font-bold opacity-50">
-                      {viewMode === 'preview' ? 'Live Canvas Rendering' : 'Source Protocol Active'}
+                      Rendering {enhancedData?.suggestedName}
                     </span>
                   </div>
                 </div>
@@ -316,35 +302,20 @@ export default function WorkspacePage() {
               </header>
 
               <div className="flex-1 flex overflow-hidden">
-                {/* SIDEBAR: NEURAL AGENTS */}
                 <aside className="w-[380px] border-r border-white/5 bg-black/20 flex flex-col p-8 overflow-y-auto">
                    <div className="space-y-8">
                       <div className="space-y-4">
                         <div className="flex items-center gap-2">
                           <Zap size={14} className="text-white/40" />
-                          <h5 className="text-[10px] uppercase tracking-widest font-bold text-white/40">Active Agents</h5>
+                          <h5 className="text-[10px] uppercase tracking-widest font-bold text-white/40">FounderOS Chat</h5>
                         </div>
-                        <div className="space-y-2">
-                           {['CEO', 'FORGE', 'ATLAS'].map((agent) => (
-                             <div key={agent} className="flex items-center justify-between p-4 rounded-2xl border border-white/5 bg-white/[0.02]">
-                                <span className="text-xs font-bold">{agent}</span>
-                                <div className="flex gap-1">
-                                   <div className="w-1 h-1 bg-green-500 rounded-full animate-pulse" />
-                                   <div className="w-1 h-1 bg-green-500 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }} />
-                                </div>
-                             </div>
-                           ))}
+                        <div className="p-6 rounded-[28px] border border-white/5 bg-white/[0.01] text-xs leading-relaxed italic text-white/60">
+                          "I've identified the core essence of {enhancedData?.suggestedName}. We are materializing a high-density bento grid with obsidian gradients to project technical authority."
                         </div>
                       </div>
 
                       <div className="space-y-4">
-                        <h5 className="text-[10px] uppercase tracking-widest font-bold text-white/40">Neural Chat</h5>
-                        <div className="p-6 rounded-[28px] border border-white/5 bg-white/[0.01] text-xs leading-relaxed italic text-white/60">
-                          "FounderOS has identified the core friction points. We are materializing a high-density bento grid with obsidian gradients to project technical authority."
-                        </div>
-                      </div>
-
-                      <div className="mt-auto space-y-4">
+                        <h5 className="text-[10px] uppercase tracking-widest font-bold text-white/40">Refine Vision</h5>
                         <div className="relative">
                            <input 
                              placeholder="Select area to refine..." 
@@ -355,7 +326,6 @@ export default function WorkspacePage() {
                    </div>
                 </aside>
 
-                {/* CANVAS */}
                 <div className="flex-1 bg-zinc-950 p-12 overflow-y-auto">
                    <div className={`mx-auto max-w-5xl rounded-[40px] border border-white/5 shadow-2xl overflow-hidden min-h-[1200px] ${selectedTheme === 'light' ? 'bg-white text-black' : 'bg-black text-white'}`}>
                       {viewMode === 'preview' ? (
