@@ -3,13 +3,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
-import { Globe, ArrowRight, Instagram, Twitter } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+import { Globe, ArrowRight } from "lucide-react";
 import { AboutSection } from "@/components/landing/AboutSection";
 import { FeaturedVideoSection } from "@/components/landing/FeaturedVideoSection";
 import { PhilosophySection } from "@/components/landing/PhilosophySection";
 import { ServicesSection } from "@/components/landing/ServicesSection";
+import { PricingSection } from "@/components/landing/PricingSection";
 
 export default function AsmeLanding() {
   const router = useRouter();
@@ -80,8 +80,13 @@ export default function AsmeLanding() {
     router.push('/workspace');
   };
 
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
-    <div className="bg-black min-h-screen selection:bg-white/20">
+    <div className="bg-black min-h-screen selection:bg-white/20 scroll-smooth">
       {/* SECTION 1 -- HERO */}
       <section className="min-h-screen relative flex flex-col overflow-hidden">
         <video
@@ -100,18 +105,22 @@ export default function AsmeLanding() {
               <Globe size={24} className="text-white" />
               <span className="text-white font-semibold text-lg tracking-tight">Bloom</span>
               <div className="hidden md:flex items-center gap-8 ml-8">
-                {["Features", "Pricing", "About"].map(link => (
-                  <a key={link} href="#" className="text-white/80 hover:text-white text-sm font-medium transition-colors">
-                    {link}
-                  </a>
-                ))}
+                <button onClick={() => scrollTo('features')} className="text-white/80 hover:text-white text-sm font-medium transition-colors">
+                  Features
+                </button>
+                <button onClick={() => scrollTo('pricing')} className="text-white/80 hover:text-white text-sm font-medium transition-colors">
+                  Pricing
+                </button>
+                <button onClick={() => scrollTo('about')} className="text-white/80 hover:text-white text-sm font-medium transition-colors">
+                  About
+                </button>
               </div>
             </div>
             <div className="flex items-center gap-4">
-              <button className="text-white text-sm font-medium hover:text-white/80 transition-colors">
+              <button onClick={() => router.push('/signup')} className="text-white text-sm font-medium hover:text-white/80 transition-colors">
                 Sign Up
               </button>
-              <button className="liquid-glass rounded-full px-6 py-2 text-white text-sm font-medium hover:bg-white/5 transition-all">
+              <button onClick={() => router.push('/login')} className="liquid-glass rounded-full px-6 py-2 text-white text-sm font-medium hover:bg-white/5 transition-all">
                 Login
               </button>
             </div>
@@ -165,22 +174,14 @@ export default function AsmeLanding() {
             </button>
           </motion.div>
         </div>
-
-        {/* Social Icons Footer */}
-        <div className="relative z-10 flex justify-center gap-4 pb-12">
-          {[Instagram, Twitter, Globe].map((Icon, i) => (
-            <button key={i} className="liquid-glass rounded-full p-4 text-white/80 hover:text-white hover:bg-white/5 transition-all">
-              <Icon size={20} />
-            </button>
-          ))}
-        </div>
       </section>
 
       {/* ADDITIONAL SECTIONS */}
-      <AboutSection />
+      <div id="about"><AboutSection /></div>
       <FeaturedVideoSection />
       <PhilosophySection />
-      <ServicesSection />
+      <div id="features"><ServicesSection /></div>
+      <div id="pricing"><PricingSection /></div>
       
       {/* FINAL FOOTER */}
       <footer className="bg-black py-20 border-t border-white/5 text-center">
