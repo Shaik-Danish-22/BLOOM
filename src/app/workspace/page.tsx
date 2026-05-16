@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -180,10 +179,10 @@ export default function WorkspacePage() {
                     </AnimatePresence>
                     
                     <div className="w-64 h-80 overflow-hidden relative flex items-center justify-center pointer-events-auto">
-                      <div className="absolute inset-0 h-[110%] w-full">
+                      <div className="absolute inset-0 h-[120%] w-full">
                         <InteractiveRobotSpline 
                           scene={SCISSOR_SCENE} 
-                          className="w-full h-full scale-[1.05] translate-y-6" 
+                          className="w-full h-full scale-[1.1] translate-y-4" 
                         />
                       </div>
                     </div>
@@ -213,10 +212,10 @@ export default function WorkspacePage() {
               className="flex flex-col items-center justify-center h-full min-h-[60vh] text-center"
             >
               <div className="w-80 h-96 mb-16 pointer-events-none relative overflow-hidden flex items-center justify-center">
-                 <div className="absolute inset-0 h-full w-full">
+                 <div className="absolute inset-0 h-[120%] w-full">
                    <InteractiveRobotSpline 
                      scene={SCISSOR_SCENE} 
-                     className="w-full h-full scale-[1.3] translate-y-16" 
+                     className="w-full h-full scale-[1.3] translate-y-12" 
                    />
                  </div>
               </div>
@@ -364,7 +363,7 @@ export default function WorkspacePage() {
                            <div className="space-y-16">
                              <h5 className="text-[14px] uppercase tracking-[0.6em] font-bold text-white/20">Critical Risks</h5>
                              <div className="space-y-12">
-                                {oracleData?.marketRisks.map((risk: string, i: number) => (
+                                {oracleData?.marketRisks?.map((risk: string, i: number) => (
                                   <div key={i} className="flex gap-12 items-start text-2xl text-white/40 italic leading-relaxed">
                                      <AlertTriangle size={28} className="text-white/20 shrink-0 mt-1" />
                                      {risk}
@@ -375,7 +374,7 @@ export default function WorkspacePage() {
                            <div className="space-y-16">
                              <h5 className="text-[14px] uppercase tracking-[0.6em] font-bold text-white/20">Strategic Moats</h5>
                              <div className="space-y-12">
-                                {oracleData?.strategicMoats.map((moat: string, i: number) => (
+                                {oracleData?.strategicMoats?.map((moat: string, i: number) => (
                                   <div key={i} className="flex gap-12 items-start text-2xl text-white/80 italic leading-relaxed">
                                      <CheckCircle2 size={28} className="text-white/40 shrink-0 mt-1" />
                                      {moat}
@@ -390,7 +389,7 @@ export default function WorkspacePage() {
                     <section className="space-y-24">
                        <h5 className="text-[14px] uppercase tracking-[0.6em] font-bold text-white/20">Neural Scoring Metrics</h5>
                        <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
-                          {oracleData?.viabilityMetrics.map((s: any, i: number) => (
+                          {oracleData?.viabilityMetrics?.map((s: any, i: number) => (
                             <div key={i} className="p-20 rounded-[80px] border border-white/5 bg-white/[0.02] flex flex-col justify-between h-80 group hover:border-white/20 transition-all hover:bg-white/[0.04] shadow-xl">
                                <h5 className="text-[13px] uppercase tracking-[0.5em] font-bold text-white/20">{s.category}</h5>
                                <span className="text-9xl font-headline text-white/40 group-hover:text-white transition-colors">{s.score}</span>

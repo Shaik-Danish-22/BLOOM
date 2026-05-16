@@ -12,7 +12,13 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
 
   useEffect(() => {
     const stored = localStorage.getItem("latest_startup");
-    if (stored) setStartupData(JSON.parse(stored));
+    if (stored) {
+      try {
+        setStartupData(JSON.parse(stored));
+      } catch (e) {
+        console.error("Failed to parse startup data", e);
+      }
+    }
 
     if (!isVisible) return;
     const timers = [
@@ -25,8 +31,9 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
 
   if (!isVisible || !startupData) return null;
 
-  const heroSection = startupData.websiteContent.sections.find(s => s.type === 'hero');
-  const featuresSection = startupData.websiteContent.sections.find(s => s.type === 'features');
+  const sections = startupData.websiteContent?.sections || [];
+  const heroSection = sections.find(s => s.type === 'hero');
+  const featuresSection = sections.find(s => s.type === 'features');
 
   return (
     <div className={`bg-black min-h-full transition-all duration-[3000ms] relative overflow-hidden ${
@@ -60,7 +67,7 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
             <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center">
                <div className="w-2.5 h-2.5 rounded-full bg-white animate-pulse" />
             </div>
-            {startupData.forgeBrandArchitect.companyName.toUpperCase()}
+            {startupData.forgeBrandArchitect?.companyName?.toUpperCase() || "STARTUP"}
          </div>
          <div className="flex gap-16 text-[10px] uppercase tracking-[0.8em] font-bold text-white/20">
             {['VISION', 'TECH', 'LINK'].map(item => (
@@ -104,7 +111,7 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
               transition={{ delay: 2, duration: 3 }}
               className="text-4xl text-white/20 max-w-6xl mx-auto font-light leading-relaxed italic"
             >
-              {heroSection?.subtitle || startupData.forgeBrandArchitect.tagline}
+              {heroSection?.subtitle || startupData.forgeBrandArchitect?.tagline || "Visionary Startup Identity"}
             </motion.p>
          </div>
 

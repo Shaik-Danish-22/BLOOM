@@ -84,10 +84,10 @@ export default function BuilderPage() {
              <h3 className="text-[11px] font-bold uppercase tracking-[0.7em] text-white/60">NEURAL STUDIO</h3>
            </div>
            <div className="w-24 h-24 overflow-hidden relative flex items-center justify-center rounded-2xl bg-white/5 pointer-events-none">
-              <div className="absolute inset-0 h-[115%] w-full">
+              <div className="absolute inset-0 h-[120%] w-full">
                 <InteractiveRobotSpline 
                   scene={SCISSOR_SCENE} 
-                  className="w-full h-full scale-[1.6] translate-y-2" 
+                  className="w-full h-full scale-[1.1] translate-y-2" 
                 />
               </div>
            </div>

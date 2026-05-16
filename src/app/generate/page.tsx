@@ -100,10 +100,10 @@ export default function GeneratePage() {
            }}
            className="w-[800px] h-[600px] opacity-80 scale-100 relative overflow-hidden flex items-center justify-center"
          >
-            <div className="absolute inset-0 h-[115%] w-full">
+            <div className="absolute inset-0 h-[120%] w-full">
               <InteractiveRobotSpline 
                 scene={SCISSOR_SCENE} 
-                className="w-full h-full scale-[1.6] translate-y-12" 
+                className="w-full h-full scale-[1.1] translate-y-8" 
               />
             </div>
          </motion.div>

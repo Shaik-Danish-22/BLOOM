@@ -7,6 +7,30 @@ export const DEMO_STARTUP: StartupIdeaOutput = {
     tagline: "The Neural Highway for Enterprise Logistics",
     brandRationale: "NexusFlow combines 'Nexus' (connection) with 'Flow' (optimized movement). The brand uses high-contrast obsidian and radiant violet to project technical authority and future-forward efficiency."
   },
+  websiteContent: {
+    sections: [
+      {
+        id: "hero-1",
+        type: "hero",
+        title: "Autonomous Logistics for the Modern Enterprise",
+        subtitle: "Neural-driven routing that eliminates supply chain friction before it happens.",
+        content: "Experience the future of global trade with our predictive routing engine."
+      },
+      {
+        id: "feat-1",
+        type: "features",
+        title: "The Neural Advantage",
+        subtitle: "Proprietary AI systems designed for global scale.",
+        items: [
+          "Predictive Weather Integration",
+          "Real-time Port Congestion Mapping",
+          "Autonomous Cargo Correction",
+          "Enterprise-grade Security Protocols"
+        ]
+      }
+    ],
+    colorPalette: ["#000000", "#9F5CF0", "#FFFFFF"]
+  },
   sentinelAtlasMarketIntelligence: {
     marketOpportunityAnalysis: "Supply chain inefficiencies currently cost Fortune 500 companies $400B+ annually. NexusFlow leverages predictive AI to eliminate the 'last-mile' friction points in global trade.",
     tamSamSom: {
@@ -39,7 +63,6 @@ export const DEMO_STARTUP: StartupIdeaOutput = {
       type: "Usage-based through-put fees",
       justification: "Aligns costs directly with client volume, making the software an operational necessity rather than a fixed overhead."
     },
-    launchStrategy: "The 'Invisible Bridge' campaign – targeting logistics directors with localized data on their exact transit delays.",
     startupRoadmap: [
       { quarter: "Q3 2025", milestones: ["Secure Series A", "Launch Core Neural Router"] },
       { quarter: "Q4 2025", milestones: ["Expansion to EU Ports", "Predictive Weather Integration"] }
@@ -61,10 +84,15 @@ export const DEMO_STARTUP: StartupIdeaOutput = {
 export const DEMO_ORACLE_SCORE: GenerateOracleInvestorScoreOutput = {
   score: 94,
   verdict: "A rare combination of massive TAM and technical moat. NexusFlow represents the next generation of industrial intelligence. The team has identified a critical friction point in global trade that legacy players are structurally incapable of solving.",
-  subScores: [
+  marketRisks: ["Hardware integration delays", "Legacy regulatory hurdles"],
+  strategicMoats: ["Proprietary Neural Router", "High switching costs"],
+  designOpportunityInsights: ["Warmer editorial tones could differentiate from cold industrial competitors"],
+  competitorMapping: [
+    { name: "Flexport", threatLevel: "Medium", differentiationStrategy: "Predictive AI vs Human Operations" }
+  ],
+  viabilityMetrics: [
     { category: "Market Opportunity", score: 98 },
     { category: "Product Moat", score: 92 },
-    { category: "Scalability", score: 95 },
-    { category: "GTM Realism", score: 88 }
+    { category: "Scalability", score: 95 }
   ]
 };
