@@ -49,11 +49,11 @@ const StartupIdeaOutputSchema = z.object({
     })),
   }),
   compassLaunchGTM: z.object({
-    gtmStrategy: z.object({
+    gtmStrategy: {
       overview: z.string(),
       keyChannels: z.array(z.string()),
       initialLaunchPlan: z.string(),
-    }),
+    },
     pricingModel: z.object({
       type: z.string(),
       justification: z.string(),
@@ -76,25 +76,25 @@ const StartupIdeaOutputSchema = z.object({
 });
 export type StartupIdeaOutput = z.infer<typeof StartupIdeaOutputSchema>;
 
-export async function generateStartupIdea(input: StartupIdeaInput): Promise<StartupIdeaOutput> {
-  const prompt = ai.definePrompt({
-    name: 'generateStartupIdeaPrompt',
-    input: { schema: StartupIdeaInputSchema },
-    output: { schema: StartupIdeaOutputSchema },
-    prompt: `You are an elite Silicon Valley product architect.
-    Analyze this idea and design DNA:
-    
-    Idea: {{{startupIdea}}}
-    Design DNA: {{#if designDNA}}{{{json designDNA}}}{{else}}Standard Startup{{/if}}
-    
-    Generate a complete startup package. 
-    Crucially, define the "websiteContent" sections with compelling copy that reflects the design DNA. 
-    The "hero" should have a world-class headline. 
-    The "features" should list 3-4 unique selling points.
-    The "colorPalette" should be 3 HSL or HEX codes that match the brand personality.`,
-  });
+const generateStartupIdeaPrompt = ai.definePrompt({
+  name: 'generateStartupIdeaPrompt',
+  input: { schema: StartupIdeaInputSchema },
+  output: { schema: StartupIdeaOutputSchema },
+  prompt: `You are an elite Silicon Valley product architect.
+  Analyze this idea and design DNA:
+  
+  Idea: {{{startupIdea}}}
+  Design DNA: {{#if designDNA}}{{{json designDNA}}}{{else}}Standard Startup{{/if}}
+  
+  Generate a complete startup package. 
+  Crucially, define the "websiteContent" sections with compelling copy that reflects the design DNA. 
+  The "hero" should have a world-class headline. 
+  The "features" should list 3-4 unique selling points.
+  The "colorPalette" should be 3 HSL or HEX codes that match the brand personality.`,
+});
 
-  const { output } = await prompt(input);
+export async function generateStartupIdea(input: StartupIdeaInput): Promise<StartupIdeaOutput> {
+  const { output } = await generateStartupIdeaPrompt(input);
   if (!output) throw new Error('Generation failed');
   return output;
 }

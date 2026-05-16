@@ -96,7 +96,6 @@ export default function WorkspacePage() {
   };
 
   const handleMaterializeClick = () => {
-    // Save current session context
     const sessionContext = {
       prompt,
       enhancedData,
@@ -156,10 +155,9 @@ export default function WorkspacePage() {
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
                     placeholder="Describe your vision (e.g., Luxury AI coffee for developers)..."
-                    className="w-full min-h-[420px] bg-transparent border-none p-12 text-2xl focus:ring-0 focus-visible:ring-0 transition-all pr-80 no-scrollbar"
+                    className="w-full min-h-[420px] bg-transparent border-none p-12 text-2xl focus:ring-0 focus-visible:ring-0 transition-all pr-[300px] no-scrollbar"
                   />
                   
-                  {/* SISSOR ASSISTANT: PERFECTLY FITTED */}
                   <div className="absolute bottom-6 right-6 flex flex-col items-end pointer-events-none z-20">
                     <AnimatePresence mode="wait">
                       <motion.div 
@@ -177,11 +175,11 @@ export default function WorkspacePage() {
                       </motion.div>
                     </AnimatePresence>
                     
-                    <div className="w-48 h-64 overflow-hidden relative flex items-center justify-center pointer-events-auto">
-                      <div className="absolute inset-0 h-[120%] w-full">
+                    <div className="w-64 h-80 overflow-hidden relative flex items-center justify-center pointer-events-auto">
+                      <div className="absolute inset-0 h-full w-full">
                         <InteractiveRobotSpline 
                           scene={SCISSOR_SCENE} 
-                          className="w-full h-full scale-[1.0] translate-y-2" 
+                          className="w-full h-full scale-[1.6] translate-y-12" 
                         />
                       </div>
                     </div>
@@ -191,7 +189,7 @@ export default function WorkspacePage() {
                 <div className="mt-10 flex justify-start pl-6">
                   <Button 
                     onClick={handleEnhance}
-                    disabled={!prompt.trim()}
+                    disabled={!prompt.trim() || step === 'enhancing'}
                     className="bg-white text-black hover:bg-white/90 rounded-full px-16 h-20 flex items-center gap-4 font-bold uppercase tracking-[0.2em] shadow-[0_0_80px_rgba(255,255,255,0.2)] transition-all active:scale-95 hover:scale-105"
                   >
                     <Wand2 size={24} /> Neural Enhance
@@ -209,11 +207,11 @@ export default function WorkspacePage() {
               exit={{ opacity: 0 }}
               className="flex flex-col items-center justify-center h-full min-h-[60vh] text-center"
             >
-              <div className="w-80 h-64 mb-12 pointer-events-none relative overflow-hidden flex items-center justify-center">
-                 <div className="absolute inset-0 h-[120%] w-full">
+              <div className="w-80 h-96 mb-12 pointer-events-none relative overflow-hidden flex items-center justify-center">
+                 <div className="absolute inset-0 h-full w-full">
                    <InteractiveRobotSpline 
                      scene={SCISSOR_SCENE} 
-                     className="w-full h-full scale-[1.1] translate-y-4" 
+                     className="w-full h-full scale-[1.8] translate-y-16" 
                    />
                  </div>
               </div>

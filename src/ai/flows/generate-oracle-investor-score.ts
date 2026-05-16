@@ -30,22 +30,23 @@ const GenerateOracleInvestorScoreOutputSchema = z.object({
   })),
 });
 
-export async function generateOracleInvestorScore(input: z.infer<typeof GenerateOracleInvestorScoreInputSchema>) {
-  const prompt = ai.definePrompt({
-    name: 'oracleInvestorScorePrompt',
-    input: { schema: GenerateOracleInvestorScoreInputSchema },
-    output: { schema: GenerateOracleInvestorScoreOutputSchema },
-    prompt: `You are a critical YC Partner and Market Analyst. 
-    Evaluate the following startup:
-    
-    Name: {{{companyName}}}
-    Tagline: {{{tagline}}}
-    Brief: {{{valueProposition}}}
-    
-    BE HONEST. If the market is saturated, say it. This creates trust. 
-    Identify real strategic moats and provide creative insights on how they can differentiate visually.`
-  });
+const oracleInvestorScorePrompt = ai.definePrompt({
+  name: 'oracleInvestorScorePrompt',
+  input: { schema: GenerateOracleInvestorScoreInputSchema },
+  output: { schema: GenerateOracleInvestorScoreOutputSchema },
+  prompt: `You are a critical YC Partner and Market Analyst. 
+  Evaluate the following startup:
+  
+  Name: {{{companyName}}}
+  Tagline: {{{tagline}}}
+  Brief: {{{valueProposition}}}
+  
+  BE HONEST. If the market is saturated, say it. This creates trust. 
+  Identify real strategic moats and provide creative insights on how they can differentiate visually.`
+});
 
-  const { output } = await prompt(input);
-  return output!;
+export async function generateOracleInvestorScore(input: z.infer<typeof GenerateOracleInvestorScoreInputSchema>) {
+  const { output } = await oracleInvestorScorePrompt(input);
+  if (!output) throw new Error('Oracle analysis failed');
+  return output;
 }

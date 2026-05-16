@@ -29,20 +29,21 @@ const EnhancePromptOutputSchema = z.object({
   followUpQuestions: z.array(z.string()).describe('Critical questions to refine the vision.'),
 });
 
-export async function enhancePrompt(input: z.infer<typeof EnhancePromptInputSchema>) {
-  const prompt = ai.definePrompt({
-    name: 'enhancePromptPrompt',
-    input: { schema: EnhancePromptInputSchema },
-    output: { schema: EnhancePromptOutputSchema },
-    prompt: `You are an elite Silicon Valley Creative Strategist and YC Partner. 
-    Take this vague idea and derive its structured "Design DNA".
-    
-    Raw Idea: {{{rawPrompt}}}
-    
-    Infer the audience psychology and visual tier. If it's luxury, use 'luxury'. If it's a dev tool, use 'enterprise' or 'startup'. 
-    Structure your output as a professional brief that defines the 'vibe', the 'moat', and the 'user experience'.`
-  });
+const enhancePromptPrompt = ai.definePrompt({
+  name: 'enhancePromptPrompt',
+  input: { schema: EnhancePromptInputSchema },
+  output: { schema: EnhancePromptOutputSchema },
+  prompt: `You are an elite Silicon Valley Creative Strategist and YC Partner. 
+  Take this vague idea and derive its structured "Design DNA".
+  
+  Raw Idea: {{{rawPrompt}}}
+  
+  Infer the audience psychology and visual tier. If it's luxury, use 'luxury'. If it's a dev tool, use 'enterprise' or 'startup'. 
+  Structure your output as a professional brief that defines the 'vibe', the 'moat', and the 'user experience'.`
+});
 
-  const { output } = await prompt(input);
-  return output!;
+export async function enhancePrompt(input: z.infer<typeof EnhancePromptInputSchema>) {
+  const { output } = await enhancePromptPrompt(input);
+  if (!output) throw new Error('Neural enhancement failed');
+  return output;
 }
