@@ -60,7 +60,7 @@ export default function WorkspacePage() {
   const [suggestions, setSuggestions] = useState(DEFAULT_SUGGESTIONS);
 
   useEffect(() => {
-    // Dynamic Scissor Suggestions
+    // Dynamic Scissor Suggestions based on prompt length and keywords
     if (prompt.length > 50) {
       setCurrentTalk("Analyzing high-density intent. Complex vision detected.");
       setSuggestions([
@@ -129,19 +129,19 @@ export default function WorkspacePage() {
               className="flex flex-col min-h-[75vh] relative pt-8"
             >
               <div className="mb-10 text-left max-w-4xl relative z-30">
-                <h2 className="text-[64px] md:text-[84px] font-headline italic tracking-tighter leading-[0.9] mb-4 text-white">
+                <h2 className="text-5xl md:text-7xl font-headline italic tracking-tighter leading-[0.9] mb-4 text-white">
                   Design the <br />
                   <span className="text-white/10 not-italic">unseen vision.</span>
                 </h2>
               </div>
               
               <div className="w-full relative max-w-5xl">
-                <div className="relative overflow-hidden rounded-[2.5rem] bg-black/60 border border-white/10 backdrop-blur-3xl min-h-[400px]">
+                <div className="relative overflow-hidden rounded-[2.5rem] bg-black/60 border border-white/10 backdrop-blur-3xl min-h-[380px]">
                   <Textarea 
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
                     placeholder="Describe your vision (e.g., Luxury AI coffee for developers)..."
-                    className="w-full min-h-[400px] bg-transparent border-none p-12 text-2xl lg:text-3xl focus:ring-0 focus-visible:ring-0 transition-all pr-[280px] no-scrollbar placeholder:text-white/5 font-light leading-relaxed"
+                    className="w-full min-h-[380px] bg-transparent border-none p-12 text-2xl lg:text-3xl focus:ring-0 focus-visible:ring-0 transition-all pr-[260px] no-scrollbar placeholder:text-white/5 font-light leading-relaxed"
                   />
                   
                   {/* Sissor Container - Medium & Exact */}
@@ -152,7 +152,7 @@ export default function WorkspacePage() {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        className="bg-white/10 backdrop-blur-3xl border border-white/10 px-6 py-4 rounded-2xl mb-2 max-w-[240px] pointer-events-auto"
+                        className="bg-white/10 backdrop-blur-3xl border border-white/10 px-6 py-4 rounded-2xl mb-2 max-w-[220px] pointer-events-auto"
                       >
                         <span className="text-[10px] uppercase tracking-widest font-bold text-white/90 leading-tight block">
                           {currentTalk}
@@ -160,11 +160,11 @@ export default function WorkspacePage() {
                       </motion.div>
                     </AnimatePresence>
                     
-                    <div className="w-56 h-64 overflow-hidden relative pointer-events-auto rounded-3xl bg-white/[0.02] border border-white/5">
-                      <div className="absolute inset-0 h-[360px] w-full">
+                    <div className="w-52 h-60 overflow-hidden relative pointer-events-auto rounded-3xl bg-white/[0.02] border border-white/5">
+                      <div className="absolute inset-0 h-[340px] w-full">
                         <InteractiveRobotSpline 
                           scene={SCISSOR_SCENE} 
-                          className="w-full h-full scale-[0.85] translate-y-6" 
+                          className="w-full h-full scale-[0.82] translate-y-6" 
                         />
                       </div>
                     </div>
@@ -203,15 +203,15 @@ export default function WorkspacePage() {
               animate={{ opacity: 1 }}
               className="flex flex-col items-center justify-center min-h-[60vh] text-center"
             >
-              <div className="w-56 h-64 mb-10 overflow-hidden relative rounded-3xl bg-white/[0.02] border border-white/5">
-                 <div className="absolute inset-0 h-[360px] w-full">
+              <div className="w-52 h-60 mb-10 overflow-hidden relative rounded-3xl bg-white/[0.02] border border-white/5">
+                 <div className="absolute inset-0 h-[340px] w-full">
                    <InteractiveRobotSpline 
                      scene={SCISSOR_SCENE} 
-                     className="w-full h-full scale-[0.9] translate-y-6" 
+                     className="w-full h-full scale-[0.85] translate-y-6" 
                    />
                  </div>
               </div>
-              <h3 className="text-6xl font-headline italic text-white mb-4 tracking-tighter animate-pulse">Establishing DNA...</h3>
+              <h3 className="text-5xl font-headline italic text-white mb-4 tracking-tighter animate-pulse">Establishing DNA...</h3>
               <p className="text-[#DCFF00] uppercase tracking-[0.6em] text-[11px] font-bold">Neural Link v2.5 Online</p>
             </motion.div>
           )}
@@ -226,7 +226,7 @@ export default function WorkspacePage() {
               <header className="mb-12 flex justify-between items-end">
                 <div className="space-y-4">
                   <Badge className="liquid-glass text-[#DCFF00] border-none px-6 py-2 rounded-full text-[10px] tracking-widest uppercase font-bold">Neural Identity</Badge>
-                  <h2 className="text-6xl lg:text-[84px] font-headline italic tracking-tighter leading-none">The Strategy Core.</h2>
+                  <h2 className="text-5xl md:text-7xl font-headline italic tracking-tighter leading-none">The Strategy Core.</h2>
                 </div>
                 <div className="flex gap-4">
                   <Button variant="ghost" onClick={() => setStep('prompt')} className="liquid-glass h-14 px-8 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-white/40 hover:text-white">Retry Link</Button>
@@ -237,14 +237,14 @@ export default function WorkspacePage() {
               </header>
 
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <Card className="lg:col-span-2 liquid-glass-strong bg-white/[0.01] p-12 lg:p-16 rounded-[2.5rem] border-white/5 relative group">
+                <Card className="lg:col-span-2 liquid-glass-strong bg-white/[0.01] p-10 lg:p-14 rounded-[2.5rem] border-white/5 relative group">
                    <h4 className="text-[10px] uppercase tracking-widest font-bold text-white/20 mb-8 flex items-center gap-3">
                       <Target size={16} /> Strategic Brief
                    </h4>
                    <Textarea 
                      value={enhancedData?.professionalBrief}
                      onChange={(e) => setEnhancedData({...enhancedData, professionalBrief: e.target.value})}
-                     className="bg-transparent border-none p-0 text-3xl lg:text-4xl leading-tight font-headline italic text-white/80 resize-none min-h-[400px] focus-visible:ring-0 no-scrollbar"
+                     className="bg-transparent border-none p-0 text-2xl lg:text-3xl leading-tight font-headline italic text-white/80 resize-none min-h-[380px] focus-visible:ring-0 no-scrollbar"
                    />
                 </Card>
 
@@ -256,15 +256,15 @@ export default function WorkspacePage() {
                       <div className="space-y-8">
                          <div>
                             <p className="text-[10px] uppercase tracking-widest text-white/10 mb-2 font-bold">Mood</p>
-                            <p className="text-2xl font-headline italic text-white/90">{enhancedData?.designDNA?.mood}</p>
+                            <p className="text-xl font-headline italic text-white/90">{enhancedData?.designDNA?.mood}</p>
                          </div>
                          <div>
                             <p className="text-[10px] uppercase tracking-widest text-white/10 mb-2 font-bold">Motion</p>
-                            <p className="text-2xl font-headline italic text-white/90">{enhancedData?.designDNA?.motionPhilosophy}</p>
+                            <p className="text-xl font-headline italic text-white/90">{enhancedData?.designDNA?.motionPhilosophy}</p>
                          </div>
                          <div>
                             <p className="text-[10px] uppercase tracking-widest text-white/10 mb-2 font-bold">Sophistication</p>
-                            <p className="text-2xl font-headline italic text-[#DCFF00] uppercase">{enhancedData?.sophisticationLevel}</p>
+                            <p className="text-xl font-headline italic text-[#DCFF00] uppercase">{enhancedData?.sophisticationLevel}</p>
                          </div>
                       </div>
                    </Card>

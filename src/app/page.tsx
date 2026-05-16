@@ -119,12 +119,12 @@ export default function AsmeLanding() {
         </nav>
 
         {/* Hero Content */}
-        <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 text-center -translate-y-[15%]">
+        <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 text-center -translate-y-[12%]">
           <motion.h1 
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="text-7xl md:text-8xl lg:text-9xl text-white tracking-tight font-serif mb-12"
+            className="text-6xl md:text-7xl lg:text-8xl text-white tracking-tight font-serif mb-10 leading-[0.95]"
           >
             Materialize the <br /><em className="italic">unseen</em> vision.
           </motion.h1>
@@ -133,7 +133,7 @@ export default function AsmeLanding() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.4, duration: 0.8 }}
-            className="max-w-xl w-full mb-10"
+            className="max-w-xl w-full mb-8"
           >
             <div className="liquid-glass rounded-full pl-6 pr-2 py-2 flex items-center gap-3">
               <input 
@@ -151,7 +151,7 @@ export default function AsmeLanding() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 1 }}
-            className="text-white text-sm leading-relaxed px-4 max-w-lg mb-8 opacity-60"
+            className="text-white text-sm leading-relaxed px-4 max-w-lg mb-10 opacity-60"
           >
             Harness the power of neural intelligence to architect, validate, and materialize your next venture with world-class precision and creative strategy.
           </motion.p>
