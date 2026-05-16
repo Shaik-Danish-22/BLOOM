@@ -12,14 +12,14 @@ import { Brain, Cpu, Database, Network, Search, Zap, Code, Shield, Layers } from
 const SCISSOR_SCENE = "https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode";
 
 const insights = [
-  "FounderOS orchestrates high-density layout nodes in real-time.",
-  "Neural positioning sequence: Scaffolding complete.",
-  "Injecting conversion-optimized design DNA.",
-  "Stabilizing grid nodes for enterprise responsiveness.",
-  "AI creative team coordinating brand archetypes.",
-  "Materializing cinematic interaction pathways.",
-  "Training motion choreography for high-end luxury.",
-  "Validating startup hierarchy across neural clusters."
+  "Orchestrating high-density layout nodes.",
+  "Neural positioning sequence: online.",
+  "Injecting conversion-optimized DNA.",
+  "Stabilizing grid nodes for enterprise.",
+  "AI creative team coordinating brand.",
+  "Materializing cinematic interactions.",
+  "Training motion choreography.",
+  "Validating startup hierarchy."
 ];
 
 export default function GeneratePage() {
@@ -29,11 +29,11 @@ export default function GeneratePage() {
   const [stage, setStage] = useState(0);
 
   const stages = [
-    { label: "Neural Transit", icon: Network },
-    { label: "DNA Forge", icon: Brain },
-    { label: "Layout Scaffolding", icon: Layers },
-    { label: "Strategic Oracle", icon: Shield },
-    { label: "Final Materialization", icon: Zap }
+    { label: "Transit", icon: Network },
+    { label: "Forge", icon: Brain },
+    { label: "Scaffold", icon: Layers },
+    { label: "Oracle", icon: Shield },
+    { label: "Result", icon: Zap }
   ];
 
   useEffect(() => {
@@ -63,27 +63,28 @@ export default function GeneratePage() {
   }, [progress]);
 
   return (
-    <div className="relative min-h-screen bg-black flex flex-col items-center justify-center overflow-hidden font-body">
+    <div className="relative min-h-screen bg-black flex flex-col items-center justify-center overflow-hidden font-body text-white">
       <BackgroundEffects />
       
       {/* SCISSOR NEURAL TRANSIT */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
          <motion.div 
            animate={{
-             y: [0, -15, 0],
-             rotate: [-1, 1, -1]
+             y: [0, -10, 0],
            }}
            transition={{
              duration: 3,
              repeat: Infinity,
              ease: "easeInOut"
            }}
-           className="w-[1000px] h-[700px] opacity-80 scale-100 relative overflow-hidden"
+           className="w-[800px] h-[600px] opacity-80 scale-100 relative overflow-hidden flex items-center justify-center"
          >
-            <InteractiveRobotSpline 
-              scene={SCISSOR_SCENE} 
-              className="w-full h-full scale-[1.2] translate-y-16" 
-            />
+            <div className="absolute inset-0 h-[120%] w-full">
+              <InteractiveRobotSpline 
+                scene={SCISSOR_SCENE} 
+                className="w-full h-full scale-[1.0] translate-y-4" 
+              />
+            </div>
          </motion.div>
       </div>
 
@@ -106,13 +107,13 @@ export default function GeneratePage() {
       <div className="absolute bottom-32 w-full max-w-4xl px-20 z-50">
          <div className="flex justify-between items-end mb-8">
             <div className="space-y-3">
-               <h3 className="text-[12px] uppercase tracking-[0.5em] font-bold text-white/30">AI Factory Sequence Active</h3>
-               <p className="text-2xl font-headline italic text-white/90">Scissor is assembling the design neural network...</p>
+               <h3 className="text-[12px] uppercase tracking-[0.5em] font-bold text-white/30">Neural Sequence Active</h3>
+               <p className="text-2xl font-headline italic text-white/90">SISSOR is assembling your network...</p>
             </div>
             <span className="text-6xl font-headline italic">{Math.floor(progress)}%</span>
          </div>
          
-         <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden relative">
+         <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden relative">
             <motion.div 
               className="h-full bg-white shadow-[0_0_50px_white]"
               initial={{ width: 0 }}
@@ -121,39 +122,34 @@ export default function GeneratePage() {
             />
          </div>
 
-         <div className="mt-16 min-h-[80px] flex items-start gap-8">
-            <div className="w-14 h-14 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 shadow-2xl">
+         <div className="mt-12 flex items-start gap-8">
+            <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
                <AnimatePresence mode="wait">
                   <motion.div
                     key={currentInsight}
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 1.2 }}
-                    className="text-white/60"
                   >
-                    <Cpu size={28} />
+                    <Cpu size={24} className="text-white/40" />
                   </motion.div>
                </AnimatePresence>
             </div>
-            <div className="space-y-3">
-               <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-white/20">FounderOS Machine Stream</span>
+            <div className="space-y-2">
+               <span className="text-[9px] uppercase tracking-[0.4em] font-bold text-white/20">Machine Stream</span>
                <AnimatePresence mode="wait">
                   <motion.p
                     key={currentInsight}
-                    initial={{ opacity: 0, y: 15 }}
+                    initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -15 }}
-                    className="text-lg text-white/50 italic leading-relaxed tracking-tight"
+                    exit={{ opacity: 0, y: -10 }}
+                    className="text-lg text-white/50 italic"
                   >
                     {insights[currentInsight]}
                   </motion.p>
                </AnimatePresence>
             </div>
          </div>
-      </div>
-
-      <div className="fixed top-20 right-20 opacity-20 pointer-events-none">
-         <Entropy size={400} />
       </div>
     </div>
   );

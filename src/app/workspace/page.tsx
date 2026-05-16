@@ -42,13 +42,13 @@ type Step = 'prompt' | 'enhancing' | 'refine' | 'mode-selection' | 'research' | 
 const SCISSOR_SCENE = "https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode";
 
 const SCISSOR_TALKS = [
-  "FounderOS intelligence link active.",
-  "AI Agents are the new SaaS kernel.",
-  "Neural positioning sequence: online.",
-  "Bento grids are mathematically superior.",
-  "Luxury requires cinematic pacing.",
-  "Scanning for high-density layout nodes.",
-  "Design DNA derivation sequence ready."
+  "Neural link active.",
+  "Agents are ready.",
+  "Nodes online.",
+  "Bento grid ready.",
+  "Luxury enabled.",
+  "Scanning nodes.",
+  "DNA derived."
 ];
 
 export default function WorkspacePage() {
@@ -129,8 +129,8 @@ export default function WorkspacePage() {
               exit={{ opacity: 0, scale: 0.98 }}
               className="flex flex-col min-h-[70vh] relative"
             >
-              <div className="mb-8 text-left max-w-4xl">
-                <h2 className="text-5xl md:text-7xl font-headline italic tracking-tighter leading-tight mb-4 text-white/95">
+              <div className="mb-12 text-left max-w-4xl relative z-30">
+                <h2 className="text-6xl md:text-8xl font-headline italic tracking-tighter leading-tight mb-4 text-white/95">
                   What are we <br />
                   <em className="not-italic text-white/5 italic">materializing?</em>
                 </h2>
@@ -145,32 +145,34 @@ export default function WorkspacePage() {
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
                     placeholder="Describe your vision (e.g., Luxury AI coffee for developers)..."
-                    className="w-full min-h-[380px] bg-transparent border-none p-12 text-2xl focus:ring-0 focus-visible:ring-0 transition-all pr-72 scrollbar-hide"
+                    className="w-full min-h-[420px] bg-transparent border-none p-12 text-2xl focus:ring-0 focus-visible:ring-0 transition-all pr-80 scrollbar-hide"
                   />
                   
-                  {/* SCISSOR ASSISTANT */}
-                  <div className="absolute bottom-6 right-6 flex flex-col items-end pointer-events-none z-20">
+                  {/* SCISSOR ASSISTANT: REFINED CONTAINMENT */}
+                  <div className="absolute bottom-4 right-4 flex flex-col items-end pointer-events-none z-20">
                     <AnimatePresence mode="wait">
                       <motion.div 
                         key={currentTalk}
-                        initial={{ opacity: 0, y: 10, x: 20 }}
-                        animate={{ opacity: 1, y: 0, x: 0 }}
-                        exit={{ opacity: 0, y: -10, x: 20 }}
-                        className="bg-white/10 backdrop-blur-3xl border border-white/10 px-5 py-3 rounded-2xl mb-2 flex items-center gap-3 pointer-events-auto shadow-2xl relative max-w-[240px]"
+                        initial={{ opacity: 0, scale: 0.8, x: 20 }}
+                        animate={{ opacity: 1, scale: 1, x: 0 }}
+                        exit={{ opacity: 0, scale: 0.8, x: 20 }}
+                        className="bg-white/10 backdrop-blur-3xl border border-white/10 px-6 py-3 rounded-2xl mb-2 flex items-center gap-3 pointer-events-auto shadow-2xl relative max-w-[280px]"
                       >
                         <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shrink-0" />
                         <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-white/90 leading-tight">
                           {SCISSOR_TALKS[currentTalk]}
                         </span>
-                        <div className="absolute -bottom-1 right-12 w-3 h-3 bg-white/10 border-r border-b border-white/10 rotate-45" />
+                        <div className="absolute -bottom-1 right-16 w-3 h-3 bg-white/10 border-r border-b border-white/10 rotate-45" />
                       </motion.div>
                     </AnimatePresence>
                     
-                    <div className="w-44 h-36 pointer-events-auto overflow-hidden relative">
-                      <InteractiveRobotSpline 
-                        scene={SCISSOR_SCENE} 
-                        className="w-full h-full scale-[1.2] translate-y-3" 
-                      />
+                    <div className="w-64 h-64 pointer-events-auto overflow-hidden relative flex items-center justify-center rounded-3xl">
+                      <div className="absolute inset-0 h-[115%] w-full">
+                        <InteractiveRobotSpline 
+                          scene={SCISSOR_SCENE} 
+                          className="w-full h-full scale-[1.0] translate-y-2" 
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -196,11 +198,13 @@ export default function WorkspacePage() {
               exit={{ opacity: 0 }}
               className="flex flex-col items-center justify-center h-full min-h-[60vh] text-center"
             >
-              <div className="w-80 h-64 mb-12 pointer-events-none relative overflow-hidden">
-                 <InteractiveRobotSpline 
-                   scene={SCISSOR_SCENE} 
-                   className="w-full h-full scale-[1.1] translate-y-8" 
-                 />
+              <div className="w-80 h-64 mb-12 pointer-events-none relative overflow-hidden flex items-center justify-center">
+                 <div className="absolute inset-0 h-[120%] w-full">
+                   <InteractiveRobotSpline 
+                     scene={SCISSOR_SCENE} 
+                     className="w-full h-full scale-[1.1] translate-y-4" 
+                   />
+                 </div>
               </div>
               <h3 className="text-6xl font-headline italic text-white mb-6">Deriving Design DNA...</h3>
               <p className="text-white/20 uppercase tracking-[0.8em] text-[12px] font-bold animate-pulse">Positioning Neural Nodes & Visual Scaffolding</p>
