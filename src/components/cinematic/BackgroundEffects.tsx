@@ -1,52 +1,29 @@
+
 "use client";
 
 import { motion } from "framer-motion";
 
 export const BackgroundEffects = () => {
   return (
-    <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
-      <div className="absolute inset-0 premium-gradient opacity-60" />
-      
-      {/* Ambient Glows */}
+    <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden bg-black">
+      <motion.div
+        animate={{
+          scale: [1, 1.1, 1],
+          opacity: [0.3, 0.4, 0.3],
+        }}
+        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute -top-1/4 -left-1/4 w-full h-full bg-white/5 blur-[160px] rounded-full"
+      />
       <motion.div
         animate={{
           scale: [1, 1.2, 1],
-          opacity: [0.1, 0.2, 0.1],
+          opacity: [0.2, 0.3, 0.2],
         }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute -top-1/4 -left-1/4 w-full h-full bg-primary/20 blur-[120px] rounded-full"
+        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        className="absolute -bottom-1/4 -right-1/4 w-full h-full bg-white/5 blur-[160px] rounded-full"
       />
-      <motion.div
-        animate={{
-          scale: [1, 1.3, 1],
-          opacity: [0.1, 0.15, 0.1],
-        }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        className="absolute -bottom-1/4 -right-1/4 w-full h-full bg-accent/20 blur-[120px] rounded-full"
-      />
-
-      {/* Floating Particles */}
-      {[...Array(20)].map((_, i) => (
-        <motion.div
-          key={i}
-          initial={{
-            x: Math.random() * 100 + "%",
-            y: Math.random() * 100 + "%",
-            opacity: Math.random() * 0.5,
-          }}
-          animate={{
-            y: [null, "-20%", "20%"],
-            x: [null, "10%", "-10%"],
-            opacity: [0.1, 0.4, 0.1],
-          }}
-          transition={{
-            duration: 10 + Math.random() * 10,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-          className="absolute w-1 h-1 bg-primary rounded-full blur-[1px]"
-        />
-      ))}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.02),rgba(0,255,0,0.01),rgba(0,0,255,0.02))] bg-[length:100%_4px,3px_100%] pointer-events-none" />
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
     </div>
   );
 };
