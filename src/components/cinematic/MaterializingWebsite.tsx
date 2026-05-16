@@ -2,9 +2,10 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { ArrowRight, CheckCircle2, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { StartupIdeaOutput } from "@/ai/flows/generate-startup-idea";
+import Image from "next/image";
 
 export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
   const [stage, setStage] = useState<"wireframe" | "layout" | "content" | "final">("wireframe");
@@ -22,9 +23,9 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
 
     if (!isVisible) return;
     const timers = [
-      setTimeout(() => setStage("layout"), 1000),
-      setTimeout(() => setStage("content"), 2200),
-      setTimeout(() => setStage("final"), 3500),
+      setTimeout(() => setStage("layout"), 800),
+      setTimeout(() => setStage("content"), 1800),
+      setTimeout(() => setStage("final"), 2800),
     ];
     return () => timers.forEach(clearTimeout);
   }, [isVisible]);
@@ -36,19 +37,19 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
   const featuresSection = sections.find(s => s.type === 'features');
 
   return (
-    <div className={`bg-black min-h-full transition-all duration-[3000ms] relative overflow-hidden ${
-      stage === 'wireframe' ? 'grayscale opacity-10 scale-95 blur-2xl' : 
-      stage === 'layout' ? 'grayscale opacity-40 scale-100 blur-md' : ''
+    <div className={`bg-black min-h-full transition-all duration-[2000ms] relative overflow-hidden font-display ${
+      stage === 'wireframe' ? 'grayscale opacity-10 blur-xl' : 
+      stage === 'layout' ? 'grayscale opacity-40 blur-sm' : ''
     }`}>
       {/* PROGRESS HUD */}
-      <div className="absolute top-12 left-1/2 -translate-x-1/2 z-[200] flex gap-4 pointer-events-none">
-         {["SCAFFOLD", "NODE GRID", "INJECT", "RENDER"].map((s, i) => (
-           <div key={s} className={`px-6 py-2.5 rounded-full border text-[9px] uppercase tracking-[0.4em] font-bold transition-all duration-1000 ${
+      <div className="absolute top-8 left-1/2 -translate-x-1/2 z-[200] flex gap-2 pointer-events-none">
+         {["SCAFFOLD", "NODE", "INJECT", "RENDER"].map((s, i) => (
+           <div key={s} className={`px-4 py-1.5 rounded-full border text-[8px] uppercase tracking-widest font-bold transition-all duration-700 ${
              (stage === 'wireframe' && i === 0) || 
              (stage === 'layout' && i <= 1) || 
              (stage === 'content' && i <= 2) || 
              (stage === 'final' && i <= 3)
-             ? 'bg-white text-black border-white shadow-[0_0_40px_white]'
+             ? 'bg-white text-black border-white shadow-[0_0_20px_white]'
              : 'bg-black/60 text-white/10 border-white/5'
            }`}>
              {s}
@@ -58,49 +59,49 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
 
       {/* NAVBAR */}
       <motion.nav 
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.8, duration: 1.5 }}
-        className="p-12 flex justify-between items-center bg-black/40 backdrop-blur-3xl"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="p-8 lg:p-12 flex justify-between items-center bg-black/40 backdrop-blur-3xl"
       >
-         <div className="text-4xl font-headline italic tracking-tighter flex items-center gap-6">
-            <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center">
-               <div className="w-2.5 h-2.5 rounded-full bg-white animate-pulse" />
+         <div className="text-3xl font-rocket italic tracking-tighter flex items-center gap-4">
+            <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center">
+               <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
             </div>
             {startupData.forgeBrandArchitect?.companyName?.toUpperCase() || "STARTUP"}
          </div>
-         <div className="flex gap-16 text-[10px] uppercase tracking-[0.8em] font-bold text-white/20">
-            {['VISION', 'TECH', 'LINK'].map(item => (
-              <span key={item} className="hover:text-white cursor-pointer transition-colors">
-                {item}
-              </span>
-            ))}
-         </div>
+         <button className="liquid-glass w-10 h-10 rounded-full flex items-center justify-center">
+            <Menu size={18} />
+         </button>
       </motion.nav>
 
       {/* HERO SECTION */}
-      <section className="px-24 py-72 space-y-24 text-center relative min-h-screen flex flex-col items-center justify-center">
+      <section className="px-12 py-32 lg:py-56 space-y-16 text-center relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
          <motion.div 
            initial={{ opacity: 0 }}
            animate={{ opacity: stage === 'final' ? 1 : 0.05 }}
-           transition={{ duration: 4 }}
-           className="absolute top-0 left-1/2 -translate-x-1/2 w-[1600px] h-[800px] bg-white/[0.03] blur-[300px] rounded-full pointer-events-none" 
-         />
+           transition={{ duration: 3 }}
+           className="absolute inset-0 z-0 pointer-events-none"
+         >
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[600px] bg-white/[0.03] blur-[200px] rounded-full" />
+            <video autoPlay loop muted playsInline className="w-full h-full object-cover opacity-20 grayscale">
+               <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260315_073750_51473149-4350-4920-ae24-c8214286f323.mp4" type="video/mp4" />
+            </video>
+         </motion.div>
          
-         <div className="space-y-20 relative z-10">
+         <div className="space-y-10 relative z-10">
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="inline-flex items-center gap-6 px-12 py-5 rounded-full border border-white/5 bg-white/[0.02] text-[11px] uppercase tracking-[1em] font-bold text-white/30"
+              className="inline-flex items-center gap-4 px-8 py-3 rounded-full border border-white/5 bg-white/[0.02] text-[9px] uppercase tracking-widest font-bold text-white/30"
             >
-              Protocol Active
+              Neural Construct v2.5
             </motion.div>
 
             <motion.h2 
-              initial={{ opacity: 0, y: 100 }}
+              initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1, duration: 2.5 }}
-              className="text-[12rem] font-headline italic leading-[0.8] tracking-tighter text-white"
+              transition={{ delay: 0.5, duration: 1.5 }}
+              className="text-6xl lg:text-9xl font-rocket italic leading-[0.9] tracking-tighter text-white"
             >
               {heroSection?.title || "Neural Materialized"}
             </motion.h2>
@@ -108,40 +109,40 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
             <motion.p 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 2, duration: 3 }}
-              className="text-4xl text-white/20 max-w-6xl mx-auto font-light leading-relaxed italic"
+              transition={{ delay: 1, duration: 2 }}
+              className="text-xl lg:text-3xl text-white/20 max-w-4xl mx-auto font-light leading-relaxed italic"
             >
               {heroSection?.subtitle || startupData.forgeBrandArchitect?.tagline || "Visionary Startup Identity"}
             </motion.p>
          </div>
 
          <motion.div
-           initial={{ opacity: 0, y: 50 }}
+           initial={{ opacity: 0, y: 30 }}
            animate={{ opacity: 1, y: 0 }}
-           transition={{ delay: 3 }}
-           className="flex justify-center pt-20"
+           transition={{ delay: 1.5 }}
+           className="relative z-10 pt-10"
          >
-           <Button className="bg-white text-black px-32 h-28 rounded-full font-bold text-3xl hover:scale-105 transition-all shadow-[0_0_120px_white]">
-              Launch Prototype <ArrowRight className="ml-8 w-12 h-12" />
+           <Button className="liquid-glass-strong bg-white text-black px-16 h-20 rounded-full font-bold text-xl shadow-[0_0_80px_white]">
+              Explore Vision <ArrowRight className="ml-4 w-6 h-6" />
            </Button>
          </motion.div>
       </section>
 
       {/* FEATURES SECTION */}
       {featuresSection && (
-        <section className="px-24 py-40 border-t border-white/5 bg-black/40">
-           <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-24">
-              <div className="space-y-12">
-                 <h3 className="text-7xl font-headline italic tracking-tighter">{featuresSection.title}</h3>
-                 <p className="text-2xl text-white/40 font-light italic">{featuresSection.subtitle}</p>
+        <section className="px-12 py-32 border-t border-white/5 bg-black/40">
+           <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-20">
+              <div className="space-y-8">
+                 <h3 className="text-5xl lg:text-7xl font-rocket italic tracking-tighter">{featuresSection.title}</h3>
+                 <p className="text-xl text-white/30 font-light italic">{featuresSection.subtitle}</p>
               </div>
-              <div className="grid grid-cols-1 gap-12">
+              <div className="grid grid-cols-1 gap-8">
                  {featuresSection.items?.map((item, i) => (
-                   <div key={i} className="p-12 rounded-[40px] border border-white/5 bg-white/[0.02] flex items-start gap-8 group hover:border-white/20 transition-all">
-                      <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center shrink-0">
-                         <CheckCircle2 className="text-white/20 group-hover:text-white transition-colors" />
+                   <div key={i} className="liquid-glass-strong p-8 rounded-[2rem] border border-white/5 flex items-start gap-6 group hover:bg-white/[0.02] transition-all">
+                      <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center shrink-0">
+                         <CheckCircle2 size={20} className="text-white/20 group-hover:text-white transition-colors" />
                       </div>
-                      <p className="text-2xl font-light italic text-white/60 group-hover:text-white transition-colors">{item}</p>
+                      <p className="text-xl font-light italic text-white/60 group-hover:text-white transition-colors">{item}</p>
                    </div>
                  ))}
               </div>
@@ -150,9 +151,9 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
       )}
 
       {/* FOOTER */}
-      <footer className="p-40 border-t border-white/5 text-center bg-white/[0.01]">
-         <div className="text-[12px] font-bold uppercase tracking-[2em] text-white/5 mb-8">FounderOS Intelligence v2.5 Stable</div>
-         <p className="text-[10px] text-white/10 uppercase tracking-[1em] italic">Neural Construct - Materialized with SCISSOR</p>
+      <footer className="p-32 border-t border-white/5 text-center">
+         <div className="text-[10px] font-bold uppercase tracking-[1em] text-white/5 mb-6">Bloom Engine Stable</div>
+         <p className="text-[9px] text-white/10 uppercase tracking-widest italic">Materialized with SCISSOR Neural Architecture</p>
       </footer>
     </div>
   );

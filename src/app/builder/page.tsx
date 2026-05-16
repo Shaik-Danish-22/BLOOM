@@ -9,22 +9,11 @@ import {
   Smartphone, 
   Tablet, 
   Rocket, 
-  Sparkles,
-  Layers,
-  Zap,
-  Cpu,
-  Shield,
-  Layers as LayersIcon,
-  Search,
-  Code,
-  Globe,
-  Maximize2,
-  Palette,
-  Layout,
-  MousePointer2,
-  History,
+  Code, 
+  Globe, 
   Bot,
-  Wand2
+  Zap,
+  Cpu
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BackgroundEffects } from "@/components/cinematic/BackgroundEffects";
@@ -75,48 +64,42 @@ export default function BuilderPage() {
       <ShaderBackground />
       
       {/* SIDEBAR: NEURAL ORCHESTRATOR */}
-      <aside className="w-[580px] border-r border-white/5 bg-black/60 backdrop-blur-3xl flex flex-col z-10 shadow-2xl">
-        <header className="p-10 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
-           <button onClick={() => router.push('/workspace')} className="p-4 rounded-xl hover:bg-white/5 transition-all group border border-white/5 bg-black/20">
-              <ArrowLeft className="w-6 h-6 text-white/40 group-hover:text-white" />
+      <aside className="w-[480px] border-r border-white/5 bg-black/60 backdrop-blur-3xl flex flex-col z-10">
+        <header className="p-8 border-b border-white/5 flex items-center justify-between">
+           <button onClick={() => router.push('/workspace')} className="p-3 rounded-xl hover:bg-white/5 border border-white/5">
+              <ArrowLeft size={20} className="text-white/40" />
            </button>
-           <div className="text-center">
-             <h3 className="text-[11px] font-bold uppercase tracking-[0.7em] text-white/60">NEURAL STUDIO</h3>
-           </div>
-           <div className="w-24 h-24 overflow-hidden relative flex items-center justify-center rounded-2xl bg-white/5 pointer-events-none">
+           <h3 className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/40">Neural Studio</h3>
+           <div className="w-16 h-20 overflow-hidden relative rounded-xl bg-white/5">
               <div className="absolute inset-0 h-[120%] w-full">
                 <InteractiveRobotSpline 
                   scene={SCISSOR_SCENE} 
-                  className="w-full h-full scale-[1.1] translate-y-2" 
+                  className="w-full h-full scale-[1] translate-y-2" 
                 />
               </div>
            </div>
         </header>
 
-        <ScrollArea className="flex-1 p-10">
-           <div className="space-y-10">
+        <ScrollArea className="flex-1 p-8">
+           <div className="space-y-8">
              {chat.map((msg, i) => (
                <motion.div 
                  key={i} 
-                 initial={{ opacity: 0, y: 20 }}
+                 initial={{ opacity: 0, y: 10 }}
                  animate={{ opacity: 1, y: 0 }}
                  className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                >
-                 <div className="flex flex-col gap-4 max-w-[92%]">
+                 <div className="flex flex-col gap-2 max-w-[90%]">
                     {msg.agent && (
-                      <div className="flex items-center gap-3 mb-1">
-                        <div className="w-5 h-5 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
-                           <Bot size={12} className="text-white/40" />
-                        </div>
-                        <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/25">{msg.agent}</span>
+                      <div className="flex items-center gap-2 mb-1">
+                        <Bot size={12} className="text-white/20" />
+                        <span className="text-[9px] font-bold uppercase tracking-widest text-white/20">{msg.agent}</span>
                       </div>
                     )}
-                    <div className={`p-8 rounded-[32px] text-[16px] leading-relaxed shadow-xl ${
+                    <div className={`p-6 rounded-2xl text-[14px] leading-relaxed ${
                       msg.role === 'user' 
-                      ? 'bg-white text-black font-semibold' 
-                      : msg.role === 'agent'
-                      ? 'bg-white/[0.02] border border-white/10 text-white/70 italic font-light'
-                      : 'bg-white/5 border border-white/5 text-white/80'
+                      ? 'bg-white text-black font-medium' 
+                      : 'liquid-glass border border-white/5 text-white/80'
                     }`}>
                       {msg.text}
                     </div>
@@ -127,26 +110,26 @@ export default function BuilderPage() {
            </div>
         </ScrollArea>
 
-        <div className="p-10 border-t border-white/5 space-y-10 bg-black/40">
+        <div className="p-8 border-t border-white/5 space-y-4">
            <div className="relative group">
               <input 
                 value={input}
                 onChange={e => setInput(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleSend()}
-                placeholder="Direct Scissor to refine..."
-                className="relative w-full bg-black/60 border border-white/10 h-20 rounded-[30px] focus:ring-1 focus:ring-white/20 px-10 text-[16px] text-white placeholder:text-white/20 transition-all"
+                placeholder="Direct Scissor..."
+                className="w-full bg-white/5 border border-white/10 h-14 rounded-2xl px-6 text-sm text-white placeholder:text-white/10"
               />
-              <Button onClick={handleSend} size="icon" className="absolute right-2 top-2 h-16 w-16 rounded-[24px] bg-white text-black hover:bg-white/90 shadow-2xl transition-all active:scale-95 z-10">
-                 <Send className="w-6 h-6" />
+              <Button onClick={handleSend} size="icon" className="absolute right-2 top-2 h-10 w-10 bg-white text-black hover:bg-white/90 rounded-xl">
+                 <Send size={16} />
               </Button>
            </div>
         </div>
       </aside>
 
       {/* MAIN VIEW */}
-      <main className="flex-1 flex flex-col z-10 p-12 overflow-hidden bg-background/20 relative">
-         <header className="flex items-center justify-between mb-12 relative z-10">
-            <div className="flex items-center gap-4 bg-black/40 p-2 rounded-xl border border-white/5 backdrop-blur-3xl shadow-2xl">
+      <main className="flex-1 flex flex-col z-10 p-8 overflow-hidden bg-background/20 relative">
+         <header className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-3 liquid-glass p-1.5 rounded-xl">
                {[
                  { id: 'desktop', icon: Monitor },
                  { id: 'tablet', icon: Tablet },
@@ -155,33 +138,30 @@ export default function BuilderPage() {
                  <button 
                    key={item.id}
                    onClick={() => setView(item.id as any)} 
-                   className={`p-3 rounded-lg transition-all ${view === item.id ? 'bg-white text-black shadow-xl scale-110' : 'text-white/20 hover:text-white'}`}
+                   className={`p-2.5 rounded-lg transition-all ${view === item.id ? 'bg-white text-black shadow-lg' : 'text-white/20 hover:text-white'}`}
                  >
-                   <item.icon className="w-5 h-5" />
+                   <item.icon size={16} />
                  </button>
                ))}
-               <div className="w-px h-8 bg-white/10 mx-2" />
+               <div className="w-px h-6 bg-white/10 mx-1" />
                <button 
                 onClick={() => setMode(mode === 'preview' ? 'code' : 'preview')}
-                className={`flex items-center gap-4 px-8 py-3 rounded-lg transition-all font-bold text-[11px] uppercase tracking-[0.3em] ${mode === 'code' ? 'bg-white text-black shadow-lg' : 'text-white/40 hover:text-white'}`}
+                className={`flex items-center gap-3 px-6 py-2 rounded-lg text-[10px] uppercase tracking-widest font-bold ${mode === 'code' ? 'bg-white text-black shadow-lg' : 'text-white/40 hover:text-white'}`}
                >
-                 {mode === 'code' ? <Code className="w-5 h-5" /> : <Globe className="w-5 h-5" />}
-                 {mode === 'code' ? 'Registry' : 'Neural Preview'}
+                 {mode === 'code' ? 'Registry' : 'Materialization'}
                </button>
             </div>
 
-            <div className="flex items-center gap-6">
-               <Button className="bg-white text-black hover:bg-white/90 rounded-full px-16 h-16 flex items-center gap-4 font-bold text-base uppercase tracking-[0.3em] transition-all active:scale-95 shadow-[0_0_80px_rgba(255,255,255,0.2)]">
-                 <Rocket className="w-5 h-5" /> Deploy Startup
-               </Button>
-            </div>
+            <Button className="liquid-glass-strong bg-white text-black rounded-full px-12 h-14 font-bold uppercase tracking-widest shadow-xl">
+               <Rocket size={18} className="mr-3" /> Deploy
+            </Button>
          </header>
 
-         <div className="flex-1 flex items-center justify-center bg-white/[0.01] rounded-[80px] border border-white/5 relative overflow-hidden p-12 group shadow-inner">
+         <div className="flex-1 flex items-center justify-center liquid-glass bg-white/[0.01] rounded-[3rem] border-white/5 p-8 overflow-hidden">
             <motion.div 
               layout
-              transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-              className={`h-full bg-black rounded-[70px] border border-white/5 shadow-[0_100px_200px_rgba(0,0,0,1)] overflow-hidden relative ${
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+              className={`h-full bg-black rounded-[2rem] border border-white/5 shadow-2xl overflow-hidden relative ${
                 view === 'desktop' ? 'w-full' : view === 'tablet' ? 'w-[768px]' : 'w-[375px]'
               }`}
             >
@@ -189,9 +169,9 @@ export default function BuilderPage() {
                   {mode === 'preview' ? (
                     <MaterializingWebsite isVisible={true} />
                   ) : (
-                    <div className="p-20 font-mono text-[16px] text-white/30 leading-relaxed bg-black/40">
+                    <div className="p-16 font-code text-sm text-white/30 leading-relaxed">
                        <pre className="animate-pulse">
-                        {`// Neural Core v2.5\nimport { Materialize } from '@founder-os/neural';\n\nexport default function Startup() {\n  return (\n    <Canvas sophistication="ultra">\n       <Scaffold.Header />\n       <Scaffold.Hero />\n       <Scaffold.Footer />\n    </Canvas>\n  );\n}`}
+                        {`// Neural Architecture v2.5\nimport { Bloom } from '@founder-os/core';\n\nexport default function Startup() {\n  return (\n    <Canvas mode="cinematic">\n       <Header />\n       <Hero content="AI Plant Sculpting" />\n       <Features items={['Mesh Extraction', 'Growth Neural']} />\n    </Canvas>\n  );\n}`}
                        </pre>
                     </div>
                   )}

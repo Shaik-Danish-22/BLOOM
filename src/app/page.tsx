@@ -1,315 +1,177 @@
-
 "use client";
 
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { useState, useRef, useEffect } from "react";
-import { ArrowRight, Globe, Instagram, Twitter, Linkedin, ArrowUpRight } from "lucide-react";
+import { useState } from "react";
+import { 
+  ArrowRight, 
+  Menu, 
+  Download, 
+  Sparkles, 
+  Wand2, 
+  BookOpen, 
+  Twitter, 
+  Linkedin, 
+  Instagram,
+  Plus
+} from "lucide-react";
+import Image from "next/image";
 
 const fadeUp = (delay: number) => ({
-  initial: { opacity: 0, y: 24 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-100px" },
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
   transition: { duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] },
 });
 
-export default function LandingPage() {
+export default function BloomLanding() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const videoRef = useRef<HTMLVideoElement>(null);
 
-  // SEAMLESS VIDEO LOOPING LOGIC
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    const fadeVideo = (target: number, duration: number) => {
-      const start = performance.now();
-      const initial = parseFloat(video.style.opacity || "0");
-      
-      const animate = (time: number) => {
-        const elapsed = time - start;
-        const progress = Math.min(elapsed / duration, 1);
-        video.style.opacity = (initial + (target - initial) * progress).toString();
-        if (progress < 1) requestAnimationFrame(animate);
-      };
-      requestAnimationFrame(animate);
-    };
-
-    const onCanPlay = () => {
-      video.play();
-      fadeVideo(1, 500);
-    };
-
-    const onTimeUpdate = () => {
-      if (video.duration - video.currentTime <= 0.55) {
-        video.style.opacity = "0";
-      }
-    };
-
-    const onEnded = () => {
-      video.style.opacity = "0";
-      setTimeout(() => {
-        video.currentTime = 0;
-        video.play();
-        fadeVideo(1, 500);
-      }, 100);
-    };
-
-    video.addEventListener("canplay", onCanPlay);
-    video.addEventListener("timeupdate", onTimeUpdate);
-    video.addEventListener("ended", onEnded);
-
-    return () => {
-      video.removeEventListener("canplay", onCanPlay);
-      video.removeEventListener("timeupdate", onTimeUpdate);
-      video.removeEventListener("ended", onEnded);
-    };
-  }, []);
-
-  const handleDummyAuth = () => {
-    // Simulate login for demo purposes
-    localStorage.setItem("siteforge_dummy_user", "true");
+  const handleStart = () => {
     router.push('/workspace');
   };
 
   return (
-    <div className="relative bg-black text-white selection:bg-white/20 overflow-x-hidden font-body">
-      
-      {/* SECTION 1: HERO */}
-      <section className="relative min-h-screen flex flex-col overflow-hidden">
-        <video
-          ref={videoRef}
-          muted
-          autoPlay
-          playsInline
-          style={{ opacity: 0 }}
-          className="absolute inset-0 w-full h-full object-cover object-bottom z-0"
-        >
-          <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_074625_a81f018a-956b-43fb-9aee-4d1508e30e6a.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black z-0" />
+    <div className="relative min-h-screen bg-black overflow-hidden flex selection:bg-white/20">
+      {/* Background Video */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="fixed inset-0 w-full h-full object-cover z-0 grayscale"
+      >
+        <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260315_073750_51473149-4350-4920-ae24-c8214286f323.mp4" type="video/mp4" />
+      </video>
+      <div className="fixed inset-0 bg-black/40 z-0" />
 
-        {/* NAVBAR */}
-        <nav className="relative z-20 px-6 py-6 w-full">
-          <div className="liquid-glass rounded-full max-w-5xl mx-auto px-6 py-3 flex items-center justify-between">
-            <div className="flex items-center gap-8">
-              <div className="flex items-center gap-2">
-                <Globe className="w-6 h-6 text-white" />
-                <span className="text-lg font-bold tracking-tighter">SITEFORGE</span>
-              </div>
-              <div className="hidden md:flex gap-8">
-                {["Features", "Pricing", "About"].map((link) => (
-                  <button key={link} className="text-white/60 hover:text-white text-sm font-medium transition-colors">
-                    {link}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <div className="flex items-center gap-6">
-              <button onClick={handleDummyAuth} className="text-white text-sm font-medium">Sign Up</button>
-              <button onClick={handleDummyAuth} className="liquid-glass rounded-full px-6 py-2 text-white text-sm font-medium hover:bg-white/5 transition-all">
-                Login
-              </button>
-            </div>
-          </div>
-        </nav>
-
-        {/* HERO CONTENT */}
-        <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 text-center -translate-y-[20%]">
-          <motion.h1 
-            {...fadeUp(0.2)}
-            className="text-7xl md:text-8xl lg:text-9xl font-headline leading-none tracking-tight mb-8"
-          >
-            Know it then <em className="italic font-normal text-white/40">all</em>.
-          </motion.h1>
-
-          <motion.div 
-            {...fadeUp(0.4)}
-            className="w-full max-w-xl mb-8"
-          >
-            <div className="liquid-glass rounded-full pl-6 pr-2 py-2 flex items-center gap-3">
-              <input 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                className="flex-1 bg-transparent border-none focus:ring-0 text-white placeholder:text-white/40 text-base"
-              />
-              <button 
-                onClick={handleDummyAuth}
-                className="bg-white rounded-full p-3 text-black hover:scale-105 active:scale-95 transition-all"
-              >
-                <ArrowRight className="w-5 h-5" />
-              </button>
-            </div>
-          </motion.div>
-
-          <motion.p 
-            {...fadeUp(0.6)}
-            className="text-white/40 text-sm max-w-lg leading-relaxed mb-12"
-          >
-            Stay updated with the latest news and insights. Subscribe to our newsletter today and never miss out on exciting updates.
-          </motion.p>
-          
-          <motion.button
-             {...fadeUp(0.8)}
-             onClick={handleDummyAuth}
-             className="liquid-glass rounded-full px-8 py-3 text-white text-sm font-medium hover:bg-white/5 transition-colors"
-          >
-            View Manifesto
-          </motion.button>
-        </div>
-
-        {/* SOCIALS */}
-        <div className="relative z-10 flex justify-center gap-4 pb-12">
-           {[Instagram, Twitter, Globe].map((Icon, i) => (
-             <button key={i} className="liquid-glass rounded-full p-4 text-white/80 hover:text-white hover:bg-white/5 transition-all">
-               <Icon size={20} />
-             </button>
-           ))}
-        </div>
-      </section>
-
-      {/* SECTION 2: ABOUT */}
-      <section className="relative bg-black pt-32 md:pt-44 pb-32 px-6 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(255,255,255,0.03)_0%,_transparent_70%)]" />
-        <div className="max-w-6xl mx-auto">
-          <motion.span 
-            {...fadeUp(0)}
-            className="text-white/40 text-xs tracking-[0.4em] uppercase font-bold mb-8 block"
-          >
-            About Siteforge
-          </motion.span>
-          <motion.h2 
-            {...fadeUp(0.2)}
-            className="text-4xl md:text-6xl lg:text-7xl font-headline leading-[1.1] tracking-tight"
-          >
-            Pioneering <em className="italic text-white/60">ideas</em> for <br className="hidden md:block" />
-            minds that <em className="italic text-white/60">create, build, and inspire</em>.
-          </motion.h2>
-        </div>
-      </section>
-
-      {/* SECTION 3: FEATURED VIDEO */}
-      <section className="bg-black py-20 px-6">
-        <motion.div 
-          {...fadeUp(0)}
-          className="max-w-6xl mx-auto aspect-video rounded-3xl overflow-hidden relative group"
-        >
-          <video autoPlay loop muted playsInline className="w-full h-full object-cover">
-            <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260402_054547_9875cfc5-155a-4229-8ec8-b7ba7125cbf8.mp4" type="video/mp4" />
-          </video>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 p-12 flex flex-col md:flex-row items-end justify-between gap-8">
-            <div className="liquid-glass p-8 rounded-2xl max-w-md">
-              <span className="text-white/40 text-[10px] tracking-widest uppercase mb-3 block">Our Approach</span>
-              <p className="text-white/80 text-sm leading-relaxed">
-                We believe in the power of curiosity-driven exploration. Every project starts with a question, and every answer opens a new door to innovation.
-              </p>
-            </div>
-            <button className="liquid-glass rounded-full px-10 py-4 text-white font-medium hover:scale-105 transition-all">
-              Explore More
-            </button>
-          </div>
-        </motion.div>
-      </section>
-
-      {/* SECTION 4: INNOVATION x VISION */}
-      <section className="bg-black py-32 md:py-44 px-6 relative">
-        <div className="max-w-6xl mx-auto">
-           <motion.h3 
-            {...fadeUp(0)}
-            className="text-5xl md:text-8xl font-headline tracking-tight mb-24"
-           >
-             Innovation <em className="italic text-white/40 font-normal">x</em> Vision
-           </motion.h3>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-              <motion.div 
-                {...fadeUp(0.2)}
-                className="aspect-[4/3] rounded-3xl overflow-hidden"
-              >
-                 <video autoPlay loop muted playsInline className="w-full h-full object-cover">
-                    <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260307_083826_e938b29f-a43a-41ec-a153-3d4730578ab8.mp4" type="video/mp4" />
-                 </video>
-              </motion.div>
-              <motion.div {...fadeUp(0.4)} className="space-y-12">
-                 <div className="space-y-4">
-                    <span className="text-white/40 text-[10px] tracking-widest uppercase font-bold">Choose your space</span>
-                    <p className="text-lg text-white/70 leading-relaxed font-light">
-                      Every meaningful breakthrough begins at the intersection of disciplined strategy and remarkable creative vision. We operate at that crossroads, turning bold thinking into tangible outcomes.
-                    </p>
-                 </div>
-                 <div className="h-px bg-white/10 w-full" />
-                 <div className="space-y-4">
-                    <span className="text-white/40 text-[10px] tracking-widest uppercase font-bold">Shape the future</span>
-                    <p className="text-lg text-white/70 leading-relaxed font-light">
-                      We believe that the best work emerges when curiosity meets conviction. Our process is designed to uncover hidden opportunities and translate them into experiences that resonate.
-                    </p>
-                 </div>
-              </motion.div>
-           </div>
-        </div>
-      </section>
-
-      {/* SECTION 5: SERVICES */}
-      <section className="bg-black py-32 md:py-44 px-6 relative border-t border-white/5">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex justify-between items-end mb-24">
-             <h3 className="text-4xl md:text-6xl tracking-tighter">What we do.</h3>
-             <span className="hidden md:block text-white/40 text-sm tracking-[0.4em] uppercase font-bold">Our Services</span>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {[
-              {
-                tag: "Strategy",
-                title: "Research & Insight",
-                desc: "We dig deep into data, culture, and human behavior to surface the insights that drive meaningful, lasting change.",
-                video: "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4"
-              },
-              {
-                tag: "Craft",
-                title: "Design & Execution",
-                desc: "From concept to launch, we obsess over every detail to deliver experiences that feel effortless and look extraordinary.",
-                video: "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260324_151826_c7218672-6e92-402c-9e45-f1e0f454bdc4.mp4"
-              }
-            ].map((service, i) => (
-              <motion.div 
-                key={i}
-                {...fadeUp(i * 0.2)}
-                className="liquid-glass rounded-[48px] overflow-hidden group cursor-pointer"
-              >
-                <div className="aspect-video overflow-hidden">
-                  <video autoPlay loop muted playsInline className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <source src={service.video} type="video/mp4" />
-                  </video>
+      {/* Main Content Grid */}
+      <div className="relative z-10 flex flex-row w-full min-h-screen">
+        
+        {/* Left Panel: Bloom Hero */}
+        <div className="w-full lg:w-[52%] relative flex p-4 lg:p-6">
+          <div className="liquid-glass-strong w-full h-full rounded-[2rem] flex flex-col p-8 lg:p-12">
+            {/* Nav */}
+            <nav className="flex items-center justify-between w-full mb-auto">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 relative rounded-full overflow-hidden">
+                   <Image src="https://picsum.photos/seed/bloom/64/64" fill alt="Logo" className="object-cover" />
                 </div>
-                <div className="p-10">
-                  <div className="flex justify-between items-start mb-6">
-                    <span className="text-white/40 text-[10px] tracking-[0.3em] uppercase font-bold">{service.tag}</span>
-                    <div className="liquid-glass rounded-full p-3 group-hover:bg-white group-hover:text-black transition-all">
-                      <ArrowUpRight size={20} />
-                    </div>
+                <span className="text-2xl font-semibold tracking-tighter text-white">bloom</span>
+              </div>
+              <button className="liquid-glass px-6 py-2 rounded-full flex items-center gap-2 text-white/80 hover:scale-105 transition-all">
+                <Menu size={18} />
+                <span className="text-sm font-medium">Menu</span>
+              </button>
+            </nav>
+
+            {/* Hero Center */}
+            <div className="flex-1 flex flex-col items-center justify-center text-center max-w-2xl mx-auto space-y-12">
+              <motion.div {...fadeUp(0.1)} className="w-20 h-20 relative rounded-2xl overflow-hidden shadow-2xl">
+                 <Image src="https://picsum.photos/seed/bloom-hero/160/160" fill alt="Hero Logo" className="object-cover" />
+              </motion.div>
+              
+              <motion.h1 
+                {...fadeUp(0.3)}
+                className="text-5xl lg:text-7xl leading-[1.05] tracking-tight text-white"
+              >
+                Innovating the <br /> 
+                <span className="font-serif text-white/80">spirit of bloom AI</span>
+              </motion.h1>
+
+              <motion.div {...fadeUp(0.5)}>
+                <button 
+                  onClick={handleStart}
+                  className="liquid-glass-strong bg-white/5 px-10 py-4 rounded-full flex items-center gap-4 text-white hover:scale-105 active:scale-95 transition-all shadow-xl"
+                >
+                  <span className="font-medium">Explore Now</span>
+                  <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+                    <Download size={16} />
                   </div>
-                  <h4 className="text-2xl font-bold mb-4 tracking-tight text-white">{service.title}</h4>
-                  <p className="text-white/50 text-base leading-relaxed font-light">{service.desc}</p>
-                </div>
+                </button>
               </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* FOOTER */}
-      <footer className="bg-black py-20 px-6 border-t border-white/5">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 text-white/30 text-xs tracking-widest uppercase font-bold">
-          <span>© 2026 Siteforge AI — Powered by FounderOS</span>
-          <div className="flex gap-10">
-            {["Privacy", "Terms", "Contact"].map((item) => (
-              <button key={item} className="hover:text-white transition-colors">{item}</button>
-            ))}
+              <motion.div {...fadeUp(0.7)} className="flex flex-wrap justify-center gap-3">
+                {["Artistic Gallery", "AI Generation", "3D Structures"].map(pill => (
+                  <span key={pill} className="liquid-glass px-5 py-2 rounded-full text-[11px] text-white/80 tracking-widest uppercase font-semibold">
+                    {pill}
+                  </span>
+                ))}
+              </motion.div>
+            </div>
+
+            {/* Bottom Quote */}
+            <div className="mt-auto space-y-6">
+              <span className="text-[10px] tracking-[0.4em] uppercase text-white/50 font-bold block">Visionary Design</span>
+              <div className="flex items-center gap-6">
+                <div className="h-px w-12 bg-white/20" />
+                <p className="text-lg lg:text-xl text-white/90">
+                  <span className="font-display">We imagined a realm </span>
+                  <span className="font-serif">with no ending.</span>
+                </p>
+                <div className="h-px flex-1 bg-white/20" />
+              </div>
+              <p className="text-[10px] tracking-[0.3em] font-bold text-white/40 uppercase">Marcus Aurelio</p>
+            </div>
           </div>
         </div>
-      </footer>
+
+        {/* Right Panel: Ecosystem (Desktop Only) */}
+        <div className="hidden lg:flex w-[48%] flex-col p-6 space-y-6">
+          <header className="flex justify-end gap-4">
+            <div className="liquid-glass px-6 py-2 rounded-full flex items-center gap-5">
+              {[Twitter, Linkedin, Instagram].map((Icon, i) => (
+                <a key={i} href="#" className="text-white/60 hover:text-white transition-colors">
+                  <Icon size={16} />
+                </a>
+              ))}
+              <div className="w-px h-4 bg-white/10" />
+              <ArrowRight size={16} className="text-white/40" />
+            </div>
+            <button className="liquid-glass w-12 h-12 rounded-full flex items-center justify-center text-white hover:scale-105 transition-all">
+              <Sparkles size={20} />
+            </button>
+          </header>
+
+          <div className="flex-1 flex flex-col gap-6">
+             <div className="liquid-glass p-8 rounded-[2.5rem] w-64 self-end">
+                <h4 className="text-white font-medium mb-3">Enter our ecosystem</h4>
+                <p className="text-white/40 text-sm leading-relaxed">Join 20k+ creators architecting the future of plant intelligence.</p>
+             </div>
+
+             <div className="mt-auto liquid-glass rounded-[2.5rem] p-10 flex flex-col gap-8">
+                <div className="grid grid-cols-2 gap-6">
+                   <div className="liquid-glass-strong bg-white/[0.02] p-8 rounded-[2rem] space-y-4 hover:scale-[1.02] transition-transform cursor-pointer">
+                      <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center">
+                        <Wand2 size={18} className="text-white/60" />
+                      </div>
+                      <h5 className="font-medium text-white">Processing</h5>
+                      <p className="text-xs text-white/30">Real-time neural rendering of complex botanical meshes.</p>
+                   </div>
+                   <div className="liquid-glass-strong bg-white/[0.02] p-8 rounded-[2rem] space-y-4 hover:scale-[1.02] transition-transform cursor-pointer">
+                      <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center">
+                        <BookOpen size={18} className="text-white/60" />
+                      </div>
+                      <h5 className="font-medium text-white">Growth Archive</h5>
+                      <p className="text-xs text-white/30">Historical documentation of AI-synthesized species.</p>
+                   </div>
+                </div>
+
+                <div className="liquid-glass-strong bg-white/[0.02] p-6 rounded-[2rem] flex items-center gap-6 group hover:bg-white/[0.05] transition-all cursor-pointer">
+                   <div className="w-24 h-16 relative rounded-xl overflow-hidden shrink-0">
+                      <Image src="https://picsum.photos/seed/flower-sculpt/200/150" fill alt="Flower" className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+                   </div>
+                   <div className="flex-1">
+                      <h5 className="font-medium text-white">Advanced Plant Sculpting</h5>
+                      <p className="text-xs text-white/30">Modify structural integrity with AI.</p>
+                   </div>
+                   <button className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all">
+                      <Plus size={20} />
+                   </button>
+                </div>
+             </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
