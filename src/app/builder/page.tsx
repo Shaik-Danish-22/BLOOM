@@ -15,18 +15,16 @@ import {
   Zap,
   Cpu,
   Shield,
-  Command,
-  History,
-  Terminal,
-  Bot,
-  User,
+  Layers as LayoutIcon,
   Search,
   Code,
   Globe,
   Maximize2,
   Palette,
   Layout,
-  MousePointer2
+  MousePointer2,
+  History,
+  Bot
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BackgroundEffects } from "@/components/cinematic/BackgroundEffects";
@@ -88,7 +86,10 @@ export default function BuilderPage() {
              <p className="text-[9px] text-white/10 uppercase tracking-[0.4em] font-bold mt-2">Active Construction</p>
            </div>
            <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden scale-110 shadow-inner">
-              <InteractiveRobotSpline scene={SISSOR_SCENE} className="w-full h-full scale-[1.2] translate-y-2" />
+              <InteractiveRobotSpline 
+                scene={SISSOR_SCENE} 
+                className="w-full h-full scale-[1.6] translate-y-4" 
+              />
            </div>
         </header>
 
@@ -164,7 +165,10 @@ export default function BuilderPage() {
       {/* MAIN VIEW: MATERIALIZATION PREVIEW */}
       <main className="flex-1 flex flex-col z-10 p-16 overflow-hidden bg-background/20 relative">
          <div className="absolute top-0 right-0 w-full h-full opacity-[0.02] pointer-events-none">
-            <InteractiveRobotSpline scene={SISSOR_SCENE} className="w-full h-full scale-[1.1] translate-y-4" />
+            <InteractiveRobotSpline 
+              scene={SISSOR_SCENE} 
+              className="w-full h-full scale-[1.3] translate-y-12" 
+            />
          </div>
 
          <header className="flex items-center justify-between mb-16 relative z-10">

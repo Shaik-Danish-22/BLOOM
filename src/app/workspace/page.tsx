@@ -134,12 +134,16 @@ export default function WorkspacePage() {
               exit={{ opacity: 0, scale: 0.95 }}
               className="flex flex-col items-start justify-center min-h-[70vh] max-w-4xl mx-auto relative"
             >
-              <div className="mb-12 space-y-2">
+              <motion.div 
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                className="mb-16 space-y-2 -translate-y-12"
+              >
                 <h2 className="text-6xl md:text-8xl font-headline italic tracking-tighter text-left w-full leading-[0.9]">
                   What are we <br />
                   <em className="not-italic text-white/10">building</em> today?
                 </h2>
-              </div>
+              </motion.div>
               
               <div className="w-full relative group">
                 <div className="absolute -inset-1 bg-white/5 blur-2xl group-hover:bg-white/10 transition-all rounded-[40px]" />
@@ -171,10 +175,10 @@ export default function WorkspacePage() {
                     </AnimatePresence>
                     
                     {/* CROPPED CONTAINER TO HIDE WATERMARK AND ENSURE FIT */}
-                    <div className="w-48 h-48 pointer-events-auto cursor-grab active:cursor-grabbing relative overflow-hidden rounded-3xl bg-white/[0.02] border border-white/10 shadow-inner">
+                    <div className="w-52 h-52 pointer-events-auto cursor-grab active:cursor-grabbing relative overflow-hidden rounded-3xl bg-white/[0.02] border border-white/10 shadow-inner">
                       <InteractiveRobotSpline 
                         scene={SISSOR_SCENE} 
-                        className="w-full h-full scale-[1.3] translate-y-3" 
+                        className="w-full h-full scale-[1.6] translate-y-8" 
                       />
                     </div>
                   </div>
@@ -217,7 +221,7 @@ export default function WorkspacePage() {
               <div className="w-80 h-80 mb-12 pointer-events-none relative overflow-hidden rounded-full border border-white/5 shadow-2xl">
                  <InteractiveRobotSpline 
                    scene={SISSOR_SCENE} 
-                   className="w-full h-full scale-[1.4] translate-y-4" 
+                   className="w-full h-full scale-[1.7] translate-y-10" 
                  />
               </div>
               <h3 className="text-5xl font-headline italic text-white mb-6">Enhancing Neural Link...</h3>

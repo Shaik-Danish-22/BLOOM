@@ -65,7 +65,10 @@ export default function GeneratePage() {
            }}
            className="w-[800px] h-[800px] opacity-80 scale-100"
          >
-            <InteractiveRobotSpline scene={SISSOR_SCENE} className="w-full h-full scale-[1.1] translate-y-4" />
+            <InteractiveRobotSpline 
+              scene={SISSOR_SCENE} 
+              className="w-full h-full scale-[1.3] translate-y-12" 
+            />
          </motion.div>
       </div>
 
