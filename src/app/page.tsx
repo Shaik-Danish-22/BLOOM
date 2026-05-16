@@ -48,6 +48,7 @@ export default function BloomLanding() {
     };
 
     const handleTimeUpdate = () => {
+      // Crossfade logic: fade out 0.55s before end
       if (!isFadingOut && video.duration - video.currentTime <= 0.55) {
         isFadingOut = true;
         animateFade(0, 500);
@@ -68,7 +69,7 @@ export default function BloomLanding() {
     video.addEventListener('timeupdate', handleTimeUpdate);
     video.addEventListener('ended', handleEnded);
 
-    // Initial check if video is already ready
+    // If video is already cached/ready, trigger fade in manually
     if (video.readyState >= 3) {
       handleCanPlay();
     }

@@ -6,8 +6,9 @@ import { useRouter } from "next/navigation";
 import { BackgroundEffects } from "@/components/cinematic/BackgroundEffects";
 import { motion, AnimatePresence } from "framer-motion";
 import { InteractiveRobotSpline } from "@/components/ui/interactive-3d-robot";
-import { Network, Brain, Layers, Shield, Zap, Cpu, CheckCircle2, ChevronRight } from "lucide-react";
+import { Network, Brain, Layers, Shield, Zap, Cpu, CheckCircle2 } from "lucide-react";
 import { generateStartupIdea } from "@/ai/flows/generate-startup-idea";
+import ShaderBackground from "@/components/ui/shader-background";
 
 const SCISSOR_SCENE = "https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode";
 
@@ -78,12 +79,15 @@ export default function GeneratePage() {
   }, [router]);
 
   useEffect(() => {
-    setStage(Math.floor((progress / 100) * stages.length));
-  }, [progress]);
+    // Clamping stage to ensure it doesn't go out of bounds at 100% progress
+    const calculatedStage = Math.floor((progress / 100) * stages.length);
+    setStage(Math.min(calculatedStage, stages.length - 1));
+  }, [progress, stages.length]);
 
   return (
     <div className="relative min-h-screen bg-[#050505] flex flex-col overflow-hidden font-body text-white">
       <BackgroundEffects />
+      <ShaderBackground />
       
       {/* Design Rocket Inspired Wordmark Overlay */}
       <div className="absolute top-12 left-12 z-[100] flex flex-col">
@@ -112,14 +116,17 @@ export default function GeneratePage() {
         </div>
 
         <div className="text-center max-w-2xl mb-12">
-          <motion.h2 
-            key={stage}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-[46px] font-headline italic tracking-tight leading-[1.05] mb-4"
-          >
-            {stages[stage].label}: {stages[stage].desc}
-          </motion.h2>
+          <AnimatePresence mode="wait">
+            <motion.h2 
+              key={stage}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="text-[46px] font-headline italic tracking-tight leading-[1.05] mb-4"
+            >
+              {stages[stage]?.label}: {stages[stage]?.desc}
+            </motion.h2>
+          </AnimatePresence>
           <p className="text-[#83837D] text-lg font-light italic">
             {insights[currentInsight]}
           </p>
