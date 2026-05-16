@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -72,9 +73,12 @@ export default function WorkspacePage() {
     try {
       const data = await enhancePrompt({ rawPrompt: prompt });
       setEnhancedData(data);
-      setStep('refine');
+      // Brief delay for cinematic effect
+      setTimeout(() => {
+        setStep('refine');
+      }, 1500);
     } catch (e) {
-      console.error("Enhance failed", e);
+      console.error("Neural Enhancement Error:", e);
       setStep('prompt');
     }
   };
@@ -165,10 +169,10 @@ export default function WorkspacePage() {
                         initial={{ opacity: 0, scale: 0.8, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.8, y: 20 }}
-                        className="bg-white/10 backdrop-blur-3xl border border-white/10 px-8 py-5 rounded-3xl mb-8 flex items-center gap-4 pointer-events-auto shadow-2xl relative max-w-[320px]"
+                        className="bg-white/10 backdrop-blur-3xl border border-white/10 px-8 py-5 rounded-3xl mb-4 flex items-center gap-4 pointer-events-auto shadow-2xl relative max-w-[280px]"
                       >
                         <div className="w-2 h-2 rounded-full bg-white animate-pulse shrink-0" />
-                        <span className="text-[11px] uppercase tracking-[0.2em] font-bold text-white/90 leading-relaxed">
+                        <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-white/90 leading-relaxed">
                           {SCISSOR_TALKS[currentTalk]}
                         </span>
                         <div className="absolute -bottom-1 right-12 w-3 h-3 bg-white/10 border-r border-b border-white/10 rotate-45" />
@@ -176,10 +180,10 @@ export default function WorkspacePage() {
                     </AnimatePresence>
                     
                     <div className="w-64 h-80 overflow-hidden relative flex items-center justify-center pointer-events-auto">
-                      <div className="absolute inset-0 h-[115%] w-full">
+                      <div className="absolute inset-0 h-[110%] w-full">
                         <InteractiveRobotSpline 
                           scene={SCISSOR_SCENE} 
-                          className="w-full h-full scale-[1.6] translate-y-12" 
+                          className="w-full h-full scale-[1.05] translate-y-6" 
                         />
                       </div>
                     </div>
@@ -190,9 +194,10 @@ export default function WorkspacePage() {
                   <Button 
                     onClick={handleEnhance}
                     disabled={!prompt.trim() || step === 'enhancing'}
-                    className="bg-white text-black hover:bg-white/90 rounded-full px-20 h-24 flex items-center gap-6 font-bold uppercase tracking-[0.3em] shadow-[0_0_100px_rgba(255,255,255,0.2)] transition-all active:scale-95 hover:scale-105 group"
+                    className="bg-white text-black hover:bg-white/90 rounded-full px-20 h-24 flex items-center gap-6 font-bold uppercase tracking-[0.3em] shadow-[0_0_100px_rgba(255,255,255,0.2)] transition-all active:scale-95 hover:scale-105 group relative z-50"
                   >
-                    <Wand2 size={28} className="group-hover:rotate-12 transition-transform" /> Neural Enhance
+                    <Wand2 size={28} className="group-hover:rotate-12 transition-transform" /> 
+                    {step === 'enhancing' ? 'Enhancing...' : 'Neural Enhance'}
                   </Button>
                 </div>
               </div>
@@ -211,12 +216,12 @@ export default function WorkspacePage() {
                  <div className="absolute inset-0 h-full w-full">
                    <InteractiveRobotSpline 
                      scene={SCISSOR_SCENE} 
-                     className="w-full h-full scale-[1.8] translate-y-16" 
+                     className="w-full h-full scale-[1.3] translate-y-16" 
                    />
                  </div>
               </div>
-              <h3 className="text-7xl font-headline italic text-white mb-8 tracking-tighter">Deriving Design DNA...</h3>
-              <p className="text-white/20 uppercase tracking-[0.8em] text-[13px] font-bold animate-pulse">Establishing Visual Trajectory & Neural Scaffolding</p>
+              <h3 className="text-7xl font-headline italic text-white mb-8 tracking-tighter animate-pulse">Deriving Design DNA...</h3>
+              <p className="text-white/20 uppercase tracking-[0.8em] text-[13px] font-bold">Establishing Visual Trajectory & Neural Scaffolding</p>
             </motion.div>
           )}
 
