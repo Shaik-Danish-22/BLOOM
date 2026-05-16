@@ -22,9 +22,8 @@
     --input: 0 0% 18%;
     --ring: 0 0% 40%;
     --radius: 1rem;
-    --font-display: 'Poppins', sans-serif;
-    --font-serif: 'Source Serif 4', serif;
-    --font-rocket: 'Instrument Serif', serif;
+    --font-display: 'Inter', sans-serif;
+    --font-serif: 'Instrument Serif', serif;
   }
 }
 
@@ -33,6 +32,9 @@
     background: rgba(255, 255, 255, 0.01);
     background-blend-mode: luminosity;
     backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: none;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
     position: relative;
     overflow: hidden;
   }
@@ -43,12 +45,13 @@
     inset: 0;
     border-radius: inherit;
     padding: 1.4px;
-    background: linear-gradient(180deg, 
-      rgba(255, 255, 255, 0.45) 0%, 
-      rgba(255, 255, 255, 0.15) 20%, 
-      transparent 40%, 
-      transparent 60%, 
-      rgba(255, 255, 255, 0.15) 80%, 
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.45) 0%,
+      rgba(255, 255, 255, 0.15) 20%,
+      rgba(255, 255, 255, 0) 40%,
+      rgba(255, 255, 255, 0) 60%,
+      rgba(255, 255, 255, 0.15) 80%,
       rgba(255, 255, 255, 0.45) 100%
     );
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -91,20 +94,11 @@
   body {
     @apply bg-black text-white antialiased;
     font-family: var(--font-display);
-    font-weight: 400;
-  }
-  h1, h2, h3, h4, h5, h6 {
-    font-weight: 500;
   }
 }
 
 .font-serif {
   font-family: var(--font-serif);
-  font-style: italic;
-}
-
-.font-rocket {
-  font-family: var(--font-rocket);
 }
 
 .no-scrollbar::-webkit-scrollbar { display: none; }
