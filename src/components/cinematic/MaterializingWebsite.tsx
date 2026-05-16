@@ -1,3 +1,4 @@
+
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -37,11 +38,11 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
   const featuresSection = sections.find(s => s.type === 'features');
 
   return (
-    <div className={`bg-black min-h-full transition-all duration-[2000ms] relative overflow-hidden font-display ${
+    <div className={`bg-black min-h-full transition-all duration-[2000ms] relative overflow-hidden font-body ${
       stage === 'wireframe' ? 'grayscale opacity-10 blur-xl' : 
       stage === 'layout' ? 'grayscale opacity-40 blur-sm' : ''
     }`}>
-      {/* PROGRESS HUD */}
+      {/* PROGRESS HUD - DESIGN ROCKET THEME */}
       <div className="absolute top-8 left-1/2 -translate-x-1/2 z-[200] flex gap-2 pointer-events-none">
          {["SCAFFOLD", "NODE", "INJECT", "RENDER"].map((s, i) => (
            <div key={s} className={`px-4 py-1.5 rounded-full border text-[8px] uppercase tracking-widest font-bold transition-all duration-700 ${
@@ -49,7 +50,7 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
              (stage === 'layout' && i <= 1) || 
              (stage === 'content' && i <= 2) || 
              (stage === 'final' && i <= 3)
-             ? 'bg-white text-black border-white shadow-[0_0_20px_white]'
+             ? 'bg-[#DCFF00] text-black border-[#DCFF00] shadow-[0_0_20px_rgba(220,255,0,0.5)]'
              : 'bg-black/60 text-white/10 border-white/5'
            }`}>
              {s}
@@ -63,13 +64,13 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
         animate={{ opacity: 1 }}
         className="p-8 lg:p-12 flex justify-between items-center bg-black/40 backdrop-blur-3xl"
       >
-         <div className="text-3xl font-rocket italic tracking-tighter flex items-center gap-4">
-            <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center">
-               <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+         <div className="text-3xl font-headline italic tracking-tighter flex items-center gap-4">
+            <div className="w-8 h-8 rounded-lg bg-[#DCFF00] flex items-center justify-center">
+               <div className="w-1.5 h-1.5 rounded-full bg-black animate-pulse" />
             </div>
             {startupData.forgeBrandArchitect?.companyName?.toUpperCase() || "STARTUP"}
          </div>
-         <button className="liquid-glass w-10 h-10 rounded-full flex items-center justify-center">
+         <button className="liquid-glass-strong bg-white/5 w-10 h-10 rounded-full flex items-center justify-center">
             <Menu size={18} />
          </button>
       </motion.nav>
@@ -82,9 +83,9 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
            transition={{ duration: 3 }}
            className="absolute inset-0 z-0 pointer-events-none"
          >
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[600px] bg-white/[0.03] blur-[200px] rounded-full" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[600px] bg-[#DCFF00]/[0.05] blur-[200px] rounded-full" />
             <video autoPlay loop muted playsInline className="w-full h-full object-cover opacity-20 grayscale">
-               <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260315_073750_51473149-4350-4920-ae24-c8214286f323.mp4" type="video/mp4" />
+               <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260419_065931_e3ca7b53-d32e-4ad5-81de-dc9d6fcfda6d.mp4" type="video/mp4" />
             </video>
          </motion.div>
          
@@ -94,14 +95,14 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
               animate={{ opacity: 1, scale: 1 }}
               className="inline-flex items-center gap-4 px-8 py-3 rounded-full border border-white/5 bg-white/[0.02] text-[9px] uppercase tracking-widest font-bold text-white/30"
             >
-              Neural Construct v2.5
+              Neural Construct v2.5 x Microsoft
             </motion.div>
 
             <motion.h2 
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 1.5 }}
-              className="text-6xl lg:text-9xl font-rocket italic leading-[0.9] tracking-tighter text-white"
+              className="text-6xl lg:text-9xl font-headline italic leading-[0.9] tracking-tighter text-white"
             >
               {heroSection?.title || "Neural Materialized"}
             </motion.h2>
@@ -122,7 +123,7 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
            transition={{ delay: 1.5 }}
            className="relative z-10 pt-10"
          >
-           <Button className="liquid-glass-strong bg-white text-black px-16 h-20 rounded-full font-bold text-xl shadow-[0_0_80px_white]">
+           <Button className="liquid-glass-strong bg-[#DCFF00] text-black px-16 h-20 rounded-full font-bold text-xl shadow-[0_0_80px_rgba(220,255,0,0.3)]">
               Explore Vision <ArrowRight className="ml-4 w-6 h-6" />
            </Button>
          </motion.div>
@@ -133,14 +134,14 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
         <section className="px-12 py-32 border-t border-white/5 bg-black/40">
            <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-20">
               <div className="space-y-8">
-                 <h3 className="text-5xl lg:text-7xl font-rocket italic tracking-tighter">{featuresSection.title}</h3>
+                 <h3 className="text-5xl lg:text-7xl font-headline italic tracking-tighter leading-none">{featuresSection.title}</h3>
                  <p className="text-xl text-white/30 font-light italic">{featuresSection.subtitle}</p>
               </div>
               <div className="grid grid-cols-1 gap-8">
                  {featuresSection.items?.map((item, i) => (
-                   <div key={i} className="liquid-glass-strong p-8 rounded-[2rem] border border-white/5 flex items-start gap-6 group hover:bg-white/[0.02] transition-all">
-                      <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center shrink-0">
-                         <CheckCircle2 size={20} className="text-white/20 group-hover:text-white transition-colors" />
+                   <div key={i} className="liquid-glass-strong p-8 rounded-[2rem] border border-white/5 flex items-start gap-6 group hover:bg-[#DCFF00]/[0.02] transition-all">
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 font-bold ${stage === 'final' ? 'bg-[#DCFF00] text-black' : 'bg-white/5 text-white/20'}`}>
+                         {i + 1}
                       </div>
                       <p className="text-xl font-light italic text-white/60 group-hover:text-white transition-colors">{item}</p>
                    </div>
@@ -151,9 +152,9 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
       )}
 
       {/* FOOTER */}
-      <footer className="p-32 border-t border-white/5 text-center">
+      <footer className="p-32 border-t border-white/5 text-center bg-[#080808]">
          <div className="text-[10px] font-bold uppercase tracking-[1em] text-white/5 mb-6">Bloom Engine Stable</div>
-         <p className="text-[9px] text-white/10 uppercase tracking-widest italic">Materialized with SCISSOR Neural Architecture</p>
+         <p className="text-[9px] text-[#83837D] uppercase tracking-widest italic">Microsoft x Design Rocket Neural Architecture</p>
       </footer>
     </div>
   );
