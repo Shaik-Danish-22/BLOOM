@@ -48,7 +48,6 @@ export default function BloomLanding() {
     };
 
     const handleTimeUpdate = () => {
-      // Crossfade logic: fade out 0.55s before end
       if (!isFadingOut && video.duration - video.currentTime <= 0.55) {
         isFadingOut = true;
         animateFade(0, 500);
@@ -69,7 +68,6 @@ export default function BloomLanding() {
     video.addEventListener('timeupdate', handleTimeUpdate);
     video.addEventListener('ended', handleEnded);
 
-    // If video is already cached/ready, trigger fade in manually
     if (video.readyState >= 3) {
       handleCanPlay();
     }
@@ -93,7 +91,6 @@ export default function BloomLanding() {
 
   return (
     <div className="bg-black min-h-screen selection:bg-white/20 scroll-smooth">
-      {/* SECTION 1 -- HERO */}
       <section className="min-h-screen relative flex flex-col overflow-hidden">
         <video
           ref={videoRef}
@@ -104,7 +101,6 @@ export default function BloomLanding() {
           className="absolute inset-0 w-full h-full object-cover object-bottom z-0"
         />
 
-        {/* Navbar */}
         <nav className="relative z-20 px-6 py-6">
           <div className="liquid-glass rounded-full max-w-5xl mx-auto px-6 py-3 flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -133,7 +129,6 @@ export default function BloomLanding() {
           </div>
         </nav>
 
-        {/* Hero Content */}
         <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 text-center -translate-y-[15%]">
           <motion.h1 
             initial={{ opacity: 0, y: 40 }}
@@ -176,20 +171,18 @@ export default function BloomLanding() {
               onClick={handleStart}
               className="liquid-glass rounded-full px-12 py-4 text-white text-sm font-bold uppercase tracking-widest hover:bg-white/5 transition-colors border-none"
             >
-              Enter Neural Studio
+              Enter Bloom
             </button>
           </motion.div>
         </div>
       </section>
 
-      {/* ADDITIONAL SECTIONS */}
       <div id="about"><AboutSection /></div>
       <FeaturedVideoSection />
       <PhilosophySection />
       <div id="features"><ServicesSection /></div>
       <div id="pricing"><PricingSection /></div>
       
-      {/* FINAL FOOTER */}
       <footer className="bg-black py-20 border-t border-white/5 text-center">
          <div className="max-w-5xl mx-auto px-6">
             <div className="font-headline text-4xl italic text-white/20 mb-4">Bloom</div>

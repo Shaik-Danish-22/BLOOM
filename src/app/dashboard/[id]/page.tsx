@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -45,7 +46,6 @@ export default function DashboardPage() {
     const stored = localStorage.getItem("latest_startup");
     if (stored) setData(JSON.parse(stored));
     
-    // Auto-hide Oracle after animation
     const timer = setTimeout(() => setShowOracle(false), 5000);
     return () => clearTimeout(timer);
   }, []);
@@ -60,7 +60,6 @@ export default function DashboardPage() {
     <div className="relative min-h-screen flex bg-background overflow-hidden">
       <BackgroundEffects />
       
-      {/* Oracle Cinematic Overlay */}
       <AnimatePresence>
         {showOracle && (
           <motion.div
@@ -92,13 +91,12 @@ export default function DashboardPage() {
         )}
       </AnimatePresence>
 
-      {/* Sidebar */}
       <aside className="w-20 lg:w-64 border-r border-white/5 glass-card z-10 flex flex-col">
         <div className="p-6 flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-            <span className="text-white font-bold">F</span>
+            <span className="text-white font-bold">B</span>
           </div>
-          <span className="hidden lg:block font-headline text-xl italic text-glow">FounderOS</span>
+          <span className="hidden lg:block font-headline text-xl italic text-glow">Bloom</span>
         </div>
 
         <nav className="flex-1 px-3 space-y-2 mt-8">
@@ -128,9 +126,7 @@ export default function DashboardPage() {
         </div>
       </aside>
 
-      {/* Main Content */}
       <main className="flex-1 relative z-10 p-8 overflow-y-auto">
-        {/* Header */}
         <header className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
           <div>
             <Badge variant="outline" className="mb-2 border-primary/20 text-primary bg-primary/5">
@@ -151,7 +147,6 @@ export default function DashboardPage() {
           </div>
         </header>
 
-        {/* Tab Content */}
         <div className="h-[calc(100vh-280px)]">
           <AnimatePresence mode="wait">
             {activeTab === "overview" && (
@@ -162,7 +157,6 @@ export default function DashboardPage() {
                 exit={{ opacity: 0, y: -10 }}
                 className="grid grid-cols-1 md:grid-cols-3 gap-6"
               >
-                {/* Brand Rationale Bento */}
                 <Card className="md:col-span-2 glass-card p-8 border-white/10 relative overflow-hidden group">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-3xl rounded-full" />
                   <h3 className="text-xl font-headline italic mb-4">The Neural Identity</h3>
@@ -174,7 +168,6 @@ export default function DashboardPage() {
                   </div>
                 </Card>
 
-                {/* Oracle Score Snapshot */}
                 <Card className="glass-card p-6 border-white/10 flex flex-col items-center justify-center text-center">
                   <span className="text-xs uppercase tracking-widest text-primary font-bold mb-4">Investment Rating</span>
                   <div className="relative">
@@ -189,7 +182,6 @@ export default function DashboardPage() {
                   <Badge className="mt-4 bg-primary/20 text-primary border-none">{data.oracleInvestorAnalysis.investorVerdict}</Badge>
                 </Card>
 
-                {/* Roadmap Timeline */}
                 <Card className="md:col-span-3 glass-card p-8 border-white/10">
                   <h3 className="text-xl font-headline italic mb-8">Strategic Roadmap</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-12">
@@ -241,9 +233,6 @@ export default function DashboardPage() {
                       </BarChart>
                     </ResponsiveContainer>
                   </div>
-                  <div className="mt-8 space-y-4">
-                    <p className="text-sm text-muted-foreground leading-relaxed">{data.sentinelAtlasMarketIntelligence.marketOpportunityAnalysis}</p>
-                  </div>
                 </Card>
 
                 <Card className="glass-card p-8 border-white/10">
@@ -256,20 +245,6 @@ export default function DashboardPage() {
                           <span className="text-[10px] uppercase tracking-widest text-white/40">Direct Competitor</span>
                         </div>
                         <p className="text-xs text-muted-foreground mb-4">{comp.description}</p>
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <span className="text-[10px] text-green-400/60 uppercase font-bold">Advantages</span>
-                            <div className="flex flex-wrap gap-1 mt-1">
-                              {comp.advantages.map((a, j) => <Badge key={j} className="text-[9px] bg-green-500/10 text-green-400 border-none">{a}</Badge>)}
-                            </div>
-                          </div>
-                          <div>
-                            <span className="text-[10px] text-red-400/60 uppercase font-bold">Weaknesses</span>
-                            <div className="flex flex-wrap gap-1 mt-1">
-                              {comp.disadvantages.map((d, j) => <Badge key={j} className="text-[9px] bg-red-500/10 text-red-400 border-none">{d}</Badge>)}
-                            </div>
-                          </div>
-                        </div>
                       </div>
                     ))}
                   </div>

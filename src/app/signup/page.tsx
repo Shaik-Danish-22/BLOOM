@@ -18,7 +18,6 @@ export default function SignupPage() {
       <BackgroundEffects />
       <ShaderBackground />
 
-      {/* Navbar */}
       <nav className="relative z-50 px-8 py-8 flex justify-between items-center">
         <button onClick={() => router.push('/')} className="flex items-center gap-2">
           <Globe size={24} className="text-white" />
@@ -32,7 +31,6 @@ export default function SignupPage() {
       <main className="flex-1 flex items-center justify-center relative z-10 px-6">
         <div className="w-full max-w-[1000px] grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           
-          {/* Animated Spline Container (Right for contrast) */}
           <motion.div 
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -49,13 +47,12 @@ export default function SignupPage() {
                   </div>
                </div>
                <div className="absolute top-12 left-12 right-12 p-8 liquid-glass-strong rounded-3xl">
-                  <h3 className="text-2xl font-headline italic mb-2">Neural Registration.</h3>
-                  <p className="text-sm text-white/40 leading-relaxed">Begin your materialization journey. The Oracle awaits your strategic vision.</p>
+                  <h3 className="text-2xl font-headline italic mb-2">Bloom Registration.</h3>
+                  <p className="text-sm text-white/40 leading-relaxed">Begin your materialization journey. The Bloom engine awaits your strategic vision.</p>
                </div>
             </div>
           </motion.div>
 
-          {/* Form Container */}
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -64,9 +61,9 @@ export default function SignupPage() {
           >
             <div className="space-y-4">
               <span className="text-[#DCFF00] text-[10px] font-bold uppercase tracking-[0.4em] flex items-center gap-2">
-                <Sparkles size={12} /> Neural Persona Creation
+                <Sparkles size={12} /> Bloom Persona Creation
               </span>
-              <h1 className="text-5xl lg:text-7xl font-headline italic tracking-tighter leading-none">Claim your <br /><em className="italic text-white/40">Neural Identity.</em></h1>
+              <h1 className="text-5xl lg:text-7xl font-headline italic tracking-tighter leading-none">Claim your <br /><em className="italic text-white/40">Bloom Identity.</em></h1>
             </div>
 
             <div className="space-y-5">
@@ -93,7 +90,7 @@ export default function SignupPage() {
               </button>
               <div className="text-center">
                 <p className="text-[10px] text-white/20 uppercase tracking-widest leading-relaxed">
-                  By initializing, you agree to the <button className="text-[#DCFF00] hover:underline">Neural Terms of Service</button> and <button className="text-[#DCFF00] hover:underline">Protocol Governance</button>.
+                  By initializing, you agree to the <button className="text-[#DCFF00] hover:underline">Bloom Terms of Service</button> and <button className="text-[#DCFF00] hover:underline">Protocol Governance</button>.
                 </p>
               </div>
             </div>
@@ -101,9 +98,8 @@ export default function SignupPage() {
         </div>
       </main>
       
-      {/* Footer */}
       <footer className="p-12 text-center mt-auto">
-         <p className="text-[10px] text-white/10 uppercase tracking-[0.5em] italic">Microsoft x Design Rocket Architecture</p>
+         <p className="text-[10px] text-white/10 uppercase tracking-[0.5em] italic">Microsoft x Bloom Architecture</p>
       </footer>
     </div>
   );

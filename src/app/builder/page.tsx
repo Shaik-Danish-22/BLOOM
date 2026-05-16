@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -33,7 +34,7 @@ export default function BuilderPage() {
   const scrollRef = useRef<HTMLDivElement>(null);
   
   const [chat, setChat] = useState<{role: 'user' | 'assistant' | 'agent', text: string, agent?: string}[]>([
-    { role: 'agent', agent: 'SCISSOR', text: "FounderOS intelligence materialized. Neural core is stable." },
+    { role: 'agent', agent: 'SCISSOR', text: "Bloom intelligence materialized. Neural core is stable." },
     { role: 'assistant', text: "The first layer of materialization is complete. I've focused on the editorial serif hierarchy. What section should we optimize next?" }
   ]);
 
@@ -63,13 +64,12 @@ export default function BuilderPage() {
       <BackgroundEffects />
       <ShaderBackground />
       
-      {/* SIDEBAR: NEURAL ORCHESTRATOR */}
       <aside className="w-[480px] border-r border-white/5 bg-black/60 backdrop-blur-3xl flex flex-col z-10">
         <header className="p-8 border-b border-white/5 flex items-center justify-between">
            <button onClick={() => router.push('/workspace')} className="p-3 rounded-xl hover:bg-white/5 border border-white/5">
               <ArrowLeft size={20} className="text-white/40" />
            </button>
-           <h3 className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/40">Neural Studio</h3>
+           <h3 className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/40">Bloom Neural Studio</h3>
            <div className="w-16 h-20 overflow-hidden relative rounded-xl bg-white/5">
               <div className="absolute inset-0 h-[120%] w-full">
                 <InteractiveRobotSpline 
@@ -126,7 +126,6 @@ export default function BuilderPage() {
         </div>
       </aside>
 
-      {/* MAIN VIEW */}
       <main className="flex-1 flex flex-col z-10 p-8 overflow-hidden bg-background/20 relative">
          <header className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-3 liquid-glass p-1.5 rounded-xl">
@@ -171,7 +170,7 @@ export default function BuilderPage() {
                   ) : (
                     <div className="p-16 font-code text-sm text-white/30 leading-relaxed">
                        <pre className="animate-pulse">
-                        {`// Neural Architecture v2.5\nimport { Bloom } from '@founder-os/core';\n\nexport default function Startup() {\n  return (\n    <Canvas mode="cinematic">\n       <Header />\n       <Hero content="AI Plant Sculpting" />\n       <Features items={['Mesh Extraction', 'Growth Neural']} />\n    </Canvas>\n  );\n}`}
+                        {`// Bloom Architecture v2.5\nimport { Bloom } from '@bloom/core';\n\nexport default function Startup() {\n  return (\n    <Canvas mode="cinematic">\n       <Header />\n       <Hero content="AI Materialization" />\n       <Features items={['Mesh Extraction', 'Growth Neural']} />\n    </Canvas>\n  );\n}`}
                        </pre>
                     </div>
                   )}

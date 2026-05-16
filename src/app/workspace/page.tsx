@@ -28,17 +28,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { enhancePrompt } from "@/ai/flows/enhance-prompt";
-import { generateOracleInvestorScore } from "@/ai/flows/generate-oracle-investor-score";
 import { BackgroundEffects } from "@/components/cinematic/BackgroundEffects";
-import { OracleGauge } from "@/components/cinematic/OracleGauge";
-import { DESIGN_SYSTEMS, DesignSystemId } from "@/lib/design-systems";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { InteractiveRobotSpline } from "@/components/ui/interactive-3d-robot";
 import ShaderBackground from "@/components/ui/shader-background";
 
-type Step = 'prompt' | 'enhancing' | 'refine' | 'mode-selection' | 'research' | 'design-systems' | 'materializing';
+type Step = 'prompt' | 'enhancing' | 'refine';
 
 const SCISSOR_SCENE = "https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode";
 
@@ -54,13 +51,10 @@ export default function WorkspacePage() {
   const [step, setStep] = useState<Step>('prompt');
   const [prompt, setPrompt] = useState("");
   const [enhancedData, setEnhancedData] = useState<any>(null);
-  const [oracleData, setOracleData] = useState<any>(null);
-  const [selectedSystem, setSelectedSystem] = useState<DesignSystemId>('agentic');
   const [currentTalk, setCurrentTalk] = useState("Neural link active. Systems ready.");
   const [suggestions, setSuggestions] = useState(DEFAULT_SUGGESTIONS);
 
   useEffect(() => {
-    // Dynamic Scissor Suggestions based on prompt length and keywords
     if (prompt.length > 50) {
       setCurrentTalk("Analyzing high-density intent. Complex vision detected.");
       setSuggestions([
@@ -91,7 +85,7 @@ export default function WorkspacePage() {
   };
 
   const handleMaterializeClick = () => {
-    const sessionContext = { prompt, enhancedData, oracleData, selectedSystem };
+    const sessionContext = { prompt, enhancedData };
     localStorage.setItem("materialization_context", JSON.stringify(sessionContext));
     router.push('/generate');
   };
@@ -104,13 +98,13 @@ export default function WorkspacePage() {
       <nav className="fixed top-0 left-0 right-0 z-50 p-6 flex justify-between items-center backdrop-blur-md border-b border-white/5 bg-black/40">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center">
-            <span className="text-black font-bold text-sm">F</span>
+            <span className="text-black font-bold text-sm">B</span>
           </div>
-          <span className="text-lg font-headline italic tracking-tight text-white/90 leading-none">FounderOS</span>
+          <span className="text-lg font-headline italic tracking-tight text-white/90 leading-none">Bloom</span>
         </div>
         <div className="flex items-center gap-4">
            <button onClick={() => router.push('/')} className="text-white/40 hover:text-white text-[10px] font-bold uppercase tracking-[0.3em] transition-colors">
-             Terminate
+             Terminate Session
            </button>
            <div className="w-10 h-10 rounded-full border border-white/10 bg-white/5 flex items-center justify-center">
               <Zap size={18} className="text-[#DCFF00]" />
@@ -144,7 +138,6 @@ export default function WorkspacePage() {
                     className="w-full min-h-[380px] bg-transparent border-none p-12 text-2xl lg:text-3xl focus:ring-0 focus-visible:ring-0 transition-all pr-[260px] no-scrollbar placeholder:text-white/5 font-light leading-relaxed"
                   />
                   
-                  {/* Sissor Container - Medium & Exact */}
                   <div className="absolute bottom-4 right-4 flex flex-col items-end pointer-events-none z-20">
                     <AnimatePresence mode="wait">
                       <motion.div 
@@ -212,7 +205,7 @@ export default function WorkspacePage() {
                  </div>
               </div>
               <h3 className="text-5xl font-headline italic text-white mb-4 tracking-tighter animate-pulse">Establishing DNA...</h3>
-              <p className="text-[#DCFF00] uppercase tracking-[0.6em] text-[11px] font-bold">Neural Link v2.5 Online</p>
+              <p className="text-[#DCFF00] uppercase tracking-[0.6em] text-[11px] font-bold">Bloom Engine v2.5 Online</p>
             </motion.div>
           )}
 

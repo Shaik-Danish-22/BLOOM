@@ -1,3 +1,4 @@
+
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -22,7 +23,7 @@ const agentMessages = [
 
 export const CinematicLoader = ({ onComplete }: { onComplete: () => void }) => {
   const [activeIdx, setActiveIdx] = useState(0);
-  const [logs, setLogs] = useState<string[]>(["Neural link established.", "FounderOS kernel booting..."]);
+  const [logs, setLogs] = useState<string[]>(["Neural link established.", "Bloom kernel booting..."]);
 
   useEffect(() => {
     if (activeIdx < agents.length) {
@@ -39,7 +40,6 @@ export const CinematicLoader = ({ onComplete }: { onComplete: () => void }) => {
 
   return (
     <div className="relative h-screen w-screen flex flex-col items-center justify-center bg-black overflow-hidden p-12">
-      {/* Background Particles Simulation */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.03)_0%,_transparent_70%)]" />
       
       <div className="relative z-10 w-full max-w-6xl">
@@ -49,7 +49,7 @@ export const CinematicLoader = ({ onComplete }: { onComplete: () => void }) => {
           className="text-center mb-24"
         >
           <h2 className="text-[10px] uppercase tracking-[0.8em] text-white/20 font-bold mb-4">Neural Materialization in Progress</h2>
-          <p className="text-3xl font-headline italic text-white/60">Construction by FounderOS Team</p>
+          <p className="text-3xl font-headline italic text-white/60">Construction by Bloom Architecture Team</p>
         </motion.div>
 
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-32">
@@ -71,13 +71,6 @@ export const CinematicLoader = ({ onComplete }: { onComplete: () => void }) => {
               <agent.icon className={`w-12 h-12 mb-8 transition-colors duration-1000 ${i === activeIdx ? 'text-white' : 'text-white/10'}`} />
               <h4 className={`text-xs font-bold tracking-[0.2em] transition-colors duration-1000 ${i === activeIdx ? 'text-white' : 'text-white/20'}`}>{agent.name}</h4>
               <p className="text-[8px] uppercase tracking-[0.4em] text-white/10 mt-2 font-bold">{agent.role}</p>
-              
-              {i === activeIdx && (
-                <motion.div 
-                  layoutId="active-indicator"
-                  className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1 h-1 bg-white rounded-full shadow-[0_0_15px_white]"
-                />
-              )}
             </motion.div>
           ))}
         </div>
