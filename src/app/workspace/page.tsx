@@ -134,10 +134,12 @@ export default function WorkspacePage() {
               exit={{ opacity: 0, scale: 0.95 }}
               className="flex flex-col items-start justify-center min-h-[70vh] max-w-4xl mx-auto relative"
             >
-              <h2 className="text-5xl md:text-7xl font-headline italic mb-8 tracking-tighter text-left w-full">
-                What are we <br />
-                <em className="not-italic text-white/10">building</em> today?
-              </h2>
+              <div className="mb-12 space-y-2">
+                <h2 className="text-6xl md:text-8xl font-headline italic tracking-tighter text-left w-full leading-[0.9]">
+                  What are we <br />
+                  <em className="not-italic text-white/10">building</em> today?
+                </h2>
+              </div>
               
               <div className="w-full relative group">
                 <div className="absolute -inset-1 bg-white/5 blur-2xl group-hover:bg-white/10 transition-all rounded-[40px]" />
@@ -147,31 +149,32 @@ export default function WorkspacePage() {
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
                     placeholder="Describe your vision..."
-                    className="relative w-full min-h-[280px] bg-black/40 border-white/10 rounded-[40px] p-12 text-xl focus:ring-1 focus:ring-white/20 transition-all backdrop-blur-3xl pr-64 scrollbar-hide"
+                    className="relative w-full min-h-[320px] bg-black/40 border-white/10 rounded-[40px] p-12 text-xl focus:ring-1 focus:ring-white/20 transition-all backdrop-blur-3xl pr-64 scrollbar-hide"
                   />
                   
-                  {/* SISSOR ASSISTANT - COMPLETELY CONTAINED */}
-                  <div className="absolute bottom-6 right-6 flex flex-col items-end pointer-events-none z-20 overflow-visible">
+                  {/* SISSOR ASSISTANT - REFINED FIT */}
+                  <div className="absolute bottom-8 right-8 flex flex-col items-end pointer-events-none z-20 overflow-visible">
                     <AnimatePresence mode="wait">
                       <motion.div 
                         key={currentTalk}
                         initial={{ opacity: 0, y: 10, scale: 0.9 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: -10, scale: 0.9 }}
-                        className="bg-white/10 backdrop-blur-3xl border border-white/10 px-6 py-3 rounded-2xl mb-4 flex items-center gap-3 pointer-events-auto shadow-2xl relative min-w-[180px] -translate-x-8"
+                        className="bg-white/10 backdrop-blur-3xl border border-white/10 px-5 py-2.5 rounded-2xl mb-4 flex items-center gap-3 pointer-events-auto shadow-2xl relative min-w-[160px] -translate-x-4"
                       >
                         <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shrink-0" />
                         <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-white/90 leading-tight">
                           {SISSOR_TALKS[currentTalk]}
                         </span>
-                        <div className="absolute -bottom-1 right-10 w-3 h-3 bg-white/10 border-r border-b border-white/10 rotate-45" />
+                        <div className="absolute -bottom-1 right-10 w-2.5 h-2.5 bg-white/10 border-r border-b border-white/10 rotate-45" />
                       </motion.div>
                     </AnimatePresence>
                     
-                    <div className="w-56 h-56 pointer-events-auto cursor-grab active:cursor-grabbing relative overflow-hidden rounded-3xl bg-white/[0.02] border border-white/5 shadow-inner">
+                    {/* CROPPED CONTAINER TO HIDE WATERMARK AND ENSURE FIT */}
+                    <div className="w-48 h-48 pointer-events-auto cursor-grab active:cursor-grabbing relative overflow-hidden rounded-3xl bg-white/[0.02] border border-white/10 shadow-inner">
                       <InteractiveRobotSpline 
                         scene={SISSOR_SCENE} 
-                        className="w-full h-full scale-[1.0] translate-y-0" 
+                        className="w-full h-full scale-[1.8] translate-y-6" 
                       />
                     </div>
                   </div>
@@ -211,10 +214,10 @@ export default function WorkspacePage() {
               exit={{ opacity: 0 }}
               className="flex flex-col items-center justify-center h-full text-center"
             >
-              <div className="w-80 h-80 mb-12 pointer-events-none relative overflow-hidden rounded-full">
+              <div className="w-80 h-80 mb-12 pointer-events-none relative overflow-hidden rounded-full border border-white/5 shadow-2xl">
                  <InteractiveRobotSpline 
                    scene={SISSOR_SCENE} 
-                   className="w-full h-full scale-[1.2] translate-y-2" 
+                   className="w-full h-full scale-[1.4] translate-y-4" 
                  />
               </div>
               <h3 className="text-5xl font-headline italic text-white mb-6">Enhancing Neural Link...</h3>
