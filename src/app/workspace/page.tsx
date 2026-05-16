@@ -105,7 +105,7 @@ export default function WorkspacePage() {
           <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center">
             <span className="text-black font-bold text-sm">F</span>
           </div>
-          <span className="text-lg font-headline italic tracking-tight">FounderOS Workspace</span>
+          <span className="text-lg font-headline italic tracking-tight text-white/90">FounderOS Workspace</span>
         </div>
         <div className="flex items-center gap-6">
            <button onClick={() => router.push('/')} className="text-white/40 hover:text-white text-[10px] font-bold uppercase tracking-[0.3em] transition-colors">
@@ -118,7 +118,7 @@ export default function WorkspacePage() {
         </div>
       </nav>
 
-      <main className="pt-20 px-6 max-w-7xl mx-auto h-[calc(100vh-80px)] overflow-y-auto scrollbar-hide pb-20">
+      <main className="pt-24 px-6 max-w-7xl mx-auto h-[calc(100vh-80px)] overflow-y-auto scrollbar-hide pb-20">
         <AnimatePresence mode="wait">
           {step === 'prompt' && (
             <motion.div 
@@ -128,8 +128,8 @@ export default function WorkspacePage() {
               exit={{ opacity: 0, scale: 0.98 }}
               className="flex flex-col min-h-[70vh] relative"
             >
-              <div className="mb-12">
-                <h2 className="text-5xl md:text-7xl font-headline italic tracking-tighter leading-[0.8] mb-4 text-white/90">
+              <div className="mb-12 text-left">
+                <h2 className="text-5xl md:text-8xl font-headline italic tracking-tighter leading-[0.8] mb-6 text-white/95">
                   What are we <br />
                   <em className="not-italic text-white/5 italic">materializing?</em>
                 </h2>
@@ -144,31 +144,31 @@ export default function WorkspacePage() {
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
                     placeholder="Describe your vision (e.g., Luxury AI coffee for developers)..."
-                    className="w-full min-h-[350px] bg-transparent border-none p-12 text-2xl focus:ring-0 focus-visible:ring-0 transition-all pr-72 scrollbar-hide"
+                    className="w-full min-h-[380px] bg-transparent border-none p-12 text-2xl focus:ring-0 focus-visible:ring-0 transition-all pr-80 scrollbar-hide"
                   />
                   
                   {/* SCISSOR ASSISTANT */}
-                  <div className="absolute bottom-10 right-10 flex flex-col items-end pointer-events-none z-20">
+                  <div className="absolute bottom-6 right-6 flex flex-col items-end pointer-events-none z-20">
                     <AnimatePresence mode="wait">
                       <motion.div 
                         key={currentTalk}
                         initial={{ opacity: 0, y: 15, x: 20 }}
                         animate={{ opacity: 1, y: 0, x: 0 }}
                         exit={{ opacity: 0, y: -15, x: 20 }}
-                        className="bg-white/10 backdrop-blur-3xl border border-white/10 px-6 py-3 rounded-2xl mb-8 flex items-center gap-3 pointer-events-auto shadow-2xl relative min-w-[220px]"
+                        className="bg-white/10 backdrop-blur-3xl border border-white/10 px-5 py-3 rounded-2xl mb-4 flex items-center gap-3 pointer-events-auto shadow-2xl relative min-w-[200px] translate-y-[-10px] translate-x-[40px]"
                       >
                         <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shrink-0" />
-                        <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-white/90 leading-relaxed">
+                        <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-white/90 leading-relaxed whitespace-nowrap">
                           {SCISSOR_TALKS[currentTalk]}
                         </span>
                         <div className="absolute -bottom-1 right-12 w-3 h-3 bg-white/10 border-r border-b border-white/10 rotate-45" />
                       </motion.div>
                     </AnimatePresence>
                     
-                    <div className="w-64 h-80 pointer-events-auto overflow-hidden relative">
+                    <div className="w-72 h-80 pointer-events-auto overflow-hidden relative rounded-[40px]">
                       <InteractiveRobotSpline 
                         scene={SCISSOR_SCENE} 
-                        className="w-full h-full scale-[1.3] translate-y-3" 
+                        className="w-full h-full scale-[1.5] translate-y-12" 
                       />
                     </div>
                   </div>
@@ -198,7 +198,7 @@ export default function WorkspacePage() {
               <div className="w-96 h-96 mb-12 pointer-events-none relative overflow-hidden rounded-full border border-white/5 bg-white/[0.02]">
                  <InteractiveRobotSpline 
                    scene={SCISSOR_SCENE} 
-                   className="w-full h-full scale-[1.4] translate-y-12" 
+                   className="w-full h-full scale-[1.6] translate-y-16" 
                  />
               </div>
               <h3 className="text-6xl font-headline italic text-white mb-6">Deriving Design DNA...</h3>

@@ -81,7 +81,7 @@ export default function GeneratePage() {
          >
             <InteractiveRobotSpline 
               scene={SCISSOR_SCENE} 
-              className="w-full h-full scale-[1.4] translate-y-32" 
+              className="w-full h-full scale-[1.5] translate-y-24" 
             />
          </motion.div>
       </div>

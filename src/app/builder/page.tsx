@@ -87,7 +87,7 @@ export default function BuilderPage() {
            <div className="w-20 h-28 flex items-center justify-center overflow-hidden relative">
               <InteractiveRobotSpline 
                 scene={SCISSOR_SCENE} 
-                className="w-full h-full scale-[1.6] translate-y-4" 
+                className="w-full h-full scale-[1.5] translate-y-12" 
               />
            </div>
         </header>
