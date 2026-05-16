@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -18,68 +19,41 @@ export default function BloomLanding() {
   const [isBlooming, setIsBlooming] = useState(true);
 
   useEffect(() => {
-    // Bloom splash timer - enough time to see the flower and wordmark
-    const timer = setTimeout(() => setIsBlooming(false), 3800);
+    const splashTimer = setTimeout(() => setIsBlooming(false), 3800);
     
     const video = videoRef.current;
     if (!video) return;
 
     let animationFrame: number;
-    let isFadingOut = false;
 
-    const animateFade = (target: number, duration: number, callback?: () => void) => {
-      const startTime = performance.now();
-      const startOpacity = videoOpacity;
-
+    const animateFade = (target: number, duration: number) => {
+      const start = performance.now();
+      const current = videoOpacity;
       const step = (now: number) => {
-        const elapsed = now - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const current = startOpacity + (target - startOpacity) * progress;
-        setVideoOpacity(current);
-
+        const progress = Math.min((now - start) / duration, 1);
+        setVideoOpacity(current + (target - current) * progress);
         if (progress < 1) {
           animationFrame = requestAnimationFrame(step);
-        } else if (callback) {
-          callback();
         }
       };
       animationFrame = requestAnimationFrame(step);
     };
 
     const handleCanPlay = () => {
-      video.play();
+      video.play().catch(() => {});
       animateFade(1, 500);
     };
 
-    const handleTimeUpdate = () => {
-      if (!isFadingOut && video.duration - video.currentTime <= 0.55) {
-        isFadingOut = true;
-        animateFade(0, 500);
-      }
-    };
-
-    const handleEnded = () => {
-      setVideoOpacity(0);
-      setTimeout(() => {
-        video.currentTime = 0;
-        video.play();
-        isFadingOut = false;
-        animateFade(1, 500);
-      }, 100);
-    };
-
-    video.addEventListener('canplay', handleCanPlay);
-    video.addEventListener('timeupdate', handleTimeUpdate);
-    video.addEventListener('ended', handleEnded);
-
-    if (video.readyState >= 3) handleCanPlay();
+    if (video.readyState >= 3) {
+      handleCanPlay();
+    } else {
+      video.addEventListener('canplay', handleCanPlay);
+    }
 
     return () => {
       video.removeEventListener('canplay', handleCanPlay);
-      video.removeEventListener('timeupdate', handleTimeUpdate);
-      video.removeEventListener('ended', handleEnded);
       cancelAnimationFrame(animationFrame);
-      clearTimeout(timer);
+      clearTimeout(splashTimer);
     };
   }, []);
 
@@ -111,6 +85,8 @@ export default function BloomLanding() {
           ref={videoRef}
           src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_074625_a81f018a-956b-43fb-9aee-4d1508e30e6a.mp4"
           muted
+          autoPlay
+          loop
           playsInline
           style={{ opacity: videoOpacity }}
           className="absolute inset-0 w-full h-full object-cover object-bottom z-0"
@@ -139,7 +115,7 @@ export default function BloomLanding() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 1.3 }}
-            className="text-6xl md:text-7xl lg:text-9xl text-white tracking-tight font-headline mb-10 leading-[0.9] text-glow"
+            className="text-6xl md:text-7xl lg:text-8xl text-white tracking-tight font-headline mb-10 leading-[0.9] text-glow"
           >
             Materialize the <br /><em className="italic text-white/60">unseen</em> vision.
           </motion.h1>

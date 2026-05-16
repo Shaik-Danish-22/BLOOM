@@ -1,29 +1,15 @@
 
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Sparkles, 
-  Search, 
   Palette, 
   ArrowRight, 
-  ChevronLeft, 
   Zap, 
-  Rocket,
   Wand2,
-  Cpu,
-  Shield,
-  Layers,
-  CheckCircle2,
-  Target,
-  AlertTriangle,
-  Brain,
-  Network,
-  BarChart3,
-  Bot,
-  MousePointer2,
-  Send
+  Target
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -33,7 +19,7 @@ import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { InteractiveRobotSpline } from "@/components/ui/interactive-3d-robot";
-import ShaderBackground from "@/components/ui/shader-background";
+import { GradientBackground } from "@/components/ui/paper-design-shader-background";
 
 type Step = 'prompt' | 'enhancing' | 'refine';
 
@@ -77,7 +63,7 @@ export default function WorkspacePage() {
     try {
       const data = await enhancePrompt({ rawPrompt: prompt });
       setEnhancedData(data);
-      setTimeout(() => setStep('refine'), 1500);
+      setTimeout(() => setStep('refine'), 2000);
     } catch (e) {
       console.error("Enhance failed", e);
       setStep('prompt');
@@ -91,9 +77,10 @@ export default function WorkspacePage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-black text-white selection:bg-white/20 overflow-hidden font-body">
+    <div className="relative min-h-screen text-white selection:bg-white/20 overflow-hidden font-body bg-transparent">
       <BackgroundEffects />
-      <ShaderBackground />
+      <GradientBackground />
+      <div className="absolute inset-0 -z-10 bg-black/40" />
 
       <nav className="fixed top-0 left-0 right-0 z-50 p-6 flex justify-between items-center backdrop-blur-md border-b border-white/5 bg-black/40">
         <div className="flex items-center gap-3">
@@ -205,7 +192,7 @@ export default function WorkspacePage() {
                  </div>
               </div>
               <h3 className="text-5xl font-headline italic text-white mb-4 tracking-tighter animate-pulse">Establishing DNA...</h3>
-              <p className="text-[#DCFF00] uppercase tracking-[0.6em] text-[11px] font-bold">Bloom Engine v2.5 Online</p>
+              <p className="text-[#DCFF00] uppercase tracking-[0.6em] text-[11px] font-bold">Bloom Engine Online</p>
             </motion.div>
           )}
 

@@ -27,11 +27,13 @@ const StartupIdeaOutputSchema = z.object({
   }),
   websiteContent: z.object({
     sections: z.array(WebsiteSectionSchema),
-    colorPalette: z.array(z.string().describe('HEX codes strictly derived from Design DNA color logic (e.g., deep coffee browns if prompt is coffee).')),
+    colorPalette: z.array(z.string().describe('HEX codes strictly derived from Design DNA color logic.')),
     typographyStrategy: z.string(),
   }),
   sentinelAtlasMarketIntelligence: z.object({
     marketOpportunityAnalysis: z.string(),
+    marketRisks: z.array(z.string()).describe('Critical identified risks.'),
+    strategicMoats: z.array(z.string()).describe('Unique competitive advantages.'),
     tamSamSom: z.object({
       tam: z.string(),
       sam: z.string(),
@@ -65,8 +67,9 @@ const StartupIdeaOutputSchema = z.object({
     })),
   }),
   oracleInvestorAnalysis: z.object({
-    investorScoreAnalysis: z.string(),
+    investorScore: z.number().min(0).max(100),
     investorVerdict: z.string(),
+    viabilityLogic: z.string().describe('Why this startup will or won\'t succeed.'),
   }),
   architectPitchBuilder: z.object({
     pitchDeckPreview: z.array(z.object({
@@ -82,19 +85,23 @@ const generateStartupIdeaPrompt = ai.definePrompt({
   name: 'generateStartupIdeaPrompt',
   input: { schema: z.object({ startupIdea: z.string(), designDNA: z.any().optional() }) },
   output: { schema: StartupIdeaOutputSchema },
-  prompt: `You are an elite Silicon Valley product architect. 
+  prompt: `You are an elite Silicon Valley product architect and market analyst. 
   Your task is to materialize the following startup vision into a comprehensive strategic and visual package.
   
   CORE VISION: {{{startupIdea}}}
   DESIGN DNA: {{#if designDNA}}{{{json designDNA}}}{{else}}Standard High-Tech Startup{{/if}}
   
-  CRITICAL CONSTRAINTS:
-  1. NO HALLUCINATIONS. Every generated section must be a direct materialization of the core vision. If it's a coffee startup, the copy must talk about beans, roasting, and sensory luxury.
-  2. DESIGN ADHERENCE. Use the colorLogic and mood from the Design DNA to define the colorPalette. If the theme is coffee, use deep rich browns (#3C2A21), creams (#D5CEA3), and whites (#E5E5CB).
-  3. COPYWRITING. The websiteContent copy must be editorial-grade, evocative, and reflect the sophisticationLevel.
-  4. LOGIC. Ensure the TAM/SAM/SOM and GTM strategy are grounded in the specific market category of the vision.
+  CRITICAL CONSTRAINTS (NO EXCEPTIONS):
+  1. NO HALLUCINATIONS. Every generated section must be a direct materialization of the core vision. If it's a coffee startup, talk about beans, roasting, and sensory luxury.
+  2. DESIGN ADHERENCE. Use the colorLogic and mood from the Design DNA to define the colorPalette. 
+     - If COFFEE: Deep espresso browns (#3C2A21), creams (#D5CEA3), and blacks.
+     - If AI/TECH: Obsidian blacks (#0A0A0A), technical violets (#9F5CF0), and whites.
+     - Always map the colorPalette to the theme perfectly.
+  3. COPYWRITING. Use editorial-grade, evocative language. The copy must reflect the sophisticationLevel requested.
+  4. LOGIC. Ensure the TAM/SAM/SOM and GTM strategy are grounded in the specific market category.
+  5. ORACLE SCORE. Provide a realistic score (0-100) based on market saturation and technical moat.
   
-  The "websiteContent" must include a "hero", "problem", "solution", and "features" section as a minimum.`,
+  The "websiteContent" must include "hero", "problem", "solution", and "features" sections.`
 });
 
 export async function generateStartupIdea(input: { startupIdea: string, designDNA: any }): Promise<StartupIdeaOutput> {

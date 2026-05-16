@@ -6,7 +6,7 @@ import { Globe, ArrowRight, User, Mail, Shield, Sparkles } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { InteractiveRobotSpline } from "@/components/ui/interactive-3d-robot";
 import { BackgroundEffects } from "@/components/cinematic/BackgroundEffects";
-import ShaderBackground from "@/components/ui/shader-background";
+import { GradientBackground } from "@/components/ui/paper-design-shader-background";
 
 const SCISSOR_SCENE = "https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode";
 
@@ -16,7 +16,8 @@ export default function SignupPage() {
   return (
     <div className="relative min-h-screen bg-black overflow-hidden flex flex-col selection:bg-white/20 font-body text-white">
       <BackgroundEffects />
-      <ShaderBackground />
+      <GradientBackground />
+      <div className="absolute inset-0 -z-10 bg-black/20" />
 
       <nav className="relative z-50 px-8 py-8 flex justify-between items-center">
         <button onClick={() => router.push('/')} className="flex items-center gap-2">

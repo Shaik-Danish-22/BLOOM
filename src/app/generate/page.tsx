@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { InteractiveRobotSpline } from "@/components/ui/interactive-3d-robot";
 import { Network, Brain, Layers, Shield, Zap, Cpu, CheckCircle2 } from "lucide-react";
 import { generateStartupIdea } from "@/ai/flows/generate-startup-idea";
-import ShaderBackground from "@/components/ui/shader-background";
+import { GradientBackground } from "@/components/ui/paper-design-shader-background";
 
 const SCISSOR_SCENE = "https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode";
 
@@ -79,26 +79,24 @@ export default function GeneratePage() {
   }, [router]);
 
   useEffect(() => {
-    // Clamping stage to ensure it doesn't go out of bounds at 100% progress
     const calculatedStage = Math.floor((progress / 100) * stages.length);
     setStage(Math.min(calculatedStage, stages.length - 1));
   }, [progress, stages.length]);
 
+  const currentStageData = stages[stage] || stages[stages.length - 1];
+
   return (
     <div className="relative min-h-screen bg-[#050505] flex flex-col overflow-hidden font-body text-white">
       <BackgroundEffects />
-      <ShaderBackground />
+      <GradientBackground />
+      <div className="absolute inset-0 -z-10 bg-black/20" />
       
-      {/* Design Rocket Inspired Wordmark Overlay */}
       <div className="absolute top-12 left-12 z-[100] flex flex-col">
-        <span className="text-[28px] font-headline tracking-tight text-white/90">Design Rocket</span>
-        <span className="text-[10px] tracking-[0.3em] font-medium text-white/40">CERTIFICATES x MICROSOFT</span>
+        <span className="text-[28px] font-headline tracking-tight text-white/90">Bloom Forge</span>
+        <span className="text-[10px] tracking-[0.3em] font-medium text-white/40">NEURAL x MATERIALIZATION</span>
       </div>
 
-      {/* Main Construct Area */}
       <div className="flex-1 flex flex-col items-center justify-center relative z-10 px-6">
-        
-        {/* Sissor assistant container - Medium and exact */}
         <div className="mb-8 relative w-[300px] h-[340px] overflow-hidden rounded-[3rem] bg-white/[0.02] border border-white/5 backdrop-blur-3xl group">
            <div className="absolute inset-0 flex items-center justify-center">
               <div className="h-[480px] w-full">
@@ -108,8 +106,6 @@ export default function GeneratePage() {
                 />
               </div>
            </div>
-           
-           {/* Step Indicator */}
            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-[#DCFF00] text-black px-4 py-1.5 rounded-full shadow-[0_0_20px_rgba(220,255,0,0.3)]">
               <span className="text-[10px] font-bold uppercase tracking-widest">Step 0{stage + 1}</span>
            </div>
@@ -124,7 +120,7 @@ export default function GeneratePage() {
               exit={{ opacity: 0, y: -10 }}
               className="text-[46px] font-headline italic tracking-tight leading-[1.05] mb-4"
             >
-              {stages[stage]?.label}: {stages[stage]?.desc}
+              {currentStageData.label}: {currentStageData.desc}
             </motion.h2>
           </AnimatePresence>
           <p className="text-[#83837D] text-lg font-light italic">
@@ -132,7 +128,6 @@ export default function GeneratePage() {
           </p>
         </div>
 
-        {/* Construction Feed */}
         <div className="w-full max-w-[640px] space-y-4">
            {stages.map((s, i) => (
              <div 
@@ -163,7 +158,6 @@ export default function GeneratePage() {
         </div>
       </div>
 
-      {/* Progress Footer */}
       <div className="p-12 bg-[#080808] border-t border-white/5 flex items-center justify-between relative z-20">
          <div className="flex items-center gap-6 flex-1 max-w-4xl">
             <span className="text-[52px] font-headline italic text-white/90 leading-none">{Math.floor(progress)}%</span>
