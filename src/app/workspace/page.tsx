@@ -19,7 +19,8 @@ import {
   AlertTriangle,
   Brain,
   Network,
-  BarChart3
+  BarChart3,
+  Bot
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -111,31 +112,48 @@ export default function WorkspacePage() {
               exit={{ opacity: 0, scale: 0.95 }}
               className="flex flex-col items-center justify-center min-h-[70vh] text-center max-w-3xl mx-auto relative"
             >
-              {/* SISSOR ASSISTANT - SMALL & SUBTLE */}
-              <div className="absolute -top-24 right-0 w-48 h-48 pointer-events-none opacity-40 overflow-hidden rounded-full border border-white/5 bg-white/[0.02]">
-                <InteractiveRobotSpline 
-                  scene="https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode" 
-                  className="w-full h-full scale-[1.4] translate-y-4" 
-                />
-              </div>
-
               <h2 className="text-6xl md:text-8xl font-headline italic mb-12 tracking-tighter">What are we <br /><em className="not-italic text-white/10">building</em> today?</h2>
               
               <div className="w-full relative group">
                 <div className="absolute -inset-1 bg-white/5 blur-2xl group-hover:bg-white/10 transition-all rounded-[40px]" />
-                <Textarea 
-                  value={prompt}
-                  onChange={(e) => setPrompt(e.target.value)}
-                  placeholder="Describe your vision in vague or specific terms..."
-                  className="relative w-full min-h-[220px] bg-black/40 border-white/10 rounded-[40px] p-10 text-xl focus:ring-1 focus:ring-white/20 transition-all backdrop-blur-3xl"
-                />
-                <Button 
-                  onClick={handleEnhance}
-                  disabled={!prompt.trim()}
-                  className="absolute bottom-6 right-6 bg-white text-black hover:bg-white/90 rounded-full px-10 h-16 flex items-center gap-3 font-bold uppercase tracking-widest shadow-2xl transition-transform active:scale-95"
-                >
-                  <Wand2 size={20} /> Neural Enhance
-                </Button>
+                
+                <div className="relative">
+                  <Textarea 
+                    value={prompt}
+                    onChange={(e) => setPrompt(e.target.value)}
+                    placeholder="Describe your vision in vague or specific terms..."
+                    className="relative w-full min-h-[220px] bg-black/40 border-white/10 rounded-[40px] p-10 text-xl focus:ring-1 focus:ring-white/20 transition-all backdrop-blur-3xl pr-40"
+                  />
+                  
+                  {/* SISSOR ASSISTANT - POSITIONED BOTTOM RIGHT NEAR TEXTAREA */}
+                  <div className="absolute bottom-6 right-6 flex flex-col items-end pointer-events-none z-20">
+                    <motion.div 
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      className="bg-white/10 backdrop-blur-xl border border-white/10 px-4 py-2 rounded-2xl mb-2 flex items-center gap-2 pointer-events-auto shadow-2xl"
+                    >
+                      <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                      <span className="text-[10px] uppercase tracking-widest font-bold text-white/80">Hi, I'm SISSOR</span>
+                    </motion.div>
+                    
+                    <div className="w-32 h-32 overflow-hidden rounded-3xl pointer-events-auto cursor-grab active:cursor-grabbing">
+                      <InteractiveRobotSpline 
+                        scene="https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode" 
+                        className="w-full h-full scale-[2.2] translate-y-2" 
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex justify-start mt-6 pl-4">
+                  <Button 
+                    onClick={handleEnhance}
+                    disabled={!prompt.trim()}
+                    className="bg-white text-black hover:bg-white/90 rounded-full px-10 h-16 flex items-center gap-3 font-bold uppercase tracking-widest shadow-2xl transition-transform active:scale-95"
+                  >
+                    <Wand2 size={20} /> Neural Enhance
+                  </Button>
+                </div>
               </div>
               
               <div className="mt-12 flex gap-8">
