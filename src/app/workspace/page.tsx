@@ -152,9 +152,9 @@ export default function WorkspacePage() {
                     <AnimatePresence mode="wait">
                       <motion.div 
                         key={currentTalk}
-                        initial={{ opacity: 0, y: 15, x: 20 }}
-                        animate={{ opacity: 1, y: 0, x: 0 }}
-                        exit={{ opacity: 0, y: -15, x: 20 }}
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -15 }}
                         className="bg-white/10 backdrop-blur-3xl border border-white/10 px-5 py-3 rounded-2xl mb-4 flex items-center gap-3 pointer-events-auto shadow-2xl relative min-w-[200px] max-w-[280px]"
                       >
                         <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shrink-0" />
@@ -165,10 +165,10 @@ export default function WorkspacePage() {
                       </motion.div>
                     </AnimatePresence>
                     
-                    <div className="w-72 h-64 pointer-events-auto overflow-hidden relative">
+                    <div className="w-48 h-40 pointer-events-auto overflow-hidden relative">
                       <InteractiveRobotSpline 
                         scene={SCISSOR_SCENE} 
-                        className="w-full h-full scale-[0.9] translate-y-12" 
+                        className="w-full h-full scale-[1.3] translate-y-3" 
                       />
                     </div>
                   </div>

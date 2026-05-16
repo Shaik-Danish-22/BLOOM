@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "navigation";
+import { useRouter } from "next/navigation";
 import { BackgroundEffects } from "@/components/cinematic/BackgroundEffects";
 import { motion, AnimatePresence } from "framer-motion";
 import { InteractiveRobotSpline } from "@/components/ui/interactive-3d-robot";
@@ -81,7 +81,7 @@ export default function GeneratePage() {
          >
             <InteractiveRobotSpline 
               scene={SCISSOR_SCENE} 
-              className="w-full h-full scale-[1.1] translate-y-32" 
+              className="w-full h-full scale-[1.3] translate-y-32" 
             />
          </motion.div>
       </div>
