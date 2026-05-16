@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { ChevronRight, ArrowRight, CheckCircle2, Layout, Zap, Rocket, Globe, Terminal } from "lucide-react";
+import { ChevronRight, ArrowRight, CheckCircle2, Layout, Zap, Rocket, Globe, Terminal, Code } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
@@ -12,9 +12,9 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
     if (!isVisible) return;
     
     const timers = [
-      setTimeout(() => setStage("layout"), 1500),
-      setTimeout(() => setStage("content"), 3000),
-      setTimeout(() => setStage("final"), 4500),
+      setTimeout(() => setStage("layout"), 1200),
+      setTimeout(() => setStage("content"), 2500),
+      setTimeout(() => setStage("final"), 4000),
     ];
     
     return () => timers.forEach(clearTimeout);
@@ -23,140 +23,118 @@ export function MaterializingWebsite({ isVisible }: { isVisible: boolean }) {
   if (!isVisible) return null;
 
   return (
-    <div className={`bg-black min-h-full transition-all duration-[2000ms] relative ${
-      stage === 'wireframe' ? 'grayscale opacity-30 scale-95 blur-md' : 
-      stage === 'layout' ? 'grayscale opacity-60 scale-100 blur-sm' : ''
+    <div className={`bg-black min-h-full transition-all duration-[2500ms] relative overflow-hidden ${
+      stage === 'wireframe' ? 'grayscale opacity-20 scale-95 blur-xl' : 
+      stage === 'layout' ? 'grayscale opacity-50 scale-100 blur-sm' : ''
     }`}>
-      {/* HUD OVERLAY - MATERIALIZATION STATUS */}
-      <div className="absolute top-12 left-1/2 -translate-x-1/2 z-[100] flex gap-4 pointer-events-none">
-         {["Nodes", "Grid", "Assets", "Final"].map((s, i) => (
-           <div key={s} className={`px-6 py-2 rounded-full border text-[9px] uppercase tracking-[0.3em] font-bold transition-all duration-1000 ${
+      {/* PROGRESS HUD */}
+      <div className="absolute top-10 left-1/2 -translate-x-1/2 z-[200] flex gap-3 pointer-events-none">
+         {["Scaffolding", "Node Grid", "Asset Inject", "Final Render"].map((s, i) => (
+           <div key={s} className={`px-5 py-2 rounded-full border text-[8px] uppercase tracking-[0.4em] font-bold transition-all duration-1000 ${
              (stage === 'wireframe' && i === 0) || 
              (stage === 'layout' && i <= 1) || 
              (stage === 'content' && i <= 2) || 
              (stage === 'final' && i <= 3)
-             ? 'bg-white text-black border-white shadow-[0_0_20px_white]'
-             : 'bg-black/40 text-white/10 border-white/5'
+             ? 'bg-white text-black border-white shadow-[0_0_30px_white]'
+             : 'bg-black/60 text-white/10 border-white/5'
            }`}>
              {s}
            </div>
          ))}
       </div>
 
+      {/* CODE SCANLINE OVERLAY */}
+      {stage !== 'final' && (
+        <div className="absolute inset-0 z-50 pointer-events-none opacity-20 font-mono text-[8px] text-white overflow-hidden p-12 leading-relaxed">
+           <pre className="animate-pulse">
+             {`SCANNING DNS... [OK]
+BUILDING NEURAL GRID... [ACTIVE]
+INJECTING DESIGN DNA: minimal-luxury
+MAPPING VIEWPORT NODES: 1920x1080
+EXECUTING RENDER KERNEL v2.5
+STAGING CONTENT CHUNKS...
+...
+...
+`}
+           </pre>
+        </div>
+      )}
+
       {/* NAVBAR */}
       <motion.nav 
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.5, duration: 1.5 }}
-        className="p-10 flex justify-between items-center border-b border-white/5 bg-black/40 backdrop-blur-xl"
+        transition={{ delay: 0.8, duration: 1.5 }}
+        className="p-10 flex justify-between items-center border-b border-white/5 bg-black/40 backdrop-blur-3xl"
       >
-         <div className="text-3xl font-headline italic tracking-tighter flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full border-2 border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.1)]" />
-            NEXUS
+         <div className="text-3xl font-headline italic tracking-tighter flex items-center gap-4">
+            <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center">
+               <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
+            </div>
+            STARTUP
          </div>
-         <div className="flex gap-12 text-[10px] uppercase tracking-[0.5em] font-bold text-white/20">
-            {['Neural', 'Systems', 'Access'].map(item => (
-              <span key={item} className="hover:text-white cursor-pointer transition-colors relative group">
+         <div className="flex gap-12 text-[10px] uppercase tracking-[0.6em] font-bold text-white/20">
+            {['Vision', 'Technology', 'Connect'].map(item => (
+              <span key={item} className="hover:text-white cursor-pointer transition-colors">
                 {item}
-                <div className="absolute -bottom-2 left-0 w-0 h-px bg-white group-hover:w-full transition-all" />
               </span>
             ))}
          </div>
       </motion.nav>
 
       {/* HERO SECTION */}
-      <section className="px-24 py-56 space-y-20 text-center relative overflow-hidden">
+      <section className="px-24 py-64 space-y-24 text-center relative">
          <motion.div 
            initial={{ opacity: 0 }}
-           animate={{ opacity: stage === 'final' ? 1 : 0.2 }}
-           transition={{ duration: 3 }}
-           className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-white/[0.03] blur-[200px] rounded-full pointer-events-none" 
+           animate={{ opacity: stage === 'final' ? 1 : 0.1 }}
+           transition={{ duration: 4 }}
+           className="absolute top-0 left-1/2 -translate-x-1/2 w-[1400px] h-[700px] bg-white/[0.03] blur-[250px] rounded-full pointer-events-none" 
          />
          
-         <div className="space-y-12">
+         <div className="space-y-16">
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 1 }}
-              className="inline-flex items-center gap-4 px-8 py-3 rounded-full border border-white/5 bg-white/[0.02] text-[10px] uppercase tracking-[0.6em] font-bold text-white/40"
+              className="inline-flex items-center gap-5 px-10 py-4 rounded-full border border-white/5 bg-white/[0.03] text-[10px] uppercase tracking-[0.8em] font-bold text-white/40"
             >
-              <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
-              Autonomous Supply Chain Protocol
+              Neural Intelligence Protocol
             </motion.div>
 
             <motion.h2 
-              initial={{ opacity: 0, y: 50 }}
+              initial={{ opacity: 0, y: 100 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.2, duration: 2 }}
-              className="text-[10rem] font-headline italic leading-[0.8] tracking-tight text-white"
+              transition={{ delay: 1, duration: 2.5 }}
+              className="text-[12rem] font-headline italic leading-[0.75] tracking-tighter text-white"
             >
-              Quiet <br /> <em className="not-italic text-white/10">Precision.</em>
+              Future <br /> <em className="not-italic text-white/5 italic">Materialized.</em>
             </motion.h2>
 
             <motion.p 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 1.8, duration: 2.5 }}
-              className="text-3xl text-white/30 max-w-4xl mx-auto font-light leading-relaxed"
+              transition={{ delay: 2, duration: 3 }}
+              className="text-4xl text-white/20 max-w-5xl mx-auto font-light leading-relaxed italic"
             >
-              Redefining the architecture of global transit through neural node mapping and predictive logistics.
+              Constructing the next generation of industrial intelligence through neural node mapping and predictive logistics.
             </motion.p>
          </div>
 
          <motion.div
-           initial={{ opacity: 0, scale: 0.95 }}
-           animate={{ opacity: 1, scale: 1 }}
-           transition={{ delay: 2.5 }}
-           className="flex justify-center gap-6"
+           initial={{ opacity: 0, y: 50 }}
+           animate={{ opacity: 1, y: 0 }}
+           transition={{ delay: 3 }}
+           className="flex justify-center gap-8"
          >
-           <Button className="bg-white text-black px-20 h-24 rounded-full font-bold text-2xl hover:scale-105 transition-all shadow-[0_0_50px_white]">
-              Initialize Network <ArrowRight className="ml-4 w-8 h-8" />
+           <Button className="bg-white text-black px-24 h-24 rounded-full font-bold text-2xl hover:scale-105 transition-all shadow-[0_0_100px_white]">
+              Begin Transit <ArrowRight className="ml-6 w-10 h-10" />
            </Button>
          </motion.div>
       </section>
 
-      {/* BENTO GRID (THE DESIGN SYSTEM FRAGMENT) */}
-      <section className="px-24 pb-64">
-         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <motion.div 
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 3 }}
-              className="md:col-span-2 aspect-[16/10] liquid-glass rounded-[64px] border border-white/5 p-16 flex flex-col justify-end gap-6 group hover:border-white/20 transition-all"
-            >
-              <Terminal className="w-10 h-10 text-white/20 mb-auto" />
-              <h4 className="text-5xl font-bold text-white">Neural Routing</h4>
-              <p className="text-xl text-white/20">Self-correcting transit nodes across 40+ global ports.</p>
-            </motion.div>
-            
-            <motion.div 
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 3.2 }}
-              className="aspect-square liquid-glass rounded-[64px] border border-white/5 p-12 flex flex-col items-center justify-center text-center gap-6 group hover:border-white/20 transition-all bg-white text-black"
-            >
-              <Globe className="w-12 h-12" />
-              <div className="text-4xl font-bold">24/7</div>
-              <p className="text-xs font-bold uppercase tracking-widest opacity-60">Global Sync</p>
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 3.4 }}
-              className="aspect-square liquid-glass rounded-[64px] border border-white/5 p-12 flex flex-col items-center justify-center text-center gap-6 group hover:border-white/20 transition-all"
-            >
-              <Zap className="w-12 h-12 text-white/40" />
-              <div className="text-4xl font-bold text-white">0.4s</div>
-              <p className="text-xs font-bold uppercase tracking-widest text-white/20">Latency</p>
-            </motion.div>
-         </div>
-      </section>
-
-      {/* FOOTER MATERIALIZATION */}
-      <footer className="p-24 border-t border-white/5 text-center space-y-10">
-         <div className="text-[10px] font-bold uppercase tracking-[1em] text-white/10">Architecture Finalized</div>
-         <p className="text-[9px] text-white/5 uppercase tracking-[0.5em]">Neural materialization protocol v2.5 Stable Output</p>
+      {/* FOOTER */}
+      <footer className="p-32 border-t border-white/5 text-center bg-white/[0.01]">
+         <div className="text-[11px] font-bold uppercase tracking-[1.5em] text-white/5 mb-6">Neural Construct v2.5 Stable</div>
+         <p className="text-[9px] text-white/10 uppercase tracking-[0.8em] italic">FounderOS Intelligence Layer - Active Materialization</p>
       </footer>
     </div>
   );

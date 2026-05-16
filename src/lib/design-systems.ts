@@ -1,6 +1,5 @@
 /**
  * @fileOverview Design System Fragments and Tokens for Siteforge AI.
- * Defines the visual identity tokens for requested systems.
  */
 
 export type DesignSystemId = 'slack' | 'posthog' | 'spotify' | 'coinbase' | 'minimal' | 'cyberpunk';
@@ -27,8 +26,8 @@ export interface DesignSystemTokens {
 export const DESIGN_SYSTEMS: Record<DesignSystemId, DesignSystemTokens> = {
   slack: {
     id: 'slack',
-    name: 'Aubergine Efficiency',
-    description: 'The iconic Slack-style sidebar layout with clear typography.',
+    name: 'Aubergine Cloud',
+    description: 'The iconic high-density layout with clear, instructional typography.',
     colors: {
       primary: '#4A154B',
       background: '#FFFFFF',
@@ -45,26 +44,26 @@ export const DESIGN_SYSTEMS: Record<DesignSystemId, DesignSystemTokens> = {
   },
   posthog: {
     id: 'posthog',
-    name: 'Playful Sage',
-    description: 'A warm, approachable palette with bold IBM Plex Sans.',
+    name: 'Neural Parchment',
+    description: 'Warm, approachable surfaces with bold IBM Plex Sans and playful olive tones.',
     colors: {
-      primary: '#F54E00',
+      primary: '#4D4F46',
       background: '#FDFDF8',
-      accent: '#4D4F46',
+      accent: '#F54E00',
       surface: '#EEEFE9',
       text: '#4D4F46'
     },
     typography: {
-      display: 'IBM Plex Sans, sans-serif',
-      body: 'IBM Plex Sans, sans-serif',
+      display: 'Inter, sans-serif',
+      body: 'Inter, sans-serif',
       weight: '800'
     },
-    principles: ['Warm parchment', 'Playful bold', 'Olive accents']
+    principles: ['Warm tones', 'Bold headings', 'Friendly analytics']
   },
   spotify: {
     id: 'spotify',
     name: 'Obsidian Pulse',
-    description: 'Deep black surfaces with the signature vibrant green.',
+    description: 'Ultra-dark immersive surfaces with vibrant neon green highlights.',
     colors: {
       primary: '#1ED760',
       background: '#121212',
@@ -73,16 +72,16 @@ export const DESIGN_SYSTEMS: Record<DesignSystemId, DesignSystemTokens> = {
       text: '#FFFFFF'
     },
     typography: {
-      display: 'Circular, system-ui',
-      body: 'Circular, system-ui',
+      display: 'Inter, sans-serif',
+      body: 'Inter, sans-serif',
       weight: '700'
     },
-    principles: ['Ultra-dark', 'High contrast', 'Vibrant accents']
+    principles: ['High contrast', 'Vibrant green', 'Deep immersion']
   },
   coinbase: {
     id: 'coinbase',
-    name: 'Financial Trust',
-    description: 'Modern, clean, and trustworthy fintech aesthetic.',
+    name: 'Trust Blue',
+    description: 'Clean, spacious, and authoritative fintech aesthetic with modern spacing.',
     colors: {
       primary: '#0052FF',
       background: '#FFFFFF',
@@ -95,12 +94,12 @@ export const DESIGN_SYSTEMS: Record<DesignSystemId, DesignSystemTokens> = {
       body: 'Inter, sans-serif',
       weight: '600'
     },
-    principles: ['Blue trust', 'Wide spacing', 'Clean grids']
+    principles: ['Financial trust', 'Wide margins', 'Clean grids']
   },
   minimal: {
     id: 'minimal',
-    name: 'Studio Pure',
-    description: 'Monochrome perfection for luxury and editorial brands.',
+    name: 'Studio Serif',
+    description: 'Monochrome perfection for luxury editorial and high-end fashion brands.',
     colors: {
       primary: '#000000',
       background: '#FFFFFF',
@@ -113,12 +112,12 @@ export const DESIGN_SYSTEMS: Record<DesignSystemId, DesignSystemTokens> = {
       body: 'Inter, sans-serif',
       weight: '400'
     },
-    principles: ['Serif display', 'Whitespace', 'Minimalism']
+    principles: ['Serif display', 'Whitespace', 'Luxury minimal']
   },
   cyberpunk: {
     id: 'cyberpunk',
-    name: 'Neural Neon',
-    description: 'Future-forward high-density technical interface.',
+    name: 'Terminal Glow',
+    description: 'Future-forward high-density interface with scanning lines and neon glows.',
     colors: {
       primary: '#00F0FF',
       background: '#000000',
@@ -127,10 +126,10 @@ export const DESIGN_SYSTEMS: Record<DesignSystemId, DesignSystemTokens> = {
       text: '#00F0FF'
     },
     typography: {
-      display: 'JetBrains Mono, monospace',
+      display: 'monospace',
       body: 'Inter, sans-serif',
       weight: '700'
     },
-    principles: ['Glow effects', 'Monospace', 'Grid lines']
+    principles: ['Holographic', 'Grid lines', 'High intensity']
   }
 };
