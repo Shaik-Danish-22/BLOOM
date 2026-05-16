@@ -11,12 +11,14 @@ export function InteractiveRobotSpline({ scene, className }: InteractiveRobotSpl
   return (
     <Suspense
       fallback={
-        <div className={`w-full h-full flex items-center justify-center bg-transparent ${className}`}>
-           <div className="w-8 h-8 rounded-full border-2 border-white/5 border-t-white animate-spin" />
+        <div className="w-full h-full flex items-center justify-center bg-transparent">
+           <div className="w-6 h-6 rounded-full border-2 border-white/5 border-t-white/40 animate-spin" />
         </div>
       }
     >
-      <Spline scene={scene} className={className} />
+      <div className="w-full h-full overflow-hidden">
+        <Spline scene={scene} className={className} />
+      </div>
     </Suspense>
   );
 }

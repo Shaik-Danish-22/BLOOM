@@ -111,8 +111,12 @@ export default function WorkspacePage() {
               exit={{ opacity: 0, scale: 0.95 }}
               className="flex flex-col items-center justify-center min-h-[70vh] text-center max-w-3xl mx-auto relative"
             >
-              <div className="absolute -top-40 right-0 w-64 h-64 pointer-events-none opacity-40">
-                <InteractiveRobotSpline scene="https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode" className="w-full h-full" />
+              {/* SISSOR ASSISTANT - SMALL & SUBTLE */}
+              <div className="absolute -top-24 right-0 w-48 h-48 pointer-events-none opacity-40 overflow-hidden rounded-full border border-white/5 bg-white/[0.02]">
+                <InteractiveRobotSpline 
+                  scene="https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode" 
+                  className="w-full h-full scale-[1.4] translate-y-4" 
+                />
               </div>
 
               <h2 className="text-6xl md:text-8xl font-headline italic mb-12 tracking-tighter">What are we <br /><em className="not-italic text-white/10">building</em> today?</h2>
@@ -157,8 +161,11 @@ export default function WorkspacePage() {
               exit={{ opacity: 0 }}
               className="flex flex-col items-center justify-center h-full text-center"
             >
-              <div className="w-64 h-64 mb-12">
-                 <InteractiveRobotSpline scene="https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode" className="w-full h-full scale-150" />
+              <div className="w-48 h-48 mb-12 overflow-hidden rounded-full border border-white/10 bg-white/5">
+                 <InteractiveRobotSpline 
+                   scene="https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode" 
+                   className="w-full h-full scale-[1.5] translate-y-6" 
+                 />
               </div>
               <h3 className="text-4xl font-headline italic text-white mb-4">Enhancing Neural Link...</h3>
               <p className="text-white/20 uppercase tracking-[0.5em] text-[10px] font-bold animate-pulse">Deriving Strategic DNA and Visual Scaffolding</p>
