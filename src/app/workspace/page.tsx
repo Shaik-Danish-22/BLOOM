@@ -165,10 +165,10 @@ export default function WorkspacePage() {
                       </motion.div>
                     </AnimatePresence>
                     
-                    <div className="w-64 h-64 pointer-events-auto cursor-grab active:cursor-grabbing relative overflow-hidden">
+                    <div className="w-64 h-80 pointer-events-auto cursor-grab active:cursor-grabbing relative overflow-hidden">
                       <InteractiveRobotSpline 
                         scene={SCISSOR_SCENE} 
-                        className="w-full h-full scale-[1.3] translate-y-3" 
+                        className="w-full h-full scale-[1.5] translate-y-8" 
                       />
                     </div>
                   </div>
@@ -198,7 +198,7 @@ export default function WorkspacePage() {
               <div className="w-96 h-96 mb-12 pointer-events-none relative overflow-hidden rounded-full border border-white/5 bg-white/[0.02]">
                  <InteractiveRobotSpline 
                    scene={SCISSOR_SCENE} 
-                   className="w-full h-full scale-[1.2] translate-y-4" 
+                   className="w-full h-full scale-[1.4] translate-y-12" 
                  />
               </div>
               <h3 className="text-6xl font-headline italic text-white mb-6">Deriving Design DNA...</h3>

@@ -14,6 +14,7 @@ import {
   Zap,
   Cpu,
   Shield,
+  Layers as LayersIcon,
   Search,
   Code,
   Globe,
@@ -83,10 +84,10 @@ export default function BuilderPage() {
              <h3 className="text-[13px] font-bold uppercase tracking-[0.7em] text-white/60">NEURAL STUDIO</h3>
              <p className="text-[10px] text-white/10 uppercase tracking-[0.5em] font-bold mt-3">FounderOS Kernel v2.5</p>
            </div>
-           <div className="w-20 h-20 flex items-center justify-center overflow-hidden relative">
+           <div className="w-20 h-28 flex items-center justify-center overflow-hidden relative">
               <InteractiveRobotSpline 
                 scene={SCISSOR_SCENE} 
-                className="w-full h-full scale-[1.3] translate-y-3" 
+                className="w-full h-full scale-[1.6] translate-y-4" 
               />
            </div>
         </header>

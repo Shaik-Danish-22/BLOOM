@@ -77,11 +77,11 @@ export default function GeneratePage() {
              repeat: Infinity,
              ease: "easeInOut"
            }}
-           className="w-[1000px] h-[1000px] opacity-80 scale-100"
+           className="w-[1000px] h-[1000px] opacity-80 scale-100 relative overflow-hidden"
          >
             <InteractiveRobotSpline 
               scene={SCISSOR_SCENE} 
-              className="w-full h-full scale-[1.3] translate-y-20" 
+              className="w-full h-full scale-[1.4] translate-y-32" 
             />
          </motion.div>
       </div>
