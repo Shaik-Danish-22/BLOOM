@@ -26,7 +26,9 @@ import {
   ChevronRight,
   Settings,
   Terminal,
-  MousePointer2
+  MousePointer2,
+  Zap,
+  CheckCircle2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BackgroundEffects } from "@/components/cinematic/BackgroundEffects";
@@ -41,8 +43,6 @@ import { useToast } from "@/hooks/use-toast";
 import { OracleGauge } from "@/components/cinematic/OracleGauge";
 import { BloomLogo } from "@/components/cinematic/BloomLogo";
 import { Separator } from "@/components/ui/separator";
-
-const SCISSOR_SCENE = "https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode";
 
 export default function BuilderPage() {
   const router = useRouter();
@@ -77,12 +77,6 @@ export default function BuilderPage() {
       }
     }
   }, []);
-
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [chat]);
 
   const handleSend = () => {
     if (!input.trim()) return;
@@ -329,6 +323,36 @@ export default function BuilderPage() {
                        </header>
 
                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative z-10">
+                          {/* EXECUTIVE SUMMARY / NEURAL BRIEF */}
+                          <Card className="lg:col-span-3 p-10 rounded-[3rem] bg-gradient-to-br from-white/[0.05] to-transparent border border-white/10 space-y-8 backdrop-blur-3xl">
+                             <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-4 text-[#DCFF00]">
+                                   <Activity size={20} />
+                                   <h4 className="text-[11px] font-bold uppercase tracking-[0.4em]">Executive Neural Brief</h4>
+                                </div>
+                                <div className="flex items-center gap-2 text-white/20">
+                                   <CheckCircle2 size={14} className="text-[#DCFF00]" />
+                                   <span className="text-[10px] font-bold uppercase tracking-widest">Anti-Slop Validated</span>
+                                </div>
+                             </div>
+                             <p className="text-3xl font-headline italic text-white/80 leading-relaxed max-w-4xl">
+                                {startupData?.forgeBrandArchitect?.brandRationale || "Consolidating neural identity..."}
+                             </p>
+                             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pt-6">
+                                {[
+                                  { label: "Neural Tone", value: startupData?.forgeBrandArchitect?.neuralTone },
+                                  { label: "Sophistication", value: "High-Tier" },
+                                  { label: "Design DNA", value: "Validated" },
+                                  { label: "Market Fit", value: startupData?.oracleInvestorAnalysis?.investorVerdict }
+                                ].map((item, i) => (
+                                  <div key={i} className="space-y-1">
+                                     <span className="text-[9px] text-white/20 uppercase tracking-widest block font-bold">{item.label}</span>
+                                     <p className="text-sm font-bold text-white/60">{item.value || "Calculating..."}</p>
+                                  </div>
+                                ))}
+                             </div>
+                          </Card>
+
                           {/* THE SHARK VERDICT */}
                           <Card className="lg:col-span-2 p-12 rounded-[3.5rem] bg-white/[0.02] border border-white/10 space-y-10 backdrop-blur-3xl group shadow-2xl relative overflow-hidden">
                              <div className="absolute top-0 right-0 p-8">

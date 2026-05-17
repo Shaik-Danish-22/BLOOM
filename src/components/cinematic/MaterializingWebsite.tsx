@@ -23,6 +23,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { StartupIdeaOutput } from "@/ai/flows/generate-startup-idea";
 import { cn } from "@/lib/utils";
+import { BloomLogo } from "@/components/cinematic/BloomLogo";
 
 interface MaterializingWebsiteProps {
   isVisible: boolean;
