@@ -51,20 +51,24 @@ const orchestrateStartupPrompt = ai.definePrompt({
     }) 
   },
   output: { schema: OrchestrateStartupOutputSchema },
-  prompt: `You are a world-class AI product architect. 
-  Materialize this startup vision into a comprehensive strategic and content package.
+  prompt: `You are a world-class AI product architect and founder. 
+  Your task is to materialize a startup vision into a comprehensive, coherent, and premium strategic package.
   
   CORE VISION: {{{prompt}}}
   DESIGN DNA: {{{json dna}}}
   DESIGN SYSTEM: {{{json designSystem}}}
   
   CRITICAL CONSTRAINTS:
-  1. NO HALLUCINATIONS. Strictly adhere to the Design DNA and System. 
-  2. If the idea is coffee, use espresso/cream themes. If AI, use dark/electric themes.
-  3. ANTI-SLOP: Ensure the "content" is structured for high-end hierarchy.
-  4. Generate exactly one high-fidelity "hero", "problem", and "features" section.
+  1. NO HALLUCINATIONS. Strictly adhere to the vision intent. 
+  2. BRAND SENSORY: If the idea is "Coffee", you MUST use sensory language (aroma, roast, brew, espresso) and editorial tones.
+  3. THEME ALIGNMENT: 
+     - If it's a coffee shop: Use warm neutrals, espresso browns, and cream tones.
+     - If it's AI/Tech: Use obsidians, electric blues, and glassmorphism.
+  4. ANTI-SLOP: Ensure the "content" sections (hero, problem, features) are structured for high-end hierarchy. No generic AI filler.
+  5. Generate exactly one high-fidelity "hero", "problem", and "features" section.
   
-  Generate content that feels handcrafted and emotionally branded.`
+  The "rationale" should read like a visionary founder's manifesto.
+  The "marketAnalysis" should be a 20+ year multi-billion dollar shark assessment.`
 });
 
 export async function orchestrateStartup(input: { prompt: string, dna: any, designSystem: any }): Promise<OrchestratedStartup> {

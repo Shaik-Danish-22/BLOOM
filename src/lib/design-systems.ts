@@ -164,20 +164,20 @@ export const DESIGN_SYSTEMS: Record<DesignSystemId, DesignSystemTokens> = {
   },
   cafe: {
     id: 'cafe',
-    name: 'Cozy Parchment',
-    description: 'Warm tones, soft typography, and editorial layouts for a relaxed experience.',
-    inspiration: 'Editorial, Boutique Cafe',
+    name: 'Brewers Editorial',
+    description: 'Deep espresso tones, warm parchment canvases, and sophisticated serif typography.',
+    inspiration: 'Specialty Coffee, Editorial Journals',
     tokens: {
       bg: '#F9F7F5',
       surface: '#E9E3DD',
-      surfaceWarm: '#F9F7F5',
-      fg: '#3E2B1E',
-      fgSecondary: '#5D4432',
+      surfaceWarm: '#3C2A21',
+      fg: '#1A120B',
+      fgSecondary: '#3C2A21',
       muted: '#8B735B',
       meta: '#A69076',
-      accent: '#5D4432',
+      accent: '#3C2A21',
       accentOn: '#F9F7F5',
-      accentHover: '#3E2B1E',
+      accentHover: '#1A120B',
       border: '#D9D3CD',
       borderSoft: '#E9E3DD',
       radiusSm: '4px',
@@ -191,7 +191,7 @@ export const DESIGN_SYSTEMS: Record<DesignSystemId, DesignSystemTokens> = {
       leadingTight: '1.1',
       elevRaised: '0 10px 20px rgba(93, 68, 50, 0.05)'
     },
-    principles: ['Soft textures', 'Relaxed hierarchy', 'Human-centered']
+    principles: ['Sensory depth', 'Editorial hierarchy', 'Organic textures']
   },
   agentic: {
     id: 'agentic',

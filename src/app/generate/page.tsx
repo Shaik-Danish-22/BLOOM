@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -7,7 +6,6 @@ import { BackgroundEffects } from "@/components/cinematic/BackgroundEffects";
 import { motion, AnimatePresence } from "framer-motion";
 import { InteractiveRobotSpline } from "@/components/ui/interactive-3d-robot";
 import { Network, Brain, Layers, Shield, Zap, Cpu, CheckCircle2 } from "lucide-react";
-import { generateStartupIdea } from "@/ai/flows/generate-startup-idea";
 import { GradientBackground } from "@/components/ui/paper-design-shader-background";
 
 const SCISSOR_SCENE = "https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode";
@@ -36,26 +34,13 @@ export default function GeneratePage() {
   ];
 
   useEffect(() => {
-    const materialize = async () => {
-      const stored = localStorage.getItem("materialization_context");
-      if (!stored) {
-        router.push("/workspace");
-        return;
-      }
-      const context = JSON.parse(stored);
-      
-      try {
-        const result = await generateStartupIdea({
-          startupIdea: context.prompt,
-          designDNA: context.enhancedData?.designDNA
-        });
-        localStorage.setItem("latest_startup", JSON.stringify(result));
-      } catch (e) {
-        console.error("Materialization failed", e);
-      }
-    };
-
-    materialize();
+    const context = localStorage.getItem("materialization_context");
+    const startup = localStorage.getItem("latest_startup");
+    
+    if (!context || !startup) {
+      router.push("/workspace");
+      return;
+    }
 
     const timer = setInterval(() => {
       setProgress(prev => {
@@ -64,7 +49,7 @@ export default function GeneratePage() {
           setTimeout(() => router.push("/builder"), 1000);
           return 100;
         }
-        return prev + 0.35;
+        return prev + 0.65; // Faster progress
       });
     }, 40);
 
@@ -92,12 +77,12 @@ export default function GeneratePage() {
       <div className="absolute inset-0 -z-10 bg-black/20" />
       
       <div className="absolute top-12 left-12 z-[100] flex flex-col">
-        <span className="text-[28px] font-headline tracking-tight text-white/90">Bloom Forge</span>
-        <span className="text-[10px] tracking-[0.3em] font-medium text-white/40">NEURAL x MATERIALIZATION</span>
+        <span className="text-[28px] font-headline tracking-tight text-white/90 leading-none">Bloom Forge</span>
+        <span className="text-[10px] tracking-[0.3em] font-medium text-white/40 mt-1 uppercase">NEURAL x MATERIALIZATION</span>
       </div>
 
       <div className="flex-1 flex flex-col items-center justify-center relative z-10 px-6">
-        <div className="mb-8 relative w-[300px] h-[340px] overflow-hidden rounded-[3rem] bg-white/[0.02] border border-white/5 backdrop-blur-3xl group">
+        <div className="mb-8 relative w-[300px] h-[340px] overflow-hidden rounded-[3rem] bg-white/[0.02] border border-white/5 backdrop-blur-3xl group shadow-2xl">
            <div className="absolute inset-0 flex items-center justify-center">
               <div className="h-[480px] w-full">
                 <InteractiveRobotSpline 
@@ -107,7 +92,7 @@ export default function GeneratePage() {
               </div>
            </div>
            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-[#DCFF00] text-black px-4 py-1.5 rounded-full shadow-[0_0_20px_rgba(220,255,0,0.3)]">
-              <span className="text-[10px] font-bold uppercase tracking-widest">Step 0{stage + 1}</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest">Node 0{stage + 1}</span>
            </div>
         </div>
 

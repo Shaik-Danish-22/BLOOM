@@ -18,7 +18,9 @@ import {
   Globe,
   Cpu,
   Layers,
-  ArrowRightCircle
+  ArrowRightCircle,
+  Coffee,
+  CheckCircle2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { OrchestratedStartup } from "@/ai/flows/orchestrate-startup";
@@ -62,13 +64,18 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
 
   if (!isVisible || !startupData) return null;
 
-  const system: DesignSystemTokens = DESIGN_SYSTEMS[(context?.selectedSystem as any) || 'apple'];
+  // Sync design system from context or default to 'apple'
+  // But if it's a coffee prompt, we prefer 'cafe'
+  const isCoffee = context?.prompt?.toLowerCase().includes('coffee');
+  const defaultSystemId = isCoffee ? 'cafe' : 'apple';
+  const systemId = context?.selectedSystem || defaultSystemId;
+  const system: DesignSystemTokens = DESIGN_SYSTEMS[systemId as any] || DESIGN_SYSTEMS.apple;
+
   const sections = startupData.content?.sections || [];
   const heroSection = sections.find(s => s.type === 'hero');
   const problemSection = sections.find(s => s.type === 'problem');
   const featuresSection = sections.find(s => s.type === 'features');
 
-  // Motion variants based on intensity
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { 
@@ -115,7 +122,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
            onClick={() => setActivePage('home')}
          >
             <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: system.tokens.accent }}>
-               <Zap size={14} style={{ color: system.tokens.accentOn }} />
+               {isCoffee ? <Coffee size={14} style={{ color: system.tokens.accentOn }} /> : <Zap size={14} style={{ color: system.tokens.accentOn }} />}
             </div>
             {startupData.brand?.companyName || "BLOOM"}
          </div>
@@ -125,7 +132,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
               <button 
                 key={item}
                 onClick={() => setActivePage(i === 0 ? 'home' : i === 1 ? 'features' : 'pricing')}
-                className={cn("transition-all hover:text-white", (activePage === 'home' && i === 0) && "text-white")}
+                className={cn("transition-all hover:text-white")}
                 style={{ color: (activePage === (i === 0 ? 'home' : i === 1 ? 'features' : 'pricing')) ? system.tokens.fg : system.tokens.muted }}
               >
                 {item}
@@ -171,6 +178,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                       className="inline-flex items-center gap-3 px-6 py-2 rounded-full border bg-white/[0.03] text-[9px] uppercase tracking-[0.4em] font-bold mx-auto"
                       style={{ borderColor: system.tokens.borderSoft, color: system.tokens.muted }}
                     >
+                      {isCoffee && <Coffee size={14} className="mr-2" style={{ color: system.tokens.accent }} />}
                       <Cpu size={14} style={{ color: system.tokens.accent }} /> {startupData.brand?.tone || "Neural Orchestration"}
                     </motion.div>
 
@@ -213,7 +221,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                 style={{ borderColor: system.tokens.borderSoft }}
               >
                  {[
-                   { label: "Neural Latency", value: "0.4ms", icon: Zap },
+                   { label: isCoffee ? "Roast Precision" : "Neural Latency", value: isCoffee ? "Optimum" : "0.4ms", icon: Zap },
                    { label: "Audit Validation", value: "Verified", icon: Shield },
                    { label: "Global Reach", value: "Infinite", icon: Globe }
                  ].map((stat, i) => (
@@ -288,7 +296,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                  <div className="space-y-12">
                     <div className="space-y-6">
                       <motion.span variants={itemVariants} className="text-[11px] uppercase tracking-[0.5em] font-bold" style={{ color: system.tokens.muted }}>Operational DNA</motion.span>
-                      <motion.h3 variants={itemVariants} className="text-7xl lg:text-[9rem] italic tracking-tighter leading-[0.85]" style={{ fontFamily: system.tokens.fontDisplay }}>The Core Engine.</motion.h3>
+                      <motion.h3 variants={itemVariants} className="text-7xl lg:text-[9rem] italic tracking-tighter leading-[0.85]" style={{ fontFamily: system.tokens.fontDisplay }}>{isCoffee ? "The Blend." : "The Core Engine."}</motion.h3>
                     </div>
                     <motion.p variants={itemVariants} className="text-3xl font-light italic leading-relaxed max-w-lg" style={{ color: system.tokens.muted }}>
                        Our intelligence architecture is designed for the high-end orchestrator. Every node is optimized for the extraordinary.

@@ -39,6 +39,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 
 type Step = 'prompt' | 'deriving' | 'choice' | 'orchestrating';
 
@@ -62,7 +63,10 @@ export default function WorkspacePage() {
   const [selectedSystem, setSelectedSystem] = useState<string>('apple');
 
   useEffect(() => {
-    if (prompt.length > 50) {
+    if (prompt.toLowerCase().includes('coffee')) {
+      setSelectedSystem('cafe');
+      setCurrentTalk("Aroma detected. Roasting a premium brand identity...");
+    } else if (prompt.length > 50) {
       setCurrentTalk("Analyzing high-density intent. Complex vision detected.");
     } else if (prompt.length > 0) {
       setCurrentTalk("Nodes scanning vision. Neural link establishing...");
@@ -92,7 +96,7 @@ export default function WorkspacePage() {
     
     try {
       // Orchestrate using DNA + Selected System
-      const designSystem = DESIGN_SYSTEMS[selectedSystem as any];
+      const designSystem = DESIGN_SYSTEMS[selectedSystem as any] || DESIGN_SYSTEMS.apple;
       const result = await orchestrateStartup({
         prompt,
         dna,
