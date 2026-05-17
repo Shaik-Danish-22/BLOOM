@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -13,11 +12,17 @@ import {
   Shield,
   Brain,
   Rocket,
-  Search
+  Search,
+  Layout,
+  Terminal,
+  Cpu,
+  Layers,
+  Activity
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { enhancePrompt } from "@/ai/flows/enhance-prompt";
+import { deriveDesignDNA, DesignDNAOutput } from "@/ai/flows/derive-design-dna";
+import { orchestrateStartup } from "@/ai/flows/orchestrate-startup";
 import { BackgroundEffects } from "@/components/cinematic/BackgroundEffects";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
@@ -25,6 +30,7 @@ import { Card } from "@/components/ui/card";
 import { InteractiveRobotSpline } from "@/components/ui/interactive-3d-robot";
 import { GradientBackground } from "@/components/ui/paper-design-shader-background";
 import { BloomLogo } from "@/components/cinematic/BloomLogo";
+import { DESIGN_SYSTEMS } from "@/lib/design-systems";
 import {
   Dialog,
   DialogContent,
@@ -32,8 +38,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { useToast } from "@/hooks/use-toast";
 
-type Step = 'prompt' | 'enhancing' | 'choice' | 'refine';
+type Step = 'prompt' | 'deriving' | 'choice' | 'orchestrating';
 
 const SCISSOR_SCENE = "https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode";
 
@@ -46,12 +53,13 @@ const DEFAULT_SUGGESTIONS = [
 
 export default function WorkspacePage() {
   const router = useRouter();
+  const { toast } = useToast();
   const [step, setStep] = useState<Step>('prompt');
   const [prompt, setPrompt] = useState("");
-  const [enhancedData, setEnhancedData] = useState<any>(null);
+  const [dna, setDna] = useState<DesignDNAOutput | null>(null);
   const [currentTalk, setCurrentTalk] = useState("Neural link active. Systems ready.");
-  const [suggestions, setSuggestions] = useState(DEFAULT_SUGGESTIONS);
   const [showChoice, setShowChoice] = useState(false);
+  const [selectedSystem, setSelectedSystem] = useState<string>('apple');
 
   useEffect(() => {
     if (prompt.length > 50) {
@@ -63,28 +71,51 @@ export default function WorkspacePage() {
     }
   }, [prompt]);
 
-  const handleEnhance = async () => {
+  const handleDeriveDNA = async () => {
     if (!prompt.trim()) return;
-    setStep('enhancing');
+    setStep('deriving');
     try {
-      const data = await enhancePrompt({ rawPrompt: prompt });
-      setEnhancedData(data);
+      const data = await deriveDesignDNA({ rawPrompt: prompt });
+      setDna(data);
       setStep('choice');
       setShowChoice(true);
     } catch (e) {
-      console.error("Enhance failed", e);
+      console.error("DNA derivation failed", e);
       setStep('prompt');
+      toast({ variant: 'destructive', title: "Neural Link Error", description: "Failed to derive startup DNA." });
     }
   };
 
-  const startOrchestration = (path: 'research' | 'design') => {
-    const sessionContext = { 
-      prompt: enhancedData?.professionalBrief || prompt, 
-      enhancedData,
-      selectedPath: path 
-    };
-    localStorage.setItem("materialization_context", JSON.stringify(sessionContext));
-    router.push('/generate');
+  const handleOrchestrate = async (path: 'research' | 'design') => {
+    setStep('orchestrating');
+    setShowChoice(false);
+    
+    try {
+      // Orchestrate using DNA + Selected System
+      const designSystem = DESIGN_SYSTEMS[selectedSystem as any];
+      const result = await orchestrateStartup({
+        prompt,
+        dna,
+        designSystem
+      });
+      
+      const sessionContext = { 
+        prompt, 
+        enhancedData: dna,
+        selectedPath: path,
+        selectedSystem
+      };
+      
+      localStorage.setItem("materialization_context", JSON.stringify(sessionContext));
+      localStorage.setItem("latest_startup", JSON.stringify(result));
+      
+      router.push('/generate');
+    } catch (e) {
+      console.error("Orchestration failed", e);
+      setStep('choice');
+      setShowChoice(true);
+      toast({ variant: 'destructive', title: "Orchestration Error", description: "Neural materialization failed." });
+    }
   };
 
   return (
@@ -110,7 +141,7 @@ export default function WorkspacePage() {
 
       <main className="pt-24 px-6 max-w-7xl mx-auto h-[calc(100vh-80px)] overflow-y-auto no-scrollbar pb-20">
         <AnimatePresence mode="wait">
-          {(step === 'prompt' || step === 'choice' || step === 'refine') && (
+          {(step === 'prompt' || step === 'choice') && (
             <motion.div 
               key="prompt"
               initial={{ opacity: 0, scale: 0.98 }}
@@ -162,7 +193,7 @@ export default function WorkspacePage() {
 
                 <div className="mt-8 flex items-center justify-between pl-4">
                   <div className="flex flex-wrap gap-3">
-                    {suggestions.map((s, i) => (
+                    {DEFAULT_SUGGESTIONS.map((s, i) => (
                       <button 
                         key={i}
                         onClick={() => setPrompt(s)}
@@ -173,8 +204,8 @@ export default function WorkspacePage() {
                     ))}
                   </div>
                   <Button 
-                    onClick={handleEnhance}
-                    disabled={!prompt.trim() || step === 'enhancing'}
+                    onClick={handleDeriveDNA}
+                    disabled={!prompt.trim() || step === 'deriving'}
                     className="liquid-glass-strong bg-white text-black hover:bg-[#DCFF00] transition-colors rounded-full px-12 h-16 flex items-center gap-4 font-bold uppercase tracking-widest shadow-2xl active:scale-95 group"
                   >
                     <Wand2 size={20} className="group-hover:rotate-12 transition-transform" /> 
@@ -185,9 +216,9 @@ export default function WorkspacePage() {
             </motion.div>
           )}
 
-          {step === 'enhancing' && (
+          {(step === 'deriving' || step === 'orchestrating') && (
             <motion.div 
-              key="enhancing"
+              key="loading"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               className="flex flex-col items-center justify-center min-h-[60vh] text-center"
@@ -195,16 +226,41 @@ export default function WorkspacePage() {
               <div className="mb-10">
                 <BloomLogo size={120} />
               </div>
-              <h3 className="text-5xl font-headline italic text-white mb-4 tracking-tighter animate-pulse">Extracting Design DNA...</h3>
+              <h3 className="text-5xl font-headline italic text-white mb-4 tracking-tighter animate-pulse">
+                {step === 'deriving' ? 'Extracting Design DNA...' : 'Orchestrating Experience...'}
+              </h3>
               <p className="text-[#DCFF00] uppercase tracking-[0.6em] text-[11px] font-bold">FounderOS Intelligence Core Active</p>
+              
+              <div className="mt-12 w-full max-w-md space-y-4">
+                 {[
+                   { label: "Neural Pacing", icon: Activity },
+                   { label: "Visual Tokenization", icon: Palette },
+                   { label: "Hierarchy Validation", icon: Layers },
+                   { label: "Prompt Reasoning", icon: Brain }
+                 ].map((node, i) => (
+                   <motion.div 
+                     key={i}
+                     initial={{ opacity: 0, x: -20 }}
+                     animate={{ opacity: 1, x: 0 }}
+                     transition={{ delay: i * 0.2 }}
+                     className="flex items-center justify-between p-4 rounded-xl bg-white/[0.02] border border-white/5"
+                   >
+                      <div className="flex items-center gap-3">
+                         <node.icon size={14} className="text-[#DCFF00]/40" />
+                         <span className="text-[10px] uppercase tracking-widest font-bold text-white/40">{node.label}</span>
+                      </div>
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#DCFF00] animate-pulse" />
+                   </motion.div>
+                 ))}
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
 
         {/* ORCHESTRATION CHOICE DIALOG */}
         <Dialog open={showChoice} onOpenChange={setShowChoice}>
-          <DialogContent className="max-w-4xl bg-black/95 border-white/10 backdrop-blur-3xl p-0 overflow-hidden rounded-[3rem]">
-            <div className="grid grid-cols-1 md:grid-cols-2">
+          <DialogContent className="max-w-5xl bg-black/95 border-white/10 backdrop-blur-3xl p-0 overflow-hidden rounded-[3rem]">
+            <div className="grid grid-cols-1 lg:grid-cols-2">
               <div className="p-12 space-y-8 border-r border-white/5">
                 <div className="space-y-4">
                    <div className="w-12 h-12 rounded-2xl bg-[#DCFF00]/10 flex items-center justify-center">
@@ -215,11 +271,32 @@ export default function WorkspacePage() {
                       Evaluate your vision through a multi-billion dollar shark lens. Analyze market performance, risks, and viability before building.
                    </p>
                 </div>
-                <div className="space-y-4">
+                
+                <div className="space-y-6 pt-4">
+                   <div className="flex items-center gap-3 text-white/20 text-[10px] font-bold uppercase tracking-widest">
+                      <Terminal size={14} /> Select Design System
+                   </div>
+                   <div className="grid grid-cols-2 gap-2">
+                      {Object.values(DESIGN_SYSTEMS).map(sys => (
+                        <button 
+                          key={sys.id}
+                          onClick={() => setSelectedSystem(sys.id)}
+                          className={cn(
+                            "p-4 rounded-xl border text-left transition-all",
+                            selectedSystem === sys.id ? "bg-white/10 border-white/20" : "bg-white/[0.02] border-white/5 hover:border-white/10"
+                          )}
+                        >
+                           <span className={cn("text-[10px] font-bold uppercase tracking-widest", selectedSystem === sys.id ? "text-[#DCFF00]" : "text-white/40")}>{sys.name}</span>
+                        </button>
+                      ))}
+                   </div>
+                </div>
+
+                <div className="space-y-4 pt-4">
                    <div className="flex items-center gap-3 text-[#DCFF00]/40 text-[10px] font-bold uppercase tracking-widest">
                       <Shield size={14} /> FounderOS Intelligence Node
                    </div>
-                   <Button onClick={() => startOrchestration('research')} className="w-full h-16 rounded-2xl bg-white text-black font-bold uppercase tracking-widest hover:bg-[#DCFF00] transition-all group">
+                   <Button onClick={() => handleOrchestrate('research')} className="w-full h-16 rounded-2xl bg-white text-black font-bold uppercase tracking-widest hover:bg-[#DCFF00] transition-all group">
                       Initialize Research <ArrowRight className="ml-3 group-hover:translate-x-2 transition-transform" />
                    </Button>
                 </div>
@@ -235,11 +312,28 @@ export default function WorkspacePage() {
                       Materialize your vision into a premium, interactive startup experience. Strictly derived from neural Design DNA.
                    </p>
                 </div>
-                <div className="space-y-4">
+
+                <div className="p-8 rounded-[2rem] bg-black/40 border border-white/5 space-y-4">
+                   <div className="flex items-center gap-3 text-white/30 text-[10px] font-bold uppercase tracking-widest">
+                      <Activity size={14} /> Derived DNA Highlights
+                   </div>
+                   <div className="space-y-4">
+                      <div>
+                        <span className="text-[8px] uppercase tracking-widest text-[#DCFF00]/40 font-bold block mb-1">Archetype</span>
+                        <p className="text-xs text-white/60 italic">{dna?.startupArchetype}</p>
+                      </div>
+                      <div>
+                        <span className="text-[8px] uppercase tracking-widest text-[#DCFF00]/40 font-bold block mb-1">Interaction</span>
+                        <p className="text-xs text-white/60 italic">{dna?.designDNA?.interactionStyle}</p>
+                      </div>
+                   </div>
+                </div>
+
+                <div className="space-y-4 pt-4">
                    <div className="flex items-center gap-3 text-white/20 text-[10px] font-bold uppercase tracking-widest">
                       <Zap size={14} /> Anti-Slop Validation Layer
                    </div>
-                   <Button onClick={() => startOrchestration('design')} className="w-full h-16 rounded-2xl bg-white/10 border border-white/10 text-white font-bold uppercase tracking-widest hover:bg-white/20 transition-all group">
+                   <Button onClick={() => handleOrchestrate('design')} className="w-full h-16 rounded-2xl bg-white/10 border border-white/10 text-white font-bold uppercase tracking-widest hover:bg-white/20 transition-all group">
                       Materialize Experience <ArrowRight className="ml-3 group-hover:translate-x-2 transition-transform" />
                    </Button>
                 </div>
@@ -248,7 +342,7 @@ export default function WorkspacePage() {
             <div className="p-6 bg-black border-t border-white/5 flex items-center justify-between">
                <div className="flex items-center gap-3">
                   <Brain size={14} className="text-[#DCFF00]" />
-                  <span className="text-[9px] uppercase tracking-widest font-bold text-white/30 italic">Neural Brief Enhanced: "{enhancedData?.suggestedName}"</span>
+                  <span className="text-[9px] uppercase tracking-widest font-bold text-white/30 italic">Neural Brief Derived: "{dna?.startupArchetype}"</span>
                </div>
                <button onClick={() => setShowChoice(false)} className="text-[9px] uppercase tracking-widest font-bold text-white/20 hover:text-white transition-colors">Abort Orchestration</button>
             </div>
