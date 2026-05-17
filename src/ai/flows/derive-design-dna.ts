@@ -6,7 +6,7 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
-import { aiOrchestrator } from '@/services/ai/orchestrator';
+import { generateStructuredOrchestrated } from '@/services/ai/orchestrator';
 
 const DeriveDesignDNAInputSchema = z.object({
   rawPrompt: z.string().describe('The user\'s initial vague startup idea.'),
@@ -48,7 +48,7 @@ export async function deriveDesignDNA(input: z.infer<typeof DeriveDesignDNAInput
 
   try {
     // Orchestrator routes this to Featherless (DeepSeek-V3) for strong reasoning
-    return await aiOrchestrator.generateStructured({
+    return await generateStructuredOrchestrated({
       prompt: userPrompt,
       system: systemPrompt,
       schema: DeriveDesignDNAOutputSchema,
