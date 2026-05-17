@@ -44,28 +44,28 @@ export const DESIGN_SYSTEMS: Record<DesignSystemId, DesignSystemTokens> = {
     description: 'Precision editorial system with gallery-like calm and hardware-first aesthetics.',
     inspiration: 'Apple, Vercel',
     tokens: {
-      bg: '#ffffff',
-      surface: '#f5f5f7',
-      surfaceWarm: '#fbfbfd',
-      fg: '#1d1d1f',
-      fgSecondary: '#424245',
-      muted: '#6e6e73',
-      meta: '#86868b',
+      bg: '#000000',
+      surface: '#111111',
+      surfaceWarm: '#0a0a0a',
+      fg: '#ffffff',
+      fgSecondary: '#a1a1a6',
+      muted: '#86868b',
+      meta: '#6e6e73',
       accent: '#0071e3',
       accentOn: '#ffffff',
       accentHover: '#0077ed',
-      border: '#d2d2d7',
-      borderSoft: '#e8e8ed',
+      border: '#333333',
+      borderSoft: '#222222',
       radiusSm: '8px',
-      radiusMd: '12px',
-      radiusLg: '18px',
+      radiusMd: '14px',
+      radiusLg: '24px',
       radiusPill: '980px',
       fontDisplay: 'var(--font-display)',
       fontBody: 'var(--font-display)',
       motionIntensity: 'subtle',
-      trackingDisplay: '-0.015em',
+      trackingDisplay: '-0.02em',
       leadingTight: '1.05',
-      elevRaised: '0 12px 32px rgba(0, 0, 0, 0.08)'
+      elevRaised: '0 20px 40px rgba(0, 0, 0, 0.4)'
     },
     principles: ['Quiet chrome', 'Loud product', 'Whitespace first']
   },
@@ -89,7 +89,7 @@ export const DESIGN_SYSTEMS: Record<DesignSystemId, DesignSystemTokens> = {
       borderSoft: '#ebebeb',
       radiusSm: '8px',
       radiusMd: '14px',
-      radiusLg: '20px',
+      radiusLg: '24px',
       radiusPill: '9999px',
       fontDisplay: 'var(--font-display)',
       fontBody: 'var(--font-display)',
@@ -125,9 +125,9 @@ export const DESIGN_SYSTEMS: Record<DesignSystemId, DesignSystemTokens> = {
       fontDisplay: 'var(--font-headline)',
       fontBody: 'var(--font-display)',
       motionIntensity: 'subtle',
-      trackingDisplay: '-0.02em',
+      trackingDisplay: '-0.03em',
       leadingTight: '1.0',
-      elevRaised: '0 24px 48px rgba(0, 0, 0, 0.08)'
+      elevRaised: '0 32px 64px rgba(0, 0, 0, 0.1)'
     },
     principles: ['Stadium geometry', 'Cream canvas', 'Orbital trajectory']
   },
@@ -158,7 +158,7 @@ export const DESIGN_SYSTEMS: Record<DesignSystemId, DesignSystemTokens> = {
       motionIntensity: 'high',
       trackingDisplay: '0',
       leadingTight: '1.0',
-      elevRaised: '0 3px 5px rgba(32, 32, 37, 0.05)'
+      elevRaised: '0 3px 10px rgba(0,0,0,0.05)'
     },
     principles: ['Operational clarity', 'Data-first', 'Urgency']
   },
@@ -181,15 +181,15 @@ export const DESIGN_SYSTEMS: Record<DesignSystemId, DesignSystemTokens> = {
       border: '#D9D3CD',
       borderSoft: '#E9E3DD',
       radiusSm: '4px',
-      radiusMd: '8px',
-      radiusLg: '16px',
+      radiusMd: '10px',
+      radiusLg: '24px',
       radiusPill: '99px',
       fontDisplay: 'var(--font-headline)',
       fontBody: 'var(--font-display)',
       motionIntensity: 'subtle',
       trackingDisplay: '0.02em',
-      leadingTight: '1.1',
-      elevRaised: '0 10px 20px rgba(93, 68, 50, 0.05)'
+      leadingTight: '1.05',
+      elevRaised: '0 20px 40px rgba(93, 68, 50, 0.1)'
     },
     principles: ['Sensory depth', 'Editorial hierarchy', 'Organic textures']
   },
@@ -213,14 +213,14 @@ export const DESIGN_SYSTEMS: Record<DesignSystemId, DesignSystemTokens> = {
       borderSoft: '#1a1a1a',
       radiusSm: '6px',
       radiusMd: '14px',
-      radiusLg: '24px',
+      radiusLg: '32px',
       radiusPill: '999px',
       fontDisplay: 'var(--font-display)',
       fontBody: 'var(--font-display)',
       motionIntensity: 'standard',
       trackingDisplay: '-0.02em',
       leadingTight: '1.1',
-      elevRaised: '0 0 0 1px #222'
+      elevRaised: '0 0 0 1px #222, 0 20px 40px rgba(0,0,0,0.5)'
     },
     principles: ['Precision', 'Density', 'Glassmorphism']
   }
