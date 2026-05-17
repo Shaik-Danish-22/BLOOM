@@ -335,6 +335,20 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                     </div>
                  </div>
               </section>
+
+              {/* FOOTER */}
+              <footer className="p-40 lg:p-64 border-t text-center bg-black relative z-10" style={{ borderColor: system.tokens.borderSoft }}>
+                 <div className="max-w-7xl mx-auto flex flex-col items-center space-y-12">
+                    <BloomLogo size={64} animate={false} />
+                    <div className="text-[12px] font-bold uppercase tracking-[1.2em] text-white/10">BLOOM NEURAL FACTORY</div>
+                    <div className="flex gap-12 text-[9px] uppercase tracking-[0.5em] font-bold text-white/20">
+                       <button className="hover:text-white transition-colors">Compliance</button>
+                       <button className="hover:text-white transition-colors">Governance</button>
+                       <button className="hover:text-white transition-colors">Privacy Node</button>
+                    </div>
+                    <div className="pt-20 text-[10px] text-white/5 uppercase tracking-[0.4em] italic font-bold">Neural Materialization © 2026 // Experience Stable</div>
+                 </div>
+              </footer>
             </motion.div>
           )}
 
@@ -473,41 +487,6 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
           )}
         </AnimatePresence>
       </main>
-
-      {/* FOOTER */}
-      <footer className="p-40 lg:p-96 border-t text-center bg-black/40 backdrop-blur-3xl relative z-10" style={{ borderColor: system.tokens.borderSoft }}>
-         <div className="max-w-7xl mx-auto flex flex-col items-center space-y-40">
-            <motion.div 
-              whileHover={{ rotate: 180, scale: 1.1 }}
-              transition={{ duration: 1.5, ease: "anticipate" }}
-              className="cursor-pointer shadow-[0_0_100px_rgba(255,255,255,0.1)] rounded-full p-8 bg-white/5 border border-white/10"
-            >
-              <BloomLogo size={180} animate={false} />
-            </motion.div>
-            
-            <div className="space-y-16">
-              <div className="text-[28px] font-bold uppercase tracking-[2.5em] opacity-10 leading-none">BLOOM NEURAL FACTORY</div>
-              <p className="text-3xl font-light italic opacity-50 max-w-4xl mx-auto leading-relaxed tracking-tight">
-                Intelligence Materialized. Orchestrating the future of startup creation through high-density logic nodes and high-fidelity sensory branding.
-              </p>
-            </div>
-
-            <div className="flex flex-wrap justify-center gap-20 text-[14px] uppercase tracking-[1em] font-bold" style={{ color: system.tokens.meta }}>
-               {['Compliance', 'Governance', 'Privacy Node', 'Audit Logs', 'Protocol Status'].map(item => (
-                 <button key={item} className="hover:text-white transition-all hover:tracking-[1.4em] font-bold">{item}</button>
-               ))}
-            </div>
-            
-            <div className="pt-48 space-y-10">
-              <p className="text-[13px] uppercase tracking-[0.7em] italic opacity-20 font-bold">Experience Build v3.8.0 Stable // FounderOS Validated Core</p>
-              <div className="flex items-center justify-center gap-16 opacity-10">
-                 <Heart size={28} className="hover:text-red-500 transition-colors cursor-pointer" />
-                 <Lock size={28} />
-                 <Shield size={28} />
-              </div>
-            </div>
-         </div>
-      </footer>
     </div>
   );
 }

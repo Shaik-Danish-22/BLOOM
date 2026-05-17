@@ -115,8 +115,10 @@ export default function WorkspacePage() {
     <div className="relative min-h-screen text-white selection:bg-[#DCFF00]/30 overflow-hidden font-body bg-black">
       <BackgroundEffects />
       <GradientBackground />
-      <BackgroundPaths />
-      <div className="absolute inset-0 -z-10 bg-black/70" />
+      <div className="absolute inset-0 z-0 opacity-20">
+        <BackgroundPaths />
+      </div>
+      <div className="absolute inset-0 -z-10 bg-black/60" />
 
       <nav className="fixed top-0 left-0 right-0 z-50 p-6 flex justify-between items-center backdrop-blur-3xl border-b border-white/10 bg-black/40">
         <div className="flex items-center gap-3">
@@ -159,30 +161,30 @@ export default function WorkspacePage() {
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
                     placeholder="Describe your vision (e.g., Luxury AI coffee for developers)..."
-                    className="w-full min-h-[440px] bg-transparent border-none p-12 text-3xl lg:text-4xl focus:ring-0 focus-visible:ring-0 transition-all pr-[300px] no-scrollbar placeholder:text-white/10 font-light leading-[1.2] text-white/90"
+                    className="w-full min-h-[440px] bg-transparent border-none p-12 text-3xl lg:text-4xl focus:ring-0 focus-visible:ring-0 transition-all pr-[320px] no-scrollbar placeholder:text-white/10 font-light leading-[1.2] text-white/90"
                   />
                   
-                  <div className="absolute bottom-6 right-6 flex flex-col items-end pointer-events-none z-20">
+                  <div className="absolute bottom-8 right-8 flex flex-col items-end pointer-events-none z-20">
                     <AnimatePresence mode="wait">
                       <motion.div 
                         key={currentTalk}
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: 10 }}
-                        className="bg-black/60 backdrop-blur-3xl border border-[#DCFF00]/20 px-8 py-5 rounded-[2rem] mb-4 max-w-[260px] pointer-events-auto shadow-2xl"
+                        className="bg-black/80 backdrop-blur-3xl border border-[#DCFF00]/30 px-8 py-5 rounded-[2rem] mb-6 max-w-[280px] pointer-events-auto shadow-2xl"
                       >
                         <span className="text-[11px] uppercase tracking-widest font-bold text-[#DCFF00] leading-tight block mb-1">Scissor_Node</span>
-                        <span className="text-[13px] text-white/90 font-medium italic leading-snug block">
+                        <span className="text-[14px] text-white/90 font-medium italic leading-snug block">
                           {currentTalk}
                         </span>
                       </motion.div>
                     </AnimatePresence>
                     
-                    <div className="w-64 h-72 overflow-hidden relative pointer-events-auto rounded-[2.5rem] bg-black/40 border border-white/10 shadow-inner">
-                      <div className="absolute inset-0 h-[400px] w-full">
+                    <div className="w-72 h-80 overflow-hidden relative pointer-events-auto rounded-[2.5rem] bg-black/60 border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)]">
+                      <div className="absolute inset-0 h-[420px] w-full">
                         <InteractiveRobotSpline 
                           scene={SCISSOR_SCENE} 
-                          className="w-full h-full scale-[0.85] translate-y-10" 
+                          className="w-full h-full scale-[0.9] translate-y-10" 
                         />
                       </div>
                     </div>
@@ -204,7 +206,7 @@ export default function WorkspacePage() {
                   <Button 
                     onClick={handleDeriveDNA}
                     disabled={!prompt.trim() || step === 'deriving'}
-                    className="bg-white text-black hover:bg-[#DCFF00] transition-all rounded-full px-16 h-20 flex items-center gap-6 font-bold uppercase tracking-[0.3em] shadow-[0_0_50px_rgba(220,255,0,0.2)] active:scale-95 group text-sm"
+                    className="bg-white text-black hover:bg-[#DCFF00] transition-all rounded-full px-16 h-20 flex items-center gap-6 font-bold uppercase tracking-[0.3em] shadow-[0_0_50px_rgba(220,255,0,0.3)] active:scale-95 group text-sm"
                   >
                     <Wand2 size={24} className="group-hover:rotate-12 transition-transform" /> 
                     Initialize Link

@@ -73,11 +73,11 @@ export default function LoginPage() {
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
-        <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]" />
+        <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
       </div>
 
-      {/* NEURAL PATHS OVERLAY */}
-      <div className="absolute inset-0 z-10 opacity-40">
+      {/* NEURAL PATHS OVERLAY - Higher Visibility */}
+      <div className="absolute inset-0 z-10 opacity-70 mix-blend-screen">
         <BackgroundPaths />
       </div>
 
@@ -111,14 +111,14 @@ export default function LoginPage() {
                   <div className="w-full h-full bg-gradient-to-br from-[#DCFF00]/10 to-transparent opacity-20" />
                   <Brain size={240} className="text-[#DCFF00] opacity-5 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
                </div>
-               <div className="absolute bottom-16 left-12 right-12 p-12 bg-black/60 backdrop-blur-3xl rounded-[3rem] border border-white/10 shadow-2xl">
+               <div className="absolute bottom-16 left-12 right-12 p-12 bg-black/80 backdrop-blur-3xl rounded-[3rem] border border-white/10 shadow-2xl">
                   <div className="flex items-center gap-4 mb-6">
                     <div className="w-12 h-12 rounded-2xl bg-[#DCFF00]/10 flex items-center justify-center border border-[#DCFF00]/20">
                        <Brain size={24} className="text-[#DCFF00] drop-shadow-[0_0_10px_rgba(220,255,0,0.5)]" />
                     </div>
                     <h3 className="text-3xl font-headline italic">Neural Link v4.2</h3>
                   </div>
-                  <p className="text-lg text-white/70 leading-relaxed font-light italic">
+                  <p className="text-lg text-white/90 leading-relaxed font-light italic">
                     Re-establishing secure connection to FounderOS Intelligence. Your strategic materializations are ready for orchestration.
                   </p>
                </div>
@@ -138,11 +138,11 @@ export default function LoginPage() {
                 </span>
                 <div className="h-px flex-1 bg-white/10" />
               </div>
-              <h1 className="text-7xl lg:text-9xl font-headline italic tracking-tighter leading-[0.85] text-glow drop-shadow-2xl">
+              <h1 className="text-7xl lg:text-9xl font-headline italic tracking-tighter leading-[0.85] text-glow drop-shadow-2xl text-white">
                 Orchestrate your <br />
                 <em className="italic text-white/30 not-italic">Next Vision.</em>
               </h1>
-              <p className="text-white/50 text-2xl font-light leading-relaxed max-w-lg italic">
+              <p className="text-white/70 text-2xl font-light leading-relaxed max-w-lg italic">
                 Access the Design DNA Engine and simulate shark interviews with our Materialization Core.
               </p>
             </div>
