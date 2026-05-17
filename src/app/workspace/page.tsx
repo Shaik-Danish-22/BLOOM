@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -31,6 +30,7 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 type Step = 'prompt' | 'deriving' | 'choice' | 'orchestrating';
 
@@ -324,96 +324,98 @@ export default function WorkspacePage() {
         </AnimatePresence>
 
         <Dialog open={showChoice} onOpenChange={setShowChoice}>
-          <DialogContent className="max-w-6xl bg-black/98 border-white/10 backdrop-blur-[100px] p-0 overflow-hidden rounded-[4rem] shadow-[0_0_200px_rgba(0,0,0,0.95)] border">
+          <DialogContent className="max-w-6xl max-h-[90vh] bg-black/98 border-white/10 backdrop-blur-[100px] p-0 overflow-hidden rounded-[4rem] shadow-[0_0_200px_rgba(0,0,0,0.95)] border flex flex-col">
             <DialogTitle className="sr-only">Choose Materialization Path</DialogTitle>
-            <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[720px]">
-              <div className="p-16 lg:p-24 space-y-12 border-r border-white/5 relative overflow-hidden group flex flex-col justify-between">
-                <div className="absolute inset-0 bg-white/[0.01] transition-all group-hover:bg-white/[0.03]" />
-                <div className="relative z-10 space-y-8">
-                   <div className="w-20 h-20 rounded-[2.5rem] bg-[#DCFF00]/10 flex items-center justify-center border border-[#DCFF00]/30 shadow-2xl group-hover:scale-110 transition-transform">
-                      <Search className="text-[#DCFF00]" size={40} />
-                   </div>
-                   <h3 className="text-6xl font-headline italic text-white leading-none tracking-tighter">Research & <br/> Insight</h3>
-                   <p className="text-white/70 text-2xl leading-relaxed font-light italic max-w-md tracking-tight font-body">
-                      Evaluate your vision through a multi-billion dollar shark lens. Analyze market performance, risks, and viability before building.
-                   </p>
-                </div>
-                
-                <div className="relative z-10 space-y-10 pt-4">
-                   <div className="flex items-center gap-4 text-white/50 text-[11px] font-bold uppercase tracking-[0.6em] font-body">
-                      <Terminal size={18} /> Design System Core
-                   </div>
-                   <div className="grid grid-cols-2 gap-4">
-                      {Object.values(DESIGN_SYSTEMS).map(sys => (
-                        <button 
-                          key={sys.id}
-                          onClick={() => setSelectedSystem(sys.id)}
-                          className={cn(
-                            "p-6 rounded-[2rem] border text-left transition-all relative overflow-hidden group/btn",
-                            selectedSystem === sys.id 
-                            ? "bg-[#DCFF00]/20 border-[#DCFF00]/70 shadow-[0_0_40px_rgba(220,255,0,0.3)]" 
-                            : "bg-white/[0.05] border-white/20 hover:border-white/30 hover:bg-white/[0.08]"
-                          )}
-                        >
-                           <span className={cn(
-                             "text-[11px] font-bold uppercase tracking-[0.3em] block mb-2 font-body", 
-                             selectedSystem === sys.id ? "text-[#DCFF00]" : "text-white"
-                           )}>{sys.name}</span>
-                           <span className="text-[10px] text-white/60 italic line-clamp-1 block uppercase tracking-tighter font-bold font-body">Inspiration: {sys.inspiration}</span>
-                        </button>
-                      ))}
-                   </div>
+            <ScrollArea className="flex-1">
+              <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[720px]">
+                <div className="p-16 lg:p-24 space-y-12 border-r border-white/5 relative overflow-hidden group flex flex-col justify-between">
+                  <div className="absolute inset-0 bg-white/[0.01] transition-all group-hover:bg-white/[0.03]" />
+                  <div className="relative z-10 space-y-8">
+                     <div className="w-20 h-20 rounded-[2.5rem] bg-[#DCFF00]/10 flex items-center justify-center border border-[#DCFF00]/30 shadow-2xl group-hover:scale-110 transition-transform">
+                        <Search className="text-[#DCFF00]" size={40} />
+                     </div>
+                     <h3 className="text-6xl font-headline italic text-white leading-none tracking-tighter">Research & <br/> Insight</h3>
+                     <p className="text-white/70 text-2xl leading-relaxed font-light italic max-w-md tracking-tight font-body">
+                        Evaluate your vision through a multi-billion dollar shark lens. Analyze market performance, risks, and viability before building.
+                     </p>
+                  </div>
+                  
+                  <div className="relative z-10 space-y-10 pt-4">
+                     <div className="flex items-center gap-4 text-white/50 text-[11px] font-bold uppercase tracking-[0.6em] font-body">
+                        <Terminal size={18} /> Design System Core
+                     </div>
+                     <div className="grid grid-cols-2 gap-4">
+                        {Object.values(DESIGN_SYSTEMS).map(sys => (
+                          <button 
+                            key={sys.id}
+                            onClick={() => setSelectedSystem(sys.id)}
+                            className={cn(
+                              "p-6 rounded-[2rem] border text-left transition-all relative overflow-hidden group/btn",
+                              selectedSystem === sys.id 
+                              ? "bg-[#DCFF00]/20 border-[#DCFF00]/70 shadow-[0_0_40px_rgba(220,255,0,0.3)]" 
+                              : "bg-white/[0.05] border-white/20 hover:border-white/30 hover:bg-white/[0.08]"
+                            )}
+                          >
+                             <span className={cn(
+                               "text-[11px] font-bold uppercase tracking-[0.3em] block mb-2 font-body", 
+                               selectedSystem === sys.id ? "text-[#DCFF00]" : "text-white"
+                             )}>{sys.name}</span>
+                             <span className="text-[10px] text-white/60 italic line-clamp-1 block uppercase tracking-tighter font-bold font-body">Inspiration: {sys.inspiration}</span>
+                          </button>
+                        ))}
+                     </div>
+                  </div>
+
+                  <div className="relative z-10 pt-10">
+                     <Button 
+                      onClick={() => handleOrchestrate('research')} 
+                      className="w-full h-24 rounded-[2.5rem] bg-white text-black font-bold uppercase tracking-[0.3em] hover:bg-[#DCFF00] transition-all group shadow-2xl text-xl bloom-button-glow font-body"
+                     >
+                        Initialize Strategic Audit <ArrowRight className="ml-6 w-8 h-8 group-hover:translate-x-3 transition-transform" />
+                     </Button>
+                  </div>
                 </div>
 
-                <div className="relative z-10 pt-10">
-                   <Button 
-                    onClick={() => handleOrchestrate('research')} 
-                    className="w-full h-24 rounded-[2.5rem] bg-white text-black font-bold uppercase tracking-[0.3em] hover:bg-[#DCFF00] transition-all group shadow-2xl text-xl bloom-button-glow font-body"
-                   >
-                      Initialize Strategic Audit <ArrowRight className="ml-6 w-8 h-8 group-hover:translate-x-3 transition-transform" />
-                   </Button>
+                <div className="p-16 lg:p-24 space-y-12 bg-white/[0.02] relative overflow-hidden group flex flex-col justify-between">
+                  <div className="absolute inset-0 bg-[#DCFF00]/[0.02] transition-all group-hover:bg-[#DCFF00]/[0.04]" />
+                  <div className="relative z-10 space-y-8">
+                     <div className="w-20 h-20 rounded-[2.5rem] bg-white/10 flex items-center justify-center border border-white/20 shadow-2xl group-hover:scale-110 transition-transform">
+                        <Palette className="text-white" size={40} />
+                     </div>
+                     <h3 className="text-6xl font-headline italic text-white leading-none tracking-tighter">Design & <br/> Materialize</h3>
+                     <p className="text-white/70 text-2xl leading-relaxed font-light italic max-w-md tracking-tight font-body">
+                        Orchestrate your vision into a premium, functional startup experience. Strictly derived from neural Design DNA tokens.
+                     </p>
+                  </div>
+
+                  <div className="relative z-10 p-12 rounded-[3.5rem] bg-black/50 border border-white/10 space-y-8 shadow-inner">
+                     <div className="flex items-center gap-4 text-white/50 text-[11px] font-bold uppercase tracking-[0.6em] font-body">
+                        <Activity size={18} /> Derived Design DNA
+                     </div>
+                     <div className="space-y-8">
+                        <div className="space-y-2">
+                          <span className="text-[11px] uppercase tracking-widest text-[#DCFF00] font-bold block opacity-80 font-body">Neural Archetype</span>
+                          <p className="text-3xl font-headline italic text-white leading-tight">{dna?.startupArchetype || "Analyzing..."}</p>
+                        </div>
+                        <div className="space-y-2">
+                          <span className="text-[11px] uppercase tracking-widest text-[#DCFF00] font-bold block opacity-80 font-body">Motion Philosophy</span>
+                          <p className="text-3xl font-headline italic text-white leading-tight">{dna?.designDNA?.motionPhilosophy || "Analyzing..."}</p>
+                        </div>
+                     </div>
+                  </div>
+
+                  <div className="relative z-10 pt-10">
+                     <Button 
+                      onClick={() => handleOrchestrate('design')} 
+                      className="w-full h-24 rounded-[2.5rem] bg-white/10 border border-white/20 text-white font-bold uppercase tracking-[0.3em] hover:bg-white/20 transition-all group shadow-2xl backdrop-blur-3xl text-xl font-body"
+                     >
+                        Materialize Experience <ArrowRight className="ml-6 w-8 h-8 group-hover:translate-x-3 transition-transform" />
+                     </Button>
+                  </div>
                 </div>
               </div>
-
-              <div className="p-16 lg:p-24 space-y-12 bg-white/[0.02] relative overflow-hidden group flex flex-col justify-between">
-                <div className="absolute inset-0 bg-[#DCFF00]/[0.02] transition-all group-hover:bg-[#DCFF00]/[0.04]" />
-                <div className="relative z-10 space-y-8">
-                   <div className="w-20 h-20 rounded-[2.5rem] bg-white/10 flex items-center justify-center border border-white/20 shadow-2xl group-hover:scale-110 transition-transform">
-                      <Palette className="text-white" size={40} />
-                   </div>
-                   <h3 className="text-6xl font-headline italic text-white leading-none tracking-tighter">Design & <br/> Materialize</h3>
-                   <p className="text-white/70 text-2xl leading-relaxed font-light italic max-w-md tracking-tight font-body">
-                      Orchestrate your vision into a premium, functional startup experience. Strictly derived from neural Design DNA tokens.
-                   </p>
-                </div>
-
-                <div className="relative z-10 p-12 rounded-[3.5rem] bg-black/50 border border-white/10 space-y-8 shadow-inner">
-                   <div className="flex items-center gap-4 text-white/50 text-[11px] font-bold uppercase tracking-[0.6em] font-body">
-                      <Activity size={18} /> Derived Design DNA
-                   </div>
-                   <div className="space-y-8">
-                      <div className="space-y-2">
-                        <span className="text-[11px] uppercase tracking-widest text-[#DCFF00] font-bold block opacity-80 font-body">Neural Archetype</span>
-                        <p className="text-3xl font-headline italic text-white leading-tight">{dna?.startupArchetype || "Analyzing..."}</p>
-                      </div>
-                      <div className="space-y-2">
-                        <span className="text-[11px] uppercase tracking-widest text-[#DCFF00] font-bold block opacity-80 font-body">Motion Philosophy</span>
-                        <p className="text-3xl font-headline italic text-white leading-tight">{dna?.designDNA?.motionPhilosophy || "Analyzing..."}</p>
-                      </div>
-                   </div>
-                </div>
-
-                <div className="relative z-10 pt-10">
-                   <Button 
-                    onClick={() => handleOrchestrate('design')} 
-                    className="w-full h-24 rounded-[2.5rem] bg-white/10 border border-white/20 text-white font-bold uppercase tracking-[0.3em] hover:bg-white/20 transition-all group shadow-2xl backdrop-blur-3xl text-xl font-body"
-                   >
-                      Materialize Experience <ArrowRight className="ml-6 w-8 h-8 group-hover:translate-x-3 transition-transform" />
-                   </Button>
-                </div>
-              </div>
-            </div>
-            <div className="p-10 bg-black/80 border-t border-white/10 flex items-center justify-between px-20">
+            </ScrollArea>
+            <div className="p-10 bg-black/80 border-t border-white/10 flex items-center justify-between px-20 shrink-0">
                <div className="flex items-center gap-6">
                   <div className="w-3 h-3 rounded-full bg-[#DCFF00] animate-pulse shadow-[0_0_20px_#DCFF00]" />
                   <span className="text-[12px] uppercase tracking-[0.5em] font-bold text-white/90 italic font-body">

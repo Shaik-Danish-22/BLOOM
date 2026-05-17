@@ -105,7 +105,14 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
         fontFamily: system.tokens.fontBody
       }}
     >
-      
+      {/* IMMERSIVE NEURAL BACKGROUND node */}
+      <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
+         <div 
+           className="absolute top-[-10%] left-[-10%] w-[120%] h-[120%] blur-[200px] opacity-30" 
+           style={{ background: `radial-gradient(circle at center, ${system.tokens.accent} 0%, transparent 70%)` }}
+         />
+      </div>
+
       {/* GLOBAL NAVIGATION node */}
       <nav 
         className={cn(
@@ -152,7 +159,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
             <Button variant="ghost" className="text-[10px] uppercase tracking-widest font-bold hidden sm:flex hover:bg-transparent" style={{ color: system.tokens.meta }}>Registry</Button>
             <Button 
               className="rounded-full px-8 h-12 text-[10px] font-bold uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-xl" 
-              style={{ backgroundColor: system.tokens.accent, color: system.tokens.accentOn }}
+              style={{ backgroundColor: system.tokens.accent, color: system.tokens.accentOn, borderRadius: system.tokens.radiusPill }}
             >
                Initialize
             </Button>
@@ -208,7 +215,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                         className="text-5xl md:text-7xl lg:text-[8.5rem] italic leading-[0.85] tracking-tighter font-headline text-glow max-w-6xl mx-auto"
                         style={{ 
                           color: system.tokens.fg,
-                          fontWeight: system.id === 'stripe' ? 300 : 600,
+                          fontWeight: (system.id === 'stripe' || system.id === 'mastercard') ? 300 : 600,
                           letterSpacing: system.tokens.trackingDisplay
                         }}
                       >
@@ -250,7 +257,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                          className="lg:col-span-12 space-y-6"
                        >
                           <span className="text-[10px] uppercase tracking-[1em] font-bold opacity-30 block" style={{ color: system.tokens.accent }}>Strategic Gap</span>
-                          <h3 className="text-4xl md:text-6xl lg:text-8xl font-headline italic tracking-tighter leading-tight" style={{ fontWeight: system.id === 'stripe' ? 300 : 600 }}>
+                          <h3 className="text-4xl md:text-6xl lg:text-8xl font-headline italic tracking-tighter leading-tight" style={{ fontWeight: (system.id === 'stripe' || system.id === 'mastercard') ? 300 : 600 }}>
                             {problemSection?.title || "The Market Logic."}
                           </h3>
                        </motion.div>
@@ -327,20 +334,20 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
             </motion.div>
           )}
 
-          {activePage === 'features' && (
+          {activePage === 'features' && (activePage === 'features') && (
             <motion.div
               key="features"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
               exit={{ opacity: 0, transition: { duration: 0.3 } }}
-              className="px-6 lg:px-24 py-40 h-full"
+              className="px-6 lg:px-24 py-40 min-h-screen"
             >
               <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 lg:gap-40 items-start">
                  <div className="space-y-16 sticky top-40">
                     <div className="space-y-6">
                       <motion.span variants={itemVariants} className="text-[12px] uppercase tracking-[1em] font-bold opacity-30 block" style={{ color: system.tokens.muted }}>Intelligence</motion.span>
-                      <motion.h3 variants={itemVariants} className="text-5xl md:text-7xl lg:text-9xl font-headline italic tracking-tighter leading-tight text-glow" style={{ fontWeight: system.id === 'stripe' ? 300 : 600 }}>
+                      <motion.h3 variants={itemVariants} className="text-5xl md:text-7xl lg:text-9xl font-headline italic tracking-tighter leading-tight text-glow" style={{ fontWeight: (system.id === 'stripe' || system.id === 'mastercard') ? 300 : 600 }}>
                          The Protocol.
                       </motion.h3>
                     </div>
@@ -388,12 +395,12 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
               initial="hidden"
               animate="visible"
               exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.3 } }}
-              className="px-6 lg:px-24 py-40 text-center h-full"
+              className="px-6 lg:px-24 py-40 text-center min-h-screen"
             >
                <div className="max-w-5xl mx-auto space-y-32">
                   <div className="space-y-8">
                     <motion.span variants={itemVariants} className="text-[12px] uppercase tracking-[1em] font-bold opacity-30 block">Access Nodes</motion.span>
-                    <motion.h3 variants={itemVariants} className="text-5xl md:text-7xl lg:text-[8rem] font-headline italic tracking-tighter leading-none" style={{ fontWeight: system.id === 'stripe' ? 300 : 600 }}>Materialize.</motion.h3>
+                    <motion.h3 variants={itemVariants} className="text-5xl md:text-7xl lg:text-[8rem] font-headline italic tracking-tighter leading-none" style={{ fontWeight: (system.id === 'stripe' || system.id === 'mastercard') ? 300 : 600 }}>Materialize.</motion.h3>
                   </div>
                   
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">

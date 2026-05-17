@@ -64,6 +64,9 @@ const orchestrateStartupPrompt = ai.definePrompt({
   3. SYSTEM ALIGNMENT: 
      - If using "Brewers Retail" (Starbucks): Use warm, retail flagship language. Focus on "The Ritual," sensory details, and "Cafe-Wall" warmth.
      - If using "Fintech Precision" (Stripe): Use weight-300 authority. Focus on "Infrastructure," "Global scale," and ethereal, technical luxury.
+     - If using "Rausch Warmth" (Airbnb): Focus on community, photography as depth, and "Handcrafted" hospitality language.
+     - If using "Orbital Editorial" (Mastercard): Focus on "Institution," "Global Standard," and orbital trajectories.
+     - If using "Linear AI" (Linear): Focus on "Engineering Excellence," "Precision," and "Focus" as a luxury.
   4. SENSORY ANCHORING: If the idea is sensory (e.g. coffee, wellness), use deep sensory language (roast, aroma, tranquility, precise).
   5. HIERARCHY: Ensure the hero section title is iconic and minimal. 
   6. Generate exactly one high-fidelity "hero", "problem", and "features" section.
@@ -72,7 +75,7 @@ const orchestrateStartupPrompt = ai.definePrompt({
   The "marketAnalysis" should be a brutal, multi-billion dollar shark assessment from a top-tier VC perspective.`
 });
 
-export async function orchestrateStartup(input: { prompt: string, dna: any, designSystem: any }): Promise<OrchestratedStartup> {
+export async function orchestrateStartup(input: { prompt: string, dna: any, disguiseSystem: any }): Promise<OrchestratedStartup> {
   const { output } = await orchestrateStartupPrompt(input);
   if (!output) throw new Error('Startup orchestration failed');
   return output;

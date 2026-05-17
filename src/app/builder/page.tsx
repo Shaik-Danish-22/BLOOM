@@ -28,7 +28,10 @@ import {
   TrendingUp,
   AlertTriangle,
   Target,
-  Share2
+  Share2,
+  Sparkles,
+  User,
+  Bot
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BackgroundEffects } from "@/components/cinematic/BackgroundEffects";
@@ -44,7 +47,14 @@ import { BloomLogo } from "@/components/cinematic/BloomLogo";
 import { DESIGN_SYSTEMS } from "@/lib/design-systems";
 import { cn } from "@/lib/utils";
 
-type Tab = 'preview' | 'registry' | 'dna' | 'thought';
+type Tab = 'preview' | 'registry' | 'dna' | 'thought' | 'chat';
+
+interface Message {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: Date;
+}
 
 export default function BuilderPage() {
   const router = useRouter();
@@ -55,6 +65,10 @@ export default function BuilderPage() {
   const [startupData, setStartupData] = useState<any>(null);
   const [context, setContext] = useState<any>(null);
   const [isSyncing, setIsSyncing] = useState(false);
+  const [chatInput, setChatInput] = useState("");
+  const [messages, setMessages] = useState<Message[]>([
+    { id: '1', role: 'assistant', content: "Neural connection established. I am ready to refine your materialized vision. What adjustments shall we orchestrate?", timestamp: new Date() }
+  ]);
 
   useEffect(() => {
     const stored = localStorage.getItem("latest_startup");
@@ -94,6 +108,31 @@ export default function BuilderPage() {
     }, 1200);
   };
 
+  const handleSendMessage = async () => {
+    if (!chatInput.trim()) return;
+    
+    const userMsg: Message = { id: Date.now().toString(), role: 'user', content: chatInput, timestamp: new Date() };
+    setMessages(prev => [...prev, userMsg]);
+    setChatInput("");
+    setIsSyncing(true);
+
+    // Simulate AI Refinement
+    setTimeout(() => {
+      const assistantMsg: Message = { 
+        id: (Date.now() + 1).toString(), 
+        role: 'assistant', 
+        content: `Refining vision based on input: "${userMsg.content}". Recalculating design DNA and updating layout tokens...`, 
+        timestamp: new Date() 
+      };
+      setMessages(prev => [...prev, assistantMsg]);
+      setIsSyncing(false);
+      toast({
+        title: "Neural Refinement Applied",
+        description: "Vision updated with direct user intent.",
+      });
+    }, 1500);
+  };
+
   const handleOpenPreview = () => {
     window.open('/preview', '_blank');
   };
@@ -128,7 +167,7 @@ export default function BuilderPage() {
         </header>
 
         <div className="flex border-b border-white/10 px-4 py-3 bg-black/60 shrink-0">
-           {(['preview', 'registry', 'dna', 'thought'] as Tab[]).map((tab) => (
+           {(['preview', 'registry', 'dna', 'chat'] as Tab[]).map((tab) => (
              <button 
                key={tab}
                onClick={() => setActiveTab(tab)}
@@ -140,7 +179,7 @@ export default function BuilderPage() {
                {tab === 'preview' && <Eye size={16} />}
                {tab === 'registry' && <Layers size={16} />}
                {tab === 'dna' && <Activity size={16} />}
-               {tab === 'thought' && <Brain size={16} />}
+               {tab === 'chat' && <Sparkles size={16} />}
                <span className="opacity-80">{tab}</span>
              </button>
            ))}
@@ -148,6 +187,27 @@ export default function BuilderPage() {
 
         <ScrollArea className="flex-1">
            <div className="p-8 space-y-10 pb-32">
+              {activeTab === 'chat' && (
+                <div className="space-y-6 animate-in fade-in slide-in-from-left-4 duration-500">
+                  <div className="flex items-center gap-3 text-[#DCFF00]">
+                    <Sparkles size={18} />
+                    <span className="text-[11px] font-bold uppercase tracking-widest">Neural Refinement</span>
+                  </div>
+                  <div className="space-y-6">
+                    {messages.map((msg) => (
+                      <div key={msg.id} className={cn("flex gap-4 max-w-[90%]", msg.role === 'user' ? "ml-auto flex-row-reverse" : "")}>
+                         <div className={cn("w-8 h-8 rounded-full flex items-center justify-center shrink-0", msg.role === 'assistant' ? "bg-[#DCFF00]/20 text-[#DCFF00]" : "bg-white/10 text-white")}>
+                           {msg.role === 'assistant' ? <Bot size={14} /> : <User size={14} />}
+                         </div>
+                         <div className={cn("p-5 rounded-2xl text-[13px] leading-relaxed", msg.role === 'assistant' ? "bg-white/[0.04] border border-white/5 text-white/80" : "bg-[#DCFF00] text-black font-bold shadow-xl")}>
+                           {msg.content}
+                         </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {activeTab === 'registry' && (
                 <div className="space-y-10 animate-in fade-in slide-in-from-left-4 duration-500">
                    <div className="space-y-5">
@@ -239,35 +299,6 @@ export default function BuilderPage() {
                 </div>
               )}
 
-              {activeTab === 'thought' && (
-                <div className="space-y-8 animate-in fade-in slide-in-from-left-4 duration-500">
-                   <div className="space-y-5">
-                      <div className="flex items-center gap-3 text-[#DCFF00]">
-                         <Brain size={20} />
-                         <span className="text-[11px] font-bold uppercase tracking-widest">Reasoning Stream</span>
-                      </div>
-                      <div className="font-mono text-[12px] text-white/40 space-y-5 bg-black/60 p-6 rounded-2xl border border-white/10 shadow-inner">
-                        <p className="text-white/80">[NEURAL_LINK] Establishing connection to core prompt intent...</p>
-                        <p className="text-[#DCFF00]/60 italic">Analyzing: "{context?.prompt?.substring(0, 80)}..."</p>
-                        <p className="text-white/80">[DNA_EXTRACTION] Derived "{context?.enhancedData?.startupArchetype}" archetype.</p>
-                        <p className="text-white/80">[ORCHESTRATOR] Routing to "{activeSystem.name}" token system.</p>
-                        <p className="text-white/80">[MATERIALIZE] Finalizing CinematicHero_Node assembly.</p>
-                        <p className="text-[#DCFF00] animate-pulse font-bold mt-8">_ Awaiting user refinement...</p>
-                      </div>
-                   </div>
-                   
-                   <div className="p-6 rounded-[2rem] bg-red-500/5 border border-red-500/20 space-y-4 shadow-xl">
-                      <div className="flex items-center gap-3 text-red-500">
-                         <Shield size={18} />
-                         <span className="text-[11px] font-bold uppercase tracking-widest">Anti-Slop Layer</span>
-                      </div>
-                      <p className="text-[13px] text-red-500/70 italic leading-relaxed font-medium">
-                        Validation active. Correcting generic AI patterns, optimizing typography pacing, and ensuring high-contrast consistency.
-                      </p>
-                   </div>
-                </div>
-              )}
-
               {activeTab === 'preview' && (
                 <div className="space-y-10 animate-in fade-in slide-in-from-left-4 duration-500">
                    <div className="space-y-5">
@@ -327,10 +358,17 @@ export default function BuilderPage() {
         <div className="p-8 border-t border-white/10 bg-black/60 shadow-2xl shrink-0">
            <div className="relative group">
               <input 
+                value={chatInput}
+                onChange={(e) => setChatInput(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
                 placeholder="Direct refinement..."
                 className="w-full bg-white/5 border border-white/10 h-14 rounded-2xl px-6 text-[14px] text-white focus:ring-1 focus:ring-[#DCFF00]/40 outline-none transition-all placeholder:text-white/20 shadow-inner"
               />
-              <Button size="icon" className="absolute right-1.5 top-1.5 h-11 w-11 bg-white text-black hover:bg-[#DCFF00] rounded-xl transition-all active:scale-90 shadow-2xl">
+              <Button 
+                onClick={handleSendMessage}
+                size="icon" 
+                className="absolute right-1.5 top-1.5 h-11 w-11 bg-white text-black hover:bg-[#DCFF00] rounded-xl transition-all active:scale-90 shadow-2xl"
+              >
                  <Send size={18} />
               </Button>
            </div>
