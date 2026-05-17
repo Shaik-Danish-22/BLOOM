@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Send, 
@@ -48,7 +48,7 @@ import { BloomLogo } from "@/components/cinematic/BloomLogo";
 import { DESIGN_SYSTEMS } from "@/lib/design-systems";
 import { cn } from "@/lib/utils";
 
-type Tab = 'preview' | 'registry' | 'dna' | 'thought' | 'chat';
+type Tab = 'preview' | 'registry' | 'dna' | 'chat';
 
 interface Message {
   id: string;
@@ -60,6 +60,7 @@ interface Message {
 export default function BuilderPage() {
   const router = useRouter();
   const { toast } = useToast();
+  const scrollRef = useRef<HTMLDivElement>(null);
   const [view, setView] = useState<"desktop" | "tablet" | "mobile">("desktop");
   const [mode, setMode] = useState<"materialization" | "strategy">("materialization");
   const [activeTab, setActiveTab] = useState<Tab>("preview");
@@ -92,6 +93,12 @@ export default function BuilderPage() {
     }
   }, [router]);
 
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+
   const activeSystem = DESIGN_SYSTEMS[(context?.selectedSystem as any) || 'apple'];
 
   const handleUpdateSystem = (id: string) => {
@@ -117,16 +124,26 @@ export default function BuilderPage() {
     setChatInput("");
     setIsSyncing(true);
 
-    // Simulate AI Refinement
+    // Simulate AI Refinement Logic
     setTimeout(() => {
       const assistantMsg: Message = { 
         id: (Date.now() + 1).toString(), 
         role: 'assistant', 
-        content: `Refining vision based on input: "${userMsg.content}". Recalculating design DNA and updating layout tokens...`, 
+        content: `Refining vision based on intent: "${userMsg.content}". Recalculating design DNA and updating materialization tokens...`, 
         timestamp: new Date() 
       };
       setMessages(prev => [...prev, assistantMsg]);
       setIsSyncing(false);
+      
+      // Update startup data rationale to reflect refinement for visual feedback
+      setStartupData((prev: any) => ({
+        ...prev,
+        brand: {
+          ...prev.brand,
+          rationale: `${prev.brand.rationale} (Refinement applied: ${userMsg.content})`
+        }
+      }));
+
       toast({
         title: "Neural Refinement Applied",
         description: "Vision updated with direct user intent.",
@@ -152,8 +169,8 @@ export default function BuilderPage() {
       <GradientBackground />
       <div className="absolute inset-0 -z-10 bg-black/40" />
 
-      {/* LEFT SIDEBAR - DESIGN OS PANELS */}
-      <aside className="w-[420px] h-full border-r border-white/10 bg-black/95 backdrop-blur-3xl flex flex-col z-30 relative shadow-2xl shrink-0">
+      {/* LEFT SIDEBAR - 100vh FIXED */}
+      <aside className="w-[420px] h-full border-r border-white/10 bg-black/95 backdrop-blur-3xl flex flex-col z-30 relative shadow-2xl shrink-0 overflow-hidden">
         <header className="p-8 border-b border-white/5 flex items-center justify-between shrink-0">
            <div className="flex items-center gap-4">
               <BloomLogo size={32} />
@@ -205,6 +222,7 @@ export default function BuilderPage() {
                          </div>
                       </div>
                     ))}
+                    <div ref={scrollRef} />
                   </div>
                 </div>
               )}
@@ -322,35 +340,6 @@ export default function BuilderPage() {
                         ))}
                       </div>
                    </div>
-                   
-                   <div className="p-8 rounded-[2.5rem] bg-white/[0.03] border border-white/10 space-y-8 shadow-2xl relative overflow-hidden">
-                      <div className="flex items-center gap-4 text-white/40">
-                         <Layout size={20} />
-                         <span className="text-[11px] font-bold uppercase tracking-widest">Active Canvas</span>
-                      </div>
-                      <div className="space-y-8">
-                         <div className="space-y-4">
-                            <span className="text-[10px] text-white/30 uppercase tracking-widest block font-bold">Accent Palette</span>
-                            <div className="flex gap-4">
-                               <div className="w-12 h-12 rounded-2xl border border-white/20 shadow-2xl flex flex-col items-center justify-center gap-1" style={{ backgroundColor: activeSystem.tokens.accent }}>
-                                  <span className="text-[8px] font-bold text-black opacity-40 uppercase">ACC</span>
-                               </div>
-                               <div className="w-12 h-12 rounded-2xl border border-white/20 shadow-2xl flex flex-col items-center justify-center gap-1" style={{ backgroundColor: activeSystem.tokens.bg }}>
-                                  <span className="text-[8px] font-bold text-white opacity-40 uppercase">BG</span>
-                               </div>
-                               <div className="w-12 h-12 rounded-2xl border border-white/20 shadow-2xl flex flex-col items-center justify-center gap-1" style={{ backgroundColor: activeSystem.tokens.fg }}>
-                                  <span className="text-[8px] font-bold text-black opacity-40 uppercase">FG</span>
-                               </div>
-                            </div>
-                         </div>
-                         <div className="space-y-4">
-                            <span className="text-[10px] text-white/30 uppercase tracking-widest block font-bold">Typography</span>
-                            <div className="p-5 rounded-2xl bg-black/40 border border-white/10 text-[14px] text-white/95 italic font-headline leading-tight shadow-inner break-words">
-                               {activeSystem.tokens.fontDisplay}
-                            </div>
-                         </div>
-                      </div>
-                   </div>
                 </div>
               )}
            </div>
@@ -376,7 +365,7 @@ export default function BuilderPage() {
         </div>
       </aside>
 
-      {/* MAIN VIEWPORT - CINEMATIC CANVAS */}
+      {/* MAIN VIEWPORT - 100vh FULLSCREEN */}
       <main className="flex-1 flex flex-col z-20 p-8 overflow-hidden relative min-w-0 h-screen">
          <header className="flex items-center justify-between mb-8 shrink-0">
             <div className="flex items-center gap-3 bg-black/80 backdrop-blur-3xl p-1.5 rounded-2xl border border-white/10 shadow-2xl">
@@ -420,10 +409,6 @@ export default function BuilderPage() {
             </div>
 
             <div className="flex items-center gap-4">
-              <div className="flex items-center gap-3 mr-6">
-                 <Terminal size={14} className="text-[#DCFF00]" />
-                 <span className="text-[11px] font-mono text-[#DCFF00]/60 uppercase tracking-widest">Studio_v3.5_Stable</span>
-              </div>
               <Button onClick={handleOpenPreview} variant="ghost" className="text-white/40 hover:text-white hover:bg-white/5 gap-3 text-[10px] uppercase tracking-[0.2em] font-bold px-6 h-12 rounded-xl">
                 Open Preview <ExternalLink size={14} />
               </Button>
@@ -457,15 +442,15 @@ export default function BuilderPage() {
               layout
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
-                "h-full bg-black rounded-[2.5rem] border border-white/10 shadow-[0_50px_100px_rgba(0,0,0,0.8)] overflow-hidden relative",
+                "h-full bg-black rounded-[2.5rem] border border-white/10 shadow-[0_50px_100px_rgba(0,0,0,0.8)] overflow-hidden relative flex flex-col",
                 view === 'desktop' ? 'w-full' : view === 'tablet' ? 'w-[768px]' : 'w-[375px]'
               )}
             >
-               <div className="h-full w-full overflow-hidden bg-black relative flex flex-col">
-                  {mode === 'materialization' ? (
-                    <MaterializingWebsite isVisible={true} data={startupData} context={context} />
-                  ) : (
-                    <div className="flex-1 p-16 space-y-24 bg-black overflow-y-auto no-scrollbar selection:bg-white/10 animate-in fade-in zoom-in-95 duration-1000">
+               {mode === 'materialization' ? (
+                 <MaterializingWebsite isVisible={true} data={startupData} context={context} />
+               ) : (
+                 <ScrollArea className="flex-1">
+                    <div className="p-16 space-y-24">
                        <header className="flex flex-col md:flex-row items-end justify-between border-b border-white/10 pb-16 gap-12">
                           <div className="space-y-8 max-w-3xl">
                              <div className="flex items-center gap-6">
@@ -475,9 +460,6 @@ export default function BuilderPage() {
                                 <span className="text-[11px] text-white/40 uppercase tracking-[0.4em] font-bold">FounderOS Intelligence Core</span>
                              </div>
                              <h2 className="text-7xl font-headline italic text-white/95 leading-[0.85] tracking-tighter">Strategic <br/> Intelligence Hub</h2>
-                             <p className="text-white/50 text-xl font-light leading-relaxed italic max-w-2xl">
-                               Recursive analysis of {startupData?.brand?.companyName || 'Startup'} through our multi-billion dollar shark intelligence layer.
-                             </p>
                           </div>
                           <div className="flex items-center gap-12 bg-white/[0.03] border border-white/10 p-10 rounded-[3.5rem] backdrop-blur-3xl shadow-2xl">
                              <div className="text-right space-y-3">
@@ -493,107 +475,22 @@ export default function BuilderPage() {
                           </div>
                        </header>
 
-                       <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 relative z-10">
+                       <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
                           <Card className="lg:col-span-3 p-12 rounded-[3.5rem] bg-gradient-to-br from-white/[0.08] to-transparent border border-white/10 space-y-10 backdrop-blur-3xl shadow-2xl">
                              <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-5 text-[#DCFF00]">
                                    <Activity size={24} />
                                    <h4 className="text-[12px] font-bold uppercase tracking-[0.4em]">Executive Neural Brief</h4>
                                 </div>
-                                <div className="flex items-center gap-3 text-white/30">
-                                   <CheckCircle2 size={16} className="text-[#DCFF00]" />
-                                   <span className="text-[11px] font-bold uppercase tracking-widest">Anti-Slop Logic Validated</span>
-                                </div>
                              </div>
                              <p className="text-4xl font-headline italic text-white/90 leading-relaxed max-w-5xl">
                                 {startupData?.brand?.rationale || "Consolidating neural identity..."}
                              </p>
-                             <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pt-8 border-t border-white/5">
-                                {[
-                                  { label: "Neural Tone", value: startupData?.brand?.tone },
-                                  { label: "Sophistication", value: context?.enhancedData?.sophisticationLevel },
-                                  { label: "Archetype", value: context?.enhancedData?.startupArchetype },
-                                  { label: "Design System", value: activeSystem.name }
-                                ].map((item, i) => (
-                                  <div key={i} className="space-y-2">
-                                     <span className="text-[10px] text-white/30 uppercase tracking-widest block font-bold">{item.label}</span>
-                                     <p className="text-lg font-bold text-white/70">{item.value || "Calculating..."}</p>
-                                  </div>
-                                ))}
-                             </div>
-                          </Card>
-
-                          <Card className="lg:col-span-2 p-16 rounded-[4rem] bg-white/[0.03] border border-white/10 space-y-12 backdrop-blur-3xl group shadow-2xl relative overflow-hidden">
-                             <div className="absolute top-0 right-0 p-10 opacity-5 group-hover:opacity-10 transition-opacity duration-1000">
-                                <Briefcase size={120} className="text-[#DCFF00]" />
-                             </div>
-                             <div className="flex items-center gap-6 text-[#DCFF00]">
-                                <div className="w-14 h-14 rounded-[1.5rem] bg-[#DCFF00]/10 flex items-center justify-center border border-[#DCFF00]/20 shadow-2xl">
-                                   <Briefcase size={28} />
-                                </div>
-                                <h4 className="text-[14px] font-bold uppercase tracking-[0.4em]">The Shark Verdict</h4>
-                             </div>
-                             <div className="space-y-8">
-                               <p className="text-5xl font-headline italic text-white/95 leading-[1.2] max-w-4xl tracking-tight">
-                                  {context?.enhancedData?.strategicVerdict || "Analyzing market congestions..."}
-                               </p>
-                               <p className="text-2xl text-white/50 font-light leading-relaxed italic max-w-3xl">
-                                  {startupData?.intelligence?.marketAnalysis || "Waiting for neural consensus..."}
-                                </p>
-                             </div>
-                          </Card>
-
-                          <Card className="p-12 rounded-[4rem] bg-white/[0.02] border border-white/10 space-y-12 backdrop-blur-3xl shadow-2xl">
-                             <div className="flex items-center gap-5 text-white/40">
-                                <TrendingUp size={24} />
-                                <h4 className="text-[12px] font-bold uppercase tracking-[0.4em]">Opportunity Map</h4>
-                             </div>
-                             <div className="space-y-10">
-                                <div className="space-y-3">
-                                   <span className="text-[11px] text-white/30 uppercase tracking-[0.2em] block font-bold">TAM</span>
-                                   <span className="text-3xl font-headline italic text-[#DCFF00]">{startupData?.intelligence?.tamSamSom?.tam || "$15.6T"}</span>
-                                </div>
-                                <div className="space-y-3">
-                                   <span className="text-[11px] text-white/30 uppercase tracking-[0.2em] block font-bold">SAM</span>
-                                   <span className="text-3xl font-headline italic text-white/80">{startupData?.intelligence?.tamSamSom?.sam || "$240B"}</span>
-                                </div>
-                             </div>
-                          </Card>
-
-                          <Card className="lg:col-span-1 p-12 rounded-[3.5rem] bg-white/[0.02] border border-white/10 space-y-10 backdrop-blur-3xl shadow-2xl">
-                             <div className="flex items-center gap-5 text-red-500">
-                                <AlertTriangle size={24} />
-                                <h4 className="text-[12px] font-bold uppercase tracking-[0.4em]">Critical Risks</h4>
-                             </div>
-                             <div className="space-y-5">
-                                {(startupData?.intelligence?.risks || ["Execution Risk"]).map((risk: string, i: number) => (
-                                  <div key={i} className="flex items-center gap-5 p-5 rounded-[2rem] bg-red-500/5 border border-red-500/10 hover:bg-red-500/10 transition-all cursor-default group">
-                                     <div className="w-2 h-2 rounded-full bg-red-500 group-hover:scale-150 transition-transform" />
-                                     <span className="text-[14px] text-red-500 font-bold uppercase tracking-widest">{risk}</span>
-                                  </div>
-                                ))}
-                             </div>
-                          </Card>
-
-                          <Card className="lg:col-span-2 p-12 rounded-[3.5rem] bg-white/[0.02] border border-white/10 space-y-10 backdrop-blur-3xl shadow-2xl">
-                             <div className="flex items-center gap-5 text-[#DCFF00]">
-                                <Target size={24} />
-                                <h4 className="text-[12px] font-bold uppercase tracking-[0.4em]">Identified Moats</h4>
-                             </div>
-                             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                                {(startupData?.intelligence?.moats || []).map((moat: string, i: number) => (
-                                  <div key={i} className="p-10 rounded-[2.5rem] bg-white/[0.04] border border-white/10 space-y-5 hover:bg-white/[0.08] transition-all group">
-                                     <h5 className="text-[11px] font-bold uppercase tracking-widest text-[#DCFF00] opacity-40">Neural Node 0{i + 1}</h5>
-                                     <p className="text-2xl font-headline italic text-white/90 leading-tight">{moat}</p>
-                                  </div>
-                                ))}
-                             </div>
                           </Card>
                        </div>
-                       <div className="h-40" /> {/* Spacer */}
                     </div>
-                  )}
-               </div>
+                 </ScrollArea>
+               )}
             </motion.div>
          </div>
       </main>

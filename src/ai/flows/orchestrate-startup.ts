@@ -66,13 +66,17 @@ const orchestrateStartupPrompt = ai.definePrompt({
   
   CRITICAL CONSTRAINTS:
   1. NO SLOP: Avoid generic AI filler like "Unlock your potential" or "The future is here." Use high-density, professional copy. 
-  2. EDITORIAL SCALE: The "title" fields should read like luxury magazine headlines. Use sensory words (aroma, texture, precision).
-  3. INTERACTIVITY: If the user mentions "games", "sudoku", or "tic tac toe", you MUST generate a section of type "game" with a valid gameConfig.
-  4. HIERARCHY: Ensure the hero section title is iconic and minimal. 
-  5. Generate exactly one high-fidelity "hero", "problem", and "features" section. Add a "game" section only if relevant to the vision.
+  2. EDITORIAL SCALE: The "title" fields should read like luxury magazine headlines. Use sensory words (aroma, texture, precision, aerodynamic, crumb, bloom).
+  3. THEME ACCURACY: 
+     - If COFFEE: Focus on ritual, aroma, terroir. Use "Brewers Editorial" tokens.
+     - If CAR: Focus on precision, engineering, aerodynamics, soul. Use "High Performance" tones.
+     - If BAKERY: Focus on heritage, flour, warmth, crust. Use "Pantry Heritage" tokens.
+     - If FINTECH: Focus on security, technical luxury, weight-300. Use "Stripe Precision" tokens.
+  4. INTERACTIVITY: If the user mentions "games", "sudoku", or "tic tac toe", you MUST generate a section of type "game" with a valid gameConfig.
+  5. HIERARCHY: Ensure the hero section title is iconic and minimal. 
   
-  The "rationale" should read like a visionary founder's manifesto.
-  The "marketAnalysis" should be a brutal, multi-billion dollar shark assessment from a top-tier VC perspective.`
+  Generate exactly one high-fidelity "hero", "problem", and "features" section. Add a "game" section only if relevant to the vision.
+  The "rationale" should read like a visionary founder's manifesto.`
 });
 
 export async function orchestrateStartup(input: { prompt: string, dna: any, designSystem: any }): Promise<OrchestratedStartup> {
