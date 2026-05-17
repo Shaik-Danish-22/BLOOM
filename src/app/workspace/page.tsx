@@ -64,6 +64,7 @@ export default function WorkspacePage() {
     const handleLoop = () => {
       if (video.duration) {
         const remaining = video.duration - video.currentTime;
+        // Manual smooth cross-fade loop logic (0.5s fade)
         if (video.currentTime < 0.5) {
           setVideoOpacity(video.currentTime / 0.5);
         } else if (remaining < 0.5) {
@@ -98,8 +99,8 @@ export default function WorkspacePage() {
     if (prompt.toLowerCase().includes('coffee')) {
       setSelectedSystem('cafe');
       setCurrentTalk("Aroma detected. Roasting a premium brand identity...");
-    } else if (prompt.length > 50) {
-      setCurrentTalk("Analyzing high-density intent. Complex vision detected.");
+    } else if (prompt.length > 80) {
+      setCurrentTalk("Analyzing high-density intent. Complex vision detected. Optimizing neural nodes for strategic depth.");
     } else if (prompt.length > 0) {
       setCurrentTalk("Nodes scanning vision. Neural link establishing...");
     } else {
@@ -219,26 +220,26 @@ export default function WorkspacePage() {
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
                     placeholder="Describe your vision (e.g., Luxury AI coffee for developers)..."
-                    className="w-full min-h-[480px] bg-transparent border-none p-16 text-3xl lg:text-5xl focus:ring-0 focus-visible:ring-0 transition-all pr-[360px] no-scrollbar placeholder:text-white/30 font-medium leading-[1.1] text-white font-body"
+                    className="w-full min-h-[480px] bg-transparent border-none p-16 text-3xl lg:text-5xl focus:ring-0 focus-visible:ring-0 transition-all pr-[400px] no-scrollbar placeholder:text-white/30 font-medium leading-[1.1] text-white font-body"
                   />
                   
-                  <div className="absolute bottom-12 right-12 flex flex-col items-end z-30">
+                  <div className="absolute bottom-12 right-12 flex flex-col items-end z-30 max-w-[380px]">
                     <AnimatePresence mode="wait">
                       <motion.div 
                         key={currentTalk}
                         initial={{ opacity: 0, x: 20, y: 10 }}
                         animate={{ opacity: 1, x: 0, y: 0 }}
                         exit={{ opacity: 0, x: 10 }}
-                        className="bg-black/90 backdrop-blur-3xl border border-[#DCFF00]/50 px-10 py-6 rounded-[2.5rem] mb-8 max-w-[320px] shadow-[0_0_50px_rgba(0,0,0,0.8)] relative"
+                        className="bg-black/95 backdrop-blur-3xl border border-[#DCFF00]/50 px-8 py-6 rounded-[2.5rem] mb-8 w-full shadow-[0_0_50px_rgba(0,0,0,0.9)] relative overflow-visible"
                       >
-                        <div className="flex items-center gap-3 mb-3">
-                          <div className="w-2 h-2 rounded-full bg-[#DCFF00] animate-pulse shadow-[0_0_15px_#DCFF00]" />
+                        <div className="flex items-center gap-3 mb-3 shrink-0">
+                          <div className="w-2.5 h-2.5 rounded-full bg-[#DCFF00] animate-pulse shadow-[0_0_15px_#DCFF00]" />
                           <span className="text-[11px] uppercase tracking-widest font-bold text-[#DCFF00] font-body">Neural Node Active</span>
                         </div>
-                        <span className="text-[15px] text-white font-medium italic leading-snug block font-body">
+                        <p className="text-[14px] text-white font-medium italic leading-relaxed block font-body break-words whitespace-normal">
                           "{currentTalk}"
-                        </span>
-                        <div className="absolute -bottom-2 right-12 w-4 h-4 bg-black/90 border-r border-b border-[#DCFF00]/50 rotate-45" />
+                        </p>
+                        <div className="absolute -bottom-2 right-12 w-4 h-4 bg-black/95 border-r border-b border-[#DCFF00]/50 rotate-45" />
                       </motion.div>
                     </AnimatePresence>
                     
