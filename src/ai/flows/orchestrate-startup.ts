@@ -2,6 +2,7 @@
 /**
  * @fileOverview Orchestration Engine: Generates high-fidelity startup artifacts
  * strictly derived from the Design DNA and Design System.
+ * Optimized for professional, editorial-grade copy.
  */
 
 import { ai } from '@/ai/genkit';
@@ -10,11 +11,11 @@ import { z } from 'genkit';
 const WebsiteSectionSchema = z.object({
   id: z.string(),
   type: z.enum(['hero', 'features', 'problem', 'solution', 'pricing', 'footer', 'social']),
-  title: z.string(),
-  subtitle: z.string().optional(),
-  content: z.string().optional(),
-  items: z.array(z.string()).optional(),
-  ctaLabel: z.string().optional(),
+  title: z.string().describe('Must be world-class, punchy marketing copy (max 8 words).'),
+  subtitle: z.string().optional().describe('A high-fidelity, visionary subheadline.'),
+  content: z.string().optional().describe('Deep, strategic narrative content.'),
+  items: z.array(z.string()).optional().describe('4-6 highly specific, technological or sensory features.'),
+  ctaLabel: z.string().optional().describe('Action-oriented professional CTA.'),
 });
 
 const OrchestrateStartupOutputSchema = z.object({
@@ -59,19 +60,16 @@ const orchestrateStartupPrompt = ai.definePrompt({
   DESIGN SYSTEM: {{{json designSystem}}}
   
   CRITICAL CONSTRAINTS:
-  1. NO HALLUCINATIONS. Strictly adhere to the vision intent. 
-  2. BRAND SENSORY: If the idea is "Coffee", you MUST use sensory language (aroma, roast, brew, espresso, steam, ceramic, parchment) and editorial tones.
-  3. THEME ALIGNMENT: 
-     - If it's a coffee shop: Use warm neutrals, espresso browns (#3C2A21), and cream tones.
-     - If it's AI/Tech: Use obsidians, electric blues, and glassmorphism.
-  4. ANTI-SLOP: Ensure the "content" sections (hero, problem, features) are structured for high-end hierarchy. No generic AI filler.
-  5. Content Quality: The "title" and "subtitle" fields must be world-class marketing copy. 
-  6. Generate exactly one high-fidelity "hero", "problem", and "features" section. 
+  1. NO SLOP: Avoid generic AI filler. Use high-density, professional copy. 
+  2. EDITORIAL SCALE: The "title" fields should read like luxury magazine headlines.
+  3. SENSORY ANCHORING: If the idea is sensory (e.g. coffee), use sensory language (roast, aroma, crema, ceramic).
+  4. HIERARCHY: Ensure the hero section title is iconic and minimal.
+  5. Generate exactly one high-fidelity "hero", "problem", and "features" section.
   
-  For the "features" section, provide 4-6 highly specific, content-rich items that reflect the startup's unique technological or sensory value proposition.
+  For "features", identify the actual technological or operational breakthrough of this specific idea.
   
-  The "rationale" should read like a visionary founder's manifesto.
-  The "marketAnalysis" should be a 20+ year multi-billion dollar shark assessment.`
+  The "rationale" should read like a visionary founder's manifesto (3-4 sentences).
+  The "marketAnalysis" should be a brutal, multi-billion dollar shark assessment.`
 });
 
 export async function orchestrateStartup(input: { prompt: string, dna: any, designSystem: any }): Promise<OrchestratedStartup> {
