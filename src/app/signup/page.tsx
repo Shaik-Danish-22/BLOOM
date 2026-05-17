@@ -1,38 +1,99 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, User, Mail, Shield, Sparkles, Target } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { InteractiveRobotSpline } from "@/components/ui/interactive-3d-robot";
 import { BackgroundEffects } from "@/components/cinematic/BackgroundEffects";
 import { GradientBackground } from "@/components/ui/paper-design-shader-background";
 import { BackgroundPaths } from "@/components/ui/background-paths";
 import { BloomLogo } from "@/components/cinematic/BloomLogo";
 
-const SCISSOR_SCENE = "https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode";
+const VIDEO_URL = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_083109_283f3553-e28f-428b-a723-d639c617eb2b.mp4";
 
 export default function SignupPage() {
   const router = useRouter();
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoOpacity, setVideoOpacity] = useState(0);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    let frameId: number;
+    const handleLoop = () => {
+      if (video.duration) {
+        const remaining = video.duration - video.currentTime;
+        if (video.currentTime < 0.5) {
+          setVideoOpacity(video.currentTime / 0.5);
+        } else if (remaining < 0.5) {
+          setVideoOpacity(remaining / 0.5);
+        } else {
+          setVideoOpacity(1);
+        }
+      }
+      frameId = requestAnimationFrame(handleLoop);
+    };
+
+    const onEnded = () => {
+      setVideoOpacity(0);
+      setTimeout(() => {
+        if (video) {
+          video.currentTime = 0;
+          video.play().catch(() => {});
+        }
+      }, 100);
+    };
+
+    video.addEventListener('ended', onEnded);
+    frameId = requestAnimationFrame(handleLoop);
+
+    return () => {
+      video?.removeEventListener('ended', onEnded);
+      cancelAnimationFrame(frameId);
+    };
+  }, []);
 
   return (
     <div className="relative min-h-screen bg-black overflow-hidden flex flex-col selection:bg-[#DCFF00]/30 font-body text-white">
-      {/* IMMERSIVE BACKGROUND STACK */}
+      {/* CINEMATIC VIDEO BACKGROUND */}
+      <div className="absolute inset-0 z-0 bg-black">
+        <video
+          ref={videoRef}
+          src={VIDEO_URL}
+          muted
+          autoPlay
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ 
+            opacity: videoOpacity, 
+            transition: 'opacity 0.1s linear',
+            filter: 'brightness(0.6) contrast(1.1)' 
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
+        <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]" />
+      </div>
+
+      {/* NEURAL PATHS OVERLAY */}
+      <div className="absolute inset-0 z-10 opacity-40">
+        <BackgroundPaths />
+      </div>
+
       <BackgroundEffects />
       <GradientBackground />
-      <BackgroundPaths />
-      <div className="absolute inset-0 -z-10 bg-black/50 backdrop-blur-[2px]" />
 
       <nav className="relative z-50 px-12 py-10 flex justify-between items-center">
         <button onClick={() => router.push('/')} className="flex items-center gap-4 group">
-          <BloomLogo size={40} className="group-hover:rotate-180 transition-transform duration-1000" />
-          <span className="text-white font-bold text-3xl tracking-tighter italic drop-shadow-2xl">Bloom</span>
+          <BloomLogo size={40} className="group-hover:rotate-180 transition-transform duration-1000 shadow-2xl" />
+          <span className="text-white font-bold text-3xl tracking-tighter italic drop-shadow-2xl font-headline">Bloom</span>
         </button>
         <button onClick={() => router.push('/login')} className="text-white/40 hover:text-white text-[11px] font-bold uppercase tracking-[0.5em] transition-all">
           Identity Established? Login
         </button>
       </nav>
 
-      <main className="flex-1 flex items-center justify-center relative z-10 px-8">
+      <main className="flex-1 flex items-center justify-center relative z-20 px-8">
         <div className="w-full max-w-[1200px] grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
           
           <motion.div 
@@ -42,20 +103,18 @@ export default function SignupPage() {
             className="hidden lg:block relative order-2"
           >
             <div className="aspect-[4/5] relative w-full overflow-hidden rounded-[5rem] bg-white/[0.02] border border-white/10 backdrop-blur-3xl group shadow-[0_50px_100px_rgba(0,0,0,0.6)]">
-               <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="h-[1000px] w-full">
-                    <InteractiveRobotSpline 
-                      scene={SCISSOR_SCENE} 
-                      className="w-full h-full scale-[1.2] translate-y-24" 
-                    />
-                  </div>
+               <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+                  <div className="w-full h-full bg-gradient-to-br from-[#DCFF00]/10 to-transparent opacity-20" />
+                  <Target size={240} className="text-[#DCFF00] opacity-5 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
                </div>
                <div className="absolute top-16 left-12 right-12 p-12 bg-black/60 backdrop-blur-3xl rounded-[3rem] border border-white/10 shadow-2xl">
                   <div className="flex items-center gap-4 mb-6">
-                    <Target size={24} className="text-[#DCFF00] drop-shadow-[0_0_10px_rgba(220,255,0,0.5)]" />
+                    <div className="w-12 h-12 rounded-2xl bg-[#DCFF00]/10 flex items-center justify-center border border-[#DCFF00]/20">
+                       <Target size={24} className="text-[#DCFF00] drop-shadow-[0_0_10px_rgba(220,255,0,0.5)]" />
+                    </div>
                     <h3 className="text-3xl font-headline italic">Strategic Identity</h3>
                   </div>
-                  <p className="text-lg text-white/60 leading-relaxed font-light italic">
+                  <p className="text-lg text-white/70 leading-relaxed font-light italic">
                     Initializing your Bloom Persona. This identity governs your Design DNA extractions and FounderOS strategic verdicts.
                   </p>
                </div>
@@ -64,7 +123,7 @@ export default function SignupPage() {
 
           <motion.div 
             initial={{ opacity: 0, x: -60 }}
-            animate={{ opacity: 1, x: 0 }}
+            animate={{ opacity: 1, x: -0 }}
             transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
             className="flex flex-col space-y-16 order-1"
           >
@@ -102,7 +161,7 @@ export default function SignupPage() {
             <div className="pt-6 flex flex-col space-y-10">
               <button 
                 onClick={() => router.push('/workspace')}
-                className="bg-white text-black hover:bg-[#DCFF00] transition-all rounded-full h-24 flex items-center justify-center gap-6 font-bold uppercase tracking-[0.4em] shadow-[0_0_80px_rgba(220,255,0,0.3)] group active:scale-95 text-lg"
+                className="bg-white text-black hover:bg-[#DCFF00] transition-all rounded-full h-24 flex items-center justify-center gap-6 font-bold uppercase tracking-[0.4em] shadow-[0_0_80px_rgba(220,255,0,0.3)] group active:scale-95 text-lg bloom-button-glow"
               >
                 Initialize Identity <ArrowRight size={28} className="group-hover:translate-x-3 transition-transform" />
               </button>
@@ -116,7 +175,7 @@ export default function SignupPage() {
         </div>
       </main>
       
-      <footer className="p-20 border-t border-white/5 bg-black/60 backdrop-blur-3xl mt-auto">
+      <footer className="p-20 border-t border-white/5 bg-black/60 backdrop-blur-3xl mt-auto relative z-30">
          <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-10">
             <p className="text-[11px] text-white/20 uppercase tracking-[0.8em] italic font-bold">Siteforge x Bloom Architecture // Premium Creation Factory</p>
             <div className="flex gap-16 text-[11px] uppercase tracking-widest text-white/40 font-bold">

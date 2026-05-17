@@ -73,3 +73,37 @@
   background: #DCFF00;
   color: black;
 }
+
+/* Mountain Vista Parallax Animations */
+@keyframes parallax_fg {
+  0% { background-position: 2765px 100%; }
+  100% { background-position: 550px 100%; }
+}
+
+@keyframes parallax_bike {
+  0% { background-position: -300px 100%; }
+  100% { background-position: 2000px 100%; }
+}
+
+.parallax-layer {
+  animation-name: parallax_fg;
+}
+
+@keyframes fade-rise {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-rise {
+  animation: fade-rise 0.8s ease-out forwards;
+}
+
+.animate-fade-rise-delay {
+  animation: fade-rise 0.8s ease-out 0.2s forwards;
+  opacity: 0;
+}
+
+.animate-fade-rise-delay-2 {
+  animation: fade-rise 0.8s ease-out 0.4s forwards;
+  opacity: 0;
+}
