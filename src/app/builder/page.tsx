@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -124,12 +123,12 @@ export default function BuilderPage() {
     setChatInput("");
     setIsSyncing(true);
 
-    // Simulate AI Refinement Logic
+    // Neural Refinement Logic
     setTimeout(() => {
       const assistantMsg: Message = { 
         id: (Date.now() + 1).toString(), 
         role: 'assistant', 
-        content: `Refining vision based on intent: "${userMsg.content}". Recalculating design DNA and updating materialization tokens...`, 
+        content: `Vision refined. Intent "${userMsg.content}" injected into the design DNA. Recalculating neural tokens...`, 
         timestamp: new Date() 
       };
       setMessages(prev => [...prev, assistantMsg]);
@@ -140,7 +139,7 @@ export default function BuilderPage() {
         ...prev,
         brand: {
           ...prev.brand,
-          rationale: `${prev.brand.rationale} (Refinement applied: ${userMsg.content})`
+          rationale: `${prev.brand.rationale} (Refinement: ${userMsg.content})`
         }
       }));
 
@@ -486,6 +485,38 @@ export default function BuilderPage() {
                              <p className="text-4xl font-headline italic text-white/90 leading-relaxed max-w-5xl">
                                 {startupData?.brand?.rationale || "Consolidating neural identity..."}
                              </p>
+                          </Card>
+
+                          <Card className="lg:col-span-2 p-12 rounded-[3.5rem] bg-white/[0.02] border border-white/10 space-y-10 backdrop-blur-3xl shadow-2xl">
+                             <div className="flex items-center gap-5 text-[#DCFF00]">
+                                <Target size={24} />
+                                <h4 className="text-[12px] font-bold uppercase tracking-[0.4em]">Identified Moats</h4>
+                             </div>
+                             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                                {startupData?.intelligence?.moats?.map((moat: string, i: number) => (
+                                  <div key={i} className="flex gap-6 p-8 rounded-3xl bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] transition-all">
+                                     <div className="w-10 h-10 rounded-full bg-[#DCFF00]/20 flex items-center justify-center shrink-0 border border-[#DCFF00]/40">
+                                        <CheckCircle2 size={16} className="text-[#DCFF00]" />
+                                     </div>
+                                     <p className="text-[15px] text-white/80 leading-relaxed">{moat}</p>
+                                  </div>
+                                ))}
+                             </div>
+                          </Card>
+
+                          <Card className="p-12 rounded-[3.5rem] bg-[#DCFF00]/5 border border-[#DCFF00]/20 space-y-8 backdrop-blur-3xl shadow-2xl">
+                             <div className="flex items-center gap-5 text-[#DCFF00]">
+                                <AlertTriangle size={24} />
+                                <h4 className="text-[12px] font-bold uppercase tracking-[0.4em]">Strategic Risks</h4>
+                             </div>
+                             <div className="space-y-6">
+                                {startupData?.intelligence?.risks?.map((risk: string, i: number) => (
+                                  <div key={i} className="flex gap-4 items-start">
+                                     <div className="w-1.5 h-1.5 rounded-full bg-[#DCFF00]/60 mt-2 shrink-0" />
+                                     <p className="text-[13px] text-white/60 italic">{risk}</p>
+                                  </div>
+                                ))}
+                             </div>
                           </Card>
                        </div>
                     </div>
