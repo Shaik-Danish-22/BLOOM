@@ -2,7 +2,6 @@
 /**
  * @fileOverview Orchestration Engine: Generates high-fidelity startup artifacts
  * strictly derived from the Design DNA and Design System.
- * Optimized for world-class, professional editorial-grade copy.
  */
 
 import { ai } from '@/ai/genkit';
@@ -62,11 +61,12 @@ const orchestrateStartupPrompt = ai.definePrompt({
   CRITICAL CONSTRAINTS:
   1. NO SLOP: Avoid generic AI filler. Use high-density, professional copy. 
   2. EDITORIAL SCALE: The "title" fields should read like luxury magazine headlines (e.g., Vogue, Monocle, Wall Street Journal).
-  3. SENSORY ANCHORING: If the idea is sensory (e.g. coffee, wellness), use deep sensory language (roast, aroma, tranquility, precise).
-  4. HIERARCHY: Ensure the hero section title is iconic and minimal. 
-  5. Generate exactly one high-fidelity "hero", "problem", and "features" section.
-  
-  For "features", identify the actual technological or operational breakthrough of this specific idea. Use specific industry terminology.
+  3. SYSTEM ALIGNMENT: 
+     - If using "Brewers Retail" (Starbucks): Use warm, retail flagship language. Focus on "The Ritual," sensory details, and "Cafe-Wall" warmth.
+     - If using "Fintech Precision" (Stripe): Use weight-300 authority. Focus on "Infrastructure," "Global scale," and ethereal, technical luxury.
+  4. SENSORY ANCHORING: If the idea is sensory (e.g. coffee, wellness), use deep sensory language (roast, aroma, tranquility, precise).
+  5. HIERARCHY: Ensure the hero section title is iconic and minimal. 
+  6. Generate exactly one high-fidelity "hero", "problem", and "features" section.
   
   The "rationale" should read like a visionary founder's manifesto (3-4 sentences).
   The "marketAnalysis" should be a brutal, multi-billion dollar shark assessment from a top-tier VC perspective.`

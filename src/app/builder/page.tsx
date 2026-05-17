@@ -41,7 +41,6 @@ import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { OracleGauge } from "@/components/cinematic/OracleGauge";
 import { BloomLogo } from "@/components/cinematic/BloomLogo";
-import { Separator } from "@/components/ui/separator";
 import { DESIGN_SYSTEMS } from "@/lib/design-systems";
 import { cn } from "@/lib/utils";
 
@@ -115,12 +114,12 @@ export default function BuilderPage() {
 
       {/* LEFT SIDEBAR - DESIGN OS PANELS */}
       <aside className="w-[420px] h-full border-r border-white/10 bg-black/95 backdrop-blur-3xl flex flex-col z-30 relative shadow-2xl shrink-0">
-        <header className="p-8 border-b border-white/5 flex items-center justify-between">
+        <header className="p-8 border-b border-white/5 flex items-center justify-between shrink-0">
            <div className="flex items-center gap-4">
               <BloomLogo size={32} />
               <div className="flex flex-col">
                 <h3 className="text-[11px] font-bold uppercase tracking-[0.4em] text-white/40 leading-none">BLOOM STUDIO</h3>
-                <span className="text-[14px] font-headline italic text-white/95 mt-1">{startupData?.brand?.companyName || "Project Neural"}</span>
+                <span className="text-[14px] font-headline italic text-white/95 mt-1 truncate max-w-[200px]">{startupData?.brand?.companyName || "Project Neural"}</span>
               </div>
            </div>
            <button onClick={() => router.push('/workspace')} className="p-2.5 rounded-xl hover:bg-white/5 text-white/40 hover:text-white transition-all group">
@@ -128,7 +127,7 @@ export default function BuilderPage() {
            </button>
         </header>
 
-        <div className="flex border-b border-white/10 px-4 py-3 bg-black/60">
+        <div className="flex border-b border-white/10 px-4 py-3 bg-black/60 shrink-0">
            {(['preview', 'registry', 'dna', 'thought'] as Tab[]).map((tab) => (
              <button 
                key={tab}
@@ -148,7 +147,7 @@ export default function BuilderPage() {
         </div>
 
         <ScrollArea className="flex-1">
-           <div className="p-8 space-y-10">
+           <div className="p-8 space-y-10 pb-32">
               {activeTab === 'registry' && (
                 <div className="space-y-10 animate-in fade-in slide-in-from-left-4 duration-500">
                    <div className="space-y-5">
@@ -314,7 +313,7 @@ export default function BuilderPage() {
                          </div>
                          <div className="space-y-4">
                             <span className="text-[10px] text-white/30 uppercase tracking-widest block font-bold">Typography</span>
-                            <div className="p-5 rounded-2xl bg-black/40 border border-white/10 text-[14px] text-white/95 italic font-headline leading-tight shadow-inner">
+                            <div className="p-5 rounded-2xl bg-black/40 border border-white/10 text-[14px] text-white/95 italic font-headline leading-tight shadow-inner break-words">
                                {activeSystem.tokens.fontDisplay}
                             </div>
                          </div>
@@ -325,7 +324,7 @@ export default function BuilderPage() {
            </div>
         </ScrollArea>
 
-        <div className="p-8 border-t border-white/10 bg-black/60 shadow-2xl">
+        <div className="p-8 border-t border-white/10 bg-black/60 shadow-2xl shrink-0">
            <div className="relative group">
               <input 
                 placeholder="Direct refinement..."
@@ -339,7 +338,7 @@ export default function BuilderPage() {
       </aside>
 
       {/* MAIN VIEWPORT - CINEMATIC CANVAS */}
-      <main className="flex-1 flex flex-col z-20 p-8 overflow-hidden relative min-w-0">
+      <main className="flex-1 flex flex-col z-20 p-8 overflow-hidden relative min-w-0 h-screen">
          <header className="flex items-center justify-between mb-8 shrink-0">
             <div className="flex items-center gap-3 bg-black/80 backdrop-blur-3xl p-1.5 rounded-2xl border border-white/10 shadow-2xl">
                {[

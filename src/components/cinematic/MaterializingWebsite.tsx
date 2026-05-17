@@ -61,10 +61,9 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
 
   if (!isVisible || !startupData) return null;
 
-  const isCoffee = context?.prompt?.toLowerCase().includes('coffee') || startupData.brand?.companyName?.toLowerCase().includes('coffee');
-  const defaultSystemId = isCoffee ? 'starbucks' : 'apple';
-  const systemId = context?.selectedSystem || defaultSystemId;
+  const systemId = context?.selectedSystem || 'apple';
   const system: DesignSystemTokens = DESIGN_SYSTEMS[systemId as any] || DESIGN_SYSTEMS.apple;
+  const isDark = system.tokens.bg === '#000000' || system.tokens.bg.startsWith('#0') || system.tokens.bg.startsWith('#1');
 
   const sections = startupData.content?.sections || [];
   const heroSection = sections.find(s => s.type === 'hero');
@@ -95,7 +94,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
   return (
     <div 
       className={cn(
-        "min-h-full w-full transition-all duration-[1500ms] relative selection:bg-white/10 overflow-y-auto no-scrollbar",
+        "h-full w-full transition-all duration-[1500ms] relative selection:bg-white/10 overflow-y-auto no-scrollbar",
         stage === 'wireframe' && "grayscale opacity-20 blur-[80px]",
         stage === 'layout' && "grayscale opacity-40 blur-[40px]",
         stage === 'content' && "opacity-90 blur-[10px]"
@@ -109,7 +108,10 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
       
       {/* GLOBAL NAVIGATION node */}
       <nav 
-        className="sticky top-0 left-0 right-0 z-[200] px-8 py-6 lg:px-16 flex justify-between items-center bg-black/5 backdrop-blur-xl border-b border-white/5"
+        className={cn(
+          "sticky top-0 left-0 right-0 z-[200] px-8 py-6 lg:px-16 flex justify-between items-center backdrop-blur-xl border-b",
+          isDark ? "bg-black/5 border-white/5" : "bg-white/5 border-black/5"
+        )}
       >
          <motion.div 
            initial={{ opacity: 0, x: -20 }}
@@ -139,7 +141,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                 {activePage === item.page && (
                   <motion.div 
                     layoutId="nav-line" 
-                    className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-white shadow-[0_0_10px_white]" 
+                    className={cn("absolute bottom-0 left-0 right-0 h-[1.5px]", isDark ? "bg-white shadow-[0_0_10px_white]" : "bg-black shadow-[0_0_10px_black]")} 
                   />
                 )}
               </button>
@@ -157,7 +159,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
          </div>
       </nav>
 
-      <main className="min-h-screen">
+      <main className="min-h-full">
         <AnimatePresence mode="wait">
           {activePage === 'home' && (
             <motion.div
@@ -175,14 +177,14 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                       className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1600px] h-[800px] blur-[400px] rounded-full opacity-20" 
                       style={{ backgroundColor: system.tokens.accent }} 
                     />
-                    <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]" />
+                    <div className={cn("absolute inset-0 backdrop-blur-[1px]", isDark ? "bg-black/40" : "bg-white/40")} />
                     <div className="absolute inset-0 opacity-[0.15] mix-blend-overlay grayscale">
                       <Image 
-                        src={`https://picsum.photos/seed/${isCoffee ? 'coffee-beans' : 'minimal-tech'}/1920/1080`}
+                        src={`https://picsum.photos/seed/${startupData.brand?.companyName || 'minimal-tech'}/1920/1080`}
                         alt="Background"
                         fill
                         className="object-cover"
-                        data-ai-hint={isCoffee ? "coffee" : "tech"}
+                        data-ai-hint="luxury retail"
                       />
                     </div>
                  </div>
@@ -190,7 +192,10 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                  <div className="space-y-12 relative z-10 max-w-7xl px-4">
                     <motion.div
                       variants={itemVariants}
-                      className="inline-flex items-center gap-4 px-6 py-2 rounded-full border bg-white/[0.03] text-[9px] uppercase tracking-[0.5em] font-bold mx-auto border-white/10"
+                      className={cn(
+                        "inline-flex items-center gap-4 px-6 py-2 rounded-full border text-[9px] uppercase tracking-[0.5em] font-bold mx-auto",
+                        isDark ? "bg-white/[0.03] border-white/10" : "bg-black/[0.03] border-black/10"
+                      )}
                       style={{ color: system.tokens.muted }}
                     >
                       <div className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
@@ -201,7 +206,11 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                       <motion.h2 
                         variants={itemVariants}
                         className="text-5xl md:text-7xl lg:text-[8.5rem] italic leading-[0.85] tracking-tighter font-headline text-glow max-w-6xl mx-auto"
-                        style={{ color: system.tokens.fg }}
+                        style={{ 
+                          color: system.tokens.fg,
+                          fontWeight: system.id === 'stripe' ? 300 : 600,
+                          letterSpacing: system.tokens.trackingDisplay
+                        }}
                       >
                         {heroSection?.title || "Vision Materialized."}
                       </motion.h2>
@@ -218,7 +227,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                     <motion.div variants={itemVariants} className="pt-12 flex flex-col md:flex-row items-center justify-center gap-8">
                       <Button 
                         className="px-12 h-16 rounded-full font-bold text-lg transition-all hover:scale-105 active:scale-95 shadow-2xl" 
-                        style={{ backgroundColor: system.tokens.accent, color: system.tokens.accentOn }}
+                        style={{ backgroundColor: system.tokens.accent, color: system.tokens.accentOn, borderRadius: system.tokens.radiusPill }}
                       >
                         {heroSection?.ctaLabel || "Begin Journey"} <ArrowRight className="ml-4 w-6 h-6" strokeWidth={3} />
                       </Button>
@@ -233,7 +242,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
               </section>
 
               {/* BENTO ARCHITECTURE - EDITORIAL GRID */}
-              <section className="px-6 lg:px-24 py-40 bg-black/20">
+              <section className={cn("px-6 lg:px-24 py-40", isDark ? "bg-white/[0.02]" : "bg-black/[0.02]")}>
                  <div className="max-w-7xl mx-auto space-y-32">
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
                        <motion.div 
@@ -241,14 +250,18 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                          className="lg:col-span-12 space-y-6"
                        >
                           <span className="text-[10px] uppercase tracking-[1em] font-bold opacity-30 block" style={{ color: system.tokens.accent }}>Strategic Gap</span>
-                          <h3 className="text-4xl md:text-6xl lg:text-8xl font-headline italic tracking-tighter leading-tight">
+                          <h3 className="text-4xl md:text-6xl lg:text-8xl font-headline italic tracking-tighter leading-tight" style={{ fontWeight: system.id === 'stripe' ? 300 : 600 }}>
                             {problemSection?.title || "The Market Logic."}
                           </h3>
                        </motion.div>
 
                        <motion.div 
                          variants={itemVariants} 
-                         className="lg:col-span-8 h-[500px] rounded-[3rem] bg-gradient-to-br from-white/[0.05] to-transparent border border-white/5 p-12 lg:p-20 flex flex-col justify-end relative overflow-hidden group shadow-2xl"
+                         className={cn(
+                           "lg:col-span-8 h-[500px] p-12 lg:p-20 flex flex-col justify-end relative overflow-hidden group shadow-2xl",
+                           isDark ? "bg-gradient-to-br from-white/[0.05] to-transparent border-white/5" : "bg-gradient-to-br from-black/[0.05] to-transparent border-black/5"
+                         )}
+                         style={{ borderRadius: system.tokens.radiusLg, border: `1px solid ${system.tokens.borderSoft}`, boxShadow: system.tokens.shadowStandard }}
                        >
                           <div className="absolute top-0 right-0 p-12 opacity-[0.03] group-hover:scale-110 transition-transform duration-1000">
                              <Box size={400} strokeWidth={0.5} />
@@ -263,9 +276,13 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
 
                        <motion.div 
                          variants={itemVariants} 
-                         className="lg:col-span-4 h-[500px] rounded-[3rem] bg-white/[0.02] border border-white/5 p-12 flex flex-col items-center justify-center text-center space-y-8 group shadow-2xl"
+                         className={cn(
+                           "lg:col-span-4 h-[500px] p-12 flex flex-col items-center justify-center text-center space-y-8 group shadow-2xl",
+                           isDark ? "bg-white/[0.02] border-white/5" : "bg-black/[0.02] border-black/5"
+                         )}
+                         style={{ borderRadius: system.tokens.radiusLg, border: `1px solid ${system.tokens.borderSoft}`, boxShadow: system.tokens.shadowAmbient }}
                        >
-                          <div className="w-32 h-32 rounded-full border border-dashed border-white/10 flex items-center justify-center group-hover:rotate-180 transition-all duration-[8s] relative">
+                          <div className={cn("w-32 h-32 rounded-full border border-dashed flex items-center justify-center group-hover:rotate-180 transition-all duration-[8s] relative", isDark ? "border-white/10" : "border-black/10")}>
                              <Activity size={40} className="opacity-30" style={{ color: system.tokens.accent }} />
                           </div>
                           <div className="space-y-4">
@@ -278,7 +295,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
               </section>
 
               {/* STATS STRIP */}
-              <section className="py-24 border-y border-white/5 bg-black/40">
+              <section className={cn("py-24 border-y", isDark ? "border-white/5 bg-black/40" : "border-black/5 bg-white/40")}>
                 <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-12">
                    {[
                      { label: "Market TAM", value: startupData.intelligence?.tamSamSom?.tam || "$15.6T" },
@@ -295,7 +312,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
               </section>
 
               {/* FOOTER */}
-              <footer className="p-24 lg:p-40 border-t text-center bg-black" style={{ borderColor: system.tokens.borderSoft }}>
+              <footer className="p-24 lg:p-40 border-t text-center" style={{ backgroundColor: system.tokens.surfaceWarm, borderColor: system.tokens.borderSoft, color: isDark ? 'white' : 'white' }}>
                  <div className="max-w-4xl mx-auto flex flex-col items-center space-y-8">
                     <BloomLogo size={48} animate={false} />
                     <div className="text-[10px] font-bold uppercase tracking-[1em] opacity-20">BLOOM NEURAL STUDIO</div>
@@ -317,14 +334,14 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
               initial="hidden"
               animate="visible"
               exit={{ opacity: 0, transition: { duration: 0.3 } }}
-              className="px-6 lg:px-24 py-40"
+              className="px-6 lg:px-24 py-40 h-full"
             >
               <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 lg:gap-40 items-start">
                  <div className="space-y-16 sticky top-40">
                     <div className="space-y-6">
                       <motion.span variants={itemVariants} className="text-[12px] uppercase tracking-[1em] font-bold opacity-30 block" style={{ color: system.tokens.muted }}>Intelligence</motion.span>
-                      <motion.h3 variants={itemVariants} className="text-5xl md:text-7xl lg:text-9xl font-headline italic tracking-tighter leading-tight text-glow">
-                         {isCoffee ? "The Ritual." : "The Protocol."}
+                      <motion.h3 variants={itemVariants} className="text-5xl md:text-7xl lg:text-9xl font-headline italic tracking-tighter leading-tight text-glow" style={{ fontWeight: system.id === 'stripe' ? 300 : 600 }}>
+                         The Protocol.
                       </motion.h3>
                     </div>
                     <motion.p variants={itemVariants} className="text-xl md:text-3xl font-light italic leading-relaxed max-w-xl opacity-80 tracking-tight">
@@ -337,8 +354,11 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                       <motion.div 
                         key={i} 
                         variants={itemVariants}
-                        className="p-12 lg:p-16 border bg-white/[0.01] backdrop-blur-2xl flex items-start gap-12 group hover:bg-white/[0.04] transition-all relative overflow-hidden rounded-[2.5rem]"
-                        style={{ borderColor: system.tokens.borderSoft }}
+                        className={cn(
+                          "p-12 lg:p-16 border backdrop-blur-2xl flex items-start gap-12 group hover:bg-white/[0.04] transition-all relative overflow-hidden",
+                          isDark ? "bg-white/[0.01] border-white/5" : "bg-black/[0.01] border-black/5"
+                        )}
+                        style={{ borderRadius: system.tokens.radiusLg, borderColor: system.tokens.borderSoft, boxShadow: system.tokens.shadowAmbient }}
                       >
                          <div className="absolute inset-0 bg-gradient-to-br from-current to-transparent opacity-0 group-hover:opacity-[0.02] transition-opacity" style={{ color: system.tokens.accent }} />
                          <div 
@@ -368,12 +388,12 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
               initial="hidden"
               animate="visible"
               exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.3 } }}
-              className="px-6 lg:px-24 py-40 text-center"
+              className="px-6 lg:px-24 py-40 text-center h-full"
             >
                <div className="max-w-5xl mx-auto space-y-32">
                   <div className="space-y-8">
                     <motion.span variants={itemVariants} className="text-[12px] uppercase tracking-[1em] font-bold opacity-30 block">Access Nodes</motion.span>
-                    <motion.h3 variants={itemVariants} className="text-5xl md:text-7xl lg:text-[8rem] font-headline italic tracking-tighter leading-none">Materialize.</motion.h3>
+                    <motion.h3 variants={itemVariants} className="text-5xl md:text-7xl lg:text-[8rem] font-headline italic tracking-tighter leading-none" style={{ fontWeight: system.id === 'stripe' ? 300 : 600 }}>Materialize.</motion.h3>
                   </div>
                   
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -385,9 +405,10 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                          key={tier.name}
                          variants={itemVariants}
                          className={cn(
-                           "p-12 lg:p-16 border bg-white/[0.01] space-y-12 text-left group hover:bg-white/[0.03] transition-all relative overflow-hidden rounded-[3rem] backdrop-blur-3xl",
-                           tier.active ? "border-white/20" : "border-white/5"
+                           "p-12 lg:p-16 border space-y-12 text-left group transition-all relative overflow-hidden backdrop-blur-3xl shadow-2xl",
+                           isDark ? "bg-white/[0.01] border-white/10" : "bg-black/[0.01] border-black/10"
                          )}
+                         style={{ borderRadius: system.tokens.radiusLg, boxShadow: system.tokens.shadowStandard }}
                        >
                           <div className="space-y-6">
                              <h4 className="text-4xl lg:text-6xl font-headline italic">{tier.name}</h4>
@@ -398,7 +419,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                              </div>
                           </div>
                           
-                          <div className="h-px w-full bg-white/5" />
+                          <div className={cn("h-px w-full", isDark ? "bg-white/5" : "bg-black/5")} />
 
                           <ul className="space-y-6">
                              {tier.perks.map(perk => (
@@ -410,8 +431,9 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                           <Button 
                             className="w-full h-16 rounded-full font-bold uppercase tracking-[0.3em] text-[10px] transition-all hover:scale-105"
                             style={{ 
-                              backgroundColor: tier.active ? system.tokens.accent : 'white', 
-                              color: tier.active ? system.tokens.accentOn : 'black'
+                              backgroundColor: tier.active ? system.tokens.accent : (isDark ? 'white' : 'black'), 
+                              color: tier.active ? system.tokens.accentOn : (isDark ? 'black' : 'white'),
+                              borderRadius: system.tokens.radiusPill
                             }}
                           >
                             Access {tier.name}

@@ -1,7 +1,6 @@
 /**
  * @fileOverview Registry-driven Design Systems and Tokens.
  * These systems act as the primary orchestration engine for Bloom.
- * Updated with high-fidelity Starbucks and Stripe inspired systems.
  */
 
 export type DesignSystemId = 'apple' | 'airbnb' | 'mastercard' | 'binance' | 'cafe' | 'agentic' | 'starbucks' | 'stripe';
@@ -34,6 +33,8 @@ export interface DesignSystemTokens {
     trackingDisplay: string;
     leadingTight: string;
     elevRaised: string;
+    shadowAmbient: string;
+    shadowStandard: string;
   };
   principles: string[];
 }
@@ -66,7 +67,9 @@ export const DESIGN_SYSTEMS: Record<DesignSystemId, DesignSystemTokens> = {
       motionIntensity: 'subtle',
       trackingDisplay: '-0.02em',
       leadingTight: '1.05',
-      elevRaised: '0 20px 40px rgba(0, 0, 0, 0.4)'
+      elevRaised: '0 20px 40px rgba(0, 0, 0, 0.4)',
+      shadowAmbient: '0 4px 12px rgba(0,0,0,0.1)',
+      shadowStandard: '0 8px 24px rgba(0,0,0,0.2)'
     },
     principles: ['Quiet chrome', 'Loud product', 'Whitespace first']
   },
@@ -78,7 +81,7 @@ export const DESIGN_SYSTEMS: Record<DesignSystemId, DesignSystemTokens> = {
     tokens: {
       bg: '#f2f0eb',
       surface: '#ffffff',
-      surfaceWarm: '#edebe9',
+      surfaceWarm: '#1E3932', // House Green
       fg: 'rgba(0, 0, 0, 0.87)',
       fgSecondary: 'rgba(0, 0, 0, 0.58)',
       muted: '#33433d',
@@ -97,9 +100,11 @@ export const DESIGN_SYSTEMS: Record<DesignSystemId, DesignSystemTokens> = {
       motionIntensity: 'standard',
       trackingDisplay: '-0.01em',
       leadingTight: '1.2',
-      elevRaised: '0px 1px 1px rgba(0,0,0,0.24)'
+      elevRaised: '0px 1px 1px rgba(0,0,0,0.24)',
+      shadowAmbient: '0 0 0.5px rgba(0,0,0,0.14)',
+      shadowStandard: '0 1px 1px rgba(0,0,0,0.24)'
     },
-    principles: ['Warm cream canvas', 'Pill-button discipline', 'Multi-tier green hierarchy']
+    principles: ['Warm cream canvas', 'Pill-button discipline', 'Four-tier green hierarchy']
   },
   stripe: {
     id: 'stripe',
@@ -128,9 +133,11 @@ export const DESIGN_SYSTEMS: Record<DesignSystemId, DesignSystemTokens> = {
       motionIntensity: 'subtle',
       trackingDisplay: '-0.03em',
       leadingTight: '1.1',
-      elevRaised: 'rgba(50,50,93,0.25) 0px 30px 45px -30px'
+      elevRaised: 'rgba(50,50,93,0.25) 0px 30px 45px -30px',
+      shadowAmbient: 'rgba(50,50,93,0.25) 0px 15px 35px 0px',
+      shadowStandard: 'rgba(50,50,93,0.25) 0px 30px 45px -30px, rgba(0,0,0,0.1) 0px 18px 36px -18px'
     },
-    principles: ['Weight-300 displays', 'Blue-tinted shadows', 'Geometric geometric precision']
+    principles: ['Weight-300 displays', 'Blue-tinted shadows', 'Geometric precision']
   },
   airbnb: {
     id: 'airbnb',
@@ -159,7 +166,9 @@ export const DESIGN_SYSTEMS: Record<DesignSystemId, DesignSystemTokens> = {
       motionIntensity: 'standard',
       trackingDisplay: '-0.02em',
       leadingTight: '1.18',
-      elevRaised: '0 4px 8px rgba(0, 0, 0, 0.1)'
+      elevRaised: '0 4px 8px rgba(0, 0, 0, 0.1)',
+      shadowAmbient: '0 2px 4px rgba(0,0,0,0.05)',
+      shadowStandard: '0 4px 12px rgba(0,0,0,0.08)'
     },
     principles: ['Photography as depth', 'Soft geometry', 'Single-accent discipline']
   },
@@ -190,7 +199,9 @@ export const DESIGN_SYSTEMS: Record<DesignSystemId, DesignSystemTokens> = {
       motionIntensity: 'subtle',
       trackingDisplay: '-0.03em',
       leadingTight: '1.0',
-      elevRaised: '0 32px 64px rgba(0, 0, 0, 0.1)'
+      elevRaised: '0 32px 64px rgba(0, 0, 0, 0.1)',
+      shadowAmbient: '0 8px 16px rgba(0,0,0,0.03)',
+      shadowStandard: '0 16px 32px rgba(0,0,0,0.06)'
     },
     principles: ['Stadium geometry', 'Cream canvas', 'Orbital trajectory']
   },
@@ -221,7 +232,9 @@ export const DESIGN_SYSTEMS: Record<DesignSystemId, DesignSystemTokens> = {
       motionIntensity: 'high',
       trackingDisplay: '0',
       leadingTight: '1.0',
-      elevRaised: '0 3px 10px rgba(0,0,0,0.05)'
+      elevRaised: '0 3px 10px rgba(0,0,0,0.05)',
+      shadowAmbient: '0 1px 2px rgba(0,0,0,0.02)',
+      shadowStandard: '0 2px 8px rgba(0,0,0,0.05)'
     },
     principles: ['Operational clarity', 'Data-first', 'Urgency']
   },
@@ -252,7 +265,9 @@ export const DESIGN_SYSTEMS: Record<DesignSystemId, DesignSystemTokens> = {
       motionIntensity: 'subtle',
       trackingDisplay: '0.02em',
       leadingTight: '1.05',
-      elevRaised: '0 20px 40px rgba(93, 68, 50, 0.1)'
+      elevRaised: '0 20px 40px rgba(93, 68, 50, 0.1)',
+      shadowAmbient: '0 4px 12px rgba(93, 68, 50, 0.05)',
+      shadowStandard: '0 8px 24px rgba(93, 68, 50, 0.08)'
     },
     principles: ['Sensory depth', 'Editorial hierarchy', 'Organic textures']
   },
@@ -283,7 +298,9 @@ export const DESIGN_SYSTEMS: Record<DesignSystemId, DesignSystemTokens> = {
       motionIntensity: 'standard',
       trackingDisplay: '-0.02em',
       leadingTight: '1.1',
-      elevRaised: '0 0 0 1px #222, 0 20px 40px rgba(0,0,0,0.5)'
+      elevRaised: '0 0 0 1px #222, 0 20px 40px rgba(0,0,0,0.5)',
+      shadowAmbient: '0 2px 4px rgba(0,0,0,0.5)',
+      shadowStandard: '0 4px 12px rgba(0,0,0,0.6)'
     },
     principles: ['Precision', 'Density', 'Glassmorphism']
   }
