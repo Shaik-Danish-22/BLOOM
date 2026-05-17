@@ -1,19 +1,23 @@
 
+'use server';
+
 import OpenAI from 'openai';
 import { z } from 'zod';
+
+/**
+ * @fileOverview Featherless.ai Service Layer.
+ * EXCLUSIVELY SERVER-SIDE. This file is never shipped to the client.
+ */
 
 const client = new OpenAI({
   apiKey: process.env.FEATHERLESS_API_KEY,
   baseURL: 'https://api.featherless.ai/v1',
 });
 
-/**
- * Featherless.ai service implementation for BLOOM.
- * Uses DeepSeek-V3 for reasoning, Kimi-K2 for multimodal, and MiniMax for tools.
- */
 export const featherlessService = {
   /**
    * Generates structured JSON output using a provided model and schema.
+   * Leverages DeepSeek-V3 for elite strategic reasoning.
    */
   generateStructured: async <T>(params: {
     prompt: string;
@@ -21,33 +25,44 @@ export const featherlessService = {
     schema: z.ZodSchema<T>;
     model?: string;
   }): Promise<T> => {
+    // Ensure the key exists before attempting the call
+    if (!process.env.FEATHERLESS_API_KEY) {
+      throw new Error('FEATHERLESS_API_KEY is not configured in server environment.');
+    }
+
     const model = params.model || 'deepseek-ai/DeepSeek-V3';
     
     try {
       const response = await client.chat.completions.create({
         model,
         messages: [
-          { role: 'system', content: params.system || 'You are an elite product architect. Return only valid JSON.' },
+          { 
+            role: 'system', 
+            content: params.system || 'You are an elite Silicon Valley product architect. Return only valid JSON.' 
+          },
           { role: 'user', content: params.prompt },
         ],
         response_format: { type: 'json_object' },
+        temperature: 0.7,
       });
 
       const content = response.choices[0].message.content;
-      if (!content) throw new Error('Empty response from Featherless');
+      if (!content) throw new Error('Empty response from Featherless core');
       
       const parsed = JSON.parse(content);
       return params.schema.parse(parsed);
     } catch (error) {
-      console.error(`[Featherless Error]:`, error);
+      console.error(`[Featherless Server Error]:`, error);
       throw error;
     }
   },
 
   /**
-   * Simple chat completion for reasoning or chat tasks.
+   * High-performance chat completion for reasoning or multimodal tasks.
    */
   chat: async (prompt: string, model: string = 'deepseek-ai/DeepSeek-V3') => {
+    if (!process.env.FEATHERLESS_API_KEY) throw new Error('API Key Missing');
+    
     const response = await client.chat.completions.create({
       model,
       messages: [{ role: 'user', content: prompt }],

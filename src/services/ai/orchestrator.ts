@@ -1,16 +1,19 @@
 
+'use server';
+
 import { z } from 'zod';
 import { featherlessService } from './featherless';
 import { AIProvider } from './types';
 
 /**
- * Universal AI Orchestrator for siteforge-ai (BLOOM).
- * Handles provider selection between Gemini (Genkit) and Featherless.
+ * @fileOverview Universal AI Orchestrator.
+ * EXCLUSIVELY SERVER-SIDE. Manages model routing between Gemini and Featherless.
  */
+
 export const aiOrchestrator = {
   /**
-   * Executes a structured generation task using the preferred provider.
-   * Defaults to Featherless (DeepSeek) for reasoning-heavy tasks.
+   * Routes structured generation tasks based on complexity.
+   * Reasoning-heavy tasks (Strategy, Shark Verdicts) are routed to Featherless (DeepSeek).
    */
   generateStructured: async <T>(params: {
     prompt: string;
@@ -19,7 +22,7 @@ export const aiOrchestrator = {
     provider?: AIProvider;
     task?: 'reasoning' | 'materialization';
   }): Promise<T> => {
-    // Logic: Use Featherless for reasoning/strategy, Gemini for materialization if needed
+    // Logic: Use Featherless for complex strategic reasoning by default
     const provider = params.provider || (params.task === 'reasoning' ? 'featherless' : 'gemini');
 
     if (provider === 'featherless') {
@@ -28,17 +31,16 @@ export const aiOrchestrator = {
           prompt: params.prompt,
           system: params.system,
           schema: params.schema,
-          model: 'deepseek-ai/DeepSeek-V3' // Advanced reasoning model
+          model: 'deepseek-ai/DeepSeek-V3'
         });
       } catch (error) {
-        console.warn('Featherless failed, falling back to Gemini (Genkit)');
-        // Fallback logic could go here to call Genkit flow directly
+        console.warn('[Orchestrator] Featherless failed or key missing, fallback to Gemini required.');
         throw error;
       }
     }
 
-    // Default to existing Genkit flows if Gemini is selected
-    // Note: Integration with Genkit flows is handled in the flow files themselves.
-    throw new Error(`Provider ${provider} not implemented in universal orchestrator yet.`);
+    // Note: Gemini/Genkit flows are handled within their respective flow files.
+    // This orchestrator acts as a bridge for the new high-performance reasoning layer.
+    throw new Error(`Provider ${provider} materialization path should be handled by Genkit directly.`);
   }
 };
