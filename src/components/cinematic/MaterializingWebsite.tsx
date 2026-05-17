@@ -85,7 +85,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
     visible: { 
       opacity: 1,
       transition: { 
-        staggerChildren: system.tokens.motionIntensity === 'high' ? 0.05 : 0.1,
+        staggerChildren: 0.1,
         delayChildren: 0.1
       }
     }
@@ -127,9 +127,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
            className="text-2xl font-headline italic tracking-tighter flex items-center gap-4 cursor-pointer group" 
            onClick={() => setActivePage('home')}
          >
-            <div className="w-10 h-10 rounded-2xl flex items-center justify-center transition-all group-hover:rotate-12 group-hover:scale-110 shadow-2xl" style={{ backgroundColor: system.tokens.accent }}>
-               {isCoffee ? <Coffee size={18} style={{ color: system.tokens.accentOn }} /> : <Zap size={18} style={{ color: system.tokens.accentOn }} />}
-            </div>
+            <BloomLogo size={32} className="transition-transform group-hover:rotate-180 duration-1000" />
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-current to-current/60">
               {startupData.brand?.companyName || "BLOOM"}
             </span>
@@ -140,7 +138,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
               { label: 'Vision', page: 'home' },
               { label: 'Intelligence', page: 'features' },
               { label: 'Access', page: 'pricing' }
-            ].map((item, i) => (
+            ].map((item) => (
               <button 
                 key={item.label}
                 onClick={() => setActivePage(item.page as any)}
@@ -189,7 +187,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                     />
                     <div className="absolute inset-0 bg-black/40" />
                     {isCoffee && (
-                      <div className="absolute inset-0 opacity-[0.03] bg-[url('https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80')] bg-cover bg-center grayscale pointer-events-none" />
+                      <div className="absolute inset-0 opacity-[0.03] bg-[url('https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80')] bg-cover bg-center grayscale pointer-events-none" data-ai-hint="coffee background" />
                     )}
                  </div>
                  
@@ -237,7 +235,6 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                     </motion.div>
                  </div>
 
-                 {/* SCROLL INDICATOR */}
                  <motion.div 
                    initial={{ opacity: 0 }}
                    animate={{ opacity: 0.2 }}
@@ -424,7 +421,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                      {[
                        { name: "Visionary", price: "$49", desc: "For the individual creator.", perks: ["10 Neural Links", "Design DNA Registry", "Standard Oracle Score"] },
                        { name: "Architect", price: "$149", desc: "For professional agencies.", perks: ["Unlimited Links", "Shark Intelligence Layer", "Anti-Slop Validation"], active: true }
-                     ].map((tier, i) => (
+                     ].map((tier) => (
                        <motion.div 
                          key={tier.name}
                          variants={itemVariants}
