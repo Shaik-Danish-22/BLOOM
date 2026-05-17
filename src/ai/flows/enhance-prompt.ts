@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview Design DNA Engine: Transforms vague ideas into structured startup intelligence.
@@ -24,9 +25,9 @@ const EnhancePromptOutputSchema = z.object({
     interactionStyle: z.string().describe('The feel of the UI (e.g., "Smooth Understated").'),
     colorLogic: z.string().describe('The reasoning for the palette (e.g., "Monochrome with Obsidian Accents").'),
     layoutBehavior: z.string().describe('Grid behavior (e.g., "Fluid Bento" or "Editorial Center").'),
+    storytellingStructure: z.string().describe('How the brand narrative unfolds (e.g., "Heroic Discovery").'),
   }),
   conversionStrategy: z.string().describe('How the design drives action.'),
-  followUpQuestions: z.array(z.string()).describe('Critical questions to refine the vision.'),
 });
 
 const enhancePromptPrompt = ai.definePrompt({
@@ -34,14 +35,14 @@ const enhancePromptPrompt = ai.definePrompt({
   input: { schema: EnhancePromptInputSchema },
   output: { schema: EnhancePromptOutputSchema },
   prompt: `You are an elite Silicon Valley Creative Strategist and YC Partner. 
-  Your task is to take a vague, potentially chaotic startup idea and materialise it into a world-class strategic brief.
+  Your task is to take a vague startup idea and materialize it into a world-class strategic brief.
   
   Raw Idea: {{{rawPrompt}}}
   
-  DO NOT simply expand the text. Infer the underlying "Neural Identity":
-  1. AUDIENCE PSYCHOLOGY: Who are they? What is their secret desire?
+  Derive the "Neural Identity":
+  1. AUDIENCE PSYCHOLOGY: What is their secret desire or pain?
   2. DESIGN DNA: If this startup was a physical object, how would it feel?
-  3. SOPHISTICATION: Is this a nimble 'indie' project or a 'luxury' enterprise disruptor?
+  3. STORYTELLING: How should the user experience the product narrative?
   
   Structure your output as a high-density professional brief. The 'professionalBrief' should read like a visionary founder's manifesto.`
 });

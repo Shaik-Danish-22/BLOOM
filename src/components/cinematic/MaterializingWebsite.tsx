@@ -1,9 +1,9 @@
 
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { ArrowRight, Menu, Sparkles, Zap, Shield } from "lucide-react";
+import { ArrowRight, Menu, Sparkles, Zap, Shield, Target, Brain } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { StartupIdeaOutput } from "@/ai/flows/generate-startup-idea";
 
@@ -48,24 +48,26 @@ export function MaterializingWebsite({ isVisible, data }: MaterializingWebsitePr
   const palette = startupData.websiteContent?.colorPalette || ["#DCFF00", "#FFFFFF", "#000000"];
 
   const accentColor = palette[0];
-  const secondaryColor = palette[1] || palette[0];
   const backgroundColor = palette[2] || "#000000";
 
   return (
-    <div className={`bg-black min-h-full transition-all duration-[1500ms] relative overflow-x-hidden font-body text-white ${
-      stage === 'wireframe' ? 'grayscale opacity-10 blur-xl' : 
-      stage === 'layout' ? 'grayscale opacity-40 blur-sm' : ''
-    }`} style={{ backgroundColor }}>
+    <div 
+      className={`bg-black min-h-full transition-all duration-[1500ms] relative overflow-x-hidden font-body text-white ${
+        stage === 'wireframe' ? 'grayscale opacity-10 blur-xl' : 
+        stage === 'layout' ? 'grayscale opacity-40 blur-sm' : ''
+      }`} 
+      style={{ backgroundColor }}
+    >
       
-      {/* HUD - NODE STATUS */}
-      <div className="absolute top-8 left-1/2 -translate-x-1/2 z-[200] flex gap-2 pointer-events-none">
-         {["SCAFFOLD", "HIERARCHY", "NEURAL INJECT", "MATERIALIZE"].map((s, i) => (
+      {/* HUD - ORCHESTRATION STATUS */}
+      <div className="fixed top-8 left-1/2 -translate-x-1/2 z-[200] flex gap-2 pointer-events-none">
+         {["DNA_SCAN", "LOGIC_BUILD", "HIERARCHY", "MATERIALIZE"].map((s, i) => (
            <div key={s} className={`px-4 py-1.5 rounded-full border text-[8px] uppercase tracking-widest font-bold transition-all duration-700 ${
              (stage === 'wireframe' && i === 0) || 
              (stage === 'layout' && i <= 1) || 
              (stage === 'content' && i <= 2) || 
              (stage === 'final' && i <= 3)
-             ? 'text-black border-transparent shadow-[0_0_25px_rgba(220,255,0,0.6)]'
+             ? 'text-black border-transparent shadow-[0_0_25px_rgba(220,255,0,0.4)]'
              : 'bg-black/80 text-white/5 border-white/5'
            }`} style={{ 
              backgroundColor: ((stage === 'wireframe' && i === 0) || (stage === 'layout' && i <= 1) || (stage === 'content' && i <= 2) || (stage === 'final' && i <= 3)) ? accentColor : 'transparent' 
@@ -76,47 +78,35 @@ export function MaterializingWebsite({ isVisible, data }: MaterializingWebsitePr
       </div>
 
       {/* NAVBAR */}
-      <motion.nav 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="p-8 lg:p-10 flex justify-between items-center bg-black/50 backdrop-blur-3xl border-b border-white/5 relative z-[100]"
-      >
+      <nav className="p-8 lg:p-10 flex justify-between items-center bg-black/50 backdrop-blur-3xl border-b border-white/5 relative z-[100]">
          <div className="text-2xl font-headline italic tracking-tighter flex items-center gap-4">
             <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: accentColor }}>
                <Zap size={14} className="text-black" />
             </div>
-            {startupData.forgeBrandArchitect?.companyName || "FORGE"}
+            {startupData.forgeBrandArchitect?.companyName || "BLOOM"}
          </div>
          <div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-widest text-white/40">
-            <button className="hover:text-white transition-colors">Vision</button>
-            <button className="hover:text-white transition-colors">DNA</button>
-            <button className="hover:text-white transition-colors">Registry</button>
+            <button className="hover:text-white transition-colors">Our Vision</button>
+            <button className="hover:text-white transition-colors">Design DNA</button>
+            <button className="hover:text-white transition-colors">FounderOS</button>
          </div>
-         <Button variant="ghost" className="rounded-full w-10 h-10 p-0 text-white/40 hover:text-white hover:bg-white/5">
-            <Menu size={18} />
-         </Button>
-      </motion.nav>
+         <Menu size={18} className="text-white/40 cursor-pointer hover:text-white transition-colors" />
+      </nav>
 
       {/* HERO SECTION */}
       <section className="px-10 py-32 lg:py-60 text-center relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
-         <motion.div 
-           initial={{ opacity: 0 }}
-           animate={{ opacity: stage === 'final' ? 1 : 0.05 }}
-           transition={{ duration: 4 }}
-           className="absolute inset-0 z-0 pointer-events-none"
-         >
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1400px] h-[700px] blur-[250px] rounded-full opacity-30" style={{ backgroundColor: accentColor }} />
+         <div className="absolute inset-0 z-0 pointer-events-none">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[600px] blur-[250px] rounded-full opacity-20" style={{ backgroundColor: accentColor }} />
             <div className="absolute inset-0 bg-black/40" />
-         </motion.div>
+         </div>
          
          <div className="space-y-12 relative z-10 max-w-6xl">
             <motion.div
               initial={{ opacity: 0, scale: 0.85 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="inline-flex items-center gap-3 px-8 py-2.5 rounded-full border border-white/10 bg-white/[0.03] text-[10px] uppercase tracking-widest font-bold mx-auto"
-              style={{ color: secondaryColor }}
+              className="inline-flex items-center gap-3 px-8 py-2.5 rounded-full border border-white/10 bg-white/[0.03] text-[10px] uppercase tracking-widest font-bold mx-auto text-white/60"
             >
-              <Sparkles size={14} /> {startupData.forgeBrandArchitect?.neuralTone || "Vision Protocol v2.5"}
+              <Sparkles size={14} style={{ color: accentColor }} /> {startupData.forgeBrandArchitect?.neuralTone || "AI-Native Identity"}
             </motion.div>
 
             <motion.h2 
@@ -125,7 +115,7 @@ export function MaterializingWebsite({ isVisible, data }: MaterializingWebsitePr
               transition={{ delay: 0.5, duration: 1.2 }}
               className="text-7xl lg:text-[10rem] font-headline italic leading-[0.9] tracking-tighter text-white"
             >
-              {heroSection?.title || "Intelligence Forged."}
+              {heroSection?.title || "Vision Materialized."}
             </motion.h2>
 
             <motion.p 
@@ -143,8 +133,8 @@ export function MaterializingWebsite({ isVisible, data }: MaterializingWebsitePr
               transition={{ delay: 1.4 }}
               className="pt-10"
             >
-              <Button className="px-14 h-20 rounded-full font-bold text-xl shadow-[0_0_60px_rgba(255,255,255,0.15)] hover:scale-105 transition-all text-black" style={{ backgroundColor: accentColor }}>
-                {heroSection?.ctaLabel || "Initialize"} <ArrowRight className="ml-4" size={24} />
+              <Button className="px-14 h-20 rounded-full font-bold text-xl transition-all text-black hover:scale-105 active:scale-95 shadow-2xl" style={{ backgroundColor: accentColor }}>
+                {heroSection?.ctaLabel || "Initialize Experience"} <ArrowRight className="ml-4" size={24} />
               </Button>
             </motion.div>
          </div>
@@ -155,7 +145,7 @@ export function MaterializingWebsite({ isVisible, data }: MaterializingWebsitePr
         <section className="px-10 py-40 border-t border-white/5 relative z-10 bg-black/50 backdrop-blur-3xl">
            <div className="max-w-5xl mx-auto space-y-14">
               <div className="inline-flex items-center gap-2 opacity-50 uppercase tracking-[0.4em] text-[11px] font-bold" style={{ color: accentColor }}>
-                 <Shield size={16} /> Logic Validation Node
+                 <Brain size={16} /> Audience Psychology
               </div>
               <h3 className="text-5xl lg:text-7xl font-headline italic tracking-tighter leading-tight">
                  {problemSection.title}
@@ -182,15 +172,12 @@ export function MaterializingWebsite({ isVisible, data }: MaterializingWebsitePr
                      initial={{ opacity: 0, x: 30 }}
                      whileInView={{ opacity: 1, x: 0 }}
                      viewport={{ once: true }}
-                     transition={{ delay: i * 0.15 }}
-                     className="p-10 rounded-[2.5rem] border border-white/5 bg-white/[0.01] flex items-start gap-8 group hover:bg-white/[0.03] transition-all cursor-pointer"
+                     className="p-10 rounded-[2.5rem] border border-white/5 bg-white/[0.01] flex items-start gap-8 group hover:bg-white/[0.03] transition-all"
                    >
-                      <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 font-bold text-sm text-black shadow-[0_0_20px_rgba(255,255,255,0.15)]" style={{ backgroundColor: accentColor }}>
+                      <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 font-bold text-sm text-black shadow-lg" style={{ backgroundColor: accentColor }}>
                          {i + 1}
                       </div>
-                      <div>
-                        <p className="text-2xl font-light italic text-white/40 group-hover:text-white transition-colors">{item}</p>
-                      </div>
+                      <p className="text-2xl font-light italic text-white/40 group-hover:text-white transition-colors">{item}</p>
                    </motion.div>
                  ))}
               </div>
@@ -200,8 +187,8 @@ export function MaterializingWebsite({ isVisible, data }: MaterializingWebsitePr
 
       {/* FOOTER */}
       <footer className="p-40 border-t border-white/5 text-center bg-black relative z-10">
-         <div className="text-[12px] font-bold uppercase tracking-[1.2em] text-white/5 mb-10">Bloom Forge Intelligence</div>
-         <p className="text-[10px] text-white/10 uppercase tracking-widest italic">Neural Materialization build v2.5 stable</p>
+         <div className="text-[12px] font-bold uppercase tracking-[1.2em] text-white/5 mb-10">BLOOM NEURAL FACTORY</div>
+         <p className="text-[10px] text-white/10 uppercase tracking-widest italic">Experience build v2.5 Stable // Anti-Slop Validated</p>
       </footer>
     </div>
   );

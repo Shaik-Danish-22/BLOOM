@@ -24,16 +24,18 @@ const StartupIdeaOutputSchema = z.object({
     tagline: z.string(),
     brandRationale: z.string(),
     neuralTone: z.string(),
+    audiencePsychology: z.string(),
   }),
   websiteContent: z.object({
     sections: z.array(WebsiteSectionSchema),
-    colorPalette: z.array(z.string().describe('HEX codes strictly derived from Design DNA color logic.')),
+    colorPalette: z.array(z.string().describe('HEX codes strictly derived from Design DNA.')),
     typographyStrategy: z.string(),
+    motionPhilosophy: z.string(),
   }),
   sentinelAtlasMarketIntelligence: z.object({
     marketOpportunityAnalysis: z.string(),
-    marketRisks: z.array(z.string()).describe('Critical identified risks.'),
-    strategicMoats: z.array(z.string()).describe('Unique competitive advantages.'),
+    marketRisks: z.array(z.string()),
+    strategicMoats: z.array(z.string()),
     tamSamSom: z.object({
       tam: z.string(),
       sam: z.string(),
@@ -43,39 +45,16 @@ const StartupIdeaOutputSchema = z.object({
       name: z.string(),
       description: z.string(),
       advantages: z.array(z.string()),
-      disadvantages: z.array(z.string()),
-    })),
-  }),
-  compassLaunchGTM: z.object({
-    gtmStrategy: z.object({
-      overview: z.string(),
-      keyChannels: z.array(z.string()),
-      initialLaunchPlan: z.string(),
-    }),
-    pricingModel: z.object({
-      type: z.string(),
-      justification: z.string(),
-      tiers: z.array(z.object({
-        name: z.string(),
-        price: z.string(),
-        features: z.array(z.string()),
-      })),
-    }),
-    startupRoadmap: z.array(z.object({
-      quarter: z.string(),
-      milestones: z.array(z.string()),
     })),
   }),
   oracleInvestorAnalysis: z.object({
     investorScore: z.number().min(0).max(100),
     investorVerdict: z.string(),
-    viabilityLogic: z.string().describe('Why this startup will or won\'t succeed.'),
+    viabilityLogic: z.string(),
   }),
-  architectPitchBuilder: z.object({
-    pitchDeckPreview: z.array(z.object({
-      slideTitle: z.string(),
-      slideContent: z.string(),
-    })),
+  antiSlopValidation: z.object({
+    status: z.string().default('Validated'),
+    checks: z.array(z.string()).describe('List of hierarchy and spacing checks performed.'),
   }),
 });
 
@@ -85,23 +64,18 @@ const generateStartupIdeaPrompt = ai.definePrompt({
   name: 'generateStartupIdeaPrompt',
   input: { schema: z.object({ startupIdea: z.string(), designDNA: z.any().optional() }) },
   output: { schema: StartupIdeaOutputSchema },
-  prompt: `You are an elite Silicon Valley product architect and market analyst. 
-  Your task is to materialize the following startup vision into a comprehensive strategic and visual package.
+  prompt: `You are an elite Silicon Valley product architect. 
+  Materialize this startup vision into a comprehensive strategic and visual package.
   
   CORE VISION: {{{startupIdea}}}
   DESIGN DNA: {{#if designDNA}}{{{json designDNA}}}{{else}}Standard High-Tech Startup{{/if}}
   
-  CRITICAL CONSTRAINTS (NO EXCEPTIONS):
-  1. NO HALLUCINATIONS. Every generated section must be a direct materialization of the core vision. If it's a coffee startup, talk about beans, roasting, and sensory luxury.
-  2. DESIGN ADHERENCE. Use the colorLogic and mood from the Design DNA to define the colorPalette. 
-     - If COFFEE: Deep espresso browns (#3C2A21), creams (#D5CEA3), and blacks.
-     - If AI/TECH: Obsidian blacks (#0A0A0A), technical violets (#9F5CF0), and whites.
-     - Always map the colorPalette to the theme perfectly.
-  3. COPYWRITING. Use editorial-grade, evocative language. The copy must reflect the sophisticationLevel requested.
-  4. LOGIC. Ensure the TAM/SAM/SOM and GTM strategy are grounded in the specific market category.
-  5. ORACLE SCORE. Provide a realistic score (0-100) based on market saturation and technical moat.
+  CRITICAL CONSTRAINTS:
+  1. NO HALLUCINATIONS. If the idea is coffee, use espresso tones (#3C2A21), creams, and blacks. If AI, use obsidians and electric accents.
+  2. RESEARCH MODE: Be honest about risks. If the market is saturated, say so in the Oracle Analysis.
+  3. ANTI-SLOP: Ensure the "websiteContent" is structured for high-end hierarchy.
   
-  The "websiteContent" must include "hero", "problem", "solution", and "features" sections.`
+  Generate exactly one high-fidelity "hero", "problem", and "features" section.`
 });
 
 export async function generateStartupIdea(input: { startupIdea: string, designDNA: any }): Promise<StartupIdeaOutput> {

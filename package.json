@@ -1,12 +1,11 @@
 
 {
-  "name": "siteforge-ai",
+  "name": "bloom-neural-studio",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack -p 9002",
     "genkit:dev": "genkit start -- tsx src/ai/dev.ts",
-    "genkit:watch": "genkit start -- tsx --watch src/ai/dev.ts",
     "build": "NODE_ENV=production next build",
     "start": "next start",
     "lint": "next lint",
@@ -47,7 +46,6 @@
     "framer-motion": "^12.4.7",
     "genkit": "^1.28.0",
     "gsap": "^3.12.5",
-    "hls.js": "^1.5.15",
     "lucide-react": "^0.475.0",
     "next": "15.5.9",
     "react": "19.0.0",

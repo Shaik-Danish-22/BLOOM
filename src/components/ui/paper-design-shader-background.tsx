@@ -3,6 +3,11 @@
 
 import React, { useEffect, useRef } from 'react';
 
+/**
+ * @fileOverview Custom-engineered Neural Fluid Shader (WebGL).
+ * Replaces external shader dependencies for maximum stability and performance.
+ */
+
 export function GradientBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -37,17 +42,17 @@ export function GradientBackground() {
 
       void main() {
         vec2 uv = gl_FragCoord.xy / iResolution.xy;
-        float t = iTime * 0.2;
+        float t = iTime * 0.15;
         
-        vec3 color1 = vec3(0.05, 0.05, 0.1); // Deep Space
-        vec3 color2 = vec3(0.86, 1.0, 0.0);   // Bloom Lime (#DCFF00)
-        vec3 color3 = vec3(0.4, 0.0, 0.8);   // Neural Violet
+        vec3 color1 = vec3(0.02, 0.02, 0.04); // Deep Midnight
+        vec3 color2 = vec3(0.86, 1.0, 0.0);   // Bloom Accent (#DCFF00)
+        vec3 color3 = vec3(0.2, 0.0, 0.4);   // Deep Neural Violet
         
-        float n = noise(vec3(uv * 3.0, t));
-        n += 0.5 * noise(vec3(uv * 6.0, t * 1.5));
+        float n = noise(vec3(uv * 2.5, t));
+        n += 0.5 * noise(vec3(uv * 5.0, t * 1.2));
         
-        vec3 finalColor = mix(color1, color2, clamp(n, 0.0, 1.0) * 0.15);
-        finalColor = mix(finalColor, color3, clamp(sin(t + uv.x * 2.0), 0.0, 1.0) * 0.05);
+        vec3 finalColor = mix(color1, color2, clamp(n, 0.0, 1.0) * 0.1);
+        finalColor = mix(finalColor, color3, clamp(sin(t + uv.x * 1.5), 0.0, 1.0) * 0.05);
         
         gl_FragColor = vec4(finalColor, 1.0);
       }
@@ -78,6 +83,7 @@ export function GradientBackground() {
     const timeLocation = gl.getUniformLocation(shaderProgram, 'iTime');
 
     const render = (time: number) => {
+      if (!canvas) return;
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       gl.viewport(0, 0, canvas.width, canvas.height);
@@ -93,7 +99,7 @@ export function GradientBackground() {
   return (
     <canvas 
       ref={canvasRef} 
-      className="fixed inset-0 -z-10 w-full h-full pointer-events-none opacity-40" 
+      className="fixed inset-0 -z-10 w-full h-full pointer-events-none opacity-60" 
     />
   );
 }
