@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -28,7 +27,8 @@ import {
   Layout,
   TrendingUp,
   AlertTriangle,
-  Target
+  Target,
+  Share2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BackgroundEffects } from "@/components/cinematic/BackgroundEffects";
@@ -95,14 +95,26 @@ export default function BuilderPage() {
     }, 1200);
   };
 
+  const handleOpenPreview = () => {
+    window.open('/preview', '_blank');
+  };
+
+  const handleShare = () => {
+    navigator.clipboard.writeText(window.location.href);
+    toast({
+      title: "Vision Shared",
+      description: "Neural link URL copied to clipboard.",
+    });
+  };
+
   return (
-    <div className="relative h-screen overflow-hidden flex bg-black text-white font-body selection:bg-[#DCFF00]/30">
+    <div className="relative h-screen w-screen overflow-hidden flex bg-black text-white font-body selection:bg-[#DCFF00]/30">
       <BackgroundEffects />
       <GradientBackground />
       <div className="absolute inset-0 -z-10 bg-black/40" />
 
       {/* LEFT SIDEBAR - DESIGN OS PANELS */}
-      <aside className="w-[440px] border-r border-white/10 bg-black/95 backdrop-blur-3xl flex flex-col z-30 relative shadow-2xl">
+      <aside className="w-[420px] h-full border-r border-white/10 bg-black/95 backdrop-blur-3xl flex flex-col z-30 relative shadow-2xl shrink-0">
         <header className="p-8 border-b border-white/5 flex items-center justify-between">
            <div className="flex items-center gap-4">
               <BloomLogo size={32} />
@@ -316,7 +328,7 @@ export default function BuilderPage() {
         <div className="p-8 border-t border-white/10 bg-black/60 shadow-2xl">
            <div className="relative group">
               <input 
-                placeholder="Direct Scissor refinement..."
+                placeholder="Direct refinement..."
                 className="w-full bg-white/5 border border-white/10 h-14 rounded-2xl px-6 text-[14px] text-white focus:ring-1 focus:ring-[#DCFF00]/40 outline-none transition-all placeholder:text-white/20 shadow-inner"
               />
               <Button size="icon" className="absolute right-1.5 top-1.5 h-11 w-11 bg-white text-black hover:bg-[#DCFF00] rounded-xl transition-all active:scale-90 shadow-2xl">
@@ -327,8 +339,8 @@ export default function BuilderPage() {
       </aside>
 
       {/* MAIN VIEWPORT - CINEMATIC CANVAS */}
-      <main className="flex-1 flex flex-col z-20 p-8 overflow-hidden relative">
-         <header className="flex items-center justify-between mb-8">
+      <main className="flex-1 flex flex-col z-20 p-8 overflow-hidden relative min-w-0">
+         <header className="flex items-center justify-between mb-8 shrink-0">
             <div className="flex items-center gap-3 bg-black/80 backdrop-blur-3xl p-1.5 rounded-2xl border border-white/10 shadow-2xl">
                {[
                  { id: 'desktop', icon: Monitor },
@@ -374,8 +386,11 @@ export default function BuilderPage() {
                  <Terminal size={14} className="text-[#DCFF00]" />
                  <span className="text-[11px] font-mono text-[#DCFF00]/60 uppercase tracking-widest">Studio_v3.5_Stable</span>
               </div>
-              <Button variant="ghost" className="text-white/40 hover:text-white hover:bg-white/5 gap-3 text-[10px] uppercase tracking-[0.2em] font-bold px-6 h-12 rounded-xl">
-                Preview <ExternalLink size={14} />
+              <Button onClick={handleOpenPreview} variant="ghost" className="text-white/40 hover:text-white hover:bg-white/5 gap-3 text-[10px] uppercase tracking-[0.2em] font-bold px-6 h-12 rounded-xl">
+                Open Preview <ExternalLink size={14} />
+              </Button>
+              <Button onClick={handleShare} variant="ghost" className="text-white/40 hover:text-white hover:bg-white/5 gap-3 text-[10px] uppercase tracking-[0.2em] font-bold px-6 h-12 rounded-xl">
+                Share <Share2 size={14} />
               </Button>
               <Button className="bg-[#DCFF00] text-black hover:bg-[#DCFF00]/90 rounded-2xl px-8 h-12 font-bold uppercase tracking-widest text-[11px] shadow-[0_0_30px_rgba(220,255,0,0.3)] transition-all active:scale-95 group">
                  <Rocket size={15} className="mr-3 group-hover:-translate-y-1 transition-transform" /> Neural Deploy
@@ -408,11 +423,11 @@ export default function BuilderPage() {
                 view === 'desktop' ? 'w-full' : view === 'tablet' ? 'w-[768px]' : 'w-[375px]'
               )}
             >
-               <div className="h-full w-full overflow-y-auto no-scrollbar bg-black relative">
+               <div className="h-full w-full overflow-hidden bg-black relative flex flex-col">
                   {mode === 'materialization' ? (
                     <MaterializingWebsite isVisible={true} data={startupData} context={context} />
                   ) : (
-                    <div className="p-16 space-y-24 bg-black min-h-full relative overflow-y-auto no-scrollbar selection:bg-white/10 animate-in fade-in zoom-in-95 duration-1000">
+                    <div className="flex-1 p-16 space-y-24 bg-black overflow-y-auto no-scrollbar selection:bg-white/10 animate-in fade-in zoom-in-95 duration-1000">
                        <header className="flex flex-col md:flex-row items-end justify-between border-b border-white/10 pb-16 gap-12">
                           <div className="space-y-8 max-w-3xl">
                              <div className="flex items-center gap-6">
@@ -423,7 +438,7 @@ export default function BuilderPage() {
                              </div>
                              <h2 className="text-7xl font-headline italic text-white/95 leading-[0.85] tracking-tighter">Strategic <br/> Intelligence Hub</h2>
                              <p className="text-white/50 text-xl font-light leading-relaxed italic max-w-2xl">
-                               Recursive analysis of {startupData?.brand?.companyName || 'Startup'} through our multi-billion dollar shark intelligence layer. Identify risks, size markets, and validate logic before execution.
+                               Recursive analysis of {startupData?.brand?.companyName || 'Startup'} through our multi-billion dollar shark intelligence layer.
                              </p>
                           </div>
                           <div className="flex items-center gap-12 bg-white/[0.03] border border-white/10 p-10 rounded-[3.5rem] backdrop-blur-3xl shadow-2xl">
@@ -441,7 +456,6 @@ export default function BuilderPage() {
                        </header>
 
                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 relative z-10">
-                          {/* EXECUTIVE NEURAL BRIEF */}
                           <Card className="lg:col-span-3 p-12 rounded-[3.5rem] bg-gradient-to-br from-white/[0.08] to-transparent border border-white/10 space-y-10 backdrop-blur-3xl shadow-2xl">
                              <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-5 text-[#DCFF00]">
@@ -471,7 +485,6 @@ export default function BuilderPage() {
                              </div>
                           </Card>
 
-                          {/* THE SHARK VERDICT */}
                           <Card className="lg:col-span-2 p-16 rounded-[4rem] bg-white/[0.03] border border-white/10 space-y-12 backdrop-blur-3xl group shadow-2xl relative overflow-hidden">
                              <div className="absolute top-0 right-0 p-10 opacity-5 group-hover:opacity-10 transition-opacity duration-1000">
                                 <Briefcase size={120} className="text-[#DCFF00]" />
@@ -488,11 +501,10 @@ export default function BuilderPage() {
                                </p>
                                <p className="text-2xl text-white/50 font-light leading-relaxed italic max-w-3xl">
                                   {startupData?.intelligence?.marketAnalysis || "Waiting for neural consensus..."}
-                               </p>
+                                </p>
                              </div>
                           </Card>
 
-                          {/* MARKET SIZING */}
                           <Card className="p-12 rounded-[4rem] bg-white/[0.02] border border-white/10 space-y-12 backdrop-blur-3xl shadow-2xl">
                              <div className="flex items-center gap-5 text-white/40">
                                 <TrendingUp size={24} />
@@ -500,28 +512,23 @@ export default function BuilderPage() {
                              </div>
                              <div className="space-y-10">
                                 <div className="space-y-3">
-                                   <span className="text-[11px] text-white/30 uppercase tracking-[0.2em] block font-bold">TAM (Total Market)</span>
+                                   <span className="text-[11px] text-white/30 uppercase tracking-[0.2em] block font-bold">TAM</span>
                                    <span className="text-3xl font-headline italic text-[#DCFF00]">{startupData?.intelligence?.tamSamSom?.tam || "$15.6T"}</span>
                                 </div>
                                 <div className="space-y-3">
-                                   <span className="text-[11px] text-white/30 uppercase tracking-[0.2em] block font-bold">SAM (Serviceable)</span>
+                                   <span className="text-[11px] text-white/30 uppercase tracking-[0.2em] block font-bold">SAM</span>
                                    <span className="text-3xl font-headline italic text-white/80">{startupData?.intelligence?.tamSamSom?.sam || "$240B"}</span>
-                                </div>
-                                <div className="space-y-3">
-                                   <span className="text-[11px] text-white/30 uppercase tracking-[0.2em] block font-bold">SOM (Obtainable)</span>
-                                   <span className="text-3xl font-headline italic text-white/60">{startupData?.intelligence?.tamSamSom?.som || "$2.4B"}</span>
                                 </div>
                              </div>
                           </Card>
 
-                          {/* STRATEGIC RISKS */}
                           <Card className="lg:col-span-1 p-12 rounded-[3.5rem] bg-white/[0.02] border border-white/10 space-y-10 backdrop-blur-3xl shadow-2xl">
                              <div className="flex items-center gap-5 text-red-500">
                                 <AlertTriangle size={24} />
                                 <h4 className="text-[12px] font-bold uppercase tracking-[0.4em]">Critical Risks</h4>
                              </div>
                              <div className="space-y-5">
-                                {(startupData?.intelligence?.risks || ["Saturated Market", "Execution Risk"]).map((risk: string, i: number) => (
+                                {(startupData?.intelligence?.risks || ["Execution Risk"]).map((risk: string, i: number) => (
                                   <div key={i} className="flex items-center gap-5 p-5 rounded-[2rem] bg-red-500/5 border border-red-500/10 hover:bg-red-500/10 transition-all cursor-default group">
                                      <div className="w-2 h-2 rounded-full bg-red-500 group-hover:scale-150 transition-transform" />
                                      <span className="text-[14px] text-red-500 font-bold uppercase tracking-widest">{risk}</span>
@@ -530,7 +537,6 @@ export default function BuilderPage() {
                              </div>
                           </Card>
 
-                          {/* STRATEGIC MOATS */}
                           <Card className="lg:col-span-2 p-12 rounded-[3.5rem] bg-white/[0.02] border border-white/10 space-y-10 backdrop-blur-3xl shadow-2xl">
                              <div className="flex items-center gap-5 text-[#DCFF00]">
                                 <Target size={24} />
@@ -539,13 +545,14 @@ export default function BuilderPage() {
                              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                                 {(startupData?.intelligence?.moats || []).map((moat: string, i: number) => (
                                   <div key={i} className="p-10 rounded-[2.5rem] bg-white/[0.04] border border-white/10 space-y-5 hover:bg-white/[0.08] transition-all group">
-                                     <h5 className="text-[11px] font-bold uppercase tracking-widest text-[#DCFF00] opacity-40 group-hover:opacity-100 transition-opacity">Neural Node 0{i + 1}</h5>
+                                     <h5 className="text-[11px] font-bold uppercase tracking-widest text-[#DCFF00] opacity-40">Neural Node 0{i + 1}</h5>
                                      <p className="text-2xl font-headline italic text-white/90 leading-tight">{moat}</p>
                                   </div>
                                 ))}
                              </div>
                           </Card>
                        </div>
+                       <div className="h-40" /> {/* Spacer */}
                     </div>
                   )}
                </div>

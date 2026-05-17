@@ -1,9 +1,10 @@
 /**
  * @fileOverview Registry-driven Design Systems and Tokens.
  * These systems act as the primary orchestration engine for Bloom.
+ * Updated with high-fidelity Starbucks and Stripe inspired systems.
  */
 
-export type DesignSystemId = 'apple' | 'airbnb' | 'mastercard' | 'binance' | 'cafe' | 'agentic';
+export type DesignSystemId = 'apple' | 'airbnb' | 'mastercard' | 'binance' | 'cafe' | 'agentic' | 'starbucks' | 'stripe';
 
 export interface DesignSystemTokens {
   id: DesignSystemId;
@@ -68,6 +69,68 @@ export const DESIGN_SYSTEMS: Record<DesignSystemId, DesignSystemTokens> = {
       elevRaised: '0 20px 40px rgba(0, 0, 0, 0.4)'
     },
     principles: ['Quiet chrome', 'Loud product', 'Whitespace first']
+  },
+  starbucks: {
+    id: 'starbucks',
+    name: 'Brewers Retail',
+    description: 'Warm retail flagship aesthetic with Starbucks-Green anchors and cream canvases.',
+    inspiration: 'Starbucks',
+    tokens: {
+      bg: '#f2f0eb',
+      surface: '#ffffff',
+      surfaceWarm: '#edebe9',
+      fg: 'rgba(0, 0, 0, 0.87)',
+      fgSecondary: 'rgba(0, 0, 0, 0.58)',
+      muted: '#33433d',
+      meta: '#cba258',
+      accent: '#006241',
+      accentOn: '#ffffff',
+      accentHover: '#00754A',
+      border: '#d6dbde',
+      borderSoft: '#ebebeb',
+      radiusSm: '4px',
+      radiusMd: '12px',
+      radiusLg: '24px',
+      radiusPill: '50px',
+      fontDisplay: 'var(--font-headline)',
+      fontBody: 'var(--font-display)',
+      motionIntensity: 'standard',
+      trackingDisplay: '-0.01em',
+      leadingTight: '1.2',
+      elevRaised: '0px 1px 1px rgba(0,0,0,0.24)'
+    },
+    principles: ['Warm cream canvas', 'Pill-button discipline', 'Multi-tier green hierarchy']
+  },
+  stripe: {
+    id: 'stripe',
+    name: 'Fintech Precision',
+    description: 'Weight-300 elegance with signature purple gradients and blue-tinted depth.',
+    inspiration: 'Stripe',
+    tokens: {
+      bg: '#ffffff',
+      surface: '#f6f9fc',
+      surfaceWarm: '#061b31',
+      fg: '#061b31',
+      fgSecondary: '#273951',
+      muted: '#64748d',
+      meta: '#533afd',
+      accent: '#533afd',
+      accentOn: '#ffffff',
+      accentHover: '#4434d4',
+      border: '#e5edf5',
+      borderSoft: '#f1f4f9',
+      radiusSm: '4px',
+      radiusMd: '6px',
+      radiusLg: '8px',
+      radiusPill: '999px',
+      fontDisplay: 'var(--font-display)',
+      fontBody: 'var(--font-display)',
+      motionIntensity: 'subtle',
+      trackingDisplay: '-0.03em',
+      leadingTight: '1.1',
+      elevRaised: 'rgba(50,50,93,0.25) 0px 30px 45px -30px'
+    },
+    principles: ['Weight-300 displays', 'Blue-tinted shadows', 'Geometric geometric precision']
   },
   airbnb: {
     id: 'airbnb',

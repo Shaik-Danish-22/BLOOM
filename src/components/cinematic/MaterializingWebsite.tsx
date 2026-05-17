@@ -1,4 +1,3 @@
-
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -63,7 +62,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
   if (!isVisible || !startupData) return null;
 
   const isCoffee = context?.prompt?.toLowerCase().includes('coffee') || startupData.brand?.companyName?.toLowerCase().includes('coffee');
-  const defaultSystemId = isCoffee ? 'cafe' : 'apple';
+  const defaultSystemId = isCoffee ? 'starbucks' : 'apple';
   const systemId = context?.selectedSystem || defaultSystemId;
   const system: DesignSystemTokens = DESIGN_SYSTEMS[systemId as any] || DESIGN_SYSTEMS.apple;
 
@@ -96,7 +95,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
   return (
     <div 
       className={cn(
-        "min-h-full transition-all duration-[1500ms] relative overflow-x-hidden selection:bg-white/10",
+        "min-h-full w-full transition-all duration-[1500ms] relative selection:bg-white/10 overflow-y-auto no-scrollbar",
         stage === 'wireframe' && "grayscale opacity-20 blur-[80px]",
         stage === 'layout' && "grayscale opacity-40 blur-[40px]",
         stage === 'content' && "opacity-90 blur-[10px]"
@@ -110,7 +109,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
       
       {/* GLOBAL NAVIGATION node */}
       <nav 
-        className="fixed top-0 left-0 right-0 z-[200] px-8 py-6 lg:px-16 flex justify-between items-center bg-black/5 backdrop-blur-xl border-b border-white/5"
+        className="sticky top-0 left-0 right-0 z-[200] px-8 py-6 lg:px-16 flex justify-between items-center bg-black/5 backdrop-blur-xl border-b border-white/5"
       >
          <motion.div 
            initial={{ opacity: 0, x: -20 }}
@@ -158,7 +157,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
          </div>
       </nav>
 
-      <main className="pt-24 min-h-screen">
+      <main className="min-h-screen">
         <AnimatePresence mode="wait">
           {activePage === 'home' && (
             <motion.div
@@ -188,7 +187,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                     </div>
                  </div>
                  
-                 <div className="space-y-12 relative z-10 max-w-6xl px-4">
+                 <div className="space-y-12 relative z-10 max-w-7xl px-4">
                     <motion.div
                       variants={itemVariants}
                       className="inline-flex items-center gap-4 px-6 py-2 rounded-full border bg-white/[0.03] text-[9px] uppercase tracking-[0.5em] font-bold mx-auto border-white/10"
@@ -201,7 +200,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                     <div className="space-y-8">
                       <motion.h2 
                         variants={itemVariants}
-                        className="text-5xl md:text-7xl lg:text-[9.5rem] italic leading-[0.85] tracking-tighter font-headline text-glow"
+                        className="text-5xl md:text-7xl lg:text-[8.5rem] italic leading-[0.85] tracking-tighter font-headline text-glow max-w-6xl mx-auto"
                         style={{ color: system.tokens.fg }}
                       >
                         {heroSection?.title || "Vision Materialized."}

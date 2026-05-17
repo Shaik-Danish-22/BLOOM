@@ -2,7 +2,7 @@
 /**
  * @fileOverview Orchestration Engine: Generates high-fidelity startup artifacts
  * strictly derived from the Design DNA and Design System.
- * Optimized for professional, editorial-grade copy.
+ * Optimized for world-class, professional editorial-grade copy.
  */
 
 import { ai } from '@/ai/genkit';
@@ -11,11 +11,11 @@ import { z } from 'genkit';
 const WebsiteSectionSchema = z.object({
   id: z.string(),
   type: z.enum(['hero', 'features', 'problem', 'solution', 'pricing', 'footer', 'social']),
-  title: z.string().describe('Must be world-class, punchy marketing copy (max 8 words).'),
-  subtitle: z.string().optional().describe('A high-fidelity, visionary subheadline.'),
-  content: z.string().optional().describe('Deep, strategic narrative content.'),
-  items: z.array(z.string()).optional().describe('4-6 highly specific, technological or sensory features.'),
-  ctaLabel: z.string().optional().describe('Action-oriented professional CTA.'),
+  title: z.string().describe('Must be world-class, punchy marketing copy (max 8 words). Editorial magazine grade.'),
+  subtitle: z.string().optional().describe('A high-fidelity, visionary subheadline. Deep strategic insight.'),
+  content: z.string().optional().describe('Deep, strategic narrative content. Founders manifesto grade.'),
+  items: z.array(z.string()).optional().describe('4-6 highly specific, technological or sensory features. No generic filler.'),
+  ctaLabel: z.string().optional().describe('Action-oriented professional CTA. Compelling and unique.'),
 });
 
 const OrchestrateStartupOutputSchema = z.object({
@@ -61,15 +61,15 @@ const orchestrateStartupPrompt = ai.definePrompt({
   
   CRITICAL CONSTRAINTS:
   1. NO SLOP: Avoid generic AI filler. Use high-density, professional copy. 
-  2. EDITORIAL SCALE: The "title" fields should read like luxury magazine headlines.
-  3. SENSORY ANCHORING: If the idea is sensory (e.g. coffee), use sensory language (roast, aroma, crema, ceramic).
-  4. HIERARCHY: Ensure the hero section title is iconic and minimal.
+  2. EDITORIAL SCALE: The "title" fields should read like luxury magazine headlines (e.g., Vogue, Monocle, Wall Street Journal).
+  3. SENSORY ANCHORING: If the idea is sensory (e.g. coffee, wellness), use deep sensory language (roast, aroma, tranquility, precise).
+  4. HIERARCHY: Ensure the hero section title is iconic and minimal. 
   5. Generate exactly one high-fidelity "hero", "problem", and "features" section.
   
-  For "features", identify the actual technological or operational breakthrough of this specific idea.
+  For "features", identify the actual technological or operational breakthrough of this specific idea. Use specific industry terminology.
   
   The "rationale" should read like a visionary founder's manifesto (3-4 sentences).
-  The "marketAnalysis" should be a brutal, multi-billion dollar shark assessment.`
+  The "marketAnalysis" should be a brutal, multi-billion dollar shark assessment from a top-tier VC perspective.`
 });
 
 export async function orchestrateStartup(input: { prompt: string, dna: any, designSystem: any }): Promise<OrchestratedStartup> {
