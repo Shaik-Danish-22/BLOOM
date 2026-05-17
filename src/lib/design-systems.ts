@@ -3,7 +3,7 @@
  * These systems act as the primary orchestration engine for Bloom.
  */
 
-export type DesignSystemId = 'apple' | 'airbnb' | 'mastercard' | 'binance' | 'cafe' | 'agentic' | 'starbucks' | 'stripe';
+export type DesignSystemId = 'apple' | 'airbnb' | 'mastercard' | 'binance' | 'cafe' | 'agentic' | 'starbucks' | 'stripe' | 'baker' | 'wellness';
 
 export interface DesignSystemTokens {
   id: DesignSystemId;
@@ -53,9 +53,9 @@ export const DESIGN_SYSTEMS: Record<DesignSystemId, DesignSystemTokens> = {
       fgSecondary: '#a1a1a6',
       muted: '#86868b',
       meta: '#6e6e73',
-      accent: '#0071e3',
-      accentOn: '#ffffff',
-      accentHover: '#0077ed',
+      accent: '#ffffff',
+      accentOn: '#000000',
+      accentHover: '#f5f5f7',
       border: '#333333',
       borderSoft: '#222222',
       radiusSm: '8px',
@@ -73,6 +73,72 @@ export const DESIGN_SYSTEMS: Record<DesignSystemId, DesignSystemTokens> = {
     },
     principles: ['Quiet chrome', 'Loud product', 'Whitespace first']
   },
+  baker: {
+    id: 'baker',
+    name: 'Pantry Heritage',
+    description: 'Warm flour-white canvases, deep charcoal typography, and artisanal sensory logic.',
+    inspiration: 'Pantry by Baker',
+    tokens: {
+      bg: '#FBFBF9',
+      surface: '#F5F5F1',
+      surfaceWarm: '#F1EFEA',
+      fg: '#1A1A1A',
+      fgSecondary: '#4A4A4A',
+      muted: '#7C7C77',
+      meta: '#A1A19A',
+      accent: '#1A1A1A',
+      accentOn: '#FFFFFF',
+      accentHover: '#333333',
+      border: '#E8E8E1',
+      borderSoft: '#F1F1EB',
+      radiusSm: '0px',
+      radiusMd: '0px',
+      radiusLg: '4px',
+      radiusPill: '100px',
+      fontDisplay: 'var(--font-headline)',
+      fontBody: 'var(--font-display)',
+      motionIntensity: 'subtle',
+      trackingDisplay: '-0.04em',
+      leadingTight: '0.9',
+      elevRaised: 'none',
+      shadowAmbient: 'none',
+      shadowStandard: 'none'
+    },
+    principles: ['Typographic scale as depth', 'Heritage whitespace', 'Artisanal precision']
+  },
+  wellness: {
+    id: 'wellness',
+    name: 'Botanical Edit',
+    description: 'Ethereal high-contrast system with botanical deep greens and sophisticated serifs.',
+    inspiration: 'Altina',
+    tokens: {
+      bg: '#0F1713',
+      surface: '#1A241F',
+      surfaceWarm: '#24302A',
+      fg: '#F4F7F2',
+      fgSecondary: '#D1D9D3',
+      muted: '#8C9A93',
+      meta: '#66756F',
+      accent: '#D4E9E2',
+      accentOn: '#0F1713',
+      accentHover: '#E8F5F0',
+      border: '#24302A',
+      borderSoft: '#1A241F',
+      radiusSm: '4px',
+      radiusMd: '8px',
+      radiusLg: '16px',
+      radiusPill: '100px',
+      fontDisplay: 'var(--font-headline)',
+      fontBody: 'var(--font-display)',
+      motionIntensity: 'standard',
+      trackingDisplay: '-0.02em',
+      leadingTight: '1.0',
+      elevRaised: '0 32px 64px rgba(0,0,0,0.3)',
+      shadowAmbient: '0 8px 16px rgba(0,0,0,0.1)',
+      shadowStandard: '0 16px 32px rgba(0,0,0,0.2)'
+    },
+    principles: ['Botanical rhythm', 'Sophisticated ritual', 'High-contrast immersion']
+  },
   starbucks: {
     id: 'starbucks',
     name: 'Brewers Retail',
@@ -81,7 +147,7 @@ export const DESIGN_SYSTEMS: Record<DesignSystemId, DesignSystemTokens> = {
     tokens: {
       bg: '#f2f0eb',
       surface: '#ffffff',
-      surfaceWarm: '#1E3932', // House Green
+      surfaceWarm: '#1E3932',
       fg: 'rgba(0, 0, 0, 0.87)',
       fgSecondary: 'rgba(0, 0, 0, 0.58)',
       muted: '#33433d',

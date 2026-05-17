@@ -1,4 +1,3 @@
-
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -71,11 +70,12 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
   const problemSection = sections.find(s => s.type === 'problem');
   const featuresSection = sections.find(s => s.type === 'features');
 
-  // Intelligent image hints based on startup vision
-  const industryHint = startupData.brand?.companyName.toLowerCase().includes('car') || startupData.brand?.tagline.toLowerCase().includes('automotive')
+  // Intelligent image hints based on startup vision and system
+  const industryHint = startupData.brand?.companyName.toLowerCase().includes('car') 
     ? 'luxury car interior'
-    : startupData.brand?.companyName.toLowerCase().includes('coffee')
-    ? 'luxury retail coffee'
+    : system.id === 'baker' ? 'minimal bakery bread'
+    : system.id === 'wellness' ? 'botanical luxury drink'
+    : startupData.brand?.companyName.toLowerCase().includes('coffee') ? 'luxury retail coffee'
     : 'minimal tech architecture';
 
   const containerVariants = {
@@ -223,7 +223,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                         className="text-5xl md:text-7xl lg:text-[8.5rem] italic leading-[0.85] tracking-tighter font-headline text-glow max-w-6xl mx-auto"
                         style={{ 
                           color: system.tokens.fg,
-                          fontWeight: (system.id === 'stripe' || system.id === 'mastercard') ? 300 : 600,
+                          fontWeight: (system.id === 'stripe' || system.id === 'mastercard' || system.id === 'baker') ? 300 : 600,
                           letterSpacing: system.tokens.trackingDisplay
                         }}
                       >
@@ -265,7 +265,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                          className="lg:col-span-12 space-y-6"
                        >
                           <span className="text-[10px] uppercase tracking-[1em] font-bold opacity-30 block" style={{ color: system.tokens.accent }}>Strategic Gap</span>
-                          <h3 className="text-4xl md:text-6xl lg:text-8xl font-headline italic tracking-tighter leading-tight" style={{ fontWeight: (system.id === 'stripe' || system.id === 'mastercard') ? 300 : 600 }}>
+                          <h3 className="text-4xl md:text-6xl lg:text-8xl font-headline italic tracking-tighter leading-tight" style={{ fontWeight: (system.id === 'stripe' || system.id === 'mastercard' || system.id === 'baker') ? 300 : 600 }}>
                             {problemSection?.title || "The Market Logic."}
                           </h3>
                        </motion.div>
@@ -364,7 +364,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                  <div className="space-y-16 sticky top-40">
                     <div className="space-y-6">
                       <motion.span variants={itemVariants} className="text-[12px] uppercase tracking-[1em] font-bold opacity-30 block" style={{ color: system.tokens.muted }}>Intelligence</motion.span>
-                      <motion.h3 variants={itemVariants} className="text-5xl md:text-7xl lg:text-[9xl] font-headline italic tracking-tighter leading-tight text-glow" style={{ fontWeight: (system.id === 'stripe' || system.id === 'mastercard') ? 300 : 600 }}>
+                      <motion.h3 variants={itemVariants} className="text-5xl md:text-7xl lg:text-[9xl] font-headline italic tracking-tighter leading-tight text-glow" style={{ fontWeight: (system.id === 'stripe' || system.id === 'mastercard' || system.id === 'baker') ? 300 : 600 }}>
                          The Protocol.
                       </motion.h3>
                     </div>
@@ -417,7 +417,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                <div className="max-w-5xl mx-auto space-y-32">
                   <div className="space-y-8">
                     <motion.span variants={itemVariants} className="text-[12px] uppercase tracking-[1em] font-bold opacity-30 block">Access Nodes</motion.span>
-                    <motion.h3 variants={itemVariants} className="text-5xl md:text-7xl lg:text-[8rem] font-headline italic tracking-tighter leading-none" style={{ fontWeight: (system.id === 'stripe' || system.id === 'mastercard') ? 300 : 600 }}>Materialize.</motion.h3>
+                    <motion.h3 variants={itemVariants} className="text-5xl md:text-7xl lg:text-[8rem] font-headline italic tracking-tighter leading-none" style={{ fontWeight: (system.id === 'stripe' || system.id === 'mastercard' || system.id === 'baker') ? 300 : 600 }}>Materialize.</motion.h3>
                   </div>
                   
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">

@@ -52,22 +52,21 @@ const orchestrateStartupPrompt = ai.definePrompt({
   },
   output: { schema: OrchestrateStartupOutputSchema },
   prompt: `You are a world-class AI product architect and founder. 
-  Your task is to materialize a startup vision into a comprehensive, coherent, and premium strategic package.
+  Your task is to materialize a startup vision into a comprehensive, coherent, and museum-grade editorial strategic package.
   
   CORE VISION: {{{prompt}}}
   DESIGN DNA: {{{json dna}}}
   DESIGN SYSTEM: {{{json designSystem}}}
   
   CRITICAL CONSTRAINTS:
-  1. NO SLOP: Avoid generic AI filler. Use high-density, professional copy. 
-  2. EDITORIAL SCALE: The "title" fields should read like luxury magazine headlines (e.g., Vogue, Monocle, Wall Street Journal).
+  1. NO SLOP: Avoid generic AI filler like "Unlock your potential" or "The future is here." Use high-density, professional copy. 
+  2. EDITORIAL SCALE: The "title" fields should read like luxury magazine headlines (e.g., Vogue, Monocle, Wall Street Journal). Use sensory words (aroma, texture, precision, obsidian, bone-white).
   3. SYSTEM ALIGNMENT: 
-     - If using "Brewers Retail" (Starbucks): Use warm, retail flagship language. Focus on "The Ritual," sensory details, and "Cafe-Wall" warmth.
+     - If using "Pantry Heritage" (Baker): Use warm, heritage retail language. Focus on "The Ritual," sensory details (baked, yeast, artisan), and "Museum-Wall" whitespace.
+     - If using "Botanical Edit" (Altina/Wellness): Focus on "Sophisticated Ritual," non-alcoholic indulgence, high-contrast botanical imagery, and "Ethereal" language.
      - If using "Fintech Precision" (Stripe): Use weight-300 authority. Focus on "Infrastructure," "Global scale," and ethereal, technical luxury.
-     - If using "Rausch Warmth" (Airbnb): Focus on community, photography as depth, and "Handcrafted" hospitality language.
-     - If using "Orbital Editorial" (Mastercard): Focus on "Institution," "Global Standard," and orbital trajectories.
-     - If using "Linear AI" (Linear): Focus on "Engineering Excellence," "Precision," and "Focus" as a luxury.
-  4. SENSORY ANCHORING: If the idea is sensory (e.g. coffee, wellness), use deep sensory language (roast, aroma, tranquility, precise).
+     - If using "Brewers Retail" (Starbucks): Use warm, community flagship language.
+  4. SENSORY ANCHORING: If the idea is physical (e.g. coffee, bakery, car), use deep sensory language in the "rationale" and "content" fields.
   5. HIERARCHY: Ensure the hero section title is iconic and minimal. 
   6. Generate exactly one high-fidelity "hero", "problem", and "features" section.
   
