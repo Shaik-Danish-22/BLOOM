@@ -67,8 +67,8 @@ export default function SignupPage() {
           className="absolute inset-0 w-full h-full object-cover"
           style={{ 
             opacity: videoOpacity, 
-            transition: 'opacity 0.1s linear',
-            filter: 'brightness(0.6) contrast(1.1)' 
+            transition: 'opacity 0.2s ease-in-out',
+            filter: 'brightness(0.9) contrast(1.1) saturate(1.05)' 
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
@@ -97,7 +97,7 @@ export default function SignupPage() {
             transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
             className="hidden lg:block relative order-2"
           >
-            <div className="aspect-[4/5] relative w-full overflow-hidden rounded-[5rem] bg-white/[0.02] border border-white/10 backdrop-blur-3xl group shadow-[0_50px_100px_rgba(0,0,0,0.6)]">
+            <div className="aspect-[4/5] relative w-full overflow-hidden rounded-[5rem] bg-white/[0.03] border border-white/10 backdrop-blur-3xl group shadow-[0_50px_100px_rgba(0,0,0,0.7)]">
                <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
                   <div className="w-full h-full bg-gradient-to-br from-[#DCFF00]/10 to-transparent opacity-20" />
                   <div className="absolute inset-0 flex items-center justify-center scale-[1.6] translate-y-20">
@@ -111,15 +111,15 @@ export default function SignupPage() {
                  transition={{ delay: 1.5, duration: 0.8 }}
                  className="absolute bottom-16 left-16 z-30"
                >
-                 <div className="bg-black/80 backdrop-blur-3xl border border-[#DCFF00]/30 p-8 rounded-[2.5rem] shadow-2xl max-w-[280px] relative">
+                 <div className="bg-black/90 backdrop-blur-3xl border border-[#DCFF00]/40 p-8 rounded-[2.5rem] shadow-2xl max-w-[280px] relative">
                     <div className="flex items-center gap-3 mb-3">
-                       <Sparkles size={14} className="text-[#DCFF00] animate-pulse" />
+                       <Sparkles size={14} className="text-[#DCFF00] animate-pulse shadow-[0_0_10px_#DCFF00]" />
                        <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#DCFF00]">Identity Sync Active</span>
                     </div>
                     <p className="text-[15px] font-headline italic text-white/95 leading-tight">
                        "Initializing FounderOS Persona. Strategic materialization node online."
                     </p>
-                    <div className="absolute -top-2 left-12 w-4 h-4 bg-black/80 border-l border-t border-[#DCFF00]/30 rotate-45" />
+                    <div className="absolute -top-2 left-12 w-4 h-4 bg-black/90 border-l border-t border-[#DCFF00]/40 rotate-45" />
                  </div>
                </motion.div>
             </div>
@@ -133,31 +133,31 @@ export default function SignupPage() {
           >
             <div className="space-y-8">
               <div className="flex items-center gap-6">
-                <span className="text-[#DCFF00] text-[11px] font-bold uppercase tracking-[0.8em] flex items-center gap-3 drop-shadow-[0_0_10px_rgba(220,255,0,0.4)]">
+                <span className="text-[#DCFF00] text-[11px] font-bold uppercase tracking-[0.8em] flex items-center gap-3 drop-shadow-[0_0_10px_rgba(220,255,0,0.5)]">
                   <Sparkles size={14} /> Bloom Persona Creation
                 </span>
                 <div className="h-px flex-1 bg-white/10" />
               </div>
               <h1 className="text-7xl lg:text-9xl font-headline italic tracking-tighter leading-[0.85] text-glow drop-shadow-2xl text-white">
                 Claim your <br />
-                <em className="italic text-white/30 not-italic">Bloom Identity.</em>
+                <em className="italic text-white/40 not-italic">Bloom Identity.</em>
               </h1>
-              <p className="text-white/50 text-2xl font-light leading-relaxed max-w-lg italic font-body">
+              <p className="text-white/70 text-2xl font-light leading-relaxed max-w-lg italic font-body">
                 Join the elite orchestrators using Anti-Slop technology to build believable startup experiences.
               </p>
             </div>
 
             <div className="space-y-6 font-body">
-              <div className="bg-white/[0.04] rounded-[2rem] flex items-center px-8 h-20 border border-white/10 hover:border-white/20 transition-all group focus-within:bg-white/10 shadow-inner">
-                <User className="w-6 h-6 text-white/30 group-focus-within:text-[#DCFF00] transition-colors" />
+              <div className="bg-white/[0.04] rounded-[2rem] flex items-center px-8 h-20 border border-white/10 hover:border-white/20 transition-all group focus-within:bg-white/10 shadow-[inset_0_2px_10px_rgba(0,0,0,0.3)]">
+                <User className="w-6 h-6 text-white/40 group-focus-within:text-[#DCFF00] transition-colors" />
                 <input type="text" placeholder="Full Name" className="flex-1 bg-transparent border-none outline-none px-8 text-lg font-medium placeholder:text-white/10 text-white" />
               </div>
-              <div className="bg-white/[0.04] rounded-[2rem] flex items-center px-8 h-20 border border-white/10 hover:border-white/20 transition-all group focus-within:bg-white/10 shadow-inner">
-                <Mail className="w-6 h-6 text-white/30 group-focus-within:text-[#DCFF00] transition-colors" />
+              <div className="bg-white/[0.04] rounded-[2rem] flex items-center px-8 h-20 border border-white/10 hover:border-white/20 transition-all group focus-within:bg-white/10 shadow-[inset_0_2px_10px_rgba(0,0,0,0.3)]">
+                <Mail className="w-6 h-6 text-white/40 group-focus-within:text-[#DCFF00] transition-colors" />
                 <input type="email" placeholder="Registry Email" className="flex-1 bg-transparent border-none outline-none px-8 text-lg font-medium placeholder:text-white/10 text-white" />
               </div>
-              <div className="bg-white/[0.04] rounded-[2rem] flex items-center px-8 h-20 border border-white/10 hover:border-white/20 transition-all group focus-within:bg-white/10 shadow-inner">
-                <Shield className="w-6 h-6 text-white/30 group-focus-within:text-[#DCFF00] transition-colors" />
+              <div className="bg-white/[0.04] rounded-[2rem] flex items-center px-8 h-20 border border-white/10 hover:border-white/20 transition-all group focus-within:bg-white/10 shadow-[inset_0_2px_10px_rgba(0,0,0,0.3)]">
+                <Shield className="w-6 h-6 text-white/40 group-focus-within:text-[#DCFF00] transition-colors" />
                 <input type="password" placeholder="Define Access Key" className="flex-1 bg-transparent border-none outline-none px-8 text-lg font-medium placeholder:text-white/10 text-white" />
               </div>
             </div>
@@ -165,7 +165,7 @@ export default function SignupPage() {
             <div className="pt-6 flex flex-col space-y-10">
               <button 
                 onClick={() => router.push('/workspace')}
-                className="bg-white text-black hover:bg-[#DCFF00] transition-all rounded-full h-24 flex items-center justify-center gap-6 font-bold uppercase tracking-[0.4em] shadow-[0_0_80px_rgba(220,255,0,0.3)] group active:scale-95 text-lg bloom-button-glow font-body"
+                className="bg-white text-black hover:bg-[#DCFF00] transition-all rounded-full h-24 flex items-center justify-center gap-6 font-bold uppercase tracking-[0.4em] shadow-[0_0_80px_rgba(220,255,0,0.4)] group active:scale-95 text-lg bloom-button-glow font-body"
               >
                 Initialize Identity <ArrowRight size={28} className="group-hover:translate-x-3 transition-transform" />
               </button>
@@ -181,8 +181,8 @@ export default function SignupPage() {
       
       <footer className="p-20 border-t border-white/5 bg-black/60 backdrop-blur-3xl mt-auto relative z-30 font-body">
          <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-10">
-            <p className="text-[11px] text-white/20 uppercase tracking-[0.8em] italic font-bold">Siteforge x Bloom Architecture // Premium Creation Factory</p>
-            <div className="flex gap-16 text-[11px] uppercase tracking-widest text-white/40 font-bold">
+            <p className="text-[11px] text-white/30 uppercase tracking-[0.8em] italic font-bold">Siteforge x Bloom Architecture // Premium Creation Factory</p>
+            <div className="flex gap-16 text-[11px] uppercase tracking-widest text-white/50 font-bold">
                <button className="hover:text-white transition-colors">Neural Policy</button>
                <button className="hover:text-white transition-colors">Factory SLA</button>
             </div>
