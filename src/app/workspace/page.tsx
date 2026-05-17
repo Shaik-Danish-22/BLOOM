@@ -23,10 +23,10 @@ import { InteractiveRobotSpline } from "@/components/ui/interactive-3d-robot";
 import { GradientBackground } from "@/components/ui/paper-design-shader-background";
 import { BloomLogo } from "@/components/cinematic/BloomLogo";
 import { DESIGN_SYSTEMS } from "@/lib/design-systems";
-import { BackgroundPaths } from "@/components/ui/background-paths";
 import {
   Dialog,
   DialogContent,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
@@ -55,7 +55,6 @@ export default function WorkspacePage() {
   const [showChoice, setShowChoice] = useState(false);
   const [selectedSystem, setSelectedSystem] = useState<string>('apple');
 
-  // CUSTOM VIDEO LOOP LOGIC with Cross-Fades
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -64,15 +63,11 @@ export default function WorkspacePage() {
     const handleLoop = () => {
       if (video.duration) {
         const remaining = video.duration - video.currentTime;
-        // Fade in over 0.5s at the start
         if (video.currentTime < 0.5) {
           setVideoOpacity(video.currentTime / 0.5);
-        } 
-        // Fade out over 0.5s before the end
-        else if (remaining < 0.5) {
+        } else if (remaining < 0.5) {
           setVideoOpacity(remaining / 0.5);
-        } 
-        else {
+        } else {
           setVideoOpacity(1);
         }
       }
@@ -159,7 +154,6 @@ export default function WorkspacePage() {
 
   return (
     <div className="relative min-h-screen text-white selection:bg-[#DCFF00]/30 overflow-hidden font-body bg-black">
-      {/* CINEMATIC VIDEO BACKGROUND LAYER (z-0) */}
       <div className="absolute inset-0 z-0 bg-black">
         <video
           ref={videoRef}
@@ -174,32 +168,24 @@ export default function WorkspacePage() {
             filter: 'brightness(0.6) contrast(1.1)' 
           }}
         />
-        {/* GRADIENT OVERLAYS */}
         <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black opacity-80" />
         <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
       </div>
 
-      {/* NEURAL PATHS OVERLAY (z-1) */}
-      <div className="absolute inset-0 z-10 opacity-30 pointer-events-none">
-        <BackgroundPaths />
-      </div>
-
-      {/* NAVIGATION BAR (z-50) */}
       <nav className="fixed top-0 left-0 right-0 z-[100] p-8 lg:px-12 flex justify-between items-center bg-black/10 backdrop-blur-2xl border-b border-white/5">
         <div className="flex items-center gap-4 group cursor-pointer" onClick={() => router.push('/')}>
           <BloomLogo size={36} className="group-hover:rotate-180 transition-transform duration-1000" />
           <span className="text-3xl font-headline italic tracking-tighter text-white drop-shadow-2xl">Bloom Studio®</span>
         </div>
         <div className="flex items-center gap-10">
-           <div className="hidden md:flex items-center gap-12 text-[11px] font-bold uppercase tracking-[0.5em] text-white/40">
+           <div className="hidden md:flex items-center gap-12 text-[11px] font-bold uppercase tracking-[0.5em] text-white/40 font-body">
              <button className="hover:text-white transition-colors">Workspace</button>
              <button className="hover:text-white transition-colors">Registry</button>
              <button className="hover:text-white transition-colors">Intelligence</button>
            </div>
            <Button 
             onClick={() => router.push('/')}
-            variant="ghost" 
-            className="text-[#DCFF00] hover:text-white text-[11px] font-bold uppercase tracking-[0.5em] border border-[#DCFF00]/20 rounded-full px-6 py-2.5 bg-[#DCFF00]/5 hover:bg-[#DCFF00]/10 transition-all active:scale-95"
+            className="text-[#DCFF00] hover:text-white text-[11px] font-bold uppercase tracking-[0.5em] border border-[#DCFF00]/40 rounded-full px-8 py-3 bg-[#DCFF00]/5 hover:bg-[#DCFF00]/10 transition-all active:scale-95 shadow-[0_0_20px_rgba(220,255,0,0.2)]"
            >
              Terminate Session
            </Button>
@@ -222,7 +208,7 @@ export default function WorkspacePage() {
                   Materialize the <br />
                   <span className="text-white/20 not-italic italic">unseen vision.</span>
                 </h2>
-                <p className="text-xl text-white/50 font-light max-w-2xl mx-auto italic leading-relaxed animate-fade-rise-delay">
+                <p className="text-xl text-white/60 font-light max-w-2xl mx-auto italic leading-relaxed animate-fade-rise-delay font-body">
                   Inject your startup intent. Our Design DNA Engine will extract audience psychology and visual logic before orchestrating the experience.
                 </p>
               </div>
@@ -233,10 +219,9 @@ export default function WorkspacePage() {
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
                     placeholder="Describe your vision (e.g., Luxury AI coffee for developers)..."
-                    className="w-full min-h-[480px] bg-transparent border-none p-16 text-3xl lg:text-5xl focus:ring-0 focus-visible:ring-0 transition-all pr-[360px] no-scrollbar placeholder:text-white/5 font-light leading-[1.1] text-white/90"
+                    className="w-full min-h-[480px] bg-transparent border-none p-16 text-3xl lg:text-5xl focus:ring-0 focus-visible:ring-0 transition-all pr-[360px] no-scrollbar placeholder:text-white/5 font-light leading-[1.1] text-white/90 font-body"
                   />
                   
-                  {/* FLOATING ASSISTANT CARD */}
                   <div className="absolute bottom-12 right-12 flex flex-col items-end z-30">
                     <AnimatePresence mode="wait">
                       <motion.div 
@@ -248,12 +233,11 @@ export default function WorkspacePage() {
                       >
                         <div className="flex items-center gap-3 mb-3">
                           <div className="w-2 h-2 rounded-full bg-[#DCFF00] animate-pulse shadow-[0_0_10px_#DCFF00]" />
-                          <span className="text-[11px] uppercase tracking-widest font-bold text-[#DCFF00]">Neural Node Active</span>
+                          <span className="text-[11px] uppercase tracking-widest font-bold text-[#DCFF00] font-body">Neural Node Active</span>
                         </div>
-                        <span className="text-[15px] text-white/90 font-medium italic leading-snug block">
+                        <span className="text-[15px] text-white/90 font-medium italic leading-snug block font-body">
                           "{currentTalk}"
                         </span>
-                        {/* Tail pointing up to assistant */}
                         <div className="absolute -bottom-2 right-12 w-4 h-4 bg-black/90 border-r border-b border-[#DCFF00]/40 rotate-45" />
                       </motion.div>
                     </AnimatePresence>
@@ -275,7 +259,7 @@ export default function WorkspacePage() {
                       <button 
                         key={i}
                         onClick={() => setPrompt(s)}
-                        className="bg-white/5 border border-white/10 px-8 py-4 rounded-full text-[10px] text-white/40 uppercase tracking-[0.4em] font-bold hover:text-[#DCFF00] hover:border-[#DCFF00]/30 hover:bg-[#DCFF00]/5 transition-all active:scale-95 hover:tracking-[0.5em]"
+                        className="bg-white/5 border border-white/10 px-8 py-4 rounded-full text-[10px] text-white/50 uppercase tracking-[0.4em] font-bold hover:text-[#DCFF00] hover:border-[#DCFF00]/40 hover:bg-[#DCFF00]/10 transition-all active:scale-95 hover:tracking-[0.5em] font-body"
                       >
                         {s}
                       </button>
@@ -284,7 +268,7 @@ export default function WorkspacePage() {
                   <Button 
                     onClick={handleDeriveDNA}
                     disabled={!prompt.trim() || step === 'deriving'}
-                    className="bg-white text-black hover:bg-[#DCFF00] transition-all rounded-full px-20 h-24 flex items-center gap-8 font-bold uppercase tracking-[0.4em] shadow-[0_0_80px_rgba(220,255,0,0.3)] active:scale-95 group text-lg bloom-button-glow"
+                    className="bg-white text-black hover:bg-[#DCFF00] transition-all rounded-full px-20 h-24 flex items-center gap-8 font-bold uppercase tracking-[0.4em] shadow-[0_0_80px_rgba(220,255,0,0.3)] active:scale-95 group text-lg bloom-button-glow font-body"
                   >
                     <Wand2 size={28} className="group-hover:rotate-12 transition-transform" /> 
                     Establish Neural Link
@@ -308,7 +292,7 @@ export default function WorkspacePage() {
               <h3 className="text-7xl md:text-8xl font-headline italic text-white mb-8 tracking-tighter animate-pulse text-glow leading-none">
                 {step === 'deriving' ? 'Extracting Design DNA...' : 'Orchestrating Experience...'}
               </h3>
-              <p className="text-[#DCFF00] uppercase tracking-[1em] text-[14px] font-bold mb-20 opacity-60">FounderOS Intelligence Core Active</p>
+              <p className="text-[#DCFF00] uppercase tracking-[1em] text-[14px] font-bold mb-20 opacity-60 font-body">FounderOS Intelligence Core Active</p>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-3xl">
                  {[
@@ -327,7 +311,7 @@ export default function WorkspacePage() {
                       <div className="w-16 h-16 rounded-3xl bg-[#DCFF00]/10 flex items-center justify-center border border-[#DCFF00]/20 shadow-inner group-hover:scale-110 transition-transform">
                          <node.icon size={28} className="text-[#DCFF00]" />
                       </div>
-                      <div>
+                      <div className="font-body">
                         <span className="text-[12px] uppercase tracking-[0.2em] font-bold text-white/90 block mb-1">{node.label}</span>
                         <span className="text-[10px] text-white/40 italic uppercase tracking-widest">{node.desc}</span>
                       </div>
@@ -339,25 +323,24 @@ export default function WorkspacePage() {
           )}
         </AnimatePresence>
 
-        {/* DECISION OVERLAY (DIALOG) */}
         <Dialog open={showChoice} onOpenChange={setShowChoice}>
-          <DialogContent className="max-w-6xl bg-black/95 border-white/10 backdrop-blur-[80px] p-0 overflow-hidden rounded-[4rem] shadow-[0_0_150px_rgba(0,0,0,0.9)] border">
-            <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[680px]">
-              {/* RESEARCH PATH */}
-              <div className="p-20 space-y-12 border-r border-white/5 relative overflow-hidden group">
+          <DialogContent className="max-w-6xl bg-black/98 border-white/10 backdrop-blur-[100px] p-0 overflow-hidden rounded-[4rem] shadow-[0_0_200px_rgba(0,0,0,0.95)] border">
+            <DialogTitle className="sr-only">Choose Materialization Path</DialogTitle>
+            <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[720px]">
+              <div className="p-16 lg:p-24 space-y-12 border-r border-white/5 relative overflow-hidden group flex flex-col justify-between">
                 <div className="absolute inset-0 bg-white/[0.01] transition-all group-hover:bg-white/[0.03]" />
                 <div className="relative z-10 space-y-8">
                    <div className="w-20 h-20 rounded-[2.5rem] bg-[#DCFF00]/10 flex items-center justify-center border border-[#DCFF00]/20 shadow-2xl group-hover:scale-110 transition-transform">
                       <Search className="text-[#DCFF00]" size={40} />
                    </div>
                    <h3 className="text-6xl font-headline italic text-white leading-none tracking-tighter">Research & <br/> Insight</h3>
-                   <p className="text-white/50 text-2xl leading-relaxed font-light italic max-w-md tracking-tight">
+                   <p className="text-white/60 text-2xl leading-relaxed font-light italic max-w-md tracking-tight font-body">
                       Evaluate your vision through a multi-billion dollar shark lens. Analyze market performance, risks, and viability before building.
                    </p>
                 </div>
                 
                 <div className="relative z-10 space-y-10 pt-4">
-                   <div className="flex items-center gap-4 text-white/30 text-[11px] font-bold uppercase tracking-[0.6em]">
+                   <div className="flex items-center gap-4 text-white/40 text-[11px] font-bold uppercase tracking-[0.6em] font-body">
                       <Terminal size={18} /> Design System Core
                    </div>
                    <div className="grid grid-cols-2 gap-4">
@@ -368,15 +351,15 @@ export default function WorkspacePage() {
                           className={cn(
                             "p-6 rounded-[2rem] border text-left transition-all relative overflow-hidden group/btn",
                             selectedSystem === sys.id 
-                            ? "bg-[#DCFF00]/10 border-[#DCFF00]/40 shadow-[0_0_40px_rgba(220,255,0,0.15)]" 
+                            ? "bg-[#DCFF00]/20 border-[#DCFF00]/60 shadow-[0_0_40px_rgba(220,255,0,0.2)]" 
                             : "bg-white/[0.02] border-white/10 hover:border-white/20 hover:bg-white/[0.05]"
                           )}
                         >
                            <span className={cn(
-                             "text-[11px] font-bold uppercase tracking-[0.3em] block mb-2", 
+                             "text-[11px] font-bold uppercase tracking-[0.3em] block mb-2 font-body", 
                              selectedSystem === sys.id ? "text-[#DCFF00]" : "text-white/60"
                            )}>{sys.name}</span>
-                           <span className="text-[10px] text-white/30 italic line-clamp-1 block uppercase tracking-tighter font-bold">Inspiration: {sys.inspiration}</span>
+                           <span className="text-[10px] text-white/40 italic line-clamp-1 block uppercase tracking-tighter font-bold font-body">Inspiration: {sys.inspiration}</span>
                         </button>
                       ))}
                    </div>
@@ -385,38 +368,37 @@ export default function WorkspacePage() {
                 <div className="relative z-10 pt-10">
                    <Button 
                     onClick={() => handleOrchestrate('research')} 
-                    className="w-full h-24 rounded-[2.5rem] bg-white text-black font-bold uppercase tracking-[0.3em] hover:bg-[#DCFF00] transition-all group shadow-2xl text-lg bloom-button-glow"
+                    className="w-full h-24 rounded-[2.5rem] bg-white text-black font-bold uppercase tracking-[0.3em] hover:bg-[#DCFF00] transition-all group shadow-2xl text-xl bloom-button-glow font-body"
                    >
                       Initialize Strategic Audit <ArrowRight className="ml-6 w-8 h-8 group-hover:translate-x-3 transition-transform" />
                    </Button>
                 </div>
               </div>
 
-              {/* DESIGN PATH */}
-              <div className="p-20 space-y-12 bg-white/[0.02] relative overflow-hidden group">
+              <div className="p-16 lg:p-24 space-y-12 bg-white/[0.02] relative overflow-hidden group flex flex-col justify-between">
                 <div className="absolute inset-0 bg-[#DCFF00]/[0.02] transition-all group-hover:bg-[#DCFF00]/[0.04]" />
                 <div className="relative z-10 space-y-8">
                    <div className="w-20 h-20 rounded-[2.5rem] bg-white/10 flex items-center justify-center border border-white/20 shadow-2xl group-hover:scale-110 transition-transform">
                       <Palette className="text-white" size={40} />
                    </div>
                    <h3 className="text-6xl font-headline italic text-white leading-none tracking-tighter">Design & <br/> Materialize</h3>
-                   <p className="text-white/50 text-2xl leading-relaxed font-light italic max-w-md tracking-tight">
+                   <p className="text-white/60 text-2xl leading-relaxed font-light italic max-w-md tracking-tight font-body">
                       Orchestrate your vision into a premium, functional startup experience. Strictly derived from neural Design DNA tokens.
                    </p>
                 </div>
 
                 <div className="relative z-10 p-12 rounded-[3.5rem] bg-black/50 border border-white/10 space-y-8 shadow-inner">
-                   <div className="flex items-center gap-4 text-white/30 text-[11px] font-bold uppercase tracking-[0.6em]">
+                   <div className="flex items-center gap-4 text-white/40 text-[11px] font-bold uppercase tracking-[0.6em] font-body">
                       <Activity size={18} /> Derived Design DNA
                    </div>
                    <div className="space-y-8">
                       <div className="space-y-2">
-                        <span className="text-[11px] uppercase tracking-widest text-[#DCFF00] font-bold block opacity-40">Neural Archetype</span>
-                        <p className="text-2xl font-headline italic text-white/90 leading-tight">{dna?.startupArchetype || "Analyzing..."}</p>
+                        <span className="text-[11px] uppercase tracking-widest text-[#DCFF00] font-bold block opacity-60 font-body">Neural Archetype</span>
+                        <p className="text-3xl font-headline italic text-white/90 leading-tight">{dna?.startupArchetype || "Analyzing..."}</p>
                       </div>
                       <div className="space-y-2">
-                        <span className="text-[11px] uppercase tracking-widest text-[#DCFF00] font-bold block opacity-40">Motion Philosophy</span>
-                        <p className="text-2xl font-headline italic text-white/90 leading-tight">{dna?.designDNA?.motionPhilosophy || "Analyzing..."}</p>
+                        <span className="text-[11px] uppercase tracking-widest text-[#DCFF00] font-bold block opacity-60 font-body">Motion Philosophy</span>
+                        <p className="text-3xl font-headline italic text-white/90 leading-tight">{dna?.designDNA?.motionPhilosophy || "Analyzing..."}</p>
                       </div>
                    </div>
                 </div>
@@ -424,22 +406,21 @@ export default function WorkspacePage() {
                 <div className="relative z-10 pt-10">
                    <Button 
                     onClick={() => handleOrchestrate('design')} 
-                    className="w-full h-24 rounded-[2.5rem] bg-white/5 border border-white/10 text-white font-bold uppercase tracking-[0.3em] hover:bg-white/10 transition-all group shadow-2xl backdrop-blur-3xl text-lg"
+                    className="w-full h-24 rounded-[2.5rem] bg-white/5 border border-white/20 text-white font-bold uppercase tracking-[0.3em] hover:bg-white/10 transition-all group shadow-2xl backdrop-blur-3xl text-xl font-body"
                    >
                       Materialize Experience <ArrowRight className="ml-6 w-8 h-8 group-hover:translate-x-3 transition-transform" />
                    </Button>
                 </div>
               </div>
             </div>
-            {/* DIALOG FOOTER */}
             <div className="p-10 bg-black/80 border-t border-white/10 flex items-center justify-between px-20">
                <div className="flex items-center gap-6">
                   <div className="w-3 h-3 rounded-full bg-[#DCFF00] animate-pulse shadow-[0_0_20px_#DCFF00]" />
-                  <span className="text-[12px] uppercase tracking-[0.5em] font-bold text-white/40 italic">
+                  <span className="text-[12px] uppercase tracking-[0.5em] font-bold text-white/60 italic font-body">
                     Neural Identity Sync Complete: "{dna?.startupArchetype}"
                   </span>
                </div>
-               <button onClick={() => setShowChoice(false)} className="text-[11px] uppercase tracking-[0.6em] font-bold text-white/20 hover:text-[#DCFF00] transition-all hover:tracking-[0.8em]">Abort Sequence</button>
+               <button onClick={() => setShowChoice(false)} className="text-[11px] uppercase tracking-[0.6em] font-bold text-white/30 hover:text-[#DCFF00] transition-all hover:tracking-[0.8em] font-body">Abort Sequence</button>
             </div>
           </DialogContent>
         </Dialog>

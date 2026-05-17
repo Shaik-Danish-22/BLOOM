@@ -6,7 +6,6 @@ import { ArrowRight, User, Mail, Shield, Sparkles, Target } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { BackgroundEffects } from "@/components/cinematic/BackgroundEffects";
 import { GradientBackground } from "@/components/ui/paper-design-shader-background";
-import { BackgroundPaths } from "@/components/ui/background-paths";
 import { BloomLogo } from "@/components/cinematic/BloomLogo";
 import { InteractiveRobotSpline } from "@/components/ui/interactive-3d-robot";
 
@@ -58,7 +57,6 @@ export default function SignupPage() {
 
   return (
     <div className="relative min-h-screen bg-black overflow-hidden flex flex-col selection:bg-[#DCFF00]/30 font-body text-white">
-      {/* CINEMATIC VIDEO BACKGROUND */}
       <div className="absolute inset-0 z-0 bg-black">
         <video
           ref={videoRef}
@@ -77,11 +75,6 @@ export default function SignupPage() {
         <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]" />
       </div>
 
-      {/* NEURAL PATHS OVERLAY */}
-      <div className="absolute inset-0 z-10 pointer-events-none">
-        <BackgroundPaths />
-      </div>
-
       <BackgroundEffects />
       <GradientBackground />
 
@@ -90,7 +83,7 @@ export default function SignupPage() {
           <BloomLogo size={40} className="group-hover:rotate-180 transition-transform duration-1000 shadow-2xl" />
           <span className="text-white font-bold text-3xl tracking-tighter italic drop-shadow-2xl font-headline">Bloom</span>
         </button>
-        <button onClick={() => router.push('/login')} className="text-white/40 hover:text-white text-[11px] font-bold uppercase tracking-[0.5em] transition-all">
+        <button onClick={() => router.push('/login')} className="text-white/40 hover:text-white text-[11px] font-bold uppercase tracking-[0.5em] transition-all font-body">
           Identity Established? Login
         </button>
       </nav>
@@ -112,7 +105,6 @@ export default function SignupPage() {
                   </div>
                </div>
 
-               {/* FLOATING NEURAL TOOLTIP */}
                <motion.div 
                  initial={{ opacity: 0, y: 20 }}
                  animate={{ opacity: 1, y: 0 }}
@@ -127,7 +119,6 @@ export default function SignupPage() {
                     <p className="text-[15px] font-headline italic text-white/95 leading-tight">
                        "Initializing FounderOS Persona. Strategic materialization node online."
                     </p>
-                    {/* Tail pointing up */}
                     <div className="absolute -top-2 left-12 w-4 h-4 bg-black/80 border-l border-t border-[#DCFF00]/30 rotate-45" />
                  </div>
                </motion.div>
@@ -151,12 +142,12 @@ export default function SignupPage() {
                 Claim your <br />
                 <em className="italic text-white/30 not-italic">Bloom Identity.</em>
               </h1>
-              <p className="text-white/50 text-2xl font-light leading-relaxed max-w-lg italic">
+              <p className="text-white/50 text-2xl font-light leading-relaxed max-w-lg italic font-body">
                 Join the elite orchestrators using Anti-Slop technology to build believable startup experiences.
               </p>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-6 font-body">
               <div className="bg-white/[0.04] rounded-[2rem] flex items-center px-8 h-20 border border-white/10 hover:border-white/20 transition-all group focus-within:bg-white/10 shadow-inner">
                 <User className="w-6 h-6 text-white/30 group-focus-within:text-[#DCFF00] transition-colors" />
                 <input type="text" placeholder="Full Name" className="flex-1 bg-transparent border-none outline-none px-8 text-lg font-medium placeholder:text-white/10 text-white" />
@@ -174,11 +165,11 @@ export default function SignupPage() {
             <div className="pt-6 flex flex-col space-y-10">
               <button 
                 onClick={() => router.push('/workspace')}
-                className="bg-white text-black hover:bg-[#DCFF00] transition-all rounded-full h-24 flex items-center justify-center gap-6 font-bold uppercase tracking-[0.4em] shadow-[0_0_80px_rgba(220,255,0,0.3)] group active:scale-95 text-lg bloom-button-glow"
+                className="bg-white text-black hover:bg-[#DCFF00] transition-all rounded-full h-24 flex items-center justify-center gap-6 font-bold uppercase tracking-[0.4em] shadow-[0_0_80px_rgba(220,255,0,0.3)] group active:scale-95 text-lg bloom-button-glow font-body"
               >
                 Initialize Identity <ArrowRight size={28} className="group-hover:translate-x-3 transition-transform" />
               </button>
-              <div className="text-center">
+              <div className="text-center font-body">
                 <p className="text-[11px] text-white/30 uppercase tracking-[0.8em] leading-relaxed italic font-bold max-w-md mx-auto">
                   By initializing, you agree to the <button className="text-[#DCFF00] hover:underline underline-offset-4">Bloom Governance Protocol</button> and <button className="text-[#DCFF00] hover:underline underline-offset-4">Materialization Terms</button>.
                 </p>
@@ -188,7 +179,7 @@ export default function SignupPage() {
         </div>
       </main>
       
-      <footer className="p-20 border-t border-white/5 bg-black/60 backdrop-blur-3xl mt-auto relative z-30">
+      <footer className="p-20 border-t border-white/5 bg-black/60 backdrop-blur-3xl mt-auto relative z-30 font-body">
          <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-10">
             <p className="text-[11px] text-white/20 uppercase tracking-[0.8em] italic font-bold">Siteforge x Bloom Architecture // Premium Creation Factory</p>
             <div className="flex gap-16 text-[11px] uppercase tracking-widest text-white/40 font-bold">
