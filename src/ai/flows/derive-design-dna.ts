@@ -1,10 +1,13 @@
+
 'use server';
 /**
  * @fileOverview Design DNA Engine: Transforms vague ideas into structured startup intelligence.
+ * Updated to use Featherless.ai (DeepSeek-V3) for elite-level strategic reasoning.
  */
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
+import { aiOrchestrator } from '@/services/ai/orchestrator';
 
 const DeriveDesignDNAInputSchema = z.object({
   rawPrompt: z.string().describe('The user\'s initial vague startup idea.'),
@@ -29,6 +32,39 @@ const DeriveDesignDNAOutputSchema = z.object({
 
 export type DesignDNAOutput = z.infer<typeof DeriveDesignDNAOutputSchema>;
 
+/**
+ * Updated to leverage Featherless DeepSeek-V3 for superior reasoning
+ */
+export async function deriveDesignDNA(input: z.infer<typeof DeriveDesignDNAInputSchema>): Promise<DesignDNAOutput> {
+  const systemPrompt = `You are an elite Silicon Valley Creative Strategist and YC Partner. 
+  Your task is to take a vague startup idea and derive its core strategic and visual DNA.
+  
+  Derive the "Neural Identity":
+  1. AUDIENCE PSYCHOLOGY: What is their secret desire or pain?
+  2. DESIGN DNA: If this startup was a physical object, how would it feel?
+  3. STORYTELLING: How should the user experience the product narrative?
+  4. SHARK VERDICT: Be brutal. As a multi-billion dollar shark, evaluate the scalability and moat of this idea.`;
+
+  const userPrompt = `Raw Idea: ${input.rawPrompt}`;
+
+  try {
+    // Orchestrator routes this to Featherless (DeepSeek-V3) for strong reasoning
+    return await aiOrchestrator.generateStructured({
+      prompt: userPrompt,
+      system: systemPrompt,
+      schema: DeriveDesignDNAOutputSchema,
+      provider: 'featherless',
+      task: 'reasoning'
+    });
+  } catch (error) {
+    console.error("Deep reasoning DNA derivation failed, falling back to Genkit prompt", error);
+    // Fallback to original Genkit implementation if Featherless is unavailable
+    const { output } = await deriveDesignDNAPrompt(input);
+    if (!output) throw new Error('Neural DNA derivation failed completely');
+    return output;
+  }
+}
+
 const deriveDesignDNAPrompt = ai.definePrompt({
   name: 'deriveDesignDNAPrompt',
   input: { schema: DeriveDesignDNAInputSchema },
@@ -46,9 +82,3 @@ const deriveDesignDNAPrompt = ai.definePrompt({
   
   Structure your output as a high-density professional strategic brief.`
 });
-
-export async function deriveDesignDNA(input: z.infer<typeof DeriveDesignDNAInputSchema>): Promise<DesignDNAOutput> {
-  const { output } = await deriveDesignDNAPrompt(input);
-  if (!output) throw new Error('Neural DNA derivation failed');
-  return output;
-}
