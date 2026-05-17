@@ -120,7 +120,7 @@ export default function LoginPage() {
                        <div className="w-2.5 h-2.5 rounded-full bg-[#DCFF00] animate-pulse shadow-[0_0_10px_#DCFF00]" />
                        <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#DCFF00]">Neural Link Active</span>
                     </div>
-                    <p className="text-[15px] font-headline italic text-white/95 leading-relaxed break-words">
+                    <p className="text-[15px] font-headline italic text-white/95 leading-relaxed break-words text-left">
                        "DeepSeek-V3 reasoning nodes established. Awaiting vision injection."
                     </p>
                     <div className="absolute -top-2 right-12 w-4 h-4 bg-black/95 border-l border-t border-[#DCFF00]/40 rotate-45" />

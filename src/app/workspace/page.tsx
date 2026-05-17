@@ -64,7 +64,6 @@ export default function WorkspacePage() {
     const handleLoop = () => {
       if (video.duration) {
         const remaining = video.duration - video.currentTime;
-        // Manual smooth cross-fade loop logic (0.5s fade)
         if (video.currentTime < 0.5) {
           setVideoOpacity(video.currentTime / 0.5);
         } else if (remaining < 0.5) {
@@ -100,7 +99,7 @@ export default function WorkspacePage() {
       setSelectedSystem('cafe');
       setCurrentTalk("Aroma detected. Roasting a premium brand identity...");
     } else if (prompt.length > 80) {
-      setCurrentTalk("Analyzing high-density intent. Complex vision detected. Optimizing neural nodes for strategic depth.");
+      setCurrentTalk("Analyzing high-density intent. Complex vision detected. Optimizing neural nodes.");
     } else if (prompt.length > 0) {
       setCurrentTalk("Nodes scanning vision. Neural link establishing...");
     } else {
@@ -220,10 +219,10 @@ export default function WorkspacePage() {
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
                     placeholder="Describe your vision (e.g., Luxury AI coffee for developers)..."
-                    className="w-full min-h-[480px] bg-transparent border-none p-16 text-3xl lg:text-5xl focus:ring-0 focus-visible:ring-0 transition-all pr-[400px] no-scrollbar placeholder:text-white/30 font-medium leading-[1.1] text-white font-body"
+                    className="w-full min-h-[480px] bg-transparent border-none p-16 text-3xl lg:text-5xl focus:ring-0 focus-visible:ring-0 transition-all pr-[380px] no-scrollbar placeholder:text-white/30 font-medium leading-[1.1] text-white font-body"
                   />
                   
-                  <div className="absolute bottom-12 right-12 flex flex-col items-end z-30 max-w-[380px]">
+                  <div className="absolute bottom-12 right-12 flex flex-col items-end z-30 max-w-[320px]">
                     <AnimatePresence mode="wait">
                       <motion.div 
                         key={currentTalk}
@@ -234,9 +233,9 @@ export default function WorkspacePage() {
                       >
                         <div className="flex items-center gap-3 mb-3 shrink-0">
                           <div className="w-2.5 h-2.5 rounded-full bg-[#DCFF00] animate-pulse shadow-[0_0_15px_#DCFF00]" />
-                          <span className="text-[11px] uppercase tracking-widest font-bold text-[#DCFF00] font-body">Neural Node Active</span>
+                          <span className="text-[10px] uppercase tracking-widest font-bold text-[#DCFF00] font-body">Neural Node Active</span>
                         </div>
-                        <p className="text-[14px] text-white font-medium italic leading-relaxed block font-body break-words whitespace-normal">
+                        <p className="text-[14px] text-white font-medium italic leading-relaxed block font-body break-words whitespace-normal text-left">
                           "{currentTalk}"
                         </p>
                         <div className="absolute -bottom-2 right-12 w-4 h-4 bg-black/95 border-r border-b border-[#DCFF00]/50 rotate-45" />

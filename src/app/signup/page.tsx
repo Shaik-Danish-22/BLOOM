@@ -117,7 +117,7 @@ export default function SignupPage() {
                        <Sparkles size={14} className="text-[#DCFF00] animate-pulse shadow-[0_0_10px_#DCFF00]" />
                        <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#DCFF00]">Identity Sync Active</span>
                     </div>
-                    <p className="text-[15px] font-headline italic text-white/95 leading-relaxed break-words">
+                    <p className="text-[15px] font-headline italic text-white/95 leading-relaxed break-words text-left">
                        "Initializing FounderOS Persona. Strategic materialization node online."
                     </p>
                     <div className="absolute -top-2 left-12 w-4 h-4 bg-black/95 border-l border-t border-[#DCFF00]/40 rotate-45" />
