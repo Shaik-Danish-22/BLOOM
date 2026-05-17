@@ -25,7 +25,7 @@ const ShaderBackground = () => {
     uniform vec2 iResolution;
     uniform float iTime;
 
-    const float overallSpeed = 0.2;
+    const float overallSpeed = 0.25;
     const float gridSmoothWidth = 0.015;
     const float axisWidth = 0.05;
     const float majorLineWidth = 0.025;
@@ -33,21 +33,21 @@ const ShaderBackground = () => {
     const float majorLineFrequency = 5.0;
     const float minorLineFrequency = 1.0;
     const vec4 gridColor = vec4(0.5);
-    const float scale = 5.0;
-    const vec4 lineColor = vec4(0.4, 0.2, 0.8, 0.6); // Slightly reduced alpha for better layering
+    const float scale = 4.0;
+    const vec4 lineColor = vec4(0.86, 1.0, 0.0, 0.4); // Bloom Yellow Accent (#DCFF00)
     const float minLineWidth = 0.01;
-    const float maxLineWidth = 0.2;
-    const float lineSpeed = 1.0 * overallSpeed;
-    const float lineAmplitude = 1.0;
-    const float lineFrequency = 0.2;
-    const float warpSpeed = 0.2 * overallSpeed;
-    const float warpFrequency = 0.5;
-    const float warpAmplitude = 1.0;
-    const float offsetFrequency = 0.5;
-    const float offsetSpeed = 1.33 * overallSpeed;
-    const float minOffsetSpread = 0.6;
-    const float maxOffsetSpread = 2.0;
-    const int linesPerGroup = 16;
+    const float maxLineWidth = 0.15;
+    const float lineSpeed = 1.2 * overallSpeed;
+    const float lineAmplitude = 1.2;
+    const float lineFrequency = 0.15;
+    const float warpSpeed = 0.3 * overallSpeed;
+    const float warpFrequency = 0.4;
+    const float warpAmplitude = 0.8;
+    const float offsetFrequency = 0.4;
+    const float offsetSpeed = 1.5 * overallSpeed;
+    const float minOffsetSpread = 0.5;
+    const float maxOffsetSpread = 1.8;
+    const int linesPerGroup = 20;
 
     #define drawCircle(pos, radius, coord) smoothstep(radius + gridSmoothWidth, radius, length(coord - (pos)))
     #define drawSmoothLine(pos, halfWidth, t) smoothstep(halfWidth, 0.0, abs(pos - (t)))
@@ -58,10 +58,6 @@ const ShaderBackground = () => {
       return drawCrispLine(0.0, axisWidth, axis)
             + drawPeriodicLine(majorLineFrequency, majorLineWidth, axis)
             + drawPeriodicLine(minorLineFrequency, minorLineWidth, axis);
-    }
-
-    float drawGrid(vec2 space) {
-      return min(1.0, drawGridLines(space.x) + drawGridLines(space.y));
     }
 
     float random(float t) {
@@ -84,8 +80,8 @@ const ShaderBackground = () => {
       space.x += random(space.y * warpFrequency + iTime * warpSpeed + 2.0) * warpAmplitude * horizontalFade;
 
       vec4 lines = vec4(0.0);
-      vec4 bgColor1 = vec4(0.02, 0.01, 0.05, 1.0); // Deeper background for Bloom
-      vec4 bgColor2 = vec4(0.05, 0.02, 0.1, 1.0);
+      vec4 bgColor1 = vec4(0.01, 0.0, 0.02, 1.0); // Deeper black/violet
+      vec4 bgColor2 = vec4(0.03, 0.0, 0.05, 1.0);
 
       for(int l = 0; l < linesPerGroup; l++) {
         float normalizedLineIndex = float(l) / float(linesPerGroup);
@@ -99,7 +95,7 @@ const ShaderBackground = () => {
 
         float circleX = mod(float(l) + iTime * lineSpeed, 25.0) - 12.0;
         vec2 circlePosition = vec2(circleX, getPlasmaY(circleX, horizontalFade, offset));
-        float circle = drawCircle(circlePosition, 0.01, space) * 4.0;
+        float circle = drawCircle(circlePosition, 0.008, space) * 3.0;
 
         line = line + circle;
         lines += line * lineColor * rand;
@@ -228,7 +224,7 @@ const ShaderBackground = () => {
   }, []);
 
   return (
-    <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full -z-10 opacity-60" />
+    <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full -z-10 opacity-40" />
   );
 };
 

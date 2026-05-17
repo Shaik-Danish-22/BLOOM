@@ -2,11 +2,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Globe, ArrowRight, User, Lock, Sparkles, Brain, Shield } from "lucide-react";
+import { Globe, ArrowRight, User, Lock, Shield, Brain } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { InteractiveRobotSpline } from "@/components/ui/interactive-3d-robot";
 import { BackgroundEffects } from "@/components/cinematic/BackgroundEffects";
 import ShaderBackground from "@/components/ui/shader-background";
+import { GradientBackground } from "@/components/ui/paper-design-shader-background";
 
 const SCISSOR_SCENE = "https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode";
 
@@ -15,9 +16,11 @@ export default function LoginPage() {
 
   return (
     <div className="relative min-h-screen bg-black overflow-hidden flex flex-col selection:bg-white/20 font-body text-white">
+      {/* IMMERSIVE BACKGROUND STACK */}
       <BackgroundEffects />
+      <GradientBackground />
       <ShaderBackground />
-      <div className="absolute inset-0 -z-10 bg-black/40" />
+      <div className="absolute inset-0 -z-10 bg-black/40 backdrop-blur-[2px]" />
 
       <nav className="relative z-50 px-8 py-8 flex justify-between items-center">
         <button onClick={() => router.push('/')} className="flex items-center gap-2 group">
@@ -110,7 +113,7 @@ export default function LoginPage() {
             <div className="pt-4 flex flex-col space-y-8">
               <button 
                 onClick={() => router.push('/workspace')}
-                className="liquid-glass-strong bg-white text-black hover:bg-[#DCFF00] transition-all rounded-full h-20 flex items-center justify-center gap-4 font-bold uppercase tracking-[0.2em] shadow-[0_0_50px_rgba(255,255,255,0.1)] group active:scale-95"
+                className="liquid-glass-strong bg-white text-black hover:bg-[#DCFF00] transition-all rounded-full h-20 flex items-center justify-center gap-4 font-bold uppercase tracking-[0.2em] shadow-[0_0_50px_rgba(220,255,0,0.3)] group active:scale-95"
               >
                 Establish Neural Link <ArrowRight size={22} className="group-hover:translate-x-2 transition-transform" />
               </button>
