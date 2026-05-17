@@ -1,3 +1,4 @@
+
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -11,7 +12,12 @@ import {
   Shield,
   Brain,
   Plus,
-  Box
+  Box,
+  Layout,
+  Target,
+  Zap,
+  TrendingUp,
+  Cpu
 } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -195,7 +201,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                     <div className="space-y-8">
                       <motion.h2 
                         variants={itemVariants}
-                        className="text-5xl md:text-7xl lg:text-[9rem] italic leading-[0.9] tracking-tighter font-headline text-glow"
+                        className="text-5xl md:text-7xl lg:text-[9.5rem] italic leading-[0.85] tracking-tighter font-headline text-glow"
                         style={{ color: system.tokens.fg }}
                       >
                         {heroSection?.title || "Vision Materialized."}
@@ -272,6 +278,23 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                  </div>
               </section>
 
+              {/* STATS STRIP */}
+              <section className="py-24 border-y border-white/5 bg-black/40">
+                <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-12">
+                   {[
+                     { label: "Market TAM", value: startupData.intelligence?.tamSamSom?.tam || "$15.6T" },
+                     { label: "Viability Score", value: "92/100" },
+                     { label: "Active Nodes", value: "1,240" },
+                     { label: "Protocol", value: "v3.5" }
+                   ].map((stat, i) => (
+                     <motion.div key={i} variants={itemVariants} className="space-y-2 text-center md:text-left">
+                        <span className="text-[9px] uppercase tracking-[0.4em] font-bold opacity-30" style={{ color: system.tokens.accent }}>{stat.label}</span>
+                        <p className="text-3xl lg:text-5xl font-headline italic">{stat.value}</p>
+                     </motion.div>
+                   ))}
+                </div>
+              </section>
+
               {/* FOOTER */}
               <footer className="p-24 lg:p-40 border-t text-center bg-black" style={{ borderColor: system.tokens.borderSoft }}>
                  <div className="max-w-4xl mx-auto flex flex-col items-center space-y-8">
@@ -339,7 +362,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
             </motion.div>
           )}
 
-          {activePage === 'pricing' && (activePage === 'pricing' && (
+          {activePage === 'pricing' && (
             <motion.div
               key="pricing"
               variants={containerVariants}
@@ -399,7 +422,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                   </div>
                </div>
             </motion.div>
-          ))}
+          )}
         </AnimatePresence>
       </main>
     </div>

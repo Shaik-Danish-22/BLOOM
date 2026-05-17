@@ -13,16 +13,15 @@ import {
   Brain,
   Layers,
   Activity,
-  ChevronRight
+  ChevronRight,
+  Sparkles
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { deriveDesignDNA, DesignDNAOutput } from "@/ai/flows/derive-design-dna";
 import { orchestrateStartup } from "@/ai/flows/orchestrate-startup";
-import { BackgroundEffects } from "@/components/cinematic/BackgroundEffects";
 import { useRouter } from "next/navigation";
 import { InteractiveRobotSpline } from "@/components/ui/interactive-3d-robot";
-import { GradientBackground } from "@/components/ui/paper-design-shader-background";
 import { BloomLogo } from "@/components/cinematic/BloomLogo";
 import { DESIGN_SYSTEMS } from "@/lib/design-systems";
 import {
@@ -179,7 +178,7 @@ export default function WorkspacePage() {
           <span className="text-3xl font-headline italic tracking-tighter text-white drop-shadow-2xl">Bloom Studio®</span>
         </div>
         <div className="flex items-center gap-10">
-           <div className="hidden md:flex items-center gap-12 text-[11px] font-bold uppercase tracking-[0.5em] text-white/40">
+           <div className="hidden md:flex items-center gap-12 text-[11px] font-bold uppercase tracking-[0.5em] text-white/60">
              <button className="hover:text-white transition-colors">Workspace</button>
              <button className="hover:text-white transition-colors">Registry</button>
              <button className="hover:text-white transition-colors">Intelligence</button>
@@ -207,20 +206,20 @@ export default function WorkspacePage() {
               <div className="space-y-8 mb-16 animate-fade-rise">
                 <h2 className="text-6xl md:text-9xl font-headline italic tracking-tighter leading-[0.85] text-white text-glow drop-shadow-2xl">
                   Beyond silence, we <br />
-                  <span className="text-white/30 not-italic italic">build the eternal.</span>
+                  <span className="text-white/40 not-italic italic">build the eternal.</span>
                 </h2>
-                <p className="text-xl text-white/60 font-light max-w-2xl mx-auto italic leading-relaxed animate-fade-rise-delay font-body">
+                <p className="text-xl text-white/70 font-light max-w-2xl mx-auto italic leading-relaxed animate-fade-rise-delay font-body">
                   Building platforms for brilliant minds and fearless makers. Through the noise, we craft digital havens for deep work and pure flows.
                 </p>
               </div>
               
               <div className="w-full relative max-w-5xl animate-fade-rise-delay-2">
-                <div className="relative overflow-hidden rounded-[4rem] bg-white/[0.03] border border-white/10 backdrop-blur-3xl min-h-[480px] shadow-[0_50px_100px_rgba(0,0,0,0.7)] transition-all hover:bg-white/[0.05] hover:border-white/20 group">
+                <div className="relative overflow-hidden rounded-[4rem] bg-black/60 border border-white/10 backdrop-blur-3xl min-h-[480px] shadow-[0_50px_100px_rgba(0,0,0,0.8)] transition-all hover:bg-black/70 hover:border-white/20 group">
                   <Textarea 
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
                     placeholder="Describe your vision (e.g., Luxury AI coffee for developers)..."
-                    className="w-full min-h-[480px] bg-transparent border-none p-16 text-3xl lg:text-5xl focus:ring-0 focus-visible:ring-0 transition-all pr-[360px] no-scrollbar placeholder:text-white/10 font-light leading-[1.1] text-white/95 font-body"
+                    className="w-full min-h-[480px] bg-transparent border-none p-16 text-3xl lg:text-5xl focus:ring-0 focus-visible:ring-0 transition-all pr-[360px] no-scrollbar placeholder:text-white/30 font-medium leading-[1.1] text-white font-body"
                   />
                   
                   <div className="absolute bottom-12 right-12 flex flex-col items-end z-30">
@@ -236,7 +235,7 @@ export default function WorkspacePage() {
                           <div className="w-2 h-2 rounded-full bg-[#DCFF00] animate-pulse shadow-[0_0_15px_#DCFF00]" />
                           <span className="text-[11px] uppercase tracking-widest font-bold text-[#DCFF00] font-body">Neural Node Active</span>
                         </div>
-                        <span className="text-[15px] text-white/95 font-medium italic leading-snug block font-body">
+                        <span className="text-[15px] text-white font-medium italic leading-snug block font-body">
                           "{currentTalk}"
                         </span>
                         <div className="absolute -bottom-2 right-12 w-4 h-4 bg-black/90 border-r border-b border-[#DCFF00]/50 rotate-45" />
@@ -260,7 +259,7 @@ export default function WorkspacePage() {
                       <button 
                         key={i}
                         onClick={() => setPrompt(s)}
-                        className="bg-white/5 border border-white/10 px-8 py-4 rounded-full text-[10px] text-white/50 uppercase tracking-[0.4em] font-bold hover:text-[#DCFF00] hover:border-[#DCFF00]/60 hover:bg-[#DCFF00]/10 transition-all active:scale-95 hover:tracking-[0.5em] font-body"
+                        className="bg-white/10 border border-white/20 px-8 py-4 rounded-full text-[10px] text-white/80 uppercase tracking-[0.4em] font-bold hover:text-[#DCFF00] hover:border-[#DCFF00]/60 hover:bg-[#DCFF00]/20 transition-all active:scale-95 hover:tracking-[0.5em] font-body shadow-xl"
                       >
                         {s}
                       </button>
@@ -293,7 +292,7 @@ export default function WorkspacePage() {
               <h3 className="text-7xl md:text-8xl font-headline italic text-white mb-8 tracking-tighter animate-pulse text-glow leading-none">
                 {step === 'deriving' ? 'Extracting Design DNA...' : 'Orchestrating Experience...'}
               </h3>
-              <p className="text-[#DCFF00] uppercase tracking-[1em] text-[14px] font-bold mb-20 opacity-60 font-body">FounderOS Intelligence Core Active</p>
+              <p className="text-[#DCFF00] uppercase tracking-[1em] text-[14px] font-bold mb-20 opacity-80 font-body">FounderOS Intelligence Core Active</p>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-3xl">
                  {[
@@ -307,14 +306,14 @@ export default function WorkspacePage() {
                      initial={{ opacity: 0, y: 15 }}
                      animate={{ opacity: 1, y: 0 }}
                      transition={{ delay: i * 0.2 }}
-                     className="flex items-center gap-6 p-8 rounded-[2.5rem] bg-white/[0.04] border border-white/10 hover:bg-white/[0.08] hover:border-white/20 transition-all text-left group shadow-2xl"
+                     className="flex items-center gap-6 p-8 rounded-[2.5rem] bg-white/[0.08] border border-white/20 hover:bg-white/[0.12] hover:border-white/30 transition-all text-left group shadow-2xl backdrop-blur-3xl"
                    >
-                      <div className="w-16 h-16 rounded-3xl bg-[#DCFF00]/10 flex items-center justify-center border border-[#DCFF00]/30 shadow-inner group-hover:scale-110 transition-transform">
+                      <div className="w-16 h-16 rounded-3xl bg-[#DCFF00]/20 flex items-center justify-center border border-[#DCFF00]/40 shadow-inner group-hover:scale-110 transition-transform">
                          <node.icon size={28} className="text-[#DCFF00]" />
                       </div>
                       <div className="font-body">
-                        <span className="text-[12px] uppercase tracking-[0.2em] font-bold text-white/95 block mb-1">{node.label}</span>
-                        <span className="text-[10px] text-white/40 italic uppercase tracking-widest">{node.desc}</span>
+                        <span className="text-[12px] uppercase tracking-[0.2em] font-bold text-white block mb-1">{node.label}</span>
+                        <span className="text-[10px] text-white/60 italic uppercase tracking-widest">{node.desc}</span>
                       </div>
                       <div className="ml-auto w-2 h-2 rounded-full bg-[#DCFF00] animate-ping" />
                    </motion.div>
@@ -335,13 +334,13 @@ export default function WorkspacePage() {
                       <Search className="text-[#DCFF00]" size={40} />
                    </div>
                    <h3 className="text-6xl font-headline italic text-white leading-none tracking-tighter">Research & <br/> Insight</h3>
-                   <p className="text-white/60 text-2xl leading-relaxed font-light italic max-w-md tracking-tight font-body">
+                   <p className="text-white/70 text-2xl leading-relaxed font-light italic max-w-md tracking-tight font-body">
                       Evaluate your vision through a multi-billion dollar shark lens. Analyze market performance, risks, and viability before building.
                    </p>
                 </div>
                 
                 <div className="relative z-10 space-y-10 pt-4">
-                   <div className="flex items-center gap-4 text-white/40 text-[11px] font-bold uppercase tracking-[0.6em] font-body">
+                   <div className="flex items-center gap-4 text-white/50 text-[11px] font-bold uppercase tracking-[0.6em] font-body">
                       <Terminal size={18} /> Design System Core
                    </div>
                    <div className="grid grid-cols-2 gap-4">
@@ -353,14 +352,14 @@ export default function WorkspacePage() {
                             "p-6 rounded-[2rem] border text-left transition-all relative overflow-hidden group/btn",
                             selectedSystem === sys.id 
                             ? "bg-[#DCFF00]/20 border-[#DCFF00]/70 shadow-[0_0_40px_rgba(220,255,0,0.3)]" 
-                            : "bg-white/[0.03] border-white/10 hover:border-white/20 hover:bg-white/[0.06]"
+                            : "bg-white/[0.05] border-white/20 hover:border-white/30 hover:bg-white/[0.08]"
                           )}
                         >
                            <span className={cn(
                              "text-[11px] font-bold uppercase tracking-[0.3em] block mb-2 font-body", 
-                             selectedSystem === sys.id ? "text-[#DCFF00]" : "text-white/70"
+                             selectedSystem === sys.id ? "text-[#DCFF00]" : "text-white"
                            )}>{sys.name}</span>
-                           <span className="text-[10px] text-white/40 italic line-clamp-1 block uppercase tracking-tighter font-bold font-body">Inspiration: {sys.inspiration}</span>
+                           <span className="text-[10px] text-white/60 italic line-clamp-1 block uppercase tracking-tighter font-bold font-body">Inspiration: {sys.inspiration}</span>
                         </button>
                       ))}
                    </div>
@@ -383,23 +382,23 @@ export default function WorkspacePage() {
                       <Palette className="text-white" size={40} />
                    </div>
                    <h3 className="text-6xl font-headline italic text-white leading-none tracking-tighter">Design & <br/> Materialize</h3>
-                   <p className="text-white/60 text-2xl leading-relaxed font-light italic max-w-md tracking-tight font-body">
+                   <p className="text-white/70 text-2xl leading-relaxed font-light italic max-w-md tracking-tight font-body">
                       Orchestrate your vision into a premium, functional startup experience. Strictly derived from neural Design DNA tokens.
                    </p>
                 </div>
 
                 <div className="relative z-10 p-12 rounded-[3.5rem] bg-black/50 border border-white/10 space-y-8 shadow-inner">
-                   <div className="flex items-center gap-4 text-white/40 text-[11px] font-bold uppercase tracking-[0.6em] font-body">
+                   <div className="flex items-center gap-4 text-white/50 text-[11px] font-bold uppercase tracking-[0.6em] font-body">
                       <Activity size={18} /> Derived Design DNA
                    </div>
                    <div className="space-y-8">
                       <div className="space-y-2">
-                        <span className="text-[11px] uppercase tracking-widest text-[#DCFF00] font-bold block opacity-70 font-body">Neural Archetype</span>
-                        <p className="text-3xl font-headline italic text-white/95 leading-tight">{dna?.startupArchetype || "Analyzing..."}</p>
+                        <span className="text-[11px] uppercase tracking-widest text-[#DCFF00] font-bold block opacity-80 font-body">Neural Archetype</span>
+                        <p className="text-3xl font-headline italic text-white leading-tight">{dna?.startupArchetype || "Analyzing..."}</p>
                       </div>
                       <div className="space-y-2">
-                        <span className="text-[11px] uppercase tracking-widest text-[#DCFF00] font-bold block opacity-70 font-body">Motion Philosophy</span>
-                        <p className="text-3xl font-headline italic text-white/95 leading-tight">{dna?.designDNA?.motionPhilosophy || "Analyzing..."}</p>
+                        <span className="text-[11px] uppercase tracking-widest text-[#DCFF00] font-bold block opacity-80 font-body">Motion Philosophy</span>
+                        <p className="text-3xl font-headline italic text-white leading-tight">{dna?.designDNA?.motionPhilosophy || "Analyzing..."}</p>
                       </div>
                    </div>
                 </div>
@@ -417,11 +416,11 @@ export default function WorkspacePage() {
             <div className="p-10 bg-black/80 border-t border-white/10 flex items-center justify-between px-20">
                <div className="flex items-center gap-6">
                   <div className="w-3 h-3 rounded-full bg-[#DCFF00] animate-pulse shadow-[0_0_20px_#DCFF00]" />
-                  <span className="text-[12px] uppercase tracking-[0.5em] font-bold text-white/70 italic font-body">
+                  <span className="text-[12px] uppercase tracking-[0.5em] font-bold text-white/90 italic font-body">
                     Neural Identity Sync Complete: "{dna?.startupArchetype}"
                   </span>
                </div>
-               <button onClick={() => setShowChoice(false)} className="text-[11px] uppercase tracking-[0.6em] font-bold text-white/40 hover:text-[#DCFF00] transition-all hover:tracking-[0.8em] font-body">Abort Sequence</button>
+               <button onClick={() => setShowChoice(false)} className="text-[11px] uppercase tracking-[0.6em] font-bold text-white/60 hover:text-[#DCFF00] transition-all hover:tracking-[0.8em] font-body">Abort Sequence</button>
             </div>
           </DialogContent>
         </Dialog>
