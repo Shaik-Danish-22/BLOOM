@@ -1,4 +1,3 @@
-
 'use server';
 /**
  * @fileOverview Design DNA Engine: Transforms vague ideas into structured startup intelligence.
@@ -57,7 +56,7 @@ export async function deriveDesignDNA(input: z.infer<typeof DeriveDesignDNAInput
       task: 'reasoning'
     });
   } catch (error) {
-    console.error("Deep reasoning DNA derivation failed, falling back to Genkit prompt", error);
+    console.warn("Deep reasoning DNA derivation failed (likely missing key), falling back to Genkit prompt", error);
     // Fallback to original Genkit implementation if Featherless is unavailable
     const { output } = await deriveDesignDNAPrompt(input);
     if (!output) throw new Error('Neural DNA derivation failed completely');

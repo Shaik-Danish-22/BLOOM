@@ -1,4 +1,3 @@
-
 'use server';
 
 import OpenAI from 'openai';
@@ -9,10 +8,17 @@ import { z } from 'zod';
  * EXCLUSIVELY SERVER-SIDE. This file is never shipped to the client.
  */
 
-const client = new OpenAI({
-  apiKey: process.env.FEATHERLESS_API_KEY,
-  baseURL: 'https://api.featherless.ai/v1',
-});
+// Initialize client only if key exists, otherwise provide a descriptive error on use
+const getClient = () => {
+  const apiKey = process.env.FEATHERLESS_API_KEY;
+  if (!apiKey || apiKey === 'your_featherless_api_key_here') {
+    throw new Error('FEATHERLESS_API_KEY is not configured in server environment.');
+  }
+  return new OpenAI({
+    apiKey,
+    baseURL: 'https://api.featherless.ai/v1',
+  });
+};
 
 export const featherlessService = {
   /**
@@ -25,11 +31,7 @@ export const featherlessService = {
     schema: z.ZodSchema<T>;
     model?: string;
   }): Promise<T> => {
-    // Ensure the key exists before attempting the call
-    if (!process.env.FEATHERLESS_API_KEY) {
-      throw new Error('FEATHERLESS_API_KEY is not configured in server environment.');
-    }
-
+    const client = getClient();
     const model = params.model || 'deepseek-ai/DeepSeek-V3';
     
     try {
@@ -61,8 +63,7 @@ export const featherlessService = {
    * High-performance chat completion for reasoning or multimodal tasks.
    */
   chat: async (prompt: string, model: string = 'deepseek-ai/DeepSeek-V3') => {
-    if (!process.env.FEATHERLESS_API_KEY) throw new Error('API Key Missing');
-    
+    const client = getClient();
     const response = await client.chat.completions.create({
       model,
       messages: [{ role: 'user', content: prompt }],
