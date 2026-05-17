@@ -111,17 +111,26 @@ export default function SignupPage() {
                     <InteractiveRobotSpline scene={SCISSOR_SCENE} />
                   </div>
                </div>
-               <div className="absolute top-16 left-12 right-12 p-12 bg-black/60 backdrop-blur-3xl rounded-[3rem] border border-white/10 shadow-2xl">
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="w-12 h-12 rounded-2xl bg-[#DCFF00]/10 flex items-center justify-center border border-[#DCFF00]/20">
-                       <Target size={24} className="text-[#DCFF00] drop-shadow-[0_0_10px_rgba(220,255,0,0.5)]" />
+
+               {/* FLOATING NEURAL TOOLTIP */}
+               <motion.div 
+                 initial={{ opacity: 0, y: -20 }}
+                 animate={{ opacity: 1, y: 0 }}
+                 transition={{ delay: 1.5, duration: 0.8 }}
+                 className="absolute top-16 left-16 z-30"
+               >
+                 <div className="bg-black/80 backdrop-blur-3xl border border-[#DCFF00]/30 p-8 rounded-[2.5rem] shadow-2xl max-w-[280px] relative">
+                    <div className="flex items-center gap-3 mb-3">
+                       <Sparkles size={14} className="text-[#DCFF00] animate-pulse" />
+                       <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#DCFF00]">Identity Sync Active</span>
                     </div>
-                    <h3 className="text-3xl font-headline italic text-white/95">Strategic Identity</h3>
-                  </div>
-                  <p className="text-lg text-white/80 leading-relaxed font-light italic">
-                    Initializing your Bloom Persona. This identity governs your Design DNA extractions and FounderOS strategic verdicts.
-                  </p>
-               </div>
+                    <p className="text-[15px] font-headline italic text-white/95 leading-tight">
+                       "Initializing FounderOS Persona. Strategic materialization node online."
+                    </p>
+                    {/* Tail */}
+                    <div className="absolute -top-2 left-12 w-4 h-4 bg-black/80 border-l border-t border-[#DCFF00]/30 rotate-45" />
+                 </div>
+               </motion.div>
             </div>
           </motion.div>
 
