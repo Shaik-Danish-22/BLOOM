@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   ArrowRight, 
@@ -34,6 +34,7 @@ import { cn } from "@/lib/utils";
 type Step = 'prompt' | 'deriving' | 'choice' | 'orchestrating';
 
 const SCISSOR_SCENE = "https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode";
+const VIDEO_URL = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_083109_283f3553-e28f-428b-a723-d639c617eb2b.mp4";
 
 const DEFAULT_SUGGESTIONS = [
   "Luxury AI coffee experience for developers.",
@@ -45,12 +46,57 @@ const DEFAULT_SUGGESTIONS = [
 export default function WorkspacePage() {
   const router = useRouter();
   const { toast } = useToast();
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoOpacity, setVideoOpacity] = useState(0);
   const [step, setStep] = useState<Step>('prompt');
   const [prompt, setPrompt] = useState("");
   const [dna, setDna] = useState<DesignDNAOutput | null>(null);
   const [currentTalk, setCurrentTalk] = useState("Neural link active. Systems ready.");
   const [showChoice, setShowChoice] = useState(false);
   const [selectedSystem, setSelectedSystem] = useState<string>('apple');
+
+  // CUSTOM VIDEO LOOP LOGIC with Cross-Fades
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    let frameId: number;
+    const handleLoop = () => {
+      if (video.duration) {
+        const remaining = video.duration - video.currentTime;
+        // Fade in over 0.5s at the start
+        if (video.currentTime < 0.5) {
+          setVideoOpacity(video.currentTime / 0.5);
+        } 
+        // Fade out over 0.5s before the end
+        else if (remaining < 0.5) {
+          setVideoOpacity(remaining / 0.5);
+        } 
+        else {
+          setVideoOpacity(1);
+        }
+      }
+      frameId = requestAnimationFrame(handleLoop);
+    };
+
+    const onEnded = () => {
+      setVideoOpacity(0);
+      setTimeout(() => {
+        if (video) {
+          video.currentTime = 0;
+          video.play().catch(() => {});
+        }
+      }, 100);
+    };
+
+    video.addEventListener('ended', onEnded);
+    frameId = requestAnimationFrame(handleLoop);
+
+    return () => {
+      video?.removeEventListener('ended', onEnded);
+      cancelAnimationFrame(frameId);
+    };
+  }, []);
 
   useEffect(() => {
     if (prompt.toLowerCase().includes('coffee')) {
@@ -113,91 +159,123 @@ export default function WorkspacePage() {
 
   return (
     <div className="relative min-h-screen text-white selection:bg-[#DCFF00]/30 overflow-hidden font-body bg-black">
-      <BackgroundEffects />
-      <GradientBackground />
-      <div className="absolute inset-0 z-0 opacity-20">
+      {/* CINEMATIC VIDEO BACKGROUND LAYER (z-0) */}
+      <div className="absolute inset-0 z-0 bg-black">
+        <video
+          ref={videoRef}
+          src={VIDEO_URL}
+          muted
+          autoPlay
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ 
+            opacity: videoOpacity, 
+            transition: 'opacity 0.1s linear',
+            filter: 'brightness(0.6) contrast(1.1)' 
+          }}
+        />
+        {/* GRADIENT OVERLAYS */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black opacity-80" />
+        <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
+      </div>
+
+      {/* NEURAL PATHS OVERLAY (z-1) */}
+      <div className="absolute inset-0 z-10 opacity-30 pointer-events-none">
         <BackgroundPaths />
       </div>
-      <div className="absolute inset-0 -z-10 bg-black/60" />
 
-      <nav className="fixed top-0 left-0 right-0 z-50 p-6 flex justify-between items-center backdrop-blur-3xl border-b border-white/10 bg-black/40">
-        <div className="flex items-center gap-3">
-          <BloomLogo size={32} />
-          <span className="text-xl font-headline italic tracking-tighter text-white/95 leading-none">Bloom Studio</span>
+      {/* NAVIGATION BAR (z-50) */}
+      <nav className="fixed top-0 left-0 right-0 z-[100] p-8 lg:px-12 flex justify-between items-center bg-black/10 backdrop-blur-2xl border-b border-white/5">
+        <div className="flex items-center gap-4 group cursor-pointer" onClick={() => router.push('/')}>
+          <BloomLogo size={36} className="group-hover:rotate-180 transition-transform duration-1000" />
+          <span className="text-3xl font-headline italic tracking-tighter text-white drop-shadow-2xl">Bloom Studio®</span>
         </div>
-        <div className="flex items-center gap-6">
-           <button onClick={() => router.push('/')} className="text-white/60 hover:text-white text-[10px] font-bold uppercase tracking-[0.4em] transition-all">
-             Terminate Session
-           </button>
-           <div className="w-11 h-11 rounded-full border border-white/20 bg-[#DCFF00]/10 flex items-center justify-center shadow-[0_0_20px_rgba(220,255,0,0.1)]">
-              <Zap size={20} className="text-[#DCFF00]" />
+        <div className="flex items-center gap-10">
+           <div className="hidden md:flex items-center gap-12 text-[11px] font-bold uppercase tracking-[0.5em] text-white/40">
+             <button className="hover:text-white transition-colors">Workspace</button>
+             <button className="hover:text-white transition-colors">Registry</button>
+             <button className="hover:text-white transition-colors">Intelligence</button>
            </div>
+           <Button 
+            onClick={() => router.push('/')}
+            variant="ghost" 
+            className="text-[#DCFF00] hover:text-white text-[11px] font-bold uppercase tracking-[0.5em] border border-[#DCFF00]/20 rounded-full px-6 py-2.5 bg-[#DCFF00]/5 hover:bg-[#DCFF00]/10 transition-all active:scale-95"
+           >
+             Terminate Session
+           </Button>
         </div>
       </nav>
 
-      <main className="pt-32 px-6 max-w-7xl mx-auto h-[calc(100vh-80px)] overflow-y-auto no-scrollbar pb-24 relative z-10">
+      <main className="relative z-20 flex flex-col items-center justify-center min-h-screen px-6 pt-32 pb-40 text-center">
         <AnimatePresence mode="wait">
           {(step === 'prompt' || step === 'choice') && (
             <motion.div 
               key="prompt"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.98 }}
-              className="flex flex-col min-h-[70vh] relative"
+              exit={{ opacity: 0, scale: 0.98, filter: "blur(20px)" }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+              className="w-full max-w-7xl flex flex-col items-center"
             >
-              <div className="mb-12 text-left max-w-4xl relative z-30">
-                <h2 className="text-6xl md:text-8xl font-headline italic tracking-tighter leading-[0.85] mb-6 text-white text-glow">
+              <div className="space-y-8 mb-16 animate-fade-rise">
+                <h2 className="text-6xl md:text-9xl font-headline italic tracking-tighter leading-[0.85] text-white text-glow drop-shadow-2xl">
                   Materialize the <br />
-                  <span className="text-white/20 not-italic">unseen vision.</span>
+                  <span className="text-white/20 not-italic italic">unseen vision.</span>
                 </h2>
-                <p className="text-xl text-white/60 font-light max-w-2xl italic leading-relaxed">
+                <p className="text-xl text-white/50 font-light max-w-2xl mx-auto italic leading-relaxed animate-fade-rise-delay">
                   Inject your startup intent. Our Design DNA Engine will extract audience psychology and visual logic before orchestrating the experience.
                 </p>
               </div>
               
-              <div className="w-full relative max-w-5xl">
-                <div className="relative overflow-hidden rounded-[3rem] bg-white/[0.03] border border-white/10 backdrop-blur-3xl min-h-[440px] shadow-2xl transition-all hover:bg-white/[0.05] hover:border-white/20 group">
+              <div className="w-full relative max-w-5xl animate-fade-rise-delay-2">
+                <div className="relative overflow-hidden rounded-[4rem] bg-white/[0.02] border border-white/10 backdrop-blur-3xl min-h-[480px] shadow-[0_50px_100px_rgba(0,0,0,0.6)] transition-all hover:bg-white/[0.04] hover:border-white/20 group">
                   <Textarea 
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
                     placeholder="Describe your vision (e.g., Luxury AI coffee for developers)..."
-                    className="w-full min-h-[440px] bg-transparent border-none p-12 text-3xl lg:text-4xl focus:ring-0 focus-visible:ring-0 transition-all pr-[320px] no-scrollbar placeholder:text-white/10 font-light leading-[1.2] text-white/90"
+                    className="w-full min-h-[480px] bg-transparent border-none p-16 text-3xl lg:text-5xl focus:ring-0 focus-visible:ring-0 transition-all pr-[360px] no-scrollbar placeholder:text-white/5 font-light leading-[1.1] text-white/90"
                   />
                   
-                  <div className="absolute bottom-8 right-8 flex flex-col items-end pointer-events-none z-20">
+                  {/* FLOATING ASSISTANT CARD */}
+                  <div className="absolute bottom-12 right-12 flex flex-col items-end z-30">
                     <AnimatePresence mode="wait">
                       <motion.div 
                         key={currentTalk}
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
+                        initial={{ opacity: 0, x: 20, y: 10 }}
+                        animate={{ opacity: 1, x: 0, y: 0 }}
                         exit={{ opacity: 0, x: 10 }}
-                        className="bg-black/80 backdrop-blur-3xl border border-[#DCFF00]/30 px-8 py-5 rounded-[2rem] mb-6 max-w-[280px] pointer-events-auto shadow-2xl"
+                        className="bg-black/90 backdrop-blur-3xl border border-[#DCFF00]/40 px-10 py-6 rounded-[2.5rem] mb-8 max-w-[320px] shadow-2xl relative"
                       >
-                        <span className="text-[11px] uppercase tracking-widest font-bold text-[#DCFF00] leading-tight block mb-1">Scissor_Node</span>
-                        <span className="text-[14px] text-white/90 font-medium italic leading-snug block">
-                          {currentTalk}
+                        <div className="flex items-center gap-3 mb-3">
+                          <div className="w-2 h-2 rounded-full bg-[#DCFF00] animate-pulse shadow-[0_0_10px_#DCFF00]" />
+                          <span className="text-[11px] uppercase tracking-widest font-bold text-[#DCFF00]">Neural Node Active</span>
+                        </div>
+                        <span className="text-[15px] text-white/90 font-medium italic leading-snug block">
+                          "{currentTalk}"
                         </span>
+                        {/* Tail pointing up to assistant */}
+                        <div className="absolute -bottom-2 right-12 w-4 h-4 bg-black/90 border-r border-b border-[#DCFF00]/40 rotate-45" />
                       </motion.div>
                     </AnimatePresence>
                     
-                    <div className="w-72 h-80 overflow-hidden relative pointer-events-auto rounded-[2.5rem] bg-black/60 border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)]">
-                      <div className="absolute inset-0 h-[420px] w-full">
+                    <div className="w-80 h-96 overflow-hidden relative rounded-[3rem] bg-black/40 border border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.5)] group-hover:scale-105 transition-transform duration-700">
+                      <div className="absolute inset-0 h-[480px] w-full">
                         <InteractiveRobotSpline 
                           scene={SCISSOR_SCENE} 
-                          className="w-full h-full scale-[0.9] translate-y-10" 
+                          className="w-full h-full scale-[0.9] translate-y-12" 
                         />
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-12 flex flex-col md:flex-row items-center justify-between gap-8 pl-4">
-                  <div className="flex flex-wrap gap-4">
+                <div className="mt-16 flex flex-col md:flex-row items-center justify-between gap-10">
+                  <div className="flex flex-wrap gap-4 justify-center md:justify-start">
                     {DEFAULT_SUGGESTIONS.map((s, i) => (
                       <button 
                         key={i}
                         onClick={() => setPrompt(s)}
-                        className="bg-white/5 border border-white/10 px-6 py-3 rounded-full text-[10px] text-white/60 uppercase tracking-[0.3em] font-bold hover:text-[#DCFF00] hover:border-[#DCFF00]/30 hover:bg-[#DCFF00]/5 transition-all active:scale-95"
+                        className="bg-white/5 border border-white/10 px-8 py-4 rounded-full text-[10px] text-white/40 uppercase tracking-[0.4em] font-bold hover:text-[#DCFF00] hover:border-[#DCFF00]/30 hover:bg-[#DCFF00]/5 transition-all active:scale-95 hover:tracking-[0.5em]"
                       >
                         {s}
                       </button>
@@ -206,10 +284,10 @@ export default function WorkspacePage() {
                   <Button 
                     onClick={handleDeriveDNA}
                     disabled={!prompt.trim() || step === 'deriving'}
-                    className="bg-white text-black hover:bg-[#DCFF00] transition-all rounded-full px-16 h-20 flex items-center gap-6 font-bold uppercase tracking-[0.3em] shadow-[0_0_50px_rgba(220,255,0,0.3)] active:scale-95 group text-sm"
+                    className="bg-white text-black hover:bg-[#DCFF00] transition-all rounded-full px-20 h-24 flex items-center gap-8 font-bold uppercase tracking-[0.4em] shadow-[0_0_80px_rgba(220,255,0,0.3)] active:scale-95 group text-lg bloom-button-glow"
                   >
-                    <Wand2 size={24} className="group-hover:rotate-12 transition-transform" /> 
-                    Initialize Link
+                    <Wand2 size={28} className="group-hover:rotate-12 transition-transform" /> 
+                    Establish Neural Link
                   </Button>
                 </div>
               </div>
@@ -219,20 +297,20 @@ export default function WorkspacePage() {
           {(step === 'deriving' || step === 'orchestrating') && (
             <motion.div 
               key="loading"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, scale: 0.9, filter: "blur(20px)" }}
+              animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
               className="flex flex-col items-center justify-center min-h-[65vh] text-center"
             >
-              <div className="mb-16 relative">
-                <div className="absolute inset-0 bg-[#DCFF00]/20 blur-[100px] animate-pulse rounded-full" />
-                <BloomLogo size={160} />
+              <div className="mb-20 relative">
+                <div className="absolute inset-0 bg-[#DCFF00]/20 blur-[120px] animate-pulse rounded-full" />
+                <BloomLogo size={200} />
               </div>
-              <h3 className="text-6xl md:text-7xl font-headline italic text-white mb-6 tracking-tighter animate-pulse text-glow">
+              <h3 className="text-7xl md:text-8xl font-headline italic text-white mb-8 tracking-tighter animate-pulse text-glow leading-none">
                 {step === 'deriving' ? 'Extracting Design DNA...' : 'Orchestrating Experience...'}
               </h3>
-              <p className="text-[#DCFF00] uppercase tracking-[0.8em] text-[12px] font-bold mb-16">FounderOS Intelligence Core Active</p>
+              <p className="text-[#DCFF00] uppercase tracking-[1em] text-[14px] font-bold mb-20 opacity-60">FounderOS Intelligence Core Active</p>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-2xl">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-3xl">
                  {[
                    { label: "Neural Pacing", icon: Activity, desc: "Synchronizing motion tokens" },
                    { label: "Visual Tokenization", icon: Palette, desc: "Deriving high-contrast hierarchy" },
@@ -241,19 +319,19 @@ export default function WorkspacePage() {
                  ].map((node, i) => (
                    <motion.div 
                      key={i}
-                     initial={{ opacity: 0, y: 10 }}
+                     initial={{ opacity: 0, y: 15 }}
                      animate={{ opacity: 1, y: 0 }}
-                     transition={{ delay: i * 0.15 }}
-                     className="flex items-center gap-5 p-6 rounded-[2rem] bg-white/[0.03] border border-white/10 hover:bg-white/[0.05] transition-all text-left"
+                     transition={{ delay: i * 0.2 }}
+                     className="flex items-center gap-6 p-8 rounded-[2.5rem] bg-white/[0.03] border border-white/10 hover:bg-white/[0.06] hover:border-white/20 transition-all text-left group shadow-2xl"
                    >
-                      <div className="w-12 h-12 rounded-2xl bg-[#DCFF00]/10 flex items-center justify-center border border-[#DCFF00]/20">
-                         <node.icon size={20} className="text-[#DCFF00]" />
+                      <div className="w-16 h-16 rounded-3xl bg-[#DCFF00]/10 flex items-center justify-center border border-[#DCFF00]/20 shadow-inner group-hover:scale-110 transition-transform">
+                         <node.icon size={28} className="text-[#DCFF00]" />
                       </div>
                       <div>
-                        <span className="text-[11px] uppercase tracking-widest font-bold text-white/90 block">{node.label}</span>
-                        <span className="text-[10px] text-white/40 italic uppercase tracking-tighter">{node.desc}</span>
+                        <span className="text-[12px] uppercase tracking-[0.2em] font-bold text-white/90 block mb-1">{node.label}</span>
+                        <span className="text-[10px] text-white/40 italic uppercase tracking-widest">{node.desc}</span>
                       </div>
-                      <div className="ml-auto w-1.5 h-1.5 rounded-full bg-[#DCFF00] animate-ping" />
+                      <div className="ml-auto w-2 h-2 rounded-full bg-[#DCFF00] animate-ping" />
                    </motion.div>
                  ))}
               </div>
@@ -261,103 +339,107 @@ export default function WorkspacePage() {
           )}
         </AnimatePresence>
 
+        {/* DECISION OVERLAY (DIALOG) */}
         <Dialog open={showChoice} onOpenChange={setShowChoice}>
-          <DialogContent className="max-w-6xl bg-black/95 border-white/10 backdrop-blur-[60px] p-0 overflow-hidden rounded-[3.5rem] shadow-[0_0_100px_rgba(0,0,0,0.8)] border">
-            <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[600px]">
-              <div className="p-16 space-y-12 border-r border-white/5 relative overflow-hidden group">
+          <DialogContent className="max-w-6xl bg-black/95 border-white/10 backdrop-blur-[80px] p-0 overflow-hidden rounded-[4rem] shadow-[0_0_150px_rgba(0,0,0,0.9)] border">
+            <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[680px]">
+              {/* RESEARCH PATH */}
+              <div className="p-20 space-y-12 border-r border-white/5 relative overflow-hidden group">
                 <div className="absolute inset-0 bg-white/[0.01] transition-all group-hover:bg-white/[0.03]" />
-                <div className="relative z-10 space-y-6">
-                   <div className="w-16 h-16 rounded-[2rem] bg-[#DCFF00]/10 flex items-center justify-center border border-[#DCFF00]/20 shadow-[0_0_30px_rgba(220,255,0,0.1)]">
-                      <Search className="text-[#DCFF00]" size={32} />
+                <div className="relative z-10 space-y-8">
+                   <div className="w-20 h-20 rounded-[2.5rem] bg-[#DCFF00]/10 flex items-center justify-center border border-[#DCFF00]/20 shadow-2xl group-hover:scale-110 transition-transform">
+                      <Search className="text-[#DCFF00]" size={40} />
                    </div>
-                   <h3 className="text-5xl font-headline italic text-white leading-none">Research & <br/> Insight</h3>
-                   <p className="text-white/60 text-xl leading-relaxed font-light italic max-w-md">
+                   <h3 className="text-6xl font-headline italic text-white leading-none tracking-tighter">Research & <br/> Insight</h3>
+                   <p className="text-white/50 text-2xl leading-relaxed font-light italic max-w-md tracking-tight">
                       Evaluate your vision through a multi-billion dollar shark lens. Analyze market performance, risks, and viability before building.
                    </p>
                 </div>
                 
-                <div className="relative z-10 space-y-8 pt-4">
-                   <div className="flex items-center gap-3 text-white/40 text-[11px] font-bold uppercase tracking-[0.4em]">
-                      <Terminal size={16} /> Select Design System
+                <div className="relative z-10 space-y-10 pt-4">
+                   <div className="flex items-center gap-4 text-white/30 text-[11px] font-bold uppercase tracking-[0.6em]">
+                      <Terminal size={18} /> Design System Core
                    </div>
-                   <div className="grid grid-cols-2 gap-3">
+                   <div className="grid grid-cols-2 gap-4">
                       {Object.values(DESIGN_SYSTEMS).map(sys => (
                         <button 
                           key={sys.id}
                           onClick={() => setSelectedSystem(sys.id)}
                           className={cn(
-                            "p-5 rounded-[1.5rem] border text-left transition-all relative overflow-hidden group/btn",
+                            "p-6 rounded-[2rem] border text-left transition-all relative overflow-hidden group/btn",
                             selectedSystem === sys.id 
-                            ? "bg-[#DCFF00]/10 border-[#DCFF00]/30 shadow-2xl" 
-                            : "bg-white/[0.02] border-white/10 hover:border-white/20 hover:bg-white/[0.04]"
+                            ? "bg-[#DCFF00]/10 border-[#DCFF00]/40 shadow-[0_0_40px_rgba(220,255,0,0.15)]" 
+                            : "bg-white/[0.02] border-white/10 hover:border-white/20 hover:bg-white/[0.05]"
                           )}
                         >
                            <span className={cn(
-                             "text-[10px] font-bold uppercase tracking-[0.3em] block mb-1", 
+                             "text-[11px] font-bold uppercase tracking-[0.3em] block mb-2", 
                              selectedSystem === sys.id ? "text-[#DCFF00]" : "text-white/60"
                            )}>{sys.name}</span>
-                           <span className="text-[9px] text-white/30 italic line-clamp-1 block uppercase tracking-tighter font-bold">Inspiration: {sys.inspiration}</span>
+                           <span className="text-[10px] text-white/30 italic line-clamp-1 block uppercase tracking-tighter font-bold">Inspiration: {sys.inspiration}</span>
                         </button>
                       ))}
                    </div>
                 </div>
 
-                <div className="relative z-10 pt-8">
+                <div className="relative z-10 pt-10">
                    <Button 
                     onClick={() => handleOrchestrate('research')} 
-                    className="w-full h-20 rounded-[2rem] bg-white text-black font-bold uppercase tracking-[0.2em] hover:bg-[#DCFF00] transition-all group shadow-2xl text-sm"
+                    className="w-full h-24 rounded-[2.5rem] bg-white text-black font-bold uppercase tracking-[0.3em] hover:bg-[#DCFF00] transition-all group shadow-2xl text-lg bloom-button-glow"
                    >
-                      Initialize Strategic Audit <ArrowRight className="ml-4 w-6 h-6 group-hover:translate-x-2 transition-transform" />
+                      Initialize Strategic Audit <ArrowRight className="ml-6 w-8 h-8 group-hover:translate-x-3 transition-transform" />
                    </Button>
                 </div>
               </div>
 
-              <div className="p-16 space-y-12 bg-white/[0.02] relative overflow-hidden group">
+              {/* DESIGN PATH */}
+              <div className="p-20 space-y-12 bg-white/[0.02] relative overflow-hidden group">
                 <div className="absolute inset-0 bg-[#DCFF00]/[0.02] transition-all group-hover:bg-[#DCFF00]/[0.04]" />
-                <div className="relative z-10 space-y-6">
-                   <div className="w-16 h-16 rounded-[2rem] bg-white/10 flex items-center justify-center border border-white/20 shadow-2xl">
-                      <Palette className="text-white" size={32} />
+                <div className="relative z-10 space-y-8">
+                   <div className="w-20 h-20 rounded-[2.5rem] bg-white/10 flex items-center justify-center border border-white/20 shadow-2xl group-hover:scale-110 transition-transform">
+                      <Palette className="text-white" size={40} />
                    </div>
-                   <h3 className="text-5xl font-headline italic text-white leading-none">Design & <br/> Materialize</h3>
-                   <p className="text-white/60 text-xl leading-relaxed font-light italic max-w-md">
+                   <h3 className="text-6xl font-headline italic text-white leading-none tracking-tighter">Design & <br/> Materialize</h3>
+                   <p className="text-white/50 text-2xl leading-relaxed font-light italic max-w-md tracking-tight">
                       Orchestrate your vision into a premium, functional startup experience. Strictly derived from neural Design DNA tokens.
                    </p>
                 </div>
 
-                <div className="relative z-10 p-10 rounded-[3rem] bg-black/40 border border-white/10 space-y-6 shadow-inner">
-                   <div className="flex items-center gap-3 text-white/40 text-[11px] font-bold uppercase tracking-[0.4em]">
-                      <Activity size={16} /> Derived Design DNA
+                <div className="relative z-10 p-12 rounded-[3.5rem] bg-black/50 border border-white/10 space-y-8 shadow-inner">
+                   <div className="flex items-center gap-4 text-white/30 text-[11px] font-bold uppercase tracking-[0.6em]">
+                      <Activity size={18} /> Derived Design DNA
                    </div>
-                   <div className="space-y-6">
-                      <div className="space-y-1">
-                        <span className="text-[10px] uppercase tracking-widest text-[#DCFF00] font-bold block opacity-60">Neural Archetype</span>
-                        <p className="text-lg font-headline italic text-white/90 leading-tight">{dna?.startupArchetype || "Analyzing..."}</p>
+                   <div className="space-y-8">
+                      <div className="space-y-2">
+                        <span className="text-[11px] uppercase tracking-widest text-[#DCFF00] font-bold block opacity-40">Neural Archetype</span>
+                        <p className="text-2xl font-headline italic text-white/90 leading-tight">{dna?.startupArchetype || "Analyzing..."}</p>
                       </div>
-                      <div className="space-y-1">
-                        <span className="text-[10px] uppercase tracking-widest text-[#DCFF00] font-bold block opacity-60">Motion Philosophy</span>
-                        <p className="text-lg font-headline italic text-white/90 leading-tight">{dna?.designDNA?.motionPhilosophy || "Analyzing..."}</p>
+                      <div className="space-y-2">
+                        <span className="text-[11px] uppercase tracking-widest text-[#DCFF00] font-bold block opacity-40">Motion Philosophy</span>
+                        <p className="text-2xl font-headline italic text-white/90 leading-tight">{dna?.designDNA?.motionPhilosophy || "Analyzing..."}</p>
                       </div>
                    </div>
                 </div>
 
-                <div className="relative z-10 pt-8">
+                <div className="relative z-10 pt-10">
                    <Button 
                     onClick={() => handleOrchestrate('design')} 
-                    className="w-full h-20 rounded-[2rem] bg-white/5 border border-white/10 text-white font-bold uppercase tracking-[0.2em] hover:bg-white/10 transition-all group shadow-2xl backdrop-blur-3xl text-sm"
+                    className="w-full h-24 rounded-[2.5rem] bg-white/5 border border-white/10 text-white font-bold uppercase tracking-[0.3em] hover:bg-white/10 transition-all group shadow-2xl backdrop-blur-3xl text-lg"
                    >
-                      Materialize Experience <ArrowRight className="ml-4 w-6 h-6 group-hover:translate-x-2 transition-transform" />
+                      Materialize Experience <ArrowRight className="ml-6 w-8 h-8 group-hover:translate-x-3 transition-transform" />
                    </Button>
                 </div>
               </div>
             </div>
-            <div className="p-8 bg-black/80 border-t border-white/10 flex items-center justify-between px-16">
-               <div className="flex items-center gap-4">
-                  <div className="w-2 h-2 rounded-full bg-[#DCFF00] animate-pulse shadow-[0_0_10px_#DCFF00]" />
-                  <span className="text-[11px] uppercase tracking-[0.4em] font-bold text-white/40 italic">
+            {/* DIALOG FOOTER */}
+            <div className="p-10 bg-black/80 border-t border-white/10 flex items-center justify-between px-20">
+               <div className="flex items-center gap-6">
+                  <div className="w-3 h-3 rounded-full bg-[#DCFF00] animate-pulse shadow-[0_0_20px_#DCFF00]" />
+                  <span className="text-[12px] uppercase tracking-[0.5em] font-bold text-white/40 italic">
                     Neural Identity Sync Complete: "{dna?.startupArchetype}"
                   </span>
                </div>
-               <button onClick={() => setShowChoice(false)} className="text-[11px] uppercase tracking-[0.4em] font-bold text-white/30 hover:text-[#DCFF00] transition-all hover:tracking-[0.6em]">Abort Materialization</button>
+               <button onClick={() => setShowChoice(false)} className="text-[11px] uppercase tracking-[0.6em] font-bold text-white/20 hover:text-[#DCFF00] transition-all hover:tracking-[0.8em]">Abort Sequence</button>
             </div>
           </DialogContent>
         </Dialog>
