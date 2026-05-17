@@ -1,12 +1,13 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { BackgroundEffects } from "@/components/cinematic/BackgroundEffects";
 import { motion, AnimatePresence } from "framer-motion";
-import MountainVistaParallax from "@/components/ui/mountain-vista-bg";
-import { Network, Brain, Layers, Shield, Zap, Cpu, CheckCircle2 } from "lucide-react";
+import { Network, Brain, Layers, Shield, Zap } from "lucide-react";
 import { GradientBackground } from "@/components/ui/paper-design-shader-background";
+import { SkateboardLoader } from "@/components/cinematic/SkateboardLoader";
 
 const bloomQuotes = [
   "Materializing the unseen vision.",
@@ -70,7 +71,7 @@ export default function GeneratePage() {
   const currentStageData = stages[stage] || stages[stages.length - 1];
 
   return (
-    <div className="relative min-h-screen bg-[#050505] flex flex-col overflow-hidden font-body text-white">
+    <div className="relative h-screen w-screen bg-[#050505] flex flex-col overflow-hidden font-body text-white">
       <BackgroundEffects />
       <GradientBackground />
       <div className="absolute inset-0 -z-10 bg-black/40" />
@@ -81,11 +82,9 @@ export default function GeneratePage() {
       </div>
 
       <div className="flex-1 flex flex-col items-center justify-center relative z-10 px-6">
-        <div className="mb-12 relative w-full max-w-4xl h-[400px] overflow-hidden rounded-[3rem] bg-white/[0.02] border border-white/10 backdrop-blur-3xl group shadow-[0_50px_100px_rgba(0,0,0,0.5)]">
-           <MountainVistaParallax 
-             title="" 
-             subtitle="" 
-           />
+        <div className="mb-12 relative w-full max-w-4xl h-[480px] flex items-center justify-center overflow-hidden rounded-[3rem] bg-white/[0.02] border border-white/10 backdrop-blur-3xl group shadow-[0_50px_100px_rgba(0,0,0,0.5)]">
+           <SkateboardLoader />
+           
            <div className="absolute top-8 left-8 flex items-center gap-3 bg-black/40 backdrop-blur-xl border border-white/10 px-6 py-2.5 rounded-full">
               <div className="w-2 h-2 rounded-full bg-[#DCFF00] animate-pulse" />
               <span className="text-[10px] font-bold uppercase tracking-widest text-[#DCFF00]">Neural Sequence Active</span>

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -112,7 +113,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
         fontFamily: system.tokens.fontBody
       }}
     >
-      {/* IMMERSIVE NEURAL BACKGROUND node */}
+      {/* IMMERSIVE NEURAL BACKGROUND */}
       <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
          <div 
            className="absolute top-[-10%] left-[-10%] w-[120%] h-[120%] blur-[200px] opacity-30" 
@@ -120,7 +121,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
          />
       </div>
 
-      {/* GLOBAL NAVIGATION node */}
+      {/* GLOBAL NAVIGATION */}
       <nav 
         className={cn(
           "sticky top-0 left-0 right-0 z-[200] px-8 py-6 lg:px-16 flex justify-between items-center backdrop-blur-xl border-b",
@@ -363,7 +364,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                  <div className="space-y-16 sticky top-40">
                     <div className="space-y-6">
                       <motion.span variants={itemVariants} className="text-[12px] uppercase tracking-[1em] font-bold opacity-30 block" style={{ color: system.tokens.muted }}>Intelligence</motion.span>
-                      <motion.h3 variants={itemVariants} className="text-5xl md:text-7xl lg:text-9xl font-headline italic tracking-tighter leading-tight text-glow" style={{ fontWeight: (system.id === 'stripe' || system.id === 'mastercard') ? 300 : 600 }}>
+                      <motion.h3 variants={itemVariants} className="text-5xl md:text-7xl lg:text-[9xl] font-headline italic tracking-tighter leading-tight text-glow" style={{ fontWeight: (system.id === 'stripe' || system.id === 'mastercard') ? 300 : 600 }}>
                          The Protocol.
                       </motion.h3>
                     </div>
