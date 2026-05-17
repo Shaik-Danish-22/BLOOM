@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   ArrowRight, 
-  Zap, 
   Wand2,
   Search,
   Palette,
@@ -12,7 +11,6 @@ import {
   Brain,
   Layers,
   Activity,
-  ChevronRight,
   Sparkles
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -38,7 +36,7 @@ const SCISSOR_SCENE = "https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinec
 const VIDEO_URL = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_083109_283f3553-e28f-428b-a723-d639c617eb2b.mp4";
 
 const DEFAULT_SUGGESTIONS = [
-  "Luxury AI coffee experience for developers.",
+  "Luxury EV experience for urban pioneers.",
   "Neural highway for global logistics.",
   "Brutalist fintech for the creator economy.",
   "Cinematic wellness platform for burnout."
@@ -95,7 +93,10 @@ export default function WorkspacePage() {
   }, []);
 
   useEffect(() => {
-    if (prompt.toLowerCase().includes('coffee')) {
+    if (prompt.toLowerCase().includes('car') || prompt.toLowerCase().includes('automotive')) {
+      setSelectedSystem('apple'); // Classic precision for luxury cars
+      setCurrentTalk("Automotive blueprint detected. Orchestrating high-performance design DNA...");
+    } else if (prompt.toLowerCase().includes('coffee')) {
       setSelectedSystem('cafe');
       setCurrentTalk("Aroma detected. Roasting a premium brand identity...");
     } else if (prompt.length > 80) {

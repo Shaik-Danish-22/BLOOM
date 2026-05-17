@@ -75,7 +75,7 @@ const orchestrateStartupPrompt = ai.definePrompt({
   The "marketAnalysis" should be a brutal, multi-billion dollar shark assessment from a top-tier VC perspective.`
 });
 
-export async function orchestrateStartup(input: { prompt: string, dna: any, disguiseSystem: any }): Promise<OrchestratedStartup> {
+export async function orchestrateStartup(input: { prompt: string, dna: any, designSystem: any }): Promise<OrchestratedStartup> {
   const { output } = await orchestrateStartupPrompt(input);
   if (!output) throw new Error('Startup orchestration failed');
   return output;

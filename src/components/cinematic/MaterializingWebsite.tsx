@@ -70,6 +70,13 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
   const problemSection = sections.find(s => s.type === 'problem');
   const featuresSection = sections.find(s => s.type === 'features');
 
+  // Intelligent image hints based on startup vision
+  const industryHint = startupData.brand?.companyName.toLowerCase().includes('car') || startupData.brand?.tagline.toLowerCase().includes('automotive')
+    ? 'luxury car interior'
+    : startupData.brand?.companyName.toLowerCase().includes('coffee')
+    ? 'luxury retail coffee'
+    : 'minimal tech architecture';
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { 
@@ -191,7 +198,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                         alt="Background"
                         fill
                         className="object-cover"
-                        data-ai-hint="luxury retail"
+                        data-ai-hint={industryHint}
                       />
                     </div>
                  </div>
@@ -270,6 +277,15 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                          )}
                          style={{ borderRadius: system.tokens.radiusLg, border: `1px solid ${system.tokens.borderSoft}`, boxShadow: system.tokens.shadowStandard }}
                        >
+                          <div className="absolute inset-0 z-0 grayscale opacity-40">
+                             <Image 
+                               src={`https://picsum.photos/seed/${startupData.brand?.companyName || 'minimal-tech'}-2/1200/800`}
+                               alt="Interior"
+                               fill
+                               className="object-cover group-hover:scale-110 transition-transform duration-[4s]"
+                               data-ai-hint={industryHint}
+                             />
+                          </div>
                           <div className="absolute top-0 right-0 p-12 opacity-[0.03] group-hover:scale-110 transition-transform duration-1000">
                              <Box size={400} strokeWidth={0.5} />
                           </div>
@@ -334,7 +350,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
             </motion.div>
           )}
 
-          {activePage === 'features' && (activePage === 'features') && (
+          {activePage === 'features' && (
             <motion.div
               key="features"
               variants={containerVariants}
