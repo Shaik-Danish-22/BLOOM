@@ -3,19 +3,13 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  Sparkles, 
-  Palette, 
   ArrowRight, 
   Zap, 
   Wand2,
-  Target,
-  Shield,
-  Brain,
-  Rocket,
   Search,
-  Layout,
+  Palette,
   Terminal,
-  Cpu,
+  Brain,
   Layers,
   Activity
 } from "lucide-react";
@@ -25,18 +19,14 @@ import { deriveDesignDNA, DesignDNAOutput } from "@/ai/flows/derive-design-dna";
 import { orchestrateStartup } from "@/ai/flows/orchestrate-startup";
 import { BackgroundEffects } from "@/components/cinematic/BackgroundEffects";
 import { useRouter } from "next/navigation";
-import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
 import { InteractiveRobotSpline } from "@/components/ui/interactive-3d-robot";
 import { GradientBackground } from "@/components/ui/paper-design-shader-background";
 import { BloomLogo } from "@/components/cinematic/BloomLogo";
 import { DESIGN_SYSTEMS } from "@/lib/design-systems";
+import { BackgroundPaths } from "@/components/ui/background-paths";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
@@ -125,6 +115,7 @@ export default function WorkspacePage() {
     <div className="relative min-h-screen text-white selection:bg-[#DCFF00]/30 overflow-hidden font-body bg-black">
       <BackgroundEffects />
       <GradientBackground />
+      <BackgroundPaths />
       <div className="absolute inset-0 -z-10 bg-black/70" />
 
       <nav className="fixed top-0 left-0 right-0 z-50 p-6 flex justify-between items-center backdrop-blur-3xl border-b border-white/10 bg-black/40">
@@ -142,7 +133,7 @@ export default function WorkspacePage() {
         </div>
       </nav>
 
-      <main className="pt-32 px-6 max-w-7xl mx-auto h-[calc(100vh-80px)] overflow-y-auto no-scrollbar pb-24">
+      <main className="pt-32 px-6 max-w-7xl mx-auto h-[calc(100vh-80px)] overflow-y-auto no-scrollbar pb-24 relative z-10">
         <AnimatePresence mode="wait">
           {(step === 'prompt' || step === 'choice') && (
             <motion.div 
@@ -157,7 +148,7 @@ export default function WorkspacePage() {
                   Materialize the <br />
                   <span className="text-white/20 not-italic">unseen vision.</span>
                 </h2>
-                <p className="text-xl text-white/40 font-light max-w-2xl italic leading-relaxed">
+                <p className="text-xl text-white/60 font-light max-w-2xl italic leading-relaxed">
                   Inject your startup intent. Our Design DNA Engine will extract audience psychology and visual logic before orchestrating the experience.
                 </p>
               </div>
@@ -178,10 +169,10 @@ export default function WorkspacePage() {
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: 10 }}
-                        className="bg-white/10 backdrop-blur-3xl border border-[#DCFF00]/20 px-8 py-5 rounded-[2rem] mb-4 max-w-[260px] pointer-events-auto shadow-2xl"
+                        className="bg-black/60 backdrop-blur-3xl border border-[#DCFF00]/20 px-8 py-5 rounded-[2rem] mb-4 max-w-[260px] pointer-events-auto shadow-2xl"
                       >
                         <span className="text-[11px] uppercase tracking-widest font-bold text-[#DCFF00] leading-tight block mb-1">Scissor_Node</span>
-                        <span className="text-[13px] text-white/80 font-medium italic leading-snug block">
+                        <span className="text-[13px] text-white/90 font-medium italic leading-snug block">
                           {currentTalk}
                         </span>
                       </motion.div>
@@ -204,7 +195,7 @@ export default function WorkspacePage() {
                       <button 
                         key={i}
                         onClick={() => setPrompt(s)}
-                        className="liquid-glass px-6 py-3 rounded-full text-[10px] text-white/50 uppercase tracking-[0.3em] font-bold hover:text-[#DCFF00] hover:border-[#DCFF00]/30 hover:bg-[#DCFF00]/5 transition-all active:scale-95"
+                        className="bg-white/5 border border-white/10 px-6 py-3 rounded-full text-[10px] text-white/60 uppercase tracking-[0.3em] font-bold hover:text-[#DCFF00] hover:border-[#DCFF00]/30 hover:bg-[#DCFF00]/5 transition-all active:scale-95"
                       >
                         {s}
                       </button>
@@ -213,7 +204,7 @@ export default function WorkspacePage() {
                   <Button 
                     onClick={handleDeriveDNA}
                     disabled={!prompt.trim() || step === 'deriving'}
-                    className="liquid-glass-strong bg-white text-black hover:bg-[#DCFF00] transition-all rounded-full px-16 h-20 flex items-center gap-6 font-bold uppercase tracking-[0.2em] shadow-[0_0_50px_rgba(220,255,0,0.2)] active:scale-95 group"
+                    className="bg-white text-black hover:bg-[#DCFF00] transition-all rounded-full px-16 h-20 flex items-center gap-6 font-bold uppercase tracking-[0.3em] shadow-[0_0_50px_rgba(220,255,0,0.2)] active:scale-95 group text-sm"
                   >
                     <Wand2 size={24} className="group-hover:rotate-12 transition-transform" /> 
                     Initialize Link
@@ -258,7 +249,7 @@ export default function WorkspacePage() {
                       </div>
                       <div>
                         <span className="text-[11px] uppercase tracking-widest font-bold text-white/90 block">{node.label}</span>
-                        <span className="text-[10px] text-white/30 italic uppercase tracking-tighter">{node.desc}</span>
+                        <span className="text-[10px] text-white/40 italic uppercase tracking-tighter">{node.desc}</span>
                       </div>
                       <div className="ml-auto w-1.5 h-1.5 rounded-full bg-[#DCFF00] animate-ping" />
                    </motion.div>
@@ -268,9 +259,8 @@ export default function WorkspacePage() {
           )}
         </AnimatePresence>
 
-        {/* ORCHESTRATION CHOICE DIALOG */}
         <Dialog open={showChoice} onOpenChange={setShowChoice}>
-          <DialogContent className="max-w-6xl bg-black/95 border-white/10 backdrop-blur-[60px] p-0 overflow-hidden rounded-[3.5rem] shadow-[0_0_100px_rgba(0,0,0,0.8)]">
+          <DialogContent className="max-w-6xl bg-black/95 border-white/10 backdrop-blur-[60px] p-0 overflow-hidden rounded-[3.5rem] shadow-[0_0_100px_rgba(0,0,0,0.8)] border">
             <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[600px]">
               <div className="p-16 space-y-12 border-r border-white/5 relative overflow-hidden group">
                 <div className="absolute inset-0 bg-white/[0.01] transition-all group-hover:bg-white/[0.03]" />
@@ -279,13 +269,13 @@ export default function WorkspacePage() {
                       <Search className="text-[#DCFF00]" size={32} />
                    </div>
                    <h3 className="text-5xl font-headline italic text-white leading-none">Research & <br/> Insight</h3>
-                   <p className="text-white/40 text-xl leading-relaxed font-light italic max-w-md">
+                   <p className="text-white/60 text-xl leading-relaxed font-light italic max-w-md">
                       Evaluate your vision through a multi-billion dollar shark lens. Analyze market performance, risks, and viability before building.
                    </p>
                 </div>
                 
                 <div className="relative z-10 space-y-8 pt-4">
-                   <div className="flex items-center gap-3 text-white/20 text-[11px] font-bold uppercase tracking-[0.4em]">
+                   <div className="flex items-center gap-3 text-white/40 text-[11px] font-bold uppercase tracking-[0.4em]">
                       <Terminal size={16} /> Select Design System
                    </div>
                    <div className="grid grid-cols-2 gap-3">
@@ -297,14 +287,14 @@ export default function WorkspacePage() {
                             "p-5 rounded-[1.5rem] border text-left transition-all relative overflow-hidden group/btn",
                             selectedSystem === sys.id 
                             ? "bg-[#DCFF00]/10 border-[#DCFF00]/30 shadow-2xl" 
-                            : "bg-white/[0.02] border-white/5 hover:border-white/10 hover:bg-white/[0.04]"
+                            : "bg-white/[0.02] border-white/10 hover:border-white/20 hover:bg-white/[0.04]"
                           )}
                         >
                            <span className={cn(
                              "text-[10px] font-bold uppercase tracking-[0.3em] block mb-1", 
-                             selectedSystem === sys.id ? "text-[#DCFF00]" : "text-white/40"
+                             selectedSystem === sys.id ? "text-[#DCFF00]" : "text-white/60"
                            )}>{sys.name}</span>
-                           <span className="text-[9px] text-white/20 italic line-clamp-1 block uppercase tracking-tighter">Inspiration: {sys.inspiration}</span>
+                           <span className="text-[9px] text-white/30 italic line-clamp-1 block uppercase tracking-tighter font-bold">Inspiration: {sys.inspiration}</span>
                         </button>
                       ))}
                    </div>
@@ -313,7 +303,7 @@ export default function WorkspacePage() {
                 <div className="relative z-10 pt-8">
                    <Button 
                     onClick={() => handleOrchestrate('research')} 
-                    className="w-full h-20 rounded-[2rem] bg-white text-black font-bold uppercase tracking-[0.2em] hover:bg-[#DCFF00] transition-all group shadow-2xl"
+                    className="w-full h-20 rounded-[2rem] bg-white text-black font-bold uppercase tracking-[0.2em] hover:bg-[#DCFF00] transition-all group shadow-2xl text-sm"
                    >
                       Initialize Strategic Audit <ArrowRight className="ml-4 w-6 h-6 group-hover:translate-x-2 transition-transform" />
                    </Button>
@@ -327,13 +317,13 @@ export default function WorkspacePage() {
                       <Palette className="text-white" size={32} />
                    </div>
                    <h3 className="text-5xl font-headline italic text-white leading-none">Design & <br/> Materialize</h3>
-                   <p className="text-white/40 text-xl leading-relaxed font-light italic max-w-md">
+                   <p className="text-white/60 text-xl leading-relaxed font-light italic max-w-md">
                       Orchestrate your vision into a premium, functional startup experience. Strictly derived from neural Design DNA tokens.
                    </p>
                 </div>
 
                 <div className="relative z-10 p-10 rounded-[3rem] bg-black/40 border border-white/10 space-y-6 shadow-inner">
-                   <div className="flex items-center gap-3 text-white/30 text-[11px] font-bold uppercase tracking-[0.4em]">
+                   <div className="flex items-center gap-3 text-white/40 text-[11px] font-bold uppercase tracking-[0.4em]">
                       <Activity size={16} /> Derived Design DNA
                    </div>
                    <div className="space-y-6">
@@ -351,7 +341,7 @@ export default function WorkspacePage() {
                 <div className="relative z-10 pt-8">
                    <Button 
                     onClick={() => handleOrchestrate('design')} 
-                    className="w-full h-20 rounded-[2rem] bg-white/5 border border-white/10 text-white font-bold uppercase tracking-[0.2em] hover:bg-white/10 transition-all group shadow-2xl backdrop-blur-3xl"
+                    className="w-full h-20 rounded-[2rem] bg-white/5 border border-white/10 text-white font-bold uppercase tracking-[0.2em] hover:bg-white/10 transition-all group shadow-2xl backdrop-blur-3xl text-sm"
                    >
                       Materialize Experience <ArrowRight className="ml-4 w-6 h-6 group-hover:translate-x-2 transition-transform" />
                    </Button>

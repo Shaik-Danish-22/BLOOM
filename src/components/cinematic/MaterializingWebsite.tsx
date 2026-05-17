@@ -4,29 +4,19 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { 
   ArrowRight, 
-  Menu, 
   Sparkles, 
   Zap, 
   Shield, 
-  Target, 
   Brain, 
   ChevronRight,
-  Monitor,
-  Rocket,
-  ArrowUpRight,
   Box,
   Globe,
-  Cpu,
-  Layers,
-  ArrowRightCircle,
-  Coffee,
-  CheckCircle2,
-  Lock,
-  Search,
   Activity,
   Heart,
   ExternalLink,
-  Plus
+  Plus,
+  CheckCircle2,
+  Lock
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { OrchestratedStartup } from "@/ai/flows/orchestrate-startup";
@@ -328,7 +318,7 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
                        >
                           <div className="w-40 h-40 rounded-full border border-dashed border-[#DCFF00]/20 flex items-center justify-center group-hover:rotate-180 transition-all duration-[6s] relative">
                              <div className="absolute inset-0 bg-[#DCFF00]/5 blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity" />
-                             <Target size={64} className="opacity-40 text-[#DCFF00]" />
+                             <Sparkles size={64} className="opacity-40 text-[#DCFF00]" />
                           </div>
                           <div className="space-y-6">
                              <h4 className="text-4xl font-headline italic">Direct Precision</h4>
@@ -498,12 +488,12 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
 
             <div className="flex flex-wrap justify-center gap-16 text-[12px] uppercase tracking-[0.8em] font-bold" style={{ color: system.tokens.meta }}>
                {['Compliance', 'Governance', 'Privacy Node', 'Audit Logs', 'Protocol Status'].map(item => (
-                 <button key={item} className="hover:text-white transition-all hover:tracking-[1.2em]">{item}</button>
+                 <button key={item} className="hover:text-white transition-all hover:tracking-[1.2em] font-bold">{item}</button>
                ))}
             </div>
             
             <div className="pt-32 space-y-6">
-              <p className="text-[11px] uppercase tracking-[0.5em] italic opacity-30">Experience Build v3.5.0 Stable // Anti-Slop Validated Core</p>
+              <p className="text-[11px] uppercase tracking-[0.5em] italic opacity-30 font-bold">Experience Build v3.5.0 Stable // Anti-Slop Validated Core</p>
               <div className="flex items-center justify-center gap-10 opacity-15">
                  <Heart size={20} className="hover:text-red-500 transition-colors cursor-pointer" />
                  <Lock size={20} />
