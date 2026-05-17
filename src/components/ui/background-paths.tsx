@@ -55,8 +55,6 @@ export function BackgroundPaths({
 }: {
     title?: string;
 }) {
-    const words = title.split(" ");
-
     return (
         <div className="absolute inset-0 z-0">
             <FloatingPaths position={1} />
