@@ -1,12 +1,13 @@
+
 'use server';
 /**
  * @fileOverview Design DNA Engine: Transforms vague ideas into structured startup intelligence.
- * Updated to use Featherless.ai (DeepSeek-V3) for elite-level strategic reasoning.
+ * Orchestrated for maximum resilience across providers.
  */
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
-import { generateStructuredOrchestrated } from '@/services/ai/orchestrator';
+import { orchestrateTask } from '@/services/ai/orchestrator';
 
 const DeriveDesignDNAInputSchema = z.object({
   rawPrompt: z.string().describe('The user\'s initial vague startup idea.'),
@@ -32,7 +33,7 @@ const DeriveDesignDNAOutputSchema = z.object({
 export type DesignDNAOutput = z.infer<typeof DeriveDesignDNAOutputSchema>;
 
 /**
- * Updated to leverage Featherless DeepSeek-V3 for superior reasoning
+ * Leverages the Multi-Provider Orchestrator for quota-resilient DNA derivation.
  */
 export async function deriveDesignDNA(input: z.infer<typeof DeriveDesignDNAInputSchema>): Promise<DesignDNAOutput> {
   const systemPrompt = `You are an elite Silicon Valley Creative Strategist and YC Partner. 
@@ -42,24 +43,25 @@ export async function deriveDesignDNA(input: z.infer<typeof DeriveDesignDNAInput
   1. AUDIENCE PSYCHOLOGY: What is their secret desire or pain?
   2. DESIGN DNA: If this startup was a physical object, how would it feel?
   3. STORYTELLING: How should the user experience the product narrative?
-  4. SHARK VERDICT: Be brutal. As a multi-billion dollar shark, evaluate the scalability and moat of this idea.`;
+  4. SHARK VERDICT: Be brutal. As a multi-billion dollar shark, evaluate the scalability and moat of this idea.
+  
+  Structure your output as a high-density professional brief. Return ONLY valid JSON.`;
 
   const userPrompt = `Raw Idea: ${input.rawPrompt}`;
 
   try {
-    // Orchestrator routes this to Featherless (DeepSeek-V3) for strong reasoning
-    return await generateStructuredOrchestrated({
+    // Orchestrator routes this to DeepSeek (Featherless/OpenRouter) for strong reasoning
+    return await orchestrateTask({
+      task: 'reasoning',
       prompt: userPrompt,
       system: systemPrompt,
-      schema: DeriveDesignDNAOutputSchema,
-      provider: 'featherless',
-      task: 'reasoning'
+      schema: DeriveDesignDNAOutputSchema
     });
   } catch (error) {
-    console.warn("Deep reasoning DNA derivation failed (likely missing key), falling back to Genkit prompt", error);
-    // Fallback to original Genkit implementation if Featherless is unavailable
+    console.warn("[DNA Flow] Global Orchestrator fallback triggered for Gemini core", error);
+    // Final desperate fallback to primary Gemini via Genkit
     const { output } = await deriveDesignDNAPrompt(input);
-    if (!output) throw new Error('Neural DNA derivation failed completely');
+    if (!output) throw new Error('Neural DNA derivation failed completely across all pathways.');
     return output;
   }
 }

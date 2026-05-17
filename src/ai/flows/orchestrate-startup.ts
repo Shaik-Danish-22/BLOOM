@@ -1,11 +1,14 @@
+
 "use server";
 /**
  * @fileOverview Orchestration Engine: Generates high-fidelity startup artifacts
  * strictly derived from the Design DNA and Design System.
+ * Enhanced with multi-provider resilience.
  */
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
+import { orchestrateTask } from '@/services/ai/orchestrator';
 
 const WebsiteSectionSchema = z.object({
   id: z.string(),
@@ -46,6 +49,35 @@ const OrchestrateStartupOutputSchema = z.object({
 
 export type OrchestratedStartup = z.infer<typeof OrchestrateStartupOutputSchema>;
 
+export async function orchestrateStartup(input: { prompt: string, dna: any, designSystem: any }): Promise<OrchestratedStartup> {
+  const systemPrompt = `You are a world-class AI product architect and founder. 
+  Your task is to materialize a startup vision into a comprehensive, coherent, and museum-grade editorial strategic package.
+  
+  CRITICAL CONSTRAINTS:
+  1. NO SLOP: Avoid generic AI filler. Use high-density, professional copy. 
+  2. EDITORIAL SCALE: Headlines should read like luxury magazine headlines. Use sensory words.
+  3. THEME ACCURACY: Strictly follow the provided Design DNA and Design System tokens.
+  4. INTERACTIVITY: If relevant, generate a "game" section with valid config.
+  
+  Structure your output as a comprehensive strategic JSON package. Return ONLY valid JSON.`;
+
+  const userPrompt = `Vision: ${input.prompt}\nDNA: ${JSON.stringify(input.dna)}\nDesign System: ${JSON.stringify(input.designSystem)}`;
+
+  try {
+    return await orchestrateTask({
+      task: 'materialization',
+      prompt: userPrompt,
+      system: systemPrompt,
+      schema: OrchestrateStartupOutputSchema
+    });
+  } catch (error) {
+    console.warn("[Orchestrate Flow] Fallback to Gemini required", error);
+    const { output } = await orchestrateStartupPrompt(input);
+    if (!output) throw new Error('Startup orchestration failed across all providers.');
+    return output;
+  }
+}
+
 const orchestrateStartupPrompt = ai.definePrompt({
   name: 'orchestrateStartupPrompt',
   input: { 
@@ -77,9 +109,3 @@ const orchestrateStartupPrompt = ai.definePrompt({
   Generate exactly one high-fidelity "hero", "problem", and "features" section. Add a "game" section only if relevant to the vision.
   The "rationale" should read like a visionary founder's manifesto.`
 });
-
-export async function orchestrateStartup(input: { prompt: string, dna: any, designSystem: any }): Promise<OrchestratedStartup> {
-  const { output } = await orchestrateStartupPrompt(input);
-  if (!output) throw new Error('Startup orchestration failed');
-  return output;
-}
