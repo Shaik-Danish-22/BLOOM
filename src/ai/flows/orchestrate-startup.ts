@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview Orchestration Engine: Generates high-fidelity startup artifacts
@@ -9,12 +10,17 @@ import { z } from 'genkit';
 
 const WebsiteSectionSchema = z.object({
   id: z.string(),
-  type: z.enum(['hero', 'features', 'problem', 'solution', 'pricing', 'footer', 'social']),
+  type: z.enum(['hero', 'features', 'problem', 'solution', 'pricing', 'footer', 'social', 'game']),
   title: z.string().describe('Must be world-class, punchy marketing copy (max 8 words). Editorial magazine grade.'),
   subtitle: z.string().optional().describe('A high-fidelity, visionary subheadline. Deep strategic insight.'),
   content: z.string().optional().describe('Deep, strategic narrative content. Founders manifesto grade.'),
   items: z.array(z.string()).optional().describe('4-6 highly specific, technological or sensory features. No generic filler.'),
   ctaLabel: z.string().optional().describe('Action-oriented professional CTA. Compelling and unique.'),
+  gameConfig: z.object({
+    type: z.enum(['sudoku', 'tictactoe']),
+    difficulty: z.enum(['easy', 'medium', 'hard']).optional(),
+    initialBoard: z.array(z.array(z.number().nullable())).optional().describe('9x9 grid for Sudoku, null for empty.'),
+  }).optional(),
 });
 
 const OrchestrateStartupOutputSchema = z.object({
@@ -60,17 +66,12 @@ const orchestrateStartupPrompt = ai.definePrompt({
   
   CRITICAL CONSTRAINTS:
   1. NO SLOP: Avoid generic AI filler like "Unlock your potential" or "The future is here." Use high-density, professional copy. 
-  2. EDITORIAL SCALE: The "title" fields should read like luxury magazine headlines (e.g., Vogue, Monocle, Wall Street Journal). Use sensory words (aroma, texture, precision, obsidian, bone-white).
-  3. SYSTEM ALIGNMENT: 
-     - If using "Pantry Heritage" (Baker): Use warm, heritage retail language. Focus on "The Ritual," sensory details (baked, yeast, artisan), and "Museum-Wall" whitespace.
-     - If using "Botanical Edit" (Altina/Wellness): Focus on "Sophisticated Ritual," non-alcoholic indulgence, high-contrast botanical imagery, and "Ethereal" language.
-     - If using "Fintech Precision" (Stripe): Use weight-300 authority. Focus on "Infrastructure," "Global scale," and ethereal, technical luxury.
-     - If using "Brewers Retail" (Starbucks): Use warm, community flagship language.
-  4. SENSORY ANCHORING: If the idea is physical (e.g. coffee, bakery, car), use deep sensory language in the "rationale" and "content" fields.
-  5. HIERARCHY: Ensure the hero section title is iconic and minimal. 
-  6. Generate exactly one high-fidelity "hero", "problem", and "features" section.
+  2. EDITORIAL SCALE: The "title" fields should read like luxury magazine headlines. Use sensory words (aroma, texture, precision).
+  3. INTERACTIVITY: If the user mentions "games", "sudoku", or "tic tac toe", you MUST generate a section of type "game" with a valid gameConfig.
+  4. HIERARCHY: Ensure the hero section title is iconic and minimal. 
+  5. Generate exactly one high-fidelity "hero", "problem", and "features" section. Add a "game" section only if relevant to the vision.
   
-  The "rationale" should read like a visionary founder's manifesto (3-4 sentences).
+  The "rationale" should read like a visionary founder's manifesto.
   The "marketAnalysis" should be a brutal, multi-billion dollar shark assessment from a top-tier VC perspective.`
 });
 
