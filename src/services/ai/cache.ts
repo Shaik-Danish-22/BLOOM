@@ -1,4 +1,3 @@
-
 'use server';
 
 /**
@@ -26,7 +25,11 @@ export async function setCache(key: string, data: any): Promise<void> {
   });
 }
 
-export function generateCacheKey(task: string, prompt: string): string {
-  // Simple deterministic key generation
+/**
+ * Generates a unique cache key based on the task and prompt.
+ * Must be async as it is exported from a 'use server' file.
+ */
+export async function generateCacheKey(task: string, prompt: string): Promise<string> {
+  // Simple deterministic key generation using a hash or base64
   return `${task}:${Buffer.from(prompt).toString('base64').substring(0, 32)}`;
 }

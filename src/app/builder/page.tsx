@@ -98,8 +98,6 @@ export default function BuilderPage() {
     }
   }, [messages]);
 
-  const activeSystem = DESIGN_SYSTEMS[(context?.selectedSystem as any) || 'apple'];
-
   const handleUpdateSystem = (id: string) => {
     setIsSyncing(true);
     const newContext = { ...context, selectedSystem: id };
@@ -123,7 +121,7 @@ export default function BuilderPage() {
     setChatInput("");
     setIsSyncing(true);
 
-    // Neural Refinement Logic
+    // Neural Refinement Logic (Simulated for high-end feel)
     setTimeout(() => {
       const assistantMsg: Message = { 
         id: (Date.now() + 1).toString(), 
@@ -134,7 +132,6 @@ export default function BuilderPage() {
       setMessages(prev => [...prev, assistantMsg]);
       setIsSyncing(false);
       
-      // Update startup data rationale to reflect refinement for visual feedback
       setStartupData((prev: any) => ({
         ...prev,
         brand: {
@@ -168,7 +165,7 @@ export default function BuilderPage() {
       <GradientBackground />
       <div className="absolute inset-0 -z-10 bg-black/40" />
 
-      {/* LEFT SIDEBAR - 100vh FIXED */}
+      {/* LEFT SIDEBAR */}
       <aside className="w-[420px] h-full border-r border-white/10 bg-black/95 backdrop-blur-3xl flex flex-col z-30 relative shadow-2xl shrink-0 overflow-hidden">
         <header className="p-8 border-b border-white/5 flex items-center justify-between shrink-0">
            <div className="flex items-center gap-4">
@@ -212,11 +209,11 @@ export default function BuilderPage() {
                   </div>
                   <div className="space-y-6">
                     {messages.map((msg) => (
-                      <div key={msg.id} className={cn("flex gap-4 max-w-[90%]", msg.role === 'user' ? "ml-auto flex-row-reverse" : "")}>
+                      <div key={msg.id} className={cn("flex gap-4 max-w-[95%]", msg.role === 'user' ? "ml-auto flex-row-reverse" : "")}>
                          <div className={cn("w-8 h-8 rounded-full flex items-center justify-center shrink-0", msg.role === 'assistant' ? "bg-[#DCFF00]/20 text-[#DCFF00]" : "bg-white/10 text-white")}>
                            {msg.role === 'assistant' ? <Bot size={14} /> : <User size={14} />}
                          </div>
-                         <div className={cn("p-5 rounded-2xl text-[13px] leading-relaxed", msg.role === 'assistant' ? "bg-white/[0.04] border border-white/5 text-white/80" : "bg-[#DCFF00] text-black font-bold shadow-xl")}>
+                         <div className={cn("p-5 rounded-2xl text-[13px] leading-relaxed break-words", msg.role === 'assistant' ? "bg-white/[0.04] border border-white/5 text-white/80" : "bg-[#DCFF00] text-black font-bold shadow-xl")}>
                            {msg.content}
                          </div>
                       </div>
@@ -247,28 +244,7 @@ export default function BuilderPage() {
                            >
                               <h4 className={cn("text-[12px] font-bold uppercase tracking-widest mb-1.5", context?.selectedSystem === sys.id ? "text-[#DCFF00]" : "text-white/70")}>{sys.name}</h4>
                               <p className="text-[10px] text-white/40 italic line-clamp-1">{sys.inspiration}</p>
-                              {context?.selectedSystem === sys.id && (
-                                <motion.div layoutId="sys-glow" className="absolute inset-0 bg-[#DCFF00]/5 pointer-events-none" />
-                              )}
                            </button>
-                         ))}
-                      </div>
-                   </div>
-
-                   <div className="space-y-5">
-                      <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-widest text-white/30">
-                         <span>Component Artifacts</span>
-                         <Code2 size={16} />
-                      </div>
-                      <div className="space-y-3">
-                         {['CinematicHero_Node', 'BentoFeatures_Module', 'NeuralPsychology_Section', 'AuditProtocol_Pricing'].map((item) => (
-                           <div key={item} className="flex items-center justify-between p-4 rounded-xl bg-white/[0.04] border border-white/5 hover:bg-white/10 hover:border-white/20 transition-all group cursor-pointer">
-                              <div className="flex items-center gap-4">
-                                 <div className="w-2 h-2 rounded-full bg-[#DCFF00]/60 group-hover:bg-[#DCFF00] group-hover:shadow-[0_0_10px_#DCFF00] transition-all" />
-                                 <span className="text-[12px] text-white/70 font-mono tracking-tight group-hover:text-white">{item}</span>
-                              </div>
-                              <ChevronRight size={14} className="text-white/20 group-hover:text-[#DCFF00] group-hover:translate-x-1 transition-all" />
-                           </div>
                          ))}
                       </div>
                    </div>
@@ -299,21 +275,6 @@ export default function BuilderPage() {
                          ))}
                       </div>
                    </div>
-                   
-                   <div className="space-y-5">
-                      <div className="flex items-center gap-4 text-white/40">
-                        <Settings size={18} />
-                        <span className="text-[11px] font-bold uppercase tracking-widest">Active Logic Tokens</span>
-                      </div>
-                      <div className="grid grid-cols-1 gap-3">
-                        {Object.entries(context?.enhancedData?.designDNA || {}).map(([key, val]: any, i) => (
-                          <div key={i} className="p-5 rounded-2xl bg-white/[0.04] border border-white/5 space-y-2 hover:bg-white/[0.06] transition-all group">
-                             <span className="text-[9px] uppercase tracking-widest text-[#DCFF00]/50 font-bold group-hover:text-[#DCFF00] transition-colors">{key}</span>
-                             <p className="text-[13px] text-white/70 italic leading-relaxed">{val}</p>
-                          </div>
-                        ))}
-                      </div>
-                   </div>
                 </div>
               )}
 
@@ -325,7 +286,7 @@ export default function BuilderPage() {
                          <Rocket size={18} />
                       </div>
                       <div className="space-y-3">
-                        {['Default State', 'Scroll Reveal', 'Hover Interactions', 'Mobile Entry'].map((state, i) => (
+                        {['Default State', 'Scroll Reveal', 'Hover Interactions'].map((state, i) => (
                            <button 
                              key={state}
                              className={cn(
@@ -364,7 +325,7 @@ export default function BuilderPage() {
         </div>
       </aside>
 
-      {/* MAIN VIEWPORT - 100vh FULLSCREEN */}
+      {/* MAIN VIEWPORT */}
       <main className="flex-1 flex flex-col z-20 p-8 overflow-hidden relative min-w-0 h-screen">
          <header className="flex items-center justify-between mb-8 shrink-0">
             <div className="flex items-center gap-3 bg-black/80 backdrop-blur-3xl p-1.5 rounded-2xl border border-white/10 shadow-2xl">
@@ -420,7 +381,7 @@ export default function BuilderPage() {
             </div>
          </header>
 
-         <div className="flex-1 flex items-center justify-center bg-white/[0.02] rounded-[3.5rem] border border-white/5 p-6 overflow-hidden backdrop-blur-md relative shadow-inner">
+         <div className="flex-1 flex items-center justify-center bg-white/[0.02] rounded-[3.5rem] border border-white/5 p-4 overflow-hidden backdrop-blur-md relative shadow-inner">
             <div className="absolute inset-0 pointer-events-none border-[12px] border-black/30 rounded-[3.5rem] z-20" />
             
             <AnimatePresence>
