@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -166,13 +167,13 @@ export default function WorkspacePage() {
           style={{ 
             opacity: videoOpacity, 
             transition: 'opacity 0.2s ease-in-out',
-            filter: 'brightness(0.9) contrast(1.1) saturate(1.1)' 
+            filter: 'brightness(1.1) contrast(1.1) saturate(1.2)' 
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black opacity-90" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black opacity-80" />
       </div>
 
-      <nav className="fixed top-0 left-0 right-0 z-[100] p-8 lg:px-12 flex justify-between items-center bg-black/10 backdrop-blur-2xl border-b border-white/5">
+      <nav className="fixed top-0 left-0 right-0 z-[100] p-8 lg:px-12 flex justify-between items-center bg-black/5 backdrop-blur-2xl border-b border-white/5">
         <div className="flex items-center gap-4 group cursor-pointer" onClick={() => router.push('/')}>
           <BloomLogo size={36} className="group-hover:rotate-180 transition-transform duration-1000" />
           <span className="text-3xl font-headline italic tracking-tighter text-white drop-shadow-2xl">Bloom Studio®</span>
@@ -205,11 +206,11 @@ export default function WorkspacePage() {
             >
               <div className="space-y-8 mb-16 animate-fade-rise">
                 <h2 className="text-6xl md:text-9xl font-headline italic tracking-tighter leading-[0.85] text-white text-glow drop-shadow-2xl">
-                  Materialize the <br />
-                  <span className="text-white/30 not-italic italic">unseen vision.</span>
+                  Beyond silence, we <br />
+                  <span className="text-white/30 not-italic italic">build the eternal.</span>
                 </h2>
                 <p className="text-xl text-white/60 font-light max-w-2xl mx-auto italic leading-relaxed animate-fade-rise-delay font-body">
-                  Inject your startup intent. Our Design DNA Engine will extract audience psychology and visual logic before orchestrating the experience.
+                  Building platforms for brilliant minds and fearless makers. Through the noise, we craft digital havens for deep work and pure flows.
                 </p>
               </div>
               

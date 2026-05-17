@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -68,7 +69,7 @@ export default function LoginPage() {
           style={{ 
             opacity: videoOpacity, 
             transition: 'opacity 0.2s ease-in-out',
-            filter: 'brightness(0.9) contrast(1.1) saturate(1.05)' 
+            filter: 'brightness(1.1) contrast(1.1) saturate(1.2)' 
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />

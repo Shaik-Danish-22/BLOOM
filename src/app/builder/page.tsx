@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -26,7 +27,8 @@ import {
   Shield,
   Layout,
   TrendingUp,
-  AlertTriangle
+  AlertTriangle,
+  Target
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BackgroundEffects } from "@/components/cinematic/BackgroundEffects";
