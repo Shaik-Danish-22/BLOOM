@@ -20,6 +20,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { InteractiveRobotSpline } from "@/components/ui/interactive-3d-robot";
 import { GradientBackground } from "@/components/ui/paper-design-shader-background";
+import { BloomLogo } from "@/components/cinematic/BloomLogo";
 
 type Step = 'prompt' | 'enhancing' | 'refine';
 
@@ -84,9 +85,7 @@ export default function WorkspacePage() {
 
       <nav className="fixed top-0 left-0 right-0 z-50 p-6 flex justify-between items-center backdrop-blur-md border-b border-white/5 bg-black/40">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center">
-            <span className="text-black font-bold text-sm">B</span>
-          </div>
+          <BloomLogo size={28} />
           <span className="text-lg font-headline italic tracking-tight text-white/90 leading-none">Bloom</span>
         </div>
         <div className="flex items-center gap-4">
@@ -183,13 +182,8 @@ export default function WorkspacePage() {
               animate={{ opacity: 1 }}
               className="flex flex-col items-center justify-center min-h-[60vh] text-center"
             >
-              <div className="w-52 h-60 mb-10 overflow-hidden relative rounded-3xl bg-white/[0.02] border border-white/5">
-                 <div className="absolute inset-0 h-[340px] w-full">
-                   <InteractiveRobotSpline 
-                     scene={SCISSOR_SCENE} 
-                     className="w-full h-full scale-[0.85] translate-y-6" 
-                   />
-                 </div>
+              <div className="mb-10">
+                <BloomLogo size={120} />
               </div>
               <h3 className="text-5xl font-headline italic text-white mb-4 tracking-tighter animate-pulse">Establishing DNA...</h3>
               <p className="text-[#DCFF00] uppercase tracking-[0.6em] text-[11px] font-bold">Bloom Engine Online</p>

@@ -4,13 +4,14 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Globe, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { AboutSection } from "@/components/landing/AboutSection";
 import { FeaturedVideoSection } from "@/components/landing/FeaturedVideoSection";
 import { PhilosophySection } from "@/components/landing/PhilosophySection";
 import { ServicesSection } from "@/components/landing/ServicesSection";
 import { PricingSection } from "@/components/landing/PricingSection";
 import { BloomSplash } from "@/components/cinematic/BloomSplash";
+import { BloomLogo } from "@/components/cinematic/BloomLogo";
 
 export default function BloomLanding() {
   const router = useRouter();
@@ -95,7 +96,7 @@ export default function BloomLanding() {
         <nav className="relative z-20 px-6 py-6">
           <div className="liquid-glass rounded-full max-w-5xl mx-auto px-6 py-3 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Globe size={24} className="text-white" />
+              <BloomLogo size={24} />
               <span className="text-white font-semibold text-lg tracking-tight">Bloom</span>
               <div className="hidden md:flex items-center gap-8 ml-8">
                 <button onClick={() => scrollTo('features')} className="text-white/80 hover:text-white text-sm font-medium transition-colors">Features</button>
@@ -166,6 +167,9 @@ export default function BloomLanding() {
       
       <footer className="bg-black py-20 border-t border-white/5 text-center">
          <div className="max-w-5xl mx-auto px-6">
+            <div className="flex justify-center mb-6">
+               <BloomLogo size={48} animate={false} />
+            </div>
             <div className="font-headline text-4xl italic text-white/10 mb-4">Bloom</div>
             <p className="text-[10px] text-white/10 uppercase tracking-[0.5em] italic">Neural Materialization © 2026</p>
          </div>

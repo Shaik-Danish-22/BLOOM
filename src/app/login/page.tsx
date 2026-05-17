@@ -2,12 +2,13 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Globe, ArrowRight, User, Lock, Shield, Brain } from "lucide-react";
+import { ArrowRight, User, Lock, Shield, Brain } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { InteractiveRobotSpline } from "@/components/ui/interactive-3d-robot";
 import { BackgroundEffects } from "@/components/cinematic/BackgroundEffects";
 import ShaderBackground from "@/components/ui/shader-background";
 import { GradientBackground } from "@/components/ui/paper-design-shader-background";
+import { BloomLogo } from "@/components/cinematic/BloomLogo";
 
 const SCISSOR_SCENE = "https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode";
 
@@ -23,9 +24,9 @@ export default function LoginPage() {
       <div className="absolute inset-0 -z-10 bg-black/40 backdrop-blur-[2px]" />
 
       <nav className="relative z-50 px-8 py-8 flex justify-between items-center">
-        <button onClick={() => router.push('/')} className="flex items-center gap-2 group">
-          <Globe size={24} className="text-white group-hover:rotate-180 transition-transform duration-1000" />
-          <span className="text-white font-semibold text-lg tracking-tight">Bloom</span>
+        <button onClick={() => router.push('/')} className="flex items-center gap-3 group">
+          <BloomLogo size={28} className="group-hover:rotate-180 transition-transform duration-1000" />
+          <span className="text-white font-semibold text-xl tracking-tight">Bloom</span>
         </button>
         <div className="flex items-center gap-8">
           <button className="text-white/20 hover:text-white text-[10px] font-bold uppercase tracking-widest transition-all">Documentation</button>

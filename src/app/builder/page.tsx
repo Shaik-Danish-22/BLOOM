@@ -11,19 +11,13 @@ import {
   Tablet, 
   Rocket, 
   ExternalLink,
-  Share2,
   Bot,
   Shield,
-  Code,
   TrendingUp,
   AlertTriangle,
-  Zap,
-  ChevronRight,
-  Info,
+  Layout,
   Target,
   Activity,
-  Layout,
-  MousePointer2,
   Brain
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -37,6 +31,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { OracleGauge } from "@/components/cinematic/OracleGauge";
+import { BloomLogo } from "@/components/cinematic/BloomLogo";
 
 const SCISSOR_SCENE = "https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode";
 
@@ -102,8 +97,11 @@ export default function BuilderPage() {
            <button onClick={() => router.push('/workspace')} className="p-2.5 rounded-xl hover:bg-white/5 text-white/40 hover:text-white transition-all group">
               <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
            </button>
-           <h3 className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">BLOOM STUDIO CORE</h3>
-           <div className="w-12 h-12 overflow-hidden relative rounded-xl bg-white/[0.03] border border-white/10">
+           <div className="flex items-center gap-2">
+              <BloomLogo size={20} animate={false} />
+              <h3 className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">BLOOM STUDIO CORE</h3>
+           </div>
+           <div className="w-10 h-10 overflow-hidden relative rounded-xl bg-white/[0.03] border border-white/10">
               <div className="absolute inset-0 h-[140%] w-full">
                 <InteractiveRobotSpline 
                   scene={SCISSOR_SCENE} 
