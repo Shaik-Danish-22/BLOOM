@@ -60,12 +60,15 @@ const orchestrateStartupPrompt = ai.definePrompt({
   
   CRITICAL CONSTRAINTS:
   1. NO HALLUCINATIONS. Strictly adhere to the vision intent. 
-  2. BRAND SENSORY: If the idea is "Coffee", you MUST use sensory language (aroma, roast, brew, espresso) and editorial tones.
+  2. BRAND SENSORY: If the idea is "Coffee", you MUST use sensory language (aroma, roast, brew, espresso, steam, ceramic, parchment) and editorial tones.
   3. THEME ALIGNMENT: 
-     - If it's a coffee shop: Use warm neutrals, espresso browns, and cream tones.
+     - If it's a coffee shop: Use warm neutrals, espresso browns (#3C2A21), and cream tones.
      - If it's AI/Tech: Use obsidians, electric blues, and glassmorphism.
   4. ANTI-SLOP: Ensure the "content" sections (hero, problem, features) are structured for high-end hierarchy. No generic AI filler.
-  5. Generate exactly one high-fidelity "hero", "problem", and "features" section.
+  5. Content Quality: The "title" and "subtitle" fields must be world-class marketing copy. 
+  6. Generate exactly one high-fidelity "hero", "problem", and "features" section. 
+  
+  For the "features" section, provide 4-6 highly specific, content-rich items that reflect the startup's unique technological or sensory value proposition.
   
   The "rationale" should read like a visionary founder's manifesto.
   The "marketAnalysis" should be a 20+ year multi-billion dollar shark assessment.`
