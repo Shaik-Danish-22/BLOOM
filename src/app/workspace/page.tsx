@@ -9,7 +9,11 @@ import {
   ArrowRight, 
   Zap, 
   Wand2,
-  Target
+  Target,
+  Shield,
+  Brain,
+  Rocket,
+  Search
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -21,16 +25,23 @@ import { Card } from "@/components/ui/card";
 import { InteractiveRobotSpline } from "@/components/ui/interactive-3d-robot";
 import { GradientBackground } from "@/components/ui/paper-design-shader-background";
 import { BloomLogo } from "@/components/cinematic/BloomLogo";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
-type Step = 'prompt' | 'enhancing' | 'refine';
+type Step = 'prompt' | 'enhancing' | 'choice' | 'refine';
 
 const SCISSOR_SCENE = "https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode";
 
 const DEFAULT_SUGGESTIONS = [
-  "Inject luxury serif hierarchy.",
-  "Optimize for mobile-first bento.",
-  "Adopt brutalist neural aesthetic.",
-  "Implement cinematic motion dna."
+  "Luxury AI coffee experience for developers.",
+  "Neural highway for global logistics.",
+  "Brutalist fintech for the creator economy.",
+  "Cinematic wellness platform for burnout."
 ];
 
 export default function WorkspacePage() {
@@ -40,21 +51,15 @@ export default function WorkspacePage() {
   const [enhancedData, setEnhancedData] = useState<any>(null);
   const [currentTalk, setCurrentTalk] = useState("Neural link active. Systems ready.");
   const [suggestions, setSuggestions] = useState(DEFAULT_SUGGESTIONS);
+  const [showChoice, setShowChoice] = useState(false);
 
   useEffect(() => {
     if (prompt.length > 50) {
       setCurrentTalk("Analyzing high-density intent. Complex vision detected.");
-      setSuggestions([
-        "Refine monetization strategy.",
-        "Deepen neural brand rationale.",
-        "Assess enterprise scalability.",
-        "Generate risk-adjusted verdict."
-      ]);
     } else if (prompt.length > 0) {
       setCurrentTalk("Nodes scanning vision. Neural link establishing...");
     } else {
       setCurrentTalk("Neural link ready. Awaiting strategic injection.");
-      setSuggestions(DEFAULT_SUGGESTIONS);
     }
   }, [prompt]);
 
@@ -64,24 +69,29 @@ export default function WorkspacePage() {
     try {
       const data = await enhancePrompt({ rawPrompt: prompt });
       setEnhancedData(data);
-      setTimeout(() => setStep('refine'), 2000);
+      setStep('choice');
+      setShowChoice(true);
     } catch (e) {
       console.error("Enhance failed", e);
       setStep('prompt');
     }
   };
 
-  const handleMaterializeClick = () => {
-    const sessionContext = { prompt, enhancedData };
+  const startOrchestration = (path: 'research' | 'design') => {
+    const sessionContext = { 
+      prompt: enhancedData?.professionalBrief || prompt, 
+      enhancedData,
+      selectedPath: path 
+    };
     localStorage.setItem("materialization_context", JSON.stringify(sessionContext));
     router.push('/generate');
   };
 
   return (
-    <div className="relative min-h-screen text-white selection:bg-white/20 overflow-hidden font-body bg-transparent">
+    <div className="relative min-h-screen text-white selection:bg-[#DCFF00]/30 overflow-hidden font-body bg-black">
       <BackgroundEffects />
       <GradientBackground />
-      <div className="absolute inset-0 -z-10 bg-black/40" />
+      <div className="absolute inset-0 -z-10 bg-black/60" />
 
       <nav className="fixed top-0 left-0 right-0 z-50 p-6 flex justify-between items-center backdrop-blur-md border-b border-white/5 bg-black/40">
         <div className="flex items-center gap-3">
@@ -100,7 +110,7 @@ export default function WorkspacePage() {
 
       <main className="pt-24 px-6 max-w-7xl mx-auto h-[calc(100vh-80px)] overflow-y-auto no-scrollbar pb-20">
         <AnimatePresence mode="wait">
-          {step === 'prompt' && (
+          {(step === 'prompt' || step === 'choice' || step === 'refine') && (
             <motion.div 
               key="prompt"
               initial={{ opacity: 0, scale: 0.98 }}
@@ -151,7 +161,7 @@ export default function WorkspacePage() {
                 </div>
 
                 <div className="mt-8 flex items-center justify-between pl-4">
-                  <div className="flex gap-3">
+                  <div className="flex flex-wrap gap-3">
                     {suggestions.map((s, i) => (
                       <button 
                         key={i}
@@ -168,7 +178,7 @@ export default function WorkspacePage() {
                     className="liquid-glass-strong bg-white text-black hover:bg-[#DCFF00] transition-colors rounded-full px-12 h-16 flex items-center gap-4 font-bold uppercase tracking-widest shadow-2xl active:scale-95 group"
                   >
                     <Wand2 size={20} className="group-hover:rotate-12 transition-transform" /> 
-                    {step === 'enhancing' ? 'Analyzing' : 'Neural Enhance'}
+                    Establish Neural Link
                   </Button>
                 </div>
               </div>
@@ -185,68 +195,65 @@ export default function WorkspacePage() {
               <div className="mb-10">
                 <BloomLogo size={120} />
               </div>
-              <h3 className="text-5xl font-headline italic text-white mb-4 tracking-tighter animate-pulse">Establishing DNA...</h3>
-              <p className="text-[#DCFF00] uppercase tracking-[0.6em] text-[11px] font-bold">Bloom Engine Online</p>
-            </motion.div>
-          )}
-
-          {step === 'refine' && (
-            <motion.div 
-              key="refine"
-              initial={{ opacity: 0, x: 10 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="py-8"
-            >
-              <header className="mb-12 flex justify-between items-end">
-                <div className="space-y-4">
-                  <Badge className="liquid-glass text-[#DCFF00] border-none px-6 py-2 rounded-full text-[10px] tracking-widest uppercase font-bold">Neural Identity</Badge>
-                  <h2 className="text-5xl md:text-7xl font-headline italic tracking-tighter leading-none">The Strategy Core.</h2>
-                </div>
-                <div className="flex gap-4">
-                  <Button variant="ghost" onClick={() => setStep('prompt')} className="liquid-glass h-14 px-8 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-white/40 hover:text-white">Retry Link</Button>
-                  <Button onClick={handleMaterializeClick} className="liquid-glass-strong bg-[#DCFF00] text-black rounded-full px-12 h-14 font-bold uppercase tracking-widest shadow-2xl">
-                    Materialize <ArrowRight size={20} className="ml-3" />
-                  </Button>
-                </div>
-              </header>
-
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <Card className="lg:col-span-2 liquid-glass-strong bg-white/[0.01] p-10 lg:p-14 rounded-[2.5rem] border-white/5 relative group">
-                   <h4 className="text-[10px] uppercase tracking-widest font-bold text-white/20 mb-8 flex items-center gap-3">
-                      <Target size={16} /> Strategic Brief
-                   </h4>
-                   <Textarea 
-                     value={enhancedData?.professionalBrief}
-                     onChange={(e) => setEnhancedData({...enhancedData, professionalBrief: e.target.value})}
-                     className="bg-transparent border-none p-0 text-2xl lg:text-3xl leading-tight font-headline italic text-white/80 resize-none min-h-[380px] focus-visible:ring-0 no-scrollbar"
-                   />
-                </Card>
-
-                <div className="space-y-8">
-                   <Card className="liquid-glass-strong bg-white/[0.01] p-10 rounded-[2.5rem] border-white/5">
-                      <h4 className="text-[10px] uppercase tracking-widest font-bold text-white/20 mb-10 flex items-center gap-3">
-                        <Palette size={16} /> Design DNA
-                      </h4>
-                      <div className="space-y-8">
-                         <div>
-                            <p className="text-[10px] uppercase tracking-widest text-white/10 mb-2 font-bold">Mood</p>
-                            <p className="text-xl font-headline italic text-white/90">{enhancedData?.designDNA?.mood}</p>
-                         </div>
-                         <div>
-                            <p className="text-[10px] uppercase tracking-widest text-white/10 mb-2 font-bold">Motion</p>
-                            <p className="text-xl font-headline italic text-white/90">{enhancedData?.designDNA?.motionPhilosophy}</p>
-                         </div>
-                         <div>
-                            <p className="text-[10px] uppercase tracking-widest text-white/10 mb-2 font-bold">Sophistication</p>
-                            <p className="text-xl font-headline italic text-[#DCFF00] uppercase">{enhancedData?.sophisticationLevel}</p>
-                         </div>
-                      </div>
-                   </Card>
-                </div>
-              </div>
+              <h3 className="text-5xl font-headline italic text-white mb-4 tracking-tighter animate-pulse">Extracting Design DNA...</h3>
+              <p className="text-[#DCFF00] uppercase tracking-[0.6em] text-[11px] font-bold">FounderOS Intelligence Core Active</p>
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* ORCHESTRATION CHOICE DIALOG */}
+        <Dialog open={showChoice} onOpenChange={setShowChoice}>
+          <DialogContent className="max-w-4xl bg-black/95 border-white/10 backdrop-blur-3xl p-0 overflow-hidden rounded-[3rem]">
+            <div className="grid grid-cols-1 md:grid-cols-2">
+              <div className="p-12 space-y-8 border-r border-white/5">
+                <div className="space-y-4">
+                   <div className="w-12 h-12 rounded-2xl bg-[#DCFF00]/10 flex items-center justify-center">
+                      <Search className="text-[#DCFF00]" size={24} />
+                   </div>
+                   <h3 className="text-4xl font-headline italic">Research & Insight</h3>
+                   <p className="text-white/40 text-lg leading-relaxed font-light italic">
+                      Evaluate your vision through a multi-billion dollar shark lens. Analyze market performance, risks, and viability before building.
+                   </p>
+                </div>
+                <div className="space-y-4">
+                   <div className="flex items-center gap-3 text-[#DCFF00]/40 text-[10px] font-bold uppercase tracking-widest">
+                      <Shield size={14} /> FounderOS Intelligence Node
+                   </div>
+                   <Button onClick={() => startOrchestration('research')} className="w-full h-16 rounded-2xl bg-white text-black font-bold uppercase tracking-widest hover:bg-[#DCFF00] transition-all group">
+                      Initialize Research <ArrowRight className="ml-3 group-hover:translate-x-2 transition-transform" />
+                   </Button>
+                </div>
+              </div>
+
+              <div className="p-12 space-y-8 bg-[#DCFF00]/5">
+                <div className="space-y-4">
+                   <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center">
+                      <Palette className="text-white" size={24} />
+                   </div>
+                   <h3 className="text-4xl font-headline italic">Design & Build</h3>
+                   <p className="text-white/40 text-lg leading-relaxed font-light italic">
+                      Materialize your vision into a premium, interactive startup experience. Strictly derived from neural Design DNA.
+                   </p>
+                </div>
+                <div className="space-y-4">
+                   <div className="flex items-center gap-3 text-white/20 text-[10px] font-bold uppercase tracking-widest">
+                      <Zap size={14} /> Anti-Slop Validation Layer
+                   </div>
+                   <Button onClick={() => startOrchestration('design')} className="w-full h-16 rounded-2xl bg-white/10 border border-white/10 text-white font-bold uppercase tracking-widest hover:bg-white/20 transition-all group">
+                      Materialize Experience <ArrowRight className="ml-3 group-hover:translate-x-2 transition-transform" />
+                   </Button>
+                </div>
+              </div>
+            </div>
+            <div className="p-6 bg-black border-t border-white/5 flex items-center justify-between">
+               <div className="flex items-center gap-3">
+                  <Brain size={14} className="text-[#DCFF00]" />
+                  <span className="text-[9px] uppercase tracking-widest font-bold text-white/30 italic">Neural Brief Enhanced: "{enhancedData?.suggestedName}"</span>
+               </div>
+               <button onClick={() => setShowChoice(false)} className="text-[9px] uppercase tracking-widest font-bold text-white/20 hover:text-white transition-colors">Abort Orchestration</button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </main>
     </div>
   );
