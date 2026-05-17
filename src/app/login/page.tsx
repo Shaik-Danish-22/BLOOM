@@ -8,8 +8,10 @@ import { BackgroundEffects } from "@/components/cinematic/BackgroundEffects";
 import { GradientBackground } from "@/components/ui/paper-design-shader-background";
 import { BackgroundPaths } from "@/components/ui/background-paths";
 import { BloomLogo } from "@/components/cinematic/BloomLogo";
+import { InteractiveRobotSpline } from "@/components/ui/interactive-3d-robot";
 
 const VIDEO_URL = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_083109_283f3553-e28f-428b-a723-d639c617eb2b.mp4";
+const SCISSOR_SCENE = "https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -24,7 +26,6 @@ export default function LoginPage() {
     const handleLoop = () => {
       if (video.duration) {
         const remaining = video.duration - video.currentTime;
-        // Smooth 0.5s fade in and fade out
         if (video.currentTime < 0.5) {
           setVideoOpacity(video.currentTime / 0.5);
         } else if (remaining < 0.5) {
@@ -76,8 +77,8 @@ export default function LoginPage() {
         <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
       </div>
 
-      {/* NEURAL PATHS OVERLAY - Higher Visibility */}
-      <div className="absolute inset-0 z-10 opacity-70 mix-blend-screen">
+      {/* NEURAL PATHS OVERLAY - Full Immersion */}
+      <div className="absolute inset-0 z-10 pointer-events-none">
         <BackgroundPaths />
       </div>
 
@@ -109,16 +110,18 @@ export default function LoginPage() {
             <div className="aspect-[4/5] relative w-full overflow-hidden rounded-[5rem] bg-white/[0.02] border border-white/10 backdrop-blur-3xl group shadow-[0_50px_100px_rgba(0,0,0,0.6)]">
                <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
                   <div className="w-full h-full bg-gradient-to-br from-[#DCFF00]/10 to-transparent opacity-20" />
-                  <Brain size={240} className="text-[#DCFF00] opacity-5 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+                  <div className="absolute inset-0 flex items-center justify-center scale-[1.6] translate-y-20">
+                    <InteractiveRobotSpline scene={SCISSOR_SCENE} />
+                  </div>
                </div>
                <div className="absolute bottom-16 left-12 right-12 p-12 bg-black/80 backdrop-blur-3xl rounded-[3rem] border border-white/10 shadow-2xl">
                   <div className="flex items-center gap-4 mb-6">
                     <div className="w-12 h-12 rounded-2xl bg-[#DCFF00]/10 flex items-center justify-center border border-[#DCFF00]/20">
                        <Brain size={24} className="text-[#DCFF00] drop-shadow-[0_0_10px_rgba(220,255,0,0.5)]" />
                     </div>
-                    <h3 className="text-3xl font-headline italic">Neural Link v4.2</h3>
+                    <h3 className="text-3xl font-headline italic text-white/95">Scissor_Node Active</h3>
                   </div>
-                  <p className="text-lg text-white/90 leading-relaxed font-light italic">
+                  <p className="text-lg text-white/80 leading-relaxed font-light italic">
                     Re-establishing secure connection to FounderOS Intelligence. Your strategic materializations are ready for orchestration.
                   </p>
                </div>

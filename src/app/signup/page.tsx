@@ -8,8 +8,10 @@ import { BackgroundEffects } from "@/components/cinematic/BackgroundEffects";
 import { GradientBackground } from "@/components/ui/paper-design-shader-background";
 import { BackgroundPaths } from "@/components/ui/background-paths";
 import { BloomLogo } from "@/components/cinematic/BloomLogo";
+import { InteractiveRobotSpline } from "@/components/ui/interactive-3d-robot";
 
 const VIDEO_URL = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_083109_283f3553-e28f-428b-a723-d639c617eb2b.mp4";
+const SCISSOR_SCENE = "https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -76,7 +78,7 @@ export default function SignupPage() {
       </div>
 
       {/* NEURAL PATHS OVERLAY */}
-      <div className="absolute inset-0 z-10 opacity-40">
+      <div className="absolute inset-0 z-10 pointer-events-none">
         <BackgroundPaths />
       </div>
 
@@ -105,16 +107,18 @@ export default function SignupPage() {
             <div className="aspect-[4/5] relative w-full overflow-hidden rounded-[5rem] bg-white/[0.02] border border-white/10 backdrop-blur-3xl group shadow-[0_50px_100px_rgba(0,0,0,0.6)]">
                <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
                   <div className="w-full h-full bg-gradient-to-br from-[#DCFF00]/10 to-transparent opacity-20" />
-                  <Target size={240} className="text-[#DCFF00] opacity-5 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+                  <div className="absolute inset-0 flex items-center justify-center scale-[1.6] translate-y-20">
+                    <InteractiveRobotSpline scene={SCISSOR_SCENE} />
+                  </div>
                </div>
                <div className="absolute top-16 left-12 right-12 p-12 bg-black/60 backdrop-blur-3xl rounded-[3rem] border border-white/10 shadow-2xl">
                   <div className="flex items-center gap-4 mb-6">
                     <div className="w-12 h-12 rounded-2xl bg-[#DCFF00]/10 flex items-center justify-center border border-[#DCFF00]/20">
                        <Target size={24} className="text-[#DCFF00] drop-shadow-[0_0_10px_rgba(220,255,0,0.5)]" />
                     </div>
-                    <h3 className="text-3xl font-headline italic">Strategic Identity</h3>
+                    <h3 className="text-3xl font-headline italic text-white/95">Strategic Identity</h3>
                   </div>
-                  <p className="text-lg text-white/70 leading-relaxed font-light italic">
+                  <p className="text-lg text-white/80 leading-relaxed font-light italic">
                     Initializing your Bloom Persona. This identity governs your Design DNA extractions and FounderOS strategic verdicts.
                   </p>
                </div>
@@ -134,7 +138,7 @@ export default function SignupPage() {
                 </span>
                 <div className="h-px flex-1 bg-white/10" />
               </div>
-              <h1 className="text-7xl lg:text-9xl font-headline italic tracking-tighter leading-[0.85] text-glow drop-shadow-2xl">
+              <h1 className="text-7xl lg:text-9xl font-headline italic tracking-tighter leading-[0.85] text-glow drop-shadow-2xl text-white">
                 Claim your <br />
                 <em className="italic text-white/30 not-italic">Bloom Identity.</em>
               </h1>
