@@ -112,11 +112,21 @@ export default function BuilderPage() {
     setChatInput("");
     setIsSyncing(true);
 
+    // Simulate AI Refinement of the actual materialization
     setTimeout(() => {
+      const lowerInput = userMsg.content.toLowerCase();
+      let feedback = `Vision refined. Intent "${userMsg.content}" injected into the design DNA. Recalculating neural tokens...`;
+      
+      if (lowerInput.includes('background') || lowerInput.includes('color')) {
+        feedback = "Neural palette updated. Recalculating atmospheric gradients and surface tokens...";
+      } else if (lowerInput.includes('font') || lowerInput.includes('text') || lowerInput.includes('typography')) {
+        feedback = "Typographic hierarchy re-tokenized. Adjusting weight-300 contrast and tracking...";
+      }
+
       const assistantMsg: Message = { 
         id: (Date.now() + 1).toString(), 
         role: 'assistant', 
-        content: `Vision refined. Intent "${userMsg.content}" injected into the design DNA. Recalculating neural tokens...`, 
+        content: feedback, 
         timestamp: new Date() 
       };
       setMessages(prev => [...prev, assistantMsg]);
@@ -148,7 +158,7 @@ export default function BuilderPage() {
       <GradientBackground />
       <div className="absolute inset-0 -z-10 bg-black/40" />
 
-      {/* LEFT SIDEBAR - Viewport Fixed */}
+      {/* LEFT SIDEBAR - Viewport Locked */}
       <aside className="w-[420px] h-full border-r border-white/10 bg-black/95 backdrop-blur-3xl flex flex-col z-30 relative shadow-2xl shrink-0">
         <header className="p-8 border-b border-white/5 flex items-center justify-between shrink-0">
            <div className="flex items-center gap-4">
@@ -182,114 +192,116 @@ export default function BuilderPage() {
            ))}
         </div>
 
-        <ScrollArea className="flex-1">
-           <div className="p-8 space-y-10 pb-12">
-              {activeTab === 'chat' && (
-                <div className="space-y-6 animate-in fade-in slide-in-from-left-4 duration-500">
-                  <div className="flex items-center gap-3 text-[#DCFF00]">
-                    <Sparkles size={18} />
-                    <span className="text-[11px] font-bold uppercase tracking-widest">Neural Refinement</span>
+        <div className="flex-1 overflow-hidden relative">
+          <ScrollArea className="h-full">
+            <div className="p-8 space-y-10 pb-12">
+                {activeTab === 'chat' && (
+                  <div className="space-y-6 animate-in fade-in slide-in-from-left-4 duration-500">
+                    <div className="flex items-center gap-3 text-[#DCFF00]">
+                      <Sparkles size={18} />
+                      <span className="text-[11px] font-bold uppercase tracking-widest">Neural Refinement</span>
+                    </div>
+                    <div className="space-y-6">
+                      {messages.map((msg) => (
+                        <div key={msg.id} className={cn("flex gap-4 w-full", msg.role === 'user' ? "flex-row-reverse" : "flex-row")}>
+                          <div className={cn("w-8 h-8 rounded-full flex items-center justify-center shrink-0", msg.role === 'assistant' ? "bg-[#DCFF00]/20 text-[#DCFF00]" : "bg-white/10 text-white")}>
+                            {msg.role === 'assistant' ? <Bot size={14} /> : <User size={14} />}
+                          </div>
+                          <div className={cn(
+                            "p-5 rounded-2xl text-[13px] leading-relaxed break-words max-w-[85%]", 
+                            msg.role === 'assistant' ? "bg-white/[0.04] border border-white/5 text-white/80 text-left" : "bg-[#DCFF00] text-black font-bold shadow-xl text-right"
+                          )}>
+                            {msg.content}
+                          </div>
+                        </div>
+                      ))}
+                      <div ref={scrollRef} />
+                    </div>
                   </div>
-                  <div className="space-y-6">
-                    {messages.map((msg) => (
-                      <div key={msg.id} className={cn("flex gap-4 w-full", msg.role === 'user' ? "flex-row-reverse" : "flex-row")}>
-                         <div className={cn("w-8 h-8 rounded-full flex items-center justify-center shrink-0", msg.role === 'assistant' ? "bg-[#DCFF00]/20 text-[#DCFF00]" : "bg-white/10 text-white")}>
-                           {msg.role === 'assistant' ? <Bot size={14} /> : <User size={14} />}
-                         </div>
-                         <div className={cn(
-                           "p-5 rounded-2xl text-[13px] leading-relaxed break-words max-w-[85%]", 
-                           msg.role === 'assistant' ? "bg-white/[0.04] border border-white/5 text-white/80 text-left" : "bg-[#DCFF00] text-black font-bold shadow-xl text-right"
-                         )}>
-                           {msg.content}
-                         </div>
-                      </div>
-                    ))}
-                    <div ref={scrollRef} />
+                )}
+
+                {activeTab === 'registry' && (
+                  <div className="space-y-10 animate-in fade-in slide-in-from-left-4 duration-500">
+                    <div className="space-y-5">
+                        <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-widest text-white/30">
+                          <span>Neural Design Systems</span>
+                          <Palette size={16} />
+                        </div>
+                        <div className="grid grid-cols-1 gap-4">
+                          {Object.values(DESIGN_SYSTEMS).map((sys) => (
+                            <button 
+                              key={sys.id}
+                              onClick={() => handleUpdateSystem(sys.id)}
+                              className={cn(
+                                "p-5 rounded-2xl border text-left transition-all group relative overflow-hidden",
+                                context?.selectedSystem === sys.id 
+                                ? "bg-[#DCFF00]/10 border-[#DCFF00]/40 shadow-2xl" 
+                                : "bg-white/[0.03] border-white/5 hover:border-white/10"
+                              )}
+                            >
+                                <h4 className={cn("text-[12px] font-bold uppercase tracking-widest mb-1.5", context?.selectedSystem === sys.id ? "text-[#DCFF00]" : "text-white/70")}>{sys.name}</h4>
+                                <p className="text-[10px] text-white/40 italic line-clamp-1">{sys.inspiration}</p>
+                            </button>
+                          ))}
+                        </div>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {activeTab === 'registry' && (
-                <div className="space-y-10 animate-in fade-in slide-in-from-left-4 duration-500">
-                   <div className="space-y-5">
-                      <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-widest text-white/30">
-                         <span>Neural Design Systems</span>
-                         <Palette size={16} />
-                      </div>
-                      <div className="grid grid-cols-1 gap-4">
-                         {Object.values(DESIGN_SYSTEMS).map((sys) => (
-                           <button 
-                             key={sys.id}
-                             onClick={() => handleUpdateSystem(sys.id)}
-                             className={cn(
-                               "p-5 rounded-2xl border text-left transition-all group relative overflow-hidden",
-                               context?.selectedSystem === sys.id 
-                               ? "bg-[#DCFF00]/10 border-[#DCFF00]/40 shadow-2xl" 
-                               : "bg-white/[0.03] border-white/5 hover:border-white/10"
-                             )}
-                           >
-                              <h4 className={cn("text-[12px] font-bold uppercase tracking-widest mb-1.5", context?.selectedSystem === sys.id ? "text-[#DCFF00]" : "text-white/70")}>{sys.name}</h4>
-                              <p className="text-[10px] text-white/40 italic line-clamp-1">{sys.inspiration}</p>
-                           </button>
-                         ))}
-                      </div>
-                   </div>
-                </div>
-              )}
+                {activeTab === 'dna' && (
+                  <div className="space-y-10 animate-in fade-in slide-in-from-left-4 duration-500">
+                    <div className="p-8 rounded-[2.5rem] bg-gradient-to-br from-[#DCFF00]/10 to-transparent border border-[#DCFF00]/20 space-y-8 shadow-2xl relative overflow-hidden">
+                        <div className="absolute top-0 right-0 p-6 opacity-10">
+                          <Activity size={80} />
+                        </div>
+                        <div className="flex items-center gap-4 text-[#DCFF00]">
+                          <Activity size={24} />
+                          <span className="text-[12px] font-bold uppercase tracking-[0.4em]">Neural Profile</span>
+                        </div>
+                        <div className="space-y-8 relative z-10 text-left">
+                          {[
+                            { label: "Startup Archetype", value: context?.enhancedData?.startupArchetype },
+                            { label: "Audience Psychology", value: context?.enhancedData?.audiencePsychology },
+                            { label: "Brand Personality", value: context?.enhancedData?.brandPersonality },
+                            { label: "Sophistication", value: context?.enhancedData?.sophisticationLevel }
+                          ].map((item, i) => (
+                            <div key={i} className="space-y-2">
+                                <span className="text-[10px] text-white/30 uppercase tracking-widest block font-bold">{item.label}</span>
+                                <p className="text-[14px] text-white/90 italic leading-relaxed font-medium">{item.value || "Analyzing..."}</p>
+                            </div>
+                          ))}
+                        </div>
+                    </div>
+                  </div>
+                )}
 
-              {activeTab === 'dna' && (
-                <div className="space-y-10 animate-in fade-in slide-in-from-left-4 duration-500">
-                   <div className="p-8 rounded-[2.5rem] bg-gradient-to-br from-[#DCFF00]/10 to-transparent border border-[#DCFF00]/20 space-y-8 shadow-2xl relative overflow-hidden">
-                      <div className="absolute top-0 right-0 p-6 opacity-10">
-                        <Activity size={80} />
-                      </div>
-                      <div className="flex items-center gap-4 text-[#DCFF00]">
-                         <Activity size={24} />
-                         <span className="text-[12px] font-bold uppercase tracking-[0.4em]">Neural Profile</span>
-                      </div>
-                      <div className="space-y-8 relative z-10 text-left">
-                         {[
-                           { label: "Startup Archetype", value: context?.enhancedData?.startupArchetype },
-                           { label: "Audience Psychology", value: context?.enhancedData?.audiencePsychology },
-                           { label: "Brand Personality", value: context?.enhancedData?.brandPersonality },
-                           { label: "Sophistication", value: context?.enhancedData?.sophisticationLevel }
-                         ].map((item, i) => (
-                           <div key={i} className="space-y-2">
-                              <span className="text-[10px] text-white/30 uppercase tracking-widest block font-bold">{item.label}</span>
-                              <p className="text-[14px] text-white/90 italic leading-relaxed font-medium">{item.value || "Analyzing..."}</p>
-                           </div>
-                         ))}
-                      </div>
-                   </div>
-                </div>
-              )}
-
-              {activeTab === 'preview' && (
-                <div className="space-y-10 animate-in fade-in slide-in-from-left-4 duration-500">
-                   <div className="space-y-5">
-                      <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-widest text-white/30">
-                         <span>Experience States</span>
-                         <Rocket size={18} />
-                      </div>
-                      <div className="space-y-3">
-                        {['Default State', 'Scroll Reveal', 'Hover Interactions'].map((state, i) => (
-                           <button 
-                             key={state}
-                             className={cn(
-                               "w-full flex items-center justify-between p-4 rounded-xl border transition-all text-left group",
-                               i === 0 ? "bg-white/10 border-white/30 text-white shadow-xl" : "bg-white/[0.03] border-white/5 text-white/40 hover:bg-white/10 hover:border-white/20"
-                             )}
-                           >
-                             <span className="text-[12px] font-bold uppercase tracking-widest">{state}</span>
-                             {i === 0 && <CheckCircle2 size={14} className="text-[#DCFF00]" />}
-                           </button>
-                        ))}
-                      </div>
-                   </div>
-                </div>
-              )}
-           </div>
-        </ScrollArea>
+                {activeTab === 'preview' && (
+                  <div className="space-y-10 animate-in fade-in slide-in-from-left-4 duration-500">
+                    <div className="space-y-5">
+                        <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-widest text-white/30">
+                          <span>Experience States</span>
+                          <Rocket size={18} />
+                        </div>
+                        <div className="space-y-3">
+                          {['Default State', 'Scroll Reveal', 'Hover Interactions'].map((state, i) => (
+                            <button 
+                              key={state}
+                              className={cn(
+                                "w-full flex items-center justify-between p-4 rounded-xl border transition-all text-left group",
+                                i === 0 ? "bg-white/10 border-white/30 text-white shadow-xl" : "bg-white/[0.03] border-white/5 text-white/40 hover:bg-white/10 hover:border-white/20"
+                              )}
+                            >
+                              <span className="text-[12px] font-bold uppercase tracking-widest">{state}</span>
+                              {i === 0 && <CheckCircle2 size={14} className="text-[#DCFF00]" />}
+                            </button>
+                          ))}
+                        </div>
+                    </div>
+                  </div>
+                )}
+            </div>
+          </ScrollArea>
+        </div>
 
         <div className="p-8 border-t border-white/10 bg-black/60 shadow-2xl shrink-0">
            <div className="relative group">
@@ -311,7 +323,7 @@ export default function BuilderPage() {
         </div>
       </aside>
 
-      {/* MAIN VIEWPORT - Absolute 100vh Fix */}
+      {/* MAIN VIEWPORT - Absolute 100vh Universal Fit */}
       <main className="flex-1 flex flex-col z-20 p-8 overflow-hidden relative min-w-0 h-screen">
          <header className="flex items-center justify-between mb-8 shrink-0">
             <div className="flex items-center gap-3 bg-black/80 backdrop-blur-3xl p-1.5 rounded-2xl border border-white/10 shadow-2xl">
@@ -367,7 +379,7 @@ export default function BuilderPage() {
             </div>
          </header>
 
-         {/* Container fitting the 100vh window */}
+         {/* Container fitting the 100vh window exactly */}
          <div className="flex-1 flex items-center justify-center bg-white/[0.02] rounded-[3.5rem] border border-white/5 p-4 overflow-hidden backdrop-blur-md relative shadow-inner">
             <div className="absolute inset-0 pointer-events-none border-[12px] border-black/30 rounded-[3.5rem] z-20" />
             

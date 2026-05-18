@@ -12,7 +12,9 @@ import {
   MousePointer2,
   Activity,
   Target,
-  Sparkles
+  Sparkles,
+  Info,
+  ChevronRight
 } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -125,112 +127,141 @@ export function MaterializingWebsite({ isVisible, data, context }: Materializing
          <Button className="rounded-full px-6 h-10 text-[9px] font-bold uppercase tracking-[0.2em] transition-all active:scale-95" style={{ backgroundColor: system.tokens.accent, color: system.tokens.accentOn, borderRadius: system.tokens.radiusPill }}>Initialize</Button>
       </nav>
 
-      <ScrollArea className="flex-1">
-        <main className="pb-40">
-          <AnimatePresence mode="wait">
-            {activePage === 'home' && (
-              <motion.div key="home" variants={containerVariants} initial="hidden" animate="visible" className="space-y-0">
-                {/* Hero Section - Magazine Grade */}
-                <section className="px-6 py-32 lg:py-56 text-center relative flex flex-col items-center justify-center min-h-[90vh]">
-                   <div className="space-y-12 relative z-10 max-w-7xl">
-                      <motion.div variants={itemVariants} className="flex items-center justify-center gap-4 mb-4">
-                         <div className="w-12 h-px bg-[#DCFF00]/40" />
-                         <span className="text-[11px] font-bold uppercase tracking-[0.8em]" style={{ color: system.tokens.accent }}>{startupData.brand?.companyName} Protocol</span>
-                         <div className="w-12 h-px bg-[#DCFF00]/40" />
-                      </motion.div>
-                      <motion.h2 variants={itemVariants} className="text-7xl md:text-9xl lg:text-[11rem] italic leading-[0.8] tracking-tighter font-headline text-glow" style={{ fontWeight: 300 }}>
-                        {heroSection?.title || "Vision Materialized."}
-                      </motion.h2>
-                      <motion.p variants={itemVariants} className="text-xl md:text-3xl lg:text-4xl max-w-4xl mx-auto font-light leading-relaxed italic opacity-80" style={{ color: mutedColor }}>
-                        {heroSection?.subtitle || startupData.brand?.tagline}
-                      </motion.p>
-                      <motion.div variants={itemVariants} className="pt-16">
-                         <Button className="h-24 px-20 rounded-full text-sm font-bold uppercase tracking-[0.5em] shadow-2xl transition-all hover:scale-105 active:scale-95 group" style={{ backgroundColor: system.tokens.accent, color: system.tokens.accentOn }}>
-                            {heroSection?.ctaLabel || "Get Started"} <ArrowRight className="ml-4 group-hover:translate-x-2 transition-transform" />
-                         </Button>
-                      </motion.div>
-                   </div>
-                   
-                   {/* Background Decor */}
-                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 w-full max-w-[1200px] aspect-square bg-[#DCFF00]/5 blur-[200px] rounded-full opacity-40 animate-pulse" />
-                </section>
-
-                {/* Game Section (Sudoku / Tic Tac Toe) */}
-                {gameSection && (
-                  <section className="py-40 flex flex-col items-center bg-white/[0.02] backdrop-blur-3xl my-32 rounded-[5rem] mx-10 border border-white/5 shadow-2xl">
-                    <div className="max-w-4xl w-full text-center space-y-10 mb-24">
-                       <span className="text-[11px] uppercase tracking-[1.5em] font-bold opacity-40 block" style={{ color: system.tokens.accent }}>Interactive Neural Node</span>
-                       <h3 className="text-5xl md:text-8xl font-headline italic tracking-tighter">{gameSection.title}</h3>
-                       <p className="text-xl opacity-60 italic max-w-2xl mx-auto leading-relaxed">{gameSection.subtitle}</p>
+      <div className="flex-1 overflow-hidden relative">
+        <ScrollArea className="h-full">
+          <main className="pb-40">
+            <AnimatePresence mode="wait">
+              {activePage === 'home' && (
+                <motion.div key="home" variants={containerVariants} initial="hidden" animate="visible" className="space-y-0">
+                  {/* Hero Section - Magazine Grade */}
+                  <section className="px-6 py-32 lg:py-56 text-center relative flex flex-col items-center justify-center min-h-[90vh]">
+                    <div className="space-y-12 relative z-10 max-w-7xl">
+                        <motion.div variants={itemVariants} className="flex items-center justify-center gap-4 mb-4">
+                          <div className="w-12 h-px bg-[#DCFF00]/40" />
+                          <span className="text-[11px] font-bold uppercase tracking-[0.8em]" style={{ color: system.tokens.accent }}>{startupData.brand?.companyName} Protocol</span>
+                          <div className="w-12 h-px bg-[#DCFF00]/40" />
+                        </motion.div>
+                        <motion.h2 variants={itemVariants} className="text-7xl md:text-9xl lg:text-[11rem] italic leading-[0.8] tracking-tighter font-headline text-glow" style={{ fontWeight: 300 }}>
+                          {heroSection?.title || "Vision Materialized."}
+                        </motion.h2>
+                        <motion.p variants={itemVariants} className="text-xl md:text-3xl lg:text-4xl max-w-4xl mx-auto font-light leading-relaxed italic opacity-80" style={{ color: mutedColor }}>
+                          {heroSection?.subtitle || startupData.brand?.tagline}
+                        </motion.p>
+                        <motion.div variants={itemVariants} className="pt-16">
+                          <Button className="h-24 px-20 rounded-full text-sm font-bold uppercase tracking-[0.5em] shadow-2xl transition-all hover:scale-105 active:scale-95 group" style={{ backgroundColor: system.tokens.accent, color: system.tokens.accentOn }}>
+                              {heroSection?.ctaLabel || "Get Started"} <ArrowRight className="ml-4 group-hover:translate-x-2 transition-transform" />
+                          </Button>
+                        </motion.div>
                     </div>
-                    {gameSection.gameConfig?.type === 'sudoku' ? (
-                      <div className="space-y-16 flex flex-col items-center">
-                        <SudokuBoard 
-                          ref={sudokuRef}
-                          initialBoard={gameSection.gameConfig.initialBoard || Array(9).fill(Array(9).fill(null))} 
-                          system={system}
-                          delay={400}
-                        />
-                        <Button 
-                          onClick={() => sudokuRef.current?.solve()}
-                          className="rounded-full h-24 px-20 bg-white text-black font-bold uppercase tracking-[0.4em] hover:bg-[#DCFF00] transition-all shadow-[0_30px_60px_rgba(0,0,0,0.5)] active:scale-95 group"
-                        >
-                           <Zap className="mr-4 w-6 h-6 fill-current group-hover:animate-pulse" /> AI Neural Solve
-                        </Button>
-                      </div>
-                    ) : (
-                      <TicTacToe system={system} />
-                    )}
+                    
+                    {/* Background Decor */}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 w-full max-w-[1200px] aspect-square bg-[#DCFF00]/5 blur-[200px] rounded-full opacity-40 animate-pulse" />
                   </section>
-                )}
 
-                {/* Problem & Features Section - Editorial Grid */}
-                <section className="px-6 lg:px-20 py-56">
-                   <div className="max-w-[1500px] mx-auto space-y-56">
-                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-stretch">
-                         <motion.div variants={itemVariants} className="lg:col-span-8 min-h-[700px] lg:min-h-[850px] p-16 lg:p-32 flex flex-col justify-end relative overflow-hidden group shadow-[0_80px_160px_rgba(0,0,0,0.7)]" style={{ borderRadius: system.tokens.radiusLg }}>
-                            <div className="absolute inset-0 z-0 grayscale opacity-40 group-hover:scale-110 transition-transform duration-[3000ms] ease-out">
-                               <Image 
-                                 src={`https://picsum.photos/seed/${startupData.brand?.companyName}/2000/1200`} 
-                                 alt="Concept" 
-                                 fill 
-                                 className="object-cover"
-                                 data-ai-hint={context?.prompt?.includes('car') ? 'luxury supercar aesthetic' : context?.prompt?.includes('coffee') ? 'espresso steam texture' : context?.prompt?.includes('bakery') ? 'bakery heritage bread' : 'architectural minimalist texture'}
-                               />
+                  {/* Game Section (Sudoku / Tic Tac Toe) */}
+                  {gameSection && (
+                    <section className="py-40 flex flex-col items-center bg-white/[0.02] backdrop-blur-3xl my-32 rounded-[5rem] mx-10 border border-white/5 shadow-2xl overflow-hidden">
+                      <div className="max-w-[1400px] w-full grid grid-cols-1 lg:grid-cols-12 gap-20 px-20">
+                        <div className="lg:col-span-7 flex flex-col items-center justify-center space-y-16">
+                          <div className="text-center space-y-6">
+                            <span className="text-[11px] uppercase tracking-[1.5em] font-bold opacity-40 block" style={{ color: system.tokens.accent }}>Interactive Neural Node</span>
+                            <h3 className="text-5xl md:text-8xl font-headline italic tracking-tighter">{gameSection.title}</h3>
+                          </div>
+                          
+                          {gameSection.gameConfig?.type === 'sudoku' ? (
+                            <div className="space-y-16 flex flex-col items-center">
+                              <SudokuBoard 
+                                ref={sudokuRef}
+                                initialBoard={gameSection.gameConfig.initialBoard || Array(9).fill(Array(9).fill(null))} 
+                                system={system}
+                                delay={400}
+                              />
+                              <Button 
+                                onClick={() => sudokuRef.current?.solve()}
+                                className="rounded-full h-24 px-20 bg-white text-black font-bold uppercase tracking-[0.4em] hover:bg-[#DCFF00] transition-all shadow-[0_30px_60px_rgba(0,0,0,0.5)] active:scale-95 group"
+                              >
+                                <Zap className="mr-4 w-6 h-6 fill-current group-hover:animate-pulse" /> AI Neural Solve
+                              </Button>
                             </div>
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent" />
-                            <div className="space-y-10 relative z-10 text-left">
-                               <span className="text-[10px] uppercase tracking-[1em] font-bold text-[#DCFF00]">Strategic Insight</span>
-                               <h4 className="text-5xl lg:text-8xl font-headline italic leading-[0.9] tracking-tighter text-white">{problemSection?.title}</h4>
-                               <p className="text-xl lg:text-3xl font-light italic opacity-80 max-w-3xl leading-relaxed text-white/80">{problemSection?.subtitle}</p>
-                            </div>
-                         </motion.div>
-                         
-                         <motion.div variants={itemVariants} className="lg:col-span-4 bg-white/[0.03] border border-white/5 p-16 lg:p-24 rounded-[4rem] flex flex-col justify-center gap-16 backdrop-blur-3xl shadow-2xl">
-                            <div className="flex items-center gap-6 text-[#DCFF00]">
-                               <Activity size={28} />
-                               <h5 className="text-[11px] uppercase tracking-[0.8em] font-bold opacity-50">Neural Advantage</h5>
-                            </div>
-                            <div className="space-y-16">
-                               {(featuresSection?.items || []).slice(0, 5).map((item: string, i: number) => (
-                                 <div key={i} className="space-y-6 group cursor-pointer text-left">
-                                    <div className="flex items-center gap-4">
-                                       <span className="text-[10px] font-bold opacity-20 group-hover:opacity-100 transition-opacity">0{i+1}</span>
-                                       <div className="h-px flex-1 bg-white/10 group-hover:bg-[#DCFF00]/40 transition-all duration-700" />
-                                    </div>
-                                    <p className="text-2xl lg:text-4xl font-headline italic opacity-70 group-hover:opacity-100 group-hover:translate-x-6 transition-all duration-700">{item}</p>
-                                 </div>
-                               ))}
-                            </div>
-                         </motion.div>
+                          ) : (
+                            <TicTacToe system={system} />
+                          )}
+                        </div>
+
+                        <div className="lg:col-span-5 flex flex-col justify-center">
+                           <div className="p-12 rounded-[4rem] bg-white/[0.03] border border-white/10 backdrop-blur-3xl space-y-12 shadow-inner h-full">
+                              <div className="flex items-center gap-6 text-[#DCFF00]">
+                                 <Info size={28} />
+                                 <h4 className="text-[11px] uppercase tracking-[0.8em] font-bold">Neural Directives</h4>
+                              </div>
+                              <div className="space-y-10">
+                                 {gameSection.gameConfig?.instructions ? (
+                                   <div className="space-y-8">
+                                      {gameSection.gameConfig.instructions.split('\n').map((line, i) => (
+                                        <div key={i} className="flex gap-6 group">
+                                           <div className="w-1.5 h-1.5 rounded-full bg-[#DCFF00] mt-2.5 shrink-0 opacity-40 group-hover:opacity-100 transition-opacity" />
+                                           <p className="text-xl italic font-light opacity-80 leading-relaxed text-left">{line.replace('- ', '')}</p>
+                                        </div>
+                                      ))}
+                                   </div>
+                                 ) : (
+                                   <p className="text-xl italic font-light opacity-60">Initializing tactical interface...</p>
+                                 )}
+                              </div>
+                           </div>
+                        </div>
                       </div>
-                   </div>
-                </section>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </main>
-      </ScrollArea>
+                    </section>
+                  )}
+
+                  {/* Problem & Features Section - Editorial Grid */}
+                  <section className="px-6 lg:px-20 py-56">
+                    <div className="max-w-[1500px] mx-auto space-y-56">
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-stretch">
+                          <motion.div variants={itemVariants} className="lg:col-span-7 min-h-[700px] lg:min-h-[850px] p-16 lg:p-32 flex flex-col justify-end relative overflow-hidden group shadow-[0_80px_160px_rgba(0,0,0,0.7)]" style={{ borderRadius: system.tokens.radiusLg }}>
+                              <div className="absolute inset-0 z-0 grayscale opacity-40 group-hover:scale-110 transition-transform duration-[3000ms] ease-out">
+                                <Image 
+                                  src={`https://picsum.photos/seed/${startupData.brand?.companyName}/2000/1200`} 
+                                  alt="Concept" 
+                                  fill 
+                                  className="object-cover"
+                                  data-ai-hint={context?.prompt?.includes('car') ? 'luxury supercar interior' : context?.prompt?.includes('coffee') ? 'espresso steam texture' : context?.prompt?.includes('bakery') ? 'bakery heritage bread' : 'architectural minimalist texture'}
+                                />
+                              </div>
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent" />
+                              <div className="space-y-10 relative z-10 text-left">
+                                <span className="text-[10px] uppercase tracking-[1em] font-bold text-[#DCFF00]">Strategic Insight</span>
+                                <h4 className="text-5xl lg:text-8xl font-headline italic leading-[0.9] tracking-tighter text-white">{problemSection?.title}</h4>
+                                <p className="text-xl lg:text-3xl font-light italic opacity-80 max-w-3xl leading-relaxed text-white/80">{problemSection?.subtitle}</p>
+                              </div>
+                          </motion.div>
+                          
+                          <motion.div variants={itemVariants} className="lg:col-span-5 bg-white/[0.03] border border-white/5 p-16 lg:p-24 rounded-[4rem] flex flex-col justify-center gap-16 backdrop-blur-3xl shadow-2xl">
+                              <div className="flex items-center gap-6 text-[#DCFF00]">
+                                <Activity size={28} />
+                                <h5 className="text-[11px] uppercase tracking-[0.8em] font-bold opacity-50">Neural Advantage</h5>
+                              </div>
+                              <div className="space-y-16">
+                                {(featuresSection?.items || []).slice(0, 5).map((item: string, i: number) => (
+                                  <div key={i} className="space-y-6 group cursor-pointer text-left">
+                                      <div className="flex items-center gap-4">
+                                        <span className="text-[10px] font-bold opacity-20 group-hover:opacity-100 transition-opacity">0{i+1}</span>
+                                        <div className="h-px flex-1 bg-white/10 group-hover:bg-[#DCFF00]/40 transition-all duration-700" />
+                                      </div>
+                                      <p className="text-2xl lg:text-4xl font-headline italic opacity-70 group-hover:opacity-100 group-hover:translate-x-6 transition-all duration-700">{item}</p>
+                                  </div>
+                                ))}
+                              </div>
+                          </motion.div>
+                        </div>
+                    </div>
+                  </section>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </main>
+        </ScrollArea>
+      </div>
     </div>
   );
 }

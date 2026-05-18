@@ -21,6 +21,7 @@ const WebsiteSectionSchema = z.object({
     type: z.enum(['sudoku', 'tictactoe']),
     difficulty: z.enum(['easy', 'medium', 'hard']).optional(),
     initialBoard: z.array(z.array(z.number().nullable())).optional().describe('9x9 grid for Sudoku, null for empty.'),
+    instructions: z.string().optional().describe('How to play, strategy, and pro tips.'),
   }).optional(),
 });
 
@@ -57,6 +58,13 @@ export async function orchestrateStartup(input: { prompt: string, dna: any, desi
   2. EDITORIAL SCALE: Headlines must read like luxury magazine covers. Use words like aroma, precision, aerodynamic, crumb, bloom, soul.
   3. THEME ACCURACY: Strictly follow the provided Design DNA and Design System tokens.
   4. INTERACTIVITY: If relevant or requested (e.g., games, sudoku), you MUST generate a "game" section.
+  
+  SUDOKU INSTRUCTIONS:
+  If a Sudoku game is requested, you MUST include a comprehensive "instructions" field in the gameConfig with the following:
+  - Goal: Fill the grid so every row, column, and 3x3 box contains numbers 1-9 without repeats.
+  - Basic Rules: Logic-based, no guessing.
+  - Strategy: Scan rows, elimination, pencil marks.
+  - Pro Tips: Start with easiest areas, look for singles.
   
   Structure your output as a comprehensive strategic JSON package. Return ONLY valid JSON.`;
 
@@ -100,7 +108,7 @@ const orchestrateStartupPrompt = ai.definePrompt({
      - If COFFEE: Focus on ritual, aroma, terroir. 
      - If CAR: Focus on precision, aerodynamics, soul. 
      - If BAKERY: Focus on heritage, flour, warmth, crust.
-  4. HIERARCHY: Ensure the hero section title is iconic and minimal. 
+  4. INTERACTIVITY: If a game (Sudoku/TicTacToe) is requested, add a "game" section with detailed instructions/tips.
   
   Generate exactly one high-fidelity "hero", "problem", and "features" section. Add a "game" section if requested.`
 });
