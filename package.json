@@ -1,7 +1,38 @@
 
 {
-  "name": "bloom-neural-studio",
+  "name": "bloom",
   "version": "0.1.0",
+  "description": "AI-native startup experience orchestration engine. Transform vague ideas into investment-ready strategic packages.",
+  "homepage": "https://bloom.ai",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/bloom.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/bloom/issues"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "BLOOM Contributors"
+    }
+  ],
+  "keywords": [
+    "ai",
+    "startup",
+    "orchestration",
+    "founder-tools",
+    "market-analysis",
+    "investor-scoring",
+    "design-dna",
+    "genkit",
+    "deepseek",
+    "gemini"
+  ],
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack -p 9002",
