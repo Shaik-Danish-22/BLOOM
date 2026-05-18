@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -11,27 +12,17 @@ import {
   Rocket, 
   ExternalLink,
   Palette,
-  Briefcase,
   Layers,
   Search,
-  ChevronRight,
-  Terminal,
-  Cpu,
-  Code2,
-  Settings,
-  Eye,
-  CheckCircle2,
   Activity,
-  Brain,
-  Shield,
-  Layout,
-  TrendingUp,
+  CheckCircle2,
   AlertTriangle,
   Target,
   Share2,
   Sparkles,
   User,
-  Bot
+  Bot,
+  Layout
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BackgroundEffects } from "@/components/cinematic/BackgroundEffects";
@@ -121,7 +112,6 @@ export default function BuilderPage() {
     setChatInput("");
     setIsSyncing(true);
 
-    // Neural Refinement Logic (Simulated for high-end feel)
     setTimeout(() => {
       const assistantMsg: Message = { 
         id: (Date.now() + 1).toString(), 
@@ -132,14 +122,6 @@ export default function BuilderPage() {
       setMessages(prev => [...prev, assistantMsg]);
       setIsSyncing(false);
       
-      setStartupData((prev: any) => ({
-        ...prev,
-        brand: {
-          ...prev.brand,
-          rationale: `${prev.brand.rationale} (Refinement: ${userMsg.content})`
-        }
-      }));
-
       toast({
         title: "Neural Refinement Applied",
         description: "Vision updated with direct user intent.",
@@ -152,7 +134,8 @@ export default function BuilderPage() {
   };
 
   const handleShare = () => {
-    navigator.clipboard.writeText(window.location.href);
+    const url = window.location.origin + '/preview';
+    navigator.clipboard.writeText(url);
     toast({
       title: "Vision Shared",
       description: "Neural link URL copied to clipboard.",
@@ -166,7 +149,7 @@ export default function BuilderPage() {
       <div className="absolute inset-0 -z-10 bg-black/40" />
 
       {/* LEFT SIDEBAR */}
-      <aside className="w-[420px] h-full border-r border-white/10 bg-black/95 backdrop-blur-3xl flex flex-col z-30 relative shadow-2xl shrink-0 overflow-hidden">
+      <aside className="w-[420px] h-full border-r border-white/10 bg-black/95 backdrop-blur-3xl flex flex-col z-30 relative shadow-2xl shrink-0">
         <header className="p-8 border-b border-white/5 flex items-center justify-between shrink-0">
            <div className="flex items-center gap-4">
               <BloomLogo size={32} />
@@ -190,7 +173,7 @@ export default function BuilderPage() {
                  activeTab === tab ? "bg-white/10 text-[#DCFF00] bloom-button-glow" : "text-white/30 hover:text-white/60"
                )}
              >
-               {tab === 'preview' && <Eye size={16} />}
+               {tab === 'preview' && <Layout size={16} />}
                {tab === 'registry' && <Layers size={16} />}
                {tab === 'dna' && <Activity size={16} />}
                {tab === 'chat' && <Sparkles size={16} />}
@@ -209,11 +192,14 @@ export default function BuilderPage() {
                   </div>
                   <div className="space-y-6">
                     {messages.map((msg) => (
-                      <div key={msg.id} className={cn("flex gap-4 max-w-[95%]", msg.role === 'user' ? "ml-auto flex-row-reverse" : "")}>
+                      <div key={msg.id} className={cn("flex gap-4 w-full", msg.role === 'user' ? "flex-row-reverse" : "flex-row")}>
                          <div className={cn("w-8 h-8 rounded-full flex items-center justify-center shrink-0", msg.role === 'assistant' ? "bg-[#DCFF00]/20 text-[#DCFF00]" : "bg-white/10 text-white")}>
                            {msg.role === 'assistant' ? <Bot size={14} /> : <User size={14} />}
                          </div>
-                         <div className={cn("p-5 rounded-2xl text-[13px] leading-relaxed break-words", msg.role === 'assistant' ? "bg-white/[0.04] border border-white/5 text-white/80" : "bg-[#DCFF00] text-black font-bold shadow-xl")}>
+                         <div className={cn(
+                           "p-5 rounded-2xl text-[13px] leading-relaxed break-words max-w-[85%]", 
+                           msg.role === 'assistant' ? "bg-white/[0.04] border border-white/5 text-white/80" : "bg-[#DCFF00] text-black font-bold shadow-xl"
+                         )}>
                            {msg.content}
                          </div>
                       </div>
@@ -230,7 +216,7 @@ export default function BuilderPage() {
                          <span>Neural Design Systems</span>
                          <Palette size={16} />
                       </div>
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 gap-4">
                          {Object.values(DESIGN_SYSTEMS).map((sys) => (
                            <button 
                              key={sys.id}
@@ -261,7 +247,7 @@ export default function BuilderPage() {
                          <Activity size={24} />
                          <span className="text-[12px] font-bold uppercase tracking-[0.4em]">Neural Profile</span>
                       </div>
-                      <div className="space-y-8 relative z-10">
+                      <div className="space-y-8 relative z-10 text-left">
                          {[
                            { label: "Startup Archetype", value: context?.enhancedData?.startupArchetype },
                            { label: "Audience Psychology", value: context?.enhancedData?.audiencePsychology },
@@ -402,7 +388,7 @@ export default function BuilderPage() {
               layout
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
-                "h-full bg-black rounded-[2.5rem] border border-white/10 shadow-[0_50px_100px_rgba(0,0,0,0.8)] overflow-hidden relative flex flex-col",
+                "h-full bg-black rounded-[2.5rem] border border-white/10 shadow-[0_50px_100px_rgba(0,0,0,0.8)] overflow-hidden relative flex flex-col transition-all duration-700",
                 view === 'desktop' ? 'w-full' : view === 'tablet' ? 'w-[768px]' : 'w-[375px]'
               )}
             >
@@ -412,7 +398,7 @@ export default function BuilderPage() {
                  <ScrollArea className="flex-1">
                     <div className="p-16 space-y-24">
                        <header className="flex flex-col md:flex-row items-end justify-between border-b border-white/10 pb-16 gap-12">
-                          <div className="space-y-8 max-w-3xl">
+                          <div className="space-y-8 max-w-3xl text-left">
                              <div className="flex items-center gap-6">
                                 <Badge className="bg-[#DCFF00] text-black border-none px-6 py-2 rounded-full text-[11px] font-bold uppercase tracking-widest shadow-[0_0_30px_rgba(220,255,0,0.3)]">
                                   Shark Protocol v3.5
@@ -443,7 +429,7 @@ export default function BuilderPage() {
                                    <h4 className="text-[12px] font-bold uppercase tracking-[0.4em]">Executive Neural Brief</h4>
                                 </div>
                              </div>
-                             <p className="text-4xl font-headline italic text-white/90 leading-relaxed max-w-5xl">
+                             <p className="text-4xl font-headline italic text-white/90 leading-relaxed max-w-5xl text-left">
                                 {startupData?.brand?.rationale || "Consolidating neural identity..."}
                              </p>
                           </Card>
@@ -455,7 +441,7 @@ export default function BuilderPage() {
                              </div>
                              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                                 {startupData?.intelligence?.moats?.map((moat: string, i: number) => (
-                                  <div key={i} className="flex gap-6 p-8 rounded-3xl bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] transition-all">
+                                  <div key={i} className="flex gap-6 p-8 rounded-3xl bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] transition-all text-left">
                                      <div className="w-10 h-10 rounded-full bg-[#DCFF00]/20 flex items-center justify-center shrink-0 border border-[#DCFF00]/40">
                                         <CheckCircle2 size={16} className="text-[#DCFF00]" />
                                      </div>
@@ -470,7 +456,7 @@ export default function BuilderPage() {
                                 <AlertTriangle size={24} />
                                 <h4 className="text-[12px] font-bold uppercase tracking-[0.4em]">Strategic Risks</h4>
                              </div>
-                             <div className="space-y-6">
+                             <div className="space-y-6 text-left">
                                 {startupData?.intelligence?.risks?.map((risk: string, i: number) => (
                                   <div key={i} className="flex gap-4 items-start">
                                      <div className="w-1.5 h-1.5 rounded-full bg-[#DCFF00]/60 mt-2 shrink-0" />
