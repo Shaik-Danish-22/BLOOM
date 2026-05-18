@@ -6,7 +6,7 @@
 
 **Transform vague startup concepts into museum-grade, investment-ready strategic packages.**
 
-[Live Demo](#demo) • [Quick Start](#quick-start) • [Architecture](#architecture) • [Contribute](#contributing)
+
 
 </div>
 
@@ -636,38 +636,10 @@ We welcome contributions from engineers, designers, and startup researchers. See
 - **Design**: Motion systems, visual components, interaction patterns
 - **Performance**: Optimization, caching, provider efficiency
 
----
-
-## License
-
-BLOOM is released under the **MIT License**. See [LICENSE](./LICENSE) for details.
-
----
-
-## Support & Community
-
-- **GitHub Issues**: [Report bugs or request features](https://github.com/yourusername/bloom/issues)
-- **Discussions**: [Community conversations](https://github.com/yourusername/bloom/discussions)
-- **Documentation**: See `/docs` directory for detailed guides
-- **Contact**: [Include appropriate contact info]
-
----
-
-## Acknowledgments
-
-BLOOM is built by engineers and startup researchers who believe AI can democratize access to world-class strategic thinking for early-stage founders.
-
-Special thanks to:
-- Google Genkit for the orchestration framework
-- DeepSeek for advanced reasoning capabilities
-- Firebase for scalable persistence
-- The open-source community for exceptional libraries
-
----
 
 <div align="center">
 
-**Built with ❤️ for founders who dare to think differently.**
+
 
 [⬆ back to top](#bloom)
 
