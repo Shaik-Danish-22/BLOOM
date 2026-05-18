@@ -148,7 +148,7 @@ export default function BuilderPage() {
       <GradientBackground />
       <div className="absolute inset-0 -z-10 bg-black/40" />
 
-      {/* LEFT SIDEBAR */}
+      {/* LEFT SIDEBAR - Viewport Fixed */}
       <aside className="w-[420px] h-full border-r border-white/10 bg-black/95 backdrop-blur-3xl flex flex-col z-30 relative shadow-2xl shrink-0">
         <header className="p-8 border-b border-white/5 flex items-center justify-between shrink-0">
            <div className="flex items-center gap-4">
@@ -183,7 +183,7 @@ export default function BuilderPage() {
         </div>
 
         <ScrollArea className="flex-1">
-           <div className="p-8 space-y-10 pb-32">
+           <div className="p-8 space-y-10 pb-12">
               {activeTab === 'chat' && (
                 <div className="space-y-6 animate-in fade-in slide-in-from-left-4 duration-500">
                   <div className="flex items-center gap-3 text-[#DCFF00]">
@@ -198,7 +198,7 @@ export default function BuilderPage() {
                          </div>
                          <div className={cn(
                            "p-5 rounded-2xl text-[13px] leading-relaxed break-words max-w-[85%]", 
-                           msg.role === 'assistant' ? "bg-white/[0.04] border border-white/5 text-white/80" : "bg-[#DCFF00] text-black font-bold shadow-xl"
+                           msg.role === 'assistant' ? "bg-white/[0.04] border border-white/5 text-white/80 text-left" : "bg-[#DCFF00] text-black font-bold shadow-xl text-right"
                          )}>
                            {msg.content}
                          </div>
@@ -311,7 +311,7 @@ export default function BuilderPage() {
         </div>
       </aside>
 
-      {/* MAIN VIEWPORT */}
+      {/* MAIN VIEWPORT - Absolute 100vh Fix */}
       <main className="flex-1 flex flex-col z-20 p-8 overflow-hidden relative min-w-0 h-screen">
          <header className="flex items-center justify-between mb-8 shrink-0">
             <div className="flex items-center gap-3 bg-black/80 backdrop-blur-3xl p-1.5 rounded-2xl border border-white/10 shadow-2xl">
@@ -367,6 +367,7 @@ export default function BuilderPage() {
             </div>
          </header>
 
+         {/* Container fitting the 100vh window */}
          <div className="flex-1 flex items-center justify-center bg-white/[0.02] rounded-[3.5rem] border border-white/5 p-4 overflow-hidden backdrop-blur-md relative shadow-inner">
             <div className="absolute inset-0 pointer-events-none border-[12px] border-black/30 rounded-[3.5rem] z-20" />
             
